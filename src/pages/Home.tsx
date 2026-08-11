@@ -120,24 +120,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 03 - ABOUT PREVIEW */}
-      <section className="reveal-section w-full max-w-7xl mx-auto px-6 py-32 lg:py-48 flex flex-col md:flex-row gap-16 md:gap-24 items-start">
-        <div className="w-full md:w-1/3 flex flex-col gap-6">
-          <h2 className="text-3xl md:text-4xl tracking-tight font-medium leading-tight">
-            Wealth is more than capital. It is continuity.
-          </h2>
-          <Link to="/about" className="w-fit text-sm uppercase tracking-wide text-white hover:text-white/70 transition-colors flex items-center gap-2 group mt-4">
-            Our Story
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </div>
-        <div className="w-full md:w-2/3 flex flex-col gap-8 text-lg md:text-xl text-text-muted leading-relaxed font-light text-balance">
-          <p>
-            At OneCapital, we view wealth management through an institutional lens. We bring the discipline, research, and precision of large-scale asset management to the private portfolios of individuals, families, and organizations.
-          </p>
-          <p>
-            Our approach goes beyond generic allocations. We build tailored financial architectures designed to withstand market cycles, optimize tax efficiency, and transfer value across generations.
-          </p>
+      {/* 03 - ABOUT PREVIEW (light band) */}
+      <section className="reveal-section light-section w-full border-y border-black/10">
+        <div className="max-w-7xl mx-auto px-6 py-16 lg:py-34 flex flex-col md:flex-row gap-12 md:gap-20 items-start">
+          <div className="w-full md:w-1/3 flex flex-col gap-6">
+            <h2 className="text-3xl md:text-4xl tracking-tight font-medium leading-tight text-black">
+              Wealth is more than capital. It is continuity.
+            </h2>
+            <Link to="/about" className="w-fit text-sm uppercase tracking-wide text-black hover:text-black/60 transition-colors flex items-center gap-2 group mt-4">
+              Our Story
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+          <div className="w-full md:w-2/3 flex flex-col gap-6 text-lg md:text-xl text-black leading-relaxed font-light text-balance">
+            <p>
+              At OneCapital, we view wealth management through an institutional lens. We bring the discipline, research, and precision of large-scale asset management to the private portfolios of individuals, families, and organizations.
+            </p>
+            <p>
+              Our approach goes beyond generic allocations. We build tailored financial architectures designed to withstand market cycles, optimize tax efficiency, and transfer value across generations.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -191,29 +193,33 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 05 - OUR APPROACH (PREVIEW) */}
-      <section className="reveal-section w-full max-w-7xl mx-auto px-6 py-32 lg:py-48 flex flex-col items-center text-center">
-        <h2 className="text-4xl md:text-5xl tracking-tight font-medium mb-8">Discipline over <span className="text-white/40">emotion.</span></h2>
-        <p className="text-lg text-text-muted max-w-2xl mb-16 text-balance">
-          We operate on a stringent 6-stage framework that removes emotional bias and ensures your portfolio remains aligned with your long-term objectives through every market cycle.
-        </p>
-        
-        <div className="flex flex-wrap justify-center gap-4 mb-16">
-          {['Discover', 'Diagnose', 'Design', 'Implement', 'Monitor', 'Evolve'].map((stage, i) => (
-            <div key={i} className="flex items-center gap-4">
-              <div className="glass-panel px-6 py-3 rounded-full text-sm tracking-wide flex items-center gap-3">
-                <span className="text-white/30 font-mono text-xs">0{i+1}</span>
-                {stage}
+      {/* 05 - OUR APPROACH (PREVIEW) — light band */}
+      <section className="reveal-section light-section w-full border-y border-black/10">
+        <div className="max-w-7xl mx-auto px-6 py-16 lg:py-34 flex flex-col items-center text-center">
+          <h2 className="text-4xl md:text-5xl tracking-tight font-medium mb-5 text-black">
+            Discipline over <span className="text-black">emotion.</span>
+          </h2>
+          <p className="text-lg text-black max-w-2xl mb-10 text-balance">
+            We operate on a stringent 6-stage framework that removes emotional bias and ensures your portfolio remains aligned with your long-term objectives through every market cycle.
+          </p>
+          
+          <div className="flex flex-wrap justify-center gap-4 mb-10">
+            {['Discover', 'Diagnose', 'Design', 'Implement', 'Monitor', 'Evolve'].map((stage, i) => (
+              <div key={i} className="flex items-center gap-4">
+                <div className="glass-panel-light px-6 py-3 rounded-full text-sm tracking-wide flex items-center gap-3 text-black">
+                  <span className="text-black/30 font-mono text-xs">0{i+1}</span>
+                  {stage}
+                </div>
+                {i !== 5 && <div className="hidden md:block w-8 h-[1px] bg-black/20" />}
               </div>
-              {i !== 5 && <div className="hidden md:block w-8 h-[1px] bg-white/20" />}
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        <Link to="/approach" className="w-fit text-sm uppercase tracking-wide text-white hover:text-white/70 transition-colors flex items-center gap-2 group">
-          View Detailed Methodology
-          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-        </Link>
+          <Link to="/approach" className="w-fit text-sm uppercase tracking-wide text-black hover:text-black/60 transition-colors flex items-center gap-2 group">
+            View Detailed Methodology
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
       </section>
 
       {/* 06 - CTA SECTION */}

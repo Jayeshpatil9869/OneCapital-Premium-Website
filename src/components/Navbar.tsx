@@ -5,16 +5,34 @@ import { cn } from '../lib/utils';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [overLight, setOverLight] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
+    const updateNavState = () => {
       setScrolled(window.scrollY > 50);
+
+      const probeY = 48;
+      const lightSections = document.querySelectorAll('.light-section');
+      let isOverLight = false;
+      lightSections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= probeY && rect.bottom >= probeY) {
+          isOverLight = true;
+        }
+      });
+      setOverLight(isOverLight);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+
+    updateNavState();
+    window.addEventListener('scroll', updateNavState, { passive: true });
+    window.addEventListener('resize', updateNavState);
+    return () => {
+      window.removeEventListener('scroll', updateNavState);
+      window.removeEventListener('resize', updateNavState);
+    };
+  }, [location.pathname]);
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -37,22 +55,32 @@ export default function Navbar() {
     { name: 'Contact', path: '/contact' },
   ];
 
+  const showPill = scrolled || overLight;
+
   return (
     <header
       className={cn(
         'fixed top-0 inset-x-0 z-50 transition-all duration-500',
-        scrolled ? 'py-4' : 'py-6'
+        scrolled || overLight ? 'py-4' : 'py-6'
       )}
     >
       <div className="max-w-7xl mx-auto px-6">
         <div
           className={cn(
             'flex items-center justify-between transition-all duration-500',
-            scrolled ? 'glass-panel rounded-full px-6 py-3' : 'px-0 py-2'
+            showPill && overLight && 'bg-black/80 border border-white/10 backdrop-blur-xl rounded-full px-6 py-3',
+            showPill && !overLight && 'glass-panel rounded-full px-6 py-3',
+            !showPill && 'px-0 py-2'
           )}
         >
           {/* Logo */}
-          <Link to="/" className="text-xl tracking-tight font-medium shrink-0 group flex items-center gap-2">
+          <Link
+            to="/"
+            className={cn(
+              'text-xl tracking-tight font-medium shrink-0 group flex items-center gap-2 transition-colors duration-500',
+              overLight ? 'text-white' : 'text-text-main'
+            )}
+          >
             <div className="w-4 h-4 bg-white rounded-sm group-hover:scale-90 transition-transform duration-500"></div>
             OneCapital
           </Link>
@@ -64,8 +92,14 @@ export default function Navbar() {
                 key={link.name}
                 to={link.path}
                 className={cn(
-                  "text-sm tracking-wide transition-colors hover:text-white relative group",
-                  location.pathname === link.path ? "text-white" : "text-text-muted"
+                  'text-sm tracking-wide transition-colors relative group',
+                  overLight
+                    ? location.pathname === link.path
+                      ? 'text-white'
+                      : 'text-white/70 hover:text-white'
+                    : location.pathname === link.path
+                      ? 'text-white'
+                      : 'text-text-muted hover:text-white'
                 )}
               >
                 {link.name}
@@ -81,7 +115,12 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             <Link
               to="/contact"
-              className="hidden md:flex items-center gap-2 text-xs uppercase tracking-wider font-medium glass-panel px-5 py-2.5 rounded-full hover:bg-white hover:text-black transition-colors duration-500 group"
+              className={cn(
+                'hidden md:flex items-center gap-2 text-xs uppercase tracking-wider font-medium px-5 py-2.5 rounded-full transition-colors duration-500 group',
+                overLight
+                  ? 'bg-[#A89178] text-black border border-transparent hover:bg-[#b9a48c]'
+                  : 'glass-panel hover:bg-white hover:text-black'
+              )}
             >
               Book Consultation
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -92,7 +131,10 @@ export default function Navbar() {
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileMenuOpen}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden relative z-50 p-2 text-text-muted hover:text-white transition-colors"
+              className={cn(
+                'lg:hidden relative z-50 p-2 transition-colors',
+                overLight ? 'text-white/70 hover:text-white' : 'text-text-muted hover:text-white'
+              )}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>

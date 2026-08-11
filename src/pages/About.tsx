@@ -24,30 +24,32 @@ export default function About() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col items-center pt-24 pb-32">
+    <div className="w-full flex flex-col items-center pb-32">
       {/* Hero */}
-      <section className="w-full max-w-5xl mx-auto px-6 mb-32">
-        <h1 className="reveal-element text-5xl md:text-7xl font-medium tracking-tight leading-tight mb-12">
-          A Vision <br /><span className="text-white/40">Beyond Numbers.</span>
-        </h1>
-        <div className="reveal-element w-full h-px bg-white/10 mb-12" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <p className="reveal-element text-xl md:text-2xl font-light leading-relaxed text-balance">
-            We were founded on a singular belief: true wealth management requires the rigor of institutional investing combined with deeply personalized advisory.
-          </p>
-          <div className="reveal-element flex flex-col gap-6 text-text-muted text-lg font-light leading-relaxed">
-            <p>
-              For over a decade, OneCapital has served as a trusted partner to individuals, families, and corporate entities, guiding them through complex financial landscapes.
+      <section className="w-full border-b border-white/10 bg-black text-white">
+        <div className="w-full max-w-5xl mx-auto px-6 pt-32 pb-24 lg:pb-32">
+          <h1 className="reveal-element text-5xl md:text-7xl font-medium tracking-tight leading-tight mb-12">
+            A Vision <br /><span className="text-white/40">Beyond Numbers.</span>
+          </h1>
+          <div className="reveal-element w-full h-px bg-white/10 mb-12" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <p className="reveal-element text-xl md:text-2xl font-light leading-relaxed text-balance text-white">
+              We were founded on a singular belief: true wealth management requires the rigor of institutional investing combined with deeply personalized advisory.
             </p>
-            <p>
-              We do not chase fleeting market trends. Our mandate is to build resilient, long-term portfolios that preserve capital and deliver consistent growth across generations.
-            </p>
+            <div className="reveal-element flex flex-col gap-6 text-text-muted text-lg font-light leading-relaxed">
+              <p>
+                For over a decade, OneCapital has served as a trusted partner to individuals, families, and corporate entities, guiding them through complex financial landscapes.
+              </p>
+              <p>
+                We do not chase fleeting market trends. Our mandate is to build resilient, long-term portfolios that preserve capital and deliver consistent growth across generations.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Values */}
-      <section className="w-full bg-white/2 border-y border-white/10 py-32">
+      <section className="w-full border-b border-white/10 py-32">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="reveal-element text-xs uppercase tracking-widest text-text-muted font-mono mb-16">Core Principles</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

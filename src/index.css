@@ -27,6 +27,16 @@
   .text-balance {
     text-wrap: balance;
   }
+  /* DIVINE'S-style light bands: white canvas, black type */
+  .light-section {
+    @apply bg-white text-black;
+  }
+  .light-section .text-muted-on-light {
+    @apply text-black/55;
+  }
+  .light-section .glass-panel-light {
+    @apply bg-black/[0.03] border border-black/[0.1] backdrop-blur-xl;
+  }
 }
 
 html.lenis, html.lenis body {
