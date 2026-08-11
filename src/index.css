@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Geist Sans", system-ui, sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  
+  --color-canvas: #000000;
+  --color-panel: rgba(255, 255, 255, 0.02);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-text-main: #FFFFFF;
+  --color-text-muted: #A1A1AA;
+}
+
+@layer base {
+  body {
+    @apply bg-canvas text-text-main font-sans antialiased selection:bg-white selection:text-black;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-white/[0.02] border border-white/[0.1] backdrop-blur-xl;
+  }
+  .glass-panel-hover {
+    @apply transition-colors duration-500 hover:bg-white/[0.04];
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+select option {
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
