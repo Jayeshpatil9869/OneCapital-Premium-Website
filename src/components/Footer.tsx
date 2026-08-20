@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+import BrandLogo from './BrandLogo';
 
 export default function Footer() {
   return (
@@ -12,10 +13,10 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-20 relative z-10">
         {/* Brand */}
         <div className="flex flex-col gap-6 lg:pr-8">
-          <Link to="/" className="text-2xl tracking-tight font-medium flex items-center gap-2">
-            <div className="w-5 h-5 bg-white rounded-sm"></div>
-            OneCapital
-          </Link>
+          <BrandLogo
+            className="text-white w-fit"
+            markClassName="h-9 w-9"
+          />
           <p className="text-text-muted text-sm leading-relaxed max-w-sm text-balance">
             A sophisticated wealth-management partner helping clients understand, build, manage and preserve wealth over the long term.
           </p>

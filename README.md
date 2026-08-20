@@ -1,12 +1,8 @@
-<div align="center">
+# OneCapital Premium Website
 
-# Run and deploy your AI Studio app
+Institutional wealth command site for OneCapital.
 
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/de0e3236-4234-4988-89d4-849a0ec7362a
-
-## Run Locally
+## Run locally
 
 **Prerequisites:** Node.js
 
@@ -14,3 +10,5 @@ View your app in AI Studio: https://ai.studio/apps/de0e3236-4234-4988-89d4-849a0
    `npm install`
 2. Run the app:
    `npm run dev`
+3. Build for production:
+   `npm run build`

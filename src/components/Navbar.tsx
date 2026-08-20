@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { cn } from '../lib/utils';
+import BrandLogo from './BrandLogo';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -73,17 +74,12 @@ export default function Navbar() {
             !showPill && 'px-0 py-2'
           )}
         >
-          {/* Logo */}
-          <Link
-            to="/"
+          <BrandLogo
             className={cn(
-              'text-xl tracking-tight font-medium shrink-0 group flex items-center gap-2 transition-colors duration-500',
+              'transition-colors duration-500',
               overLight ? 'text-white' : 'text-text-main'
             )}
-          >
-            <div className="w-4 h-4 bg-white rounded-sm group-hover:scale-90 transition-transform duration-500"></div>
-            OneCapital
-          </Link>
+          />
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-8">
