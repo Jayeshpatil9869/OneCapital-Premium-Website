@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { prefersReducedMotion } from '@/src/lib/motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,7 +13,12 @@ export default function Approach() {
     const setup = () => {
       const isDesktop = window.innerWidth >= 1024;
       const ctx = gsap.context(() => {
-        if (isDesktop && scrollWrapperRef.current && containerRef.current) {
+        if (
+          isDesktop &&
+          !prefersReducedMotion() &&
+          scrollWrapperRef.current &&
+          containerRef.current
+        ) {
           const sections = gsap.utils.toArray('.approach-step');
 
           gsap.to(sections, {
@@ -21,10 +27,11 @@ export default function Approach() {
             scrollTrigger: {
               trigger: containerRef.current,
               pin: true,
-              scrub: 1,
+              scrub: true,
               snap: 1 / (sections.length - 1),
               end: () => '+=' + scrollWrapperRef.current!.offsetWidth,
               invalidateOnRefresh: true,
+              anticipatePin: 1,
             },
           });
         }
@@ -58,37 +65,38 @@ export default function Approach() {
   ];
 
   return (
-    <div className="w-full">
-      {/* Hero */}
-      <section className="w-full max-w-7xl mx-auto px-6 pt-24 pb-32 text-center flex flex-col items-center">
-        <h1 className="text-5xl md:text-7xl font-medium tracking-tight leading-tight mb-8">
+    <div className="w-full min-w-0">
+      <section className="w-full max-w-[var(--container-max)] mx-auto px-[var(--page-gutter)] pt-24 pb-16 md:pb-32 text-center flex flex-col items-center">
+        <h1 className="text-[clamp(2.25rem,1.2rem+4.5vw,4.5rem)] font-medium tracking-tight leading-tight mb-8 break-words">
           The Framework of <br /><span className="text-white/40">Wealth Command.</span>
         </h1>
-        <p className="text-xl text-text-muted max-w-2xl text-balance">
+        <p className="text-lg md:text-xl text-text-muted max-w-2xl text-balance">
           A disciplined, six-stage methodology designed to remove emotional bias and engineer predictable outcomes in an unpredictable market.
         </p>
       </section>
 
-      {/* Horizontal Scroll Section (Desktop) / Vertical (Mobile) */}
-      <div ref={containerRef} className="w-full overflow-hidden bg-white/[0.01] border-y border-white/10 lg:h-screen lg:flex lg:items-center">
-        <div 
+      <div
+        ref={containerRef}
+        className="w-full min-w-0 overflow-hidden bg-white/[0.01] border-y border-white/10 lg:h-dvh lg:flex lg:items-center"
+      >
+        <div
           ref={scrollWrapperRef}
-          className="flex flex-col lg:flex-row w-full lg:w-[600vw]"
+          className="flex flex-col lg:flex-row w-full lg:w-[600%]"
         >
           {steps.map((step, index) => (
-            <div 
-              key={index} 
-              className="approach-step w-full lg:w-screen h-auto lg:h-[70vh] flex-shrink-0 flex items-center justify-center p-6 py-24 lg:py-0 border-b lg:border-b-0 lg:border-r border-white/5 last:border-0"
+            <div
+              key={index}
+              className="approach-step w-full lg:w-[16.666666%] h-auto lg:h-[70dvh] flex-shrink-0 flex items-center justify-center p-6 py-16 md:py-24 lg:py-0 border-b lg:border-b-0 lg:border-r border-white/5 last:border-0"
             >
-              <div className="max-w-xl w-full flex flex-col items-center lg:items-start text-center lg:text-left">
-                <div className="text-[8rem] md:text-[12rem] font-medium text-white/[0.03] leading-none mb-8 tracking-tighter mix-blend-screen pointer-events-none">
+              <div className="max-w-xl w-full min-w-0 flex flex-col items-center lg:items-start text-center lg:text-left px-1">
+                <div className="text-[clamp(4rem,12vw,12rem)] font-medium text-white/[0.03] leading-none mb-8 tracking-tighter mix-blend-screen pointer-events-none">
                   {step.num}
                 </div>
-                <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-8 uppercase">
+                <h2 className="text-[clamp(1.75rem,1rem+2vw,3rem)] font-medium tracking-tight mb-8 uppercase break-words">
                   {step.title}
                 </h2>
                 <div className="w-12 h-[1px] bg-white/20 mb-8" />
-                <p className="text-xl text-text-muted leading-relaxed font-light">
+                <p className="text-base md:text-lg text-text-muted leading-relaxed text-balance">
                   {step.desc}
                 </p>
               </div>

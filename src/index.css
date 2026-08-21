@@ -1,19 +1,28 @@
 @import "tailwindcss";
-
-@theme {
-  --font-sans: "Geist Sans", system-ui, sans-serif;
-  --font-mono: "Geist Mono", monospace;
-  
-  --color-canvas: #000000;
-  --color-panel: rgba(255, 255, 255, 0.02);
-  --color-border: rgba(255, 255, 255, 0.1);
-  --color-text-main: #FFFFFF;
-  --color-text-muted: #A1A1AA;
-}
+@import "./styles/tokens.css";
+@import "./styles/motion.css";
+@import "./styles/effects.css";
 
 @layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     @apply bg-canvas text-text-main font-sans antialiased selection:bg-white selection:text-black;
+    overflow-wrap: anywhere;
+  }
+
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.55);
+    outline-offset: 3px;
   }
 }
 
@@ -27,7 +36,6 @@
   .text-balance {
     text-wrap: balance;
   }
-  /* DIVINE'S-style light bands: white canvas, black type */
   .light-section {
     @apply bg-white text-black;
   }
@@ -39,7 +47,8 @@
   }
 }
 
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
 

@@ -28,7 +28,7 @@ export default function About() {
       {/* Hero */}
       <section className="w-full border-b border-white/10 bg-black text-white">
         <div className="w-full max-w-5xl mx-auto px-6 pt-32 pb-24 lg:pb-32">
-          <h1 className="reveal-element text-5xl md:text-7xl font-medium tracking-tight leading-tight mb-12">
+          <h1 className="reveal-element text-[clamp(2.25rem,1.2rem+4.5vw,4.5rem)] font-medium tracking-tight leading-tight break-words mb-12">
             A Vision <br /><span className="text-white/40">Beyond Numbers.</span>
           </h1>
           <div className="reveal-element w-full h-px bg-white/10 mb-12" />

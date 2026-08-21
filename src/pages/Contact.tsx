@@ -35,7 +35,7 @@ export default function Contact() {
         {/* Left Col - Info */}
         <div className="flex flex-col gap-12">
           <div className="flex flex-col gap-6">
-            <h1 className="reveal-item text-5xl md:text-7xl font-medium tracking-tight leading-tight">
+            <h1 className="reveal-item text-[clamp(2.25rem,1.2rem+4.5vw,4.5rem)] font-medium tracking-tight leading-tight break-words">
               Start Your <br /><span className="text-white/40">Legacy.</span>
             </h1>
             <p className="reveal-item text-xl text-text-muted leading-relaxed max-w-md">

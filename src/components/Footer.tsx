@@ -4,7 +4,7 @@ import BrandLogo from './BrandLogo';
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t border-white/10 pt-20 pb-10 mt-32 px-6 lg:px-12 relative overflow-hidden">
+    <footer className="w-full border-t border-white/10 pt-16 md:pt-20 pb-[max(2.5rem,env(safe-area-inset-bottom))] mt-16 md:mt-32 px-[var(--page-gutter)] relative overflow-hidden min-w-0">
       {/* Decorative large bg text */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] font-bold text-white/[0.02] pointer-events-none whitespace-nowrap tracking-tighter mix-blend-screen z-0">
         ONECAPITAL

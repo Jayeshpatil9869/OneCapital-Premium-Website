@@ -46,7 +46,7 @@ export default function Team() {
   return (
     <div className="w-full flex flex-col items-center pt-24 pb-32">
       <section className="w-full max-w-5xl mx-auto px-6 mb-32">
-        <h1 className="reveal-element text-5xl md:text-7xl font-medium tracking-tight leading-tight mb-12">
+        <h1 className="reveal-element text-[clamp(2.25rem,1.2rem+4.5vw,4.5rem)] font-medium tracking-tight leading-tight break-words mb-12">
           Judgment. <br />
           <span className="text-white/40">Discipline. Trust.</span>
         </h1>

@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { prefersReducedMotion } from '@/src/lib/motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,11 +42,19 @@ export default function Layout() {
   }, [pathname]);
 
   return (
-    <ReactLenis root options={{ lerp: 0.05, smoothWheel: true, autoRaf: false }}>
+    <ReactLenis
+      root
+      options={{
+        lerp: 0.08,
+        smoothWheel: !prefersReducedMotion(),
+        syncTouch: false,
+        autoRaf: false,
+      }}
+    >
       <LenisScrollSync />
-      <div className="flex flex-col min-h-screen bg-canvas">
+      <div className="flex flex-col min-h-dvh bg-canvas">
         <Navbar />
-        <main className="flex-grow">
+        <main className="flex-grow min-w-0">
           <Outlet />
         </main>
         <Footer />

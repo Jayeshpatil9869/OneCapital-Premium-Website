@@ -1,0 +1,49 @@
+/* OneCapital design tokens — extend brand; do not invent a parallel palette.
+   Named hex for humans: canvas #000, text #FFF, muted #A1A1AA, border white/10 */
+
+@theme {
+  --font-sans: "Geist Sans", system-ui, sans-serif;
+  --font-mono: "Geist Mono", monospace;
+
+  --color-canvas: #000000;
+  --color-panel: rgba(255, 255, 255, 0.02);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-text-main: #ffffff;
+  --color-text-muted: #a1a1aa;
+  --color-surface-elevated: rgba(255, 255, 255, 0.04);
+  --color-glow: rgba(255, 255, 255, 0.06);
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-pill: 9999px;
+
+  --container-max: 80rem; /* max-w-7xl */
+  --page-gutter: clamp(1rem, 4vw, 1.5rem);
+  --space-section: clamp(5rem, 10vw, 11.25rem);
+  --space-section-sm: clamp(4rem, 6vw, 6rem);
+  --grid-gap: clamp(0.75rem, 2vw, 2rem);
+
+  --blur-glass: 24px;
+  --z-base: 0;
+  --z-content: 10;
+  --z-sticky: 20;
+  --z-nav: 50;
+  --z-overlay: 60;
+  --z-modal: 70;
+  --z-toast: 75;
+  --z-cursor: 80;
+}
+
+:root {
+  --page-gutter: clamp(1rem, 4vw, 1.5rem);
+  --container-max: 80rem;
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 200ms;
+  --duration-normal: 400ms;
+  --duration-slow: 700ms;
+  --border-subtle: rgba(255, 255, 255, 0.12);
+  --spotlight-size: 420px;
+}

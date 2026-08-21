@@ -1,0 +1,61 @@
+/* Motion utilities — prefers-reduced-motion respected globally */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .motion-safe-only {
+    display: none !important;
+  }
+}
+
+.reveal-ready {
+  will-change: transform, opacity;
+}
+
+.magnetic-target {
+  display: inline-flex;
+  will-change: transform;
+  transition: transform 0.15s var(--ease-smooth);
+}
+
+@keyframes oc-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes oc-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[oc-marquee_var\(--marquee-duration\)_linear_infinite\],
+  [style*="--marquee-duration"] {
+    animation: none !important;
+  }
+}
+
+.oc-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: oc-shimmer 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oc-skeleton {
+    animation: none;
+    background: rgba(255, 255, 255, 0.06);
+  }
+}

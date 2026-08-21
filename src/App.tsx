@@ -7,6 +7,7 @@ import Approach from './pages/Approach';
 import Team from './pages/Team';
 import Insights from './pages/Insights';
 import Contact from './pages/Contact';
+import DesignSystem from './pages/DesignSystem';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
       { path: 'team', element: <Team /> },
       { path: 'insights', element: <Insights /> },
       { path: 'contact', element: <Contact /> },
+      { path: 'design-system', element: <DesignSystem /> },
     ],
   },
 ]);

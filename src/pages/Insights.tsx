@@ -55,7 +55,7 @@ export default function Insights() {
   return (
     <div className="w-full flex flex-col items-center pt-24 pb-32">
       <section className="w-full max-w-5xl mx-auto px-6 mb-24 text-center flex flex-col items-center">
-        <h1 className="reveal-element text-5xl md:text-7xl font-medium tracking-tight leading-tight mb-8">
+        <h1 className="reveal-element text-[clamp(2.25rem,1.2rem+4.5vw,4.5rem)] font-medium tracking-tight leading-tight break-words mb-8">
           Clarity in <span className="text-white/40">complexity.</span>
         </h1>
         <p className="reveal-element text-xl text-text-muted max-w-2xl text-balance">

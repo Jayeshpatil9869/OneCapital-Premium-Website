@@ -67,7 +67,7 @@ export default function Solutions() {
     <div className="w-full flex flex-col items-center pt-24 pb-32">
       {/* Hero */}
       <section className="w-full max-w-7xl mx-auto px-6 mb-32 text-center flex flex-col items-center">
-        <h1 className="reveal-element text-5xl md:text-7xl font-medium tracking-tight leading-tight mb-8">
+        <h1 className="reveal-element text-[clamp(2.25rem,1.2rem+4.5vw,4.5rem)] font-medium tracking-tight leading-tight break-words mb-8">
           Architectural <span className="text-white/40">Precision.</span>
         </h1>
         <p className="reveal-element text-xl text-text-muted max-w-2xl text-balance">
@@ -79,7 +79,7 @@ export default function Solutions() {
       <section className="w-full max-w-6xl mx-auto px-6 flex flex-col gap-24">
         {solutions.map((sol, index) => (
           <div key={sol.id} className="reveal-element grid grid-cols-1 lg:grid-cols-12 gap-12 items-start border-t border-white/10 pt-16">
-            <div className="lg:col-span-5 flex flex-col gap-4 sticky top-32">
+            <div className="lg:col-span-5 flex flex-col gap-4 lg:sticky lg:top-28">
               <span className="text-xs font-mono text-white/40 tracking-widest uppercase">0{index + 1} // {sol.id.replace('-', ' ')}</span>
               <h2 className="text-3xl md:text-4xl font-medium tracking-tight">{sol.title}</h2>
               <h3 className="text-xl text-white/70 font-light mt-2">{sol.subtitle}</h3>
