@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { prefersReducedMotion } from '@/src/lib/motion';
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/src/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,17 +19,17 @@ export default function Approach() {
           scrollWrapperRef.current &&
           containerRef.current
         ) {
-          const sections = gsap.utils.toArray('.approach-step');
+          const sections = gsap.utils.toArray(".approach-step");
 
           gsap.to(sections, {
             xPercent: -100 * (sections.length - 1),
-            ease: 'none',
+            ease: "none",
             scrollTrigger: {
               trigger: containerRef.current,
               pin: true,
               scrub: true,
               snap: 1 / (sections.length - 1),
-              end: () => '+=' + scrollWrapperRef.current!.offsetWidth,
+              end: () => "+=" + scrollWrapperRef.current!.offsetWidth,
               invalidateOnRefresh: true,
               anticipatePin: 1,
             },
@@ -48,30 +48,56 @@ export default function Approach() {
       ScrollTrigger.refresh();
     };
 
-    window.addEventListener('resize', onResize);
+    window.addEventListener("resize", onResize);
     return () => {
-      window.removeEventListener('resize', onResize);
+      window.removeEventListener("resize", onResize);
       ctx.revert();
     };
   }, []);
 
   const steps = [
-    { num: '01', title: 'DISCOVER', desc: 'We begin by understanding the architecture of your financial life. This involves deep conversations about your liquidity needs, risk tolerance, generational wealth goals, and existing asset structures.' },
-    { num: '02', title: 'DIAGNOSE', desc: 'Our analytical team dissects your current portfolio. We identify hidden risks, structural inefficiencies, tax leakages, and areas where your capital is underperforming relative to its potential.' },
-    { num: '03', title: 'DESIGN', desc: 'We engineer a bespoke portfolio architecture. This involves strategic asset allocation, selecting optimal investment vehicles, and establishing a rigorous framework for decision-making.' },
-    { num: '04', title: 'IMPLEMENT', desc: 'Execution requires precision. We deploy capital methodically, taking advantage of tactical entry points while ensuring tax-efficient transitions from legacy holdings.' },
-    { num: '05', title: 'MONITOR', desc: 'Markets are dynamic; your strategy must be resilient. We employ continuous risk monitoring, stress-testing your portfolio against macro-economic shifts and black-swan events.' },
-    { num: '06', title: 'EVOLVE', desc: 'As your life and the markets change, so must your plan. We conduct strategic rebalancing and periodic reviews to ensure your wealth command remains optimally aligned with your legacy.' },
+    {
+      num: "01",
+      title: "DISCOVER",
+      desc: "We begin by understanding the architecture of your financial life. This involves deep conversations about your liquidity needs, risk tolerance, generational wealth goals, and existing asset structures.",
+    },
+    {
+      num: "02",
+      title: "DIAGNOSE",
+      desc: "Our analytical team dissects your current portfolio. We identify hidden risks, structural inefficiencies, tax leakages, and areas where your capital is underperforming relative to its potential.",
+    },
+    {
+      num: "03",
+      title: "DESIGN",
+      desc: "We engineer a bespoke portfolio architecture. This involves strategic asset allocation, selecting optimal investment vehicles, and establishing a rigorous framework for decision-making.",
+    },
+    {
+      num: "04",
+      title: "IMPLEMENT",
+      desc: "Execution requires precision. We deploy capital methodically, taking advantage of tactical entry points while ensuring tax-efficient transitions from legacy holdings.",
+    },
+    {
+      num: "05",
+      title: "MONITOR",
+      desc: "Markets are dynamic; your strategy must be resilient. We employ continuous risk monitoring, stress-testing your portfolio against macro-economic shifts and black-swan events.",
+    },
+    {
+      num: "06",
+      title: "EVOLVE",
+      desc: "As your life and the markets change, so must your plan. We conduct strategic rebalancing and periodic reviews to ensure your wealth command remains optimally aligned with your legacy.",
+    },
   ];
 
   return (
     <div className="w-full min-w-0">
       <section className="w-full max-w-[var(--container-max)] mx-auto px-[var(--page-gutter)] pt-24 pb-16 md:pb-32 text-center flex flex-col items-center">
         <h1 className="text-[clamp(2.25rem,1.2rem+4.5vw,4.5rem)] font-medium tracking-tight leading-tight mb-8 break-words">
-          The Framework of <br /><span className="text-white/40">Wealth Command.</span>
+          The Framework of <br />
+          <span className="text-white/40">Wealth Command.</span>
         </h1>
         <p className="text-lg md:text-xl text-text-muted max-w-2xl text-balance">
-          A disciplined, six-stage methodology designed to remove emotional bias and engineer predictable outcomes in an unpredictable market.
+          A disciplined, six-stage methodology designed to remove emotional bias
+          and engineer predictable outcomes in an unpredictable market.
         </p>
       </section>
 

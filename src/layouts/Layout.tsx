@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
-import { ReactLenis, useLenis } from 'lenis/react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { prefersReducedMotion } from '@/src/lib/motion';
+import { useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import { ReactLenis, useLenis } from "lenis/react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/src/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,7 +16,7 @@ function LenisScrollSync() {
     if (!lenis) return;
 
     const onScroll = () => ScrollTrigger.update();
-    lenis.on('scroll', onScroll);
+    lenis.on("scroll", onScroll);
 
     const ticker = (time: number) => {
       lenis.raf(time * 1000);
@@ -25,7 +25,7 @@ function LenisScrollSync() {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
-      lenis.off('scroll', onScroll);
+      lenis.off("scroll", onScroll);
       gsap.ticker.remove(ticker);
     };
   }, [lenis]);
