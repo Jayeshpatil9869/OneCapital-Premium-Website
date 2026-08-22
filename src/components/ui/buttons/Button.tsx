@@ -23,22 +23,27 @@ export type ButtonVariant =
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary:
-    'bg-white text-black hover:bg-white/90 font-medium',
-  secondary:
-    'glass-panel hover:bg-white hover:text-black',
-  ghost:
-    'bg-transparent text-white/70 hover:text-white',
+  primary: 'bg-white text-black font-medium hover:bg-white/90',
+  secondary: 'glass-panel text-white hover:bg-white hover:text-black',
+  ghost: 'bg-transparent text-white/70 hover:text-white',
   outline:
-    'border border-white/20 bg-transparent hover:border-white/50 hover:bg-white/[0.03]',
-  magnetic:
-    'glass-panel hover:bg-white hover:text-black magnetic-target',
-  text:
-    'bg-transparent text-white/70 hover:text-white px-0 py-0 rounded-none',
-  pill:
-    'glass-panel rounded-full hover:bg-white hover:text-black',
+    'border border-white/20 bg-transparent text-white/90 hover:border-white/50 hover:bg-white/[0.03]',
+  magnetic: 'glass-panel text-white hover:bg-white hover:text-black magnetic-target',
+  text: 'bg-transparent text-white/70 hover:text-white px-0 py-0 min-h-0 rounded-none',
+  pill: 'glass-panel text-white/90 hover:bg-white hover:text-black',
   glow:
     'bg-white text-black shadow-[0_0_40px_rgba(255,255,255,0.12)] hover:shadow-[0_0_56px_rgba(255,255,255,0.2)]',
+};
+
+const sweepToneClasses: Record<ButtonVariant, string> = {
+  primary: 'oc-btn-sweep--dark',
+  glow: 'oc-btn-sweep--dark',
+  secondary: 'oc-btn-sweep--light',
+  ghost: 'oc-btn-sweep--light',
+  outline: 'oc-btn-sweep--light',
+  magnetic: 'oc-btn-sweep--light',
+  text: 'oc-btn-sweep--light',
+  pill: 'oc-btn-sweep--light',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -51,6 +56,8 @@ type SharedProps = {
   variant?: ButtonVariant;
   size?: ButtonSize;
   arrow?: 'right' | 'up-right' | false;
+  /** Left-to-right gradient hover fill. Off for text links and selected CTAs. */
+  sweep?: boolean;
   children?: ReactNode;
   className?: string;
   magneticStrength?: number;
@@ -90,6 +97,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
       variant = 'secondary',
       size = 'md',
       arrow = false,
+      sweep = variant !== 'text',
       children,
       className,
       magneticStrength = 0.25,
@@ -97,15 +105,20 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
     } = props;
 
     const isMagnetic = variant === 'magnetic';
+    const isText = variant === 'text';
+    const useSweep = sweep && variant !== 'text';
     const { ref: magRef, onMove, onLeave } = useMagneticHandlers(
       magneticStrength,
       isMagnetic
     );
 
     const classes = cn(
-      'inline-flex items-center justify-center gap-2 uppercase tracking-wide transition-all duration-500 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
-      variant !== 'text' && 'rounded-full',
-      sizeClasses[size],
+      'inline-flex items-center justify-center uppercase tracking-wide transition-all duration-500 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
+      useSweep && 'oc-btn-sweep duration-[475ms]',
+      useSweep && sweepToneClasses[variant],
+      !isText && 'rounded-full',
+      !isText && sizeClasses[size],
+      isText && 'text-sm gap-2',
       variantClasses[variant],
       className
     );
@@ -113,17 +126,33 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
     const ArrowIcon =
       arrow === 'up-right' ? ArrowUpRight : arrow === 'right' ? ArrowRight : null;
 
-    const content = (
+    const content = useSweep ? (
+      <span className="oc-btn-content">
+        {children}
+        {ArrowIcon && (
+          <ArrowIcon
+            className={cn(
+              'w-4 h-4 transition-transform duration-300',
+              arrow === 'right' && 'group-hover:translate-x-1',
+              arrow === 'up-right' &&
+                'group-hover:translate-x-0.5 group-hover:-translate-y-0.5'
+            )}
+            aria-hidden
+          />
+        )}
+      </span>
+    ) : (
       <>
         {children}
         {ArrowIcon && (
           <ArrowIcon
             className={cn(
-              'w-4 h-4 transition-transform',
+              'w-4 h-4 transition-transform duration-300',
               arrow === 'right' && 'group-hover:translate-x-1',
               arrow === 'up-right' &&
                 'group-hover:translate-x-0.5 group-hover:-translate-y-0.5'
             )}
+            aria-hidden
           />
         )}
       </>

@@ -78,7 +78,11 @@ export default function Solutions() {
       {/* Solutions List */}
       <section className="w-full max-w-6xl mx-auto px-6 flex flex-col gap-24">
         {solutions.map((sol, index) => (
-          <div key={sol.id} className="reveal-element grid grid-cols-1 lg:grid-cols-12 gap-12 items-start border-t border-white/10 pt-16">
+          <div
+            key={sol.id}
+            id={sol.id}
+            className="reveal-element grid grid-cols-1 lg:grid-cols-12 gap-12 items-start border-t border-white/10 pt-16 scroll-mt-28"
+          >
             <div className="lg:col-span-5 flex flex-col gap-4 lg:sticky lg:top-28">
               <span className="text-xs font-mono text-white/40 tracking-widest uppercase">0{index + 1} // {sol.id.replace('-', ' ')}</span>
               <h2 className="text-3xl md:text-4xl font-medium tracking-tight">{sol.title}</h2>

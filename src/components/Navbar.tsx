@@ -318,15 +318,14 @@ export default function Navbar() {
   );
 
   const ctaPrimary = cn(
-    "hidden md:flex items-center gap-2 text-xs uppercase tracking-wider font-medium px-5 py-2.5 min-h-11 rounded-full transition-colors duration-500 group",
-    "glass-panel hover:bg-white hover:text-black",
+    "group hidden md:flex oc-btn-sweep oc-btn-sweep--light text-xs uppercase tracking-wider font-medium px-5 py-2.5 min-h-11 rounded-full glass-panel",
   );
 
   const ctaLogin = cn(
-    "hidden md:flex items-center gap-2 text-xs uppercase tracking-wider font-medium px-5 py-2.5 min-h-11 rounded-full transition-colors duration-500 border",
+    "group hidden md:flex oc-btn-sweep oc-btn-sweep--light text-xs uppercase tracking-wider font-medium px-5 py-2.5 min-h-11 rounded-full border",
     overLight
-      ? "border-white/25 text-white hover:bg-white/10"
-      : "border-white/15 text-white/80 hover:bg-white hover:text-black hover:border-transparent",
+      ? "border-white/25 text-white"
+      : "border-white/15 text-white/80",
   );
 
   return (
@@ -398,11 +397,13 @@ export default function Navbar() {
 
           <div className="relative z-[1] flex items-center gap-2 sm:gap-3">
             <Link to="/contact" className={ctaPrimary}>
-              Book Consultation
-              <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <span className="oc-btn-content inline-flex items-center gap-2">
+                Book Consultation
+                <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </span>
             </Link>
             <Link to="/contact" className={ctaLogin}>
-              Login
+              <span className="oc-btn-content">Login</span>
             </Link>
 
             <button

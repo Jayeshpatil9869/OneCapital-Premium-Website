@@ -184,6 +184,16 @@ export const componentRegistry: RegistryEntry[] = [
     a11y: 'aria-expanded, aria-controls, region roles.',
     path: 'components/ui/overlays/Accordion.tsx',
   },
+  {
+    name: 'RiskFactorsStrip',
+    category: 'sections',
+    description: 'Home-only regulatory risk factors sub-footer below global footer.',
+    dependencies: [],
+    usage: '{pathname === \'/\' && <RiskFactorsStrip />}',
+    performance: 'light',
+    a11y: 'aside with labelled heading; external links open in new tab.',
+    path: 'components/sections/legal/RiskFactorsStrip.tsx',
+  },
 ];
 
 export const componentRegistryByCategory = componentRegistry.reduce(

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import BrandLogo from './BrandLogo';
+import { Button } from '@/src/components/ui';
+import { SocialLinks } from './SocialLinks';
 
 export default function Footer() {
   return (
@@ -20,10 +22,7 @@ export default function Footer() {
           <p className="text-text-muted text-sm leading-relaxed max-w-sm text-balance">
             A sophisticated wealth-management partner helping clients understand, build, manage and preserve wealth over the long term.
           </p>
-          <div className="flex items-center gap-4 mt-2">
-            <span className="text-text-muted text-sm border border-white/10 rounded-full px-4 py-1.5">LinkedIn</span>
-            <span className="text-text-muted text-sm border border-white/10 rounded-full px-4 py-1.5">Twitter</span>
-          </div>
+          <SocialLinks className="mt-2" />
         </div>
 
         {/* Strategies */}
@@ -57,10 +56,14 @@ export default function Footer() {
         <div className="flex flex-col gap-6">
           <h4 className="text-xs uppercase tracking-wider font-mono text-text-muted mb-2">Start a Conversation</h4>
           <p className="text-sm text-text-muted">Reach out to our advisory team to discuss your portfolio and long-term vision.</p>
-          <Link to="/contact" className="w-full glass-panel flex items-center justify-between px-6 py-4 rounded-xl group hover:bg-white hover:text-black transition-all duration-500">
-            <span className="text-sm uppercase tracking-wide font-medium">Book Consultation</span>
-            <ArrowUpRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
+          <Button
+            to="/contact"
+            variant="secondary"
+            arrow="up-right"
+            className="w-full rounded-xl justify-between px-6 py-4 min-h-14 [&_.oc-btn-content]:w-full [&_.oc-btn-content]:justify-between"
+          >
+            Book Consultation
+          </Button>
         </div>
       </div>
 

@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { ReactLenis, useLenis } from "lenis/react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { RiskFactorsStrip } from "../components/sections/legal/RiskFactorsStrip";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { prefersReducedMotion } from "@/src/lib/motion";
@@ -58,6 +59,7 @@ export default function Layout() {
           <Outlet />
         </main>
         <Footer />
+        {pathname === '/' && <RiskFactorsStrip />}
       </div>
     </ReactLenis>
   );
