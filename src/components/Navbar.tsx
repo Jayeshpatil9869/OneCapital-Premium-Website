@@ -336,7 +336,7 @@ export default function Navbar() {
         scrolled || overLight ? "py-4" : "py-6",
       )}
     >
-      <div className="mx-auto max-w-[var(--container-max)] px-[var(--page-gutter)]">
+      <div className="relative z-[var(--z-modal)] mx-auto max-w-[var(--container-max)] px-[var(--page-gutter)]">
         <div
           className={cn(
             "relative flex items-center justify-between transition-all duration-500",
@@ -412,12 +412,7 @@ export default function Navbar() {
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-nav"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={cn(
-                "lg:hidden relative z-[var(--z-overlay)] inline-flex items-center justify-center min-h-11 min-w-11 transition-colors",
-                overLight
-                  ? "text-white/70 hover:text-white"
-                  : "text-text-muted hover:text-white",
-              )}
+              className="lg:hidden relative inline-flex items-center justify-center min-h-11 min-w-11 text-white transition-colors hover:text-white/80"
             >
               {mobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -434,17 +429,20 @@ export default function Navbar() {
         role="dialog"
         aria-modal="true"
         aria-hidden={!mobileMenuOpen}
+        aria-label="Mobile navigation"
         className={cn(
-          "fixed inset-0 z-[var(--z-overlay)] bg-canvas/95 backdrop-blur-xl transition-all duration-500 lg:hidden flex flex-col justify-center px-[var(--page-gutter)] pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)]",
+          "fixed inset-x-0 bottom-0 z-[var(--z-overlay)] bg-canvas/95 backdrop-blur-xl transition-all duration-500 lg:hidden flex flex-col overflow-y-auto overscroll-contain px-[var(--page-gutter)] pb-[max(1.5rem,env(safe-area-inset-bottom))]",
+          "top-[calc(env(safe-area-inset-top)+4.25rem)]",
           mobileMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none",
         )}
       >
-        <nav
-          className="flex flex-col gap-1 text-2xl font-medium tracking-tight"
-          aria-label="Mobile"
-        >
+        <div className="my-auto w-full py-6">
+          <nav
+            className="flex flex-col gap-1 text-2xl font-medium tracking-tight"
+            aria-label="Mobile"
+          >
           {NAV_ITEMS.map((item) => {
             if (item.kind === "link") {
               return (
@@ -533,7 +531,8 @@ export default function Navbar() {
               Login
             </Link>
           </div>
-        </nav>
+          </nav>
+        </div>
       </div>
     </header>
   );

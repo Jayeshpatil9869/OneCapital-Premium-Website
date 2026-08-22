@@ -53,7 +53,7 @@ export default function Layout() {
       }}
     >
       <LenisScrollSync />
-      <div className="flex flex-col min-h-dvh bg-canvas">
+      <div className="flex flex-col min-h-dvh w-full max-w-full overflow-x-clip bg-canvas">
         <Navbar />
         <main className="flex-grow min-w-0">
           <Outlet />

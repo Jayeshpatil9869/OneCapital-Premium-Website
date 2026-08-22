@@ -6,10 +6,12 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    overflow-x: clip;
   }
 
   body {
     @apply bg-canvas text-text-main font-sans antialiased selection:bg-white selection:text-black;
+    overflow-x: clip;
     overflow-wrap: anywhere;
   }
 
