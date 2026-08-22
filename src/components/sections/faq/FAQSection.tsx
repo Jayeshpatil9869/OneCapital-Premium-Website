@@ -1,7 +1,6 @@
 import { useId, useMemo, useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import {
-  Button,
   Container,
   Section,
   Eyebrow,
@@ -20,6 +19,9 @@ import {
 import { cn } from '@/src/lib/utils';
 
 const FAQ_ALL_INITIAL_COUNT = 4;
+
+const faqToggleButtonClass =
+  'mt-2 self-center lg:self-start inline-flex items-center justify-center min-h-11 px-6 py-3 rounded-full border border-white/25 bg-white/[0.03] font-mono text-xs uppercase tracking-widest text-white transition-colors duration-500 hover:border-white/45 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black';
 
 type FAQCategoryNavProps = {
   activeId: string;
@@ -260,29 +262,23 @@ export function FAQSection() {
             ))}
 
             {hasMoreAllQuestions && !showAllQuestions && (
-              <Button
+              <button
                 type="button"
-                variant="outline"
-                size="sm"
-                sweep
                 onClick={() => setShowAllQuestions(true)}
-                className="mt-2 self-center lg:self-start font-mono tracking-widest text-xs"
+                className={faqToggleButtonClass}
               >
                 Show More
-              </Button>
+              </button>
             )}
 
             {hasMoreAllQuestions && showAllQuestions && (
-              <Button
+              <button
                 type="button"
-                variant="outline"
-                size="sm"
-                sweep
                 onClick={collapseAllQuestions}
-                className="mt-2 self-center lg:self-start font-mono tracking-widest text-xs"
+                className={faqToggleButtonClass}
               >
                 Show Less
-              </Button>
+              </button>
             )}
           </RevealOnScroll>
         </div>

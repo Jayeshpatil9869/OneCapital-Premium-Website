@@ -179,9 +179,36 @@
   z-index: 0;
 }
 
-.oc-btn-sweep:hover::before,
-.oc-btn-sweep:focus-visible::before {
-  transform: scaleX(1);
+@media (hover: hover) and (pointer: fine) {
+  .oc-btn-sweep:hover::before,
+  .oc-btn-sweep:focus-visible::before {
+    transform: scaleX(1);
+  }
+
+  .oc-btn-sweep--light:hover,
+  .oc-btn-sweep--light:focus-visible {
+    color: #000000;
+    border-color: rgba(255, 255, 255, 0.55);
+  }
+
+  .oc-btn-sweep--dark:hover,
+  .oc-btn-sweep--dark:focus-visible {
+    color: #ffffff;
+  }
+
+  .light-section .oc-btn-sweep--light:hover,
+  .light-section .oc-btn-sweep--light:focus-visible {
+    color: #ffffff;
+    border-color: rgba(0, 0, 0, 0.35);
+  }
+}
+
+.oc-btn-sweep--light::before {
+  background: linear-gradient(
+    82.3deg,
+    rgba(255, 255, 255, 0.98) 10.8%,
+    rgba(255, 255, 255, 0.88) 94.3%
+  );
 }
 
 .oc-btn-content {
@@ -193,20 +220,6 @@
   gap: 0.5rem;
 }
 
-.oc-btn-sweep--light::before {
-  background: linear-gradient(
-    82.3deg,
-    rgba(255, 255, 255, 0.98) 10.8%,
-    rgba(255, 255, 255, 0.88) 94.3%
-  );
-}
-
-.oc-btn-sweep--light:hover,
-.oc-btn-sweep--light:focus-visible {
-  color: #000000;
-  border-color: rgba(255, 255, 255, 0.55);
-}
-
 .oc-btn-sweep--dark::before {
   background: linear-gradient(
     82.3deg,
@@ -215,23 +228,12 @@
   );
 }
 
-.oc-btn-sweep--dark:hover,
-.oc-btn-sweep--dark:focus-visible {
-  color: #ffffff;
-}
-
 .light-section .oc-btn-sweep--light::before {
   background: linear-gradient(
     82.3deg,
     rgba(0, 0, 0, 0.92) 10.8%,
     rgba(0, 0, 0, 1) 94.3%
   );
-}
-
-.light-section .oc-btn-sweep--light:hover,
-.light-section .oc-btn-sweep--light:focus-visible {
-  color: #ffffff;
-  border-color: rgba(0, 0, 0, 0.35);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -243,4 +245,25 @@
   .oc-btn-sweep:focus-visible::before {
     transform: scaleX(1);
   }
+}
+
+/* Testimonial carousel controls — defaults so buttons stay visible before/at any scroll state */
+[data-testimonials-section] {
+  --testimonial-control-border: rgba(255, 255, 255, 0.15);
+  --testimonial-control-text: rgba(255, 255, 255, 0.5);
+  --testimonial-control-hover-border: rgba(255, 255, 255, 0.4);
+  --testimonial-control-hover-text: rgba(255, 255, 255, 1);
+  --testimonial-active-bg: #ffffff;
+  --testimonial-active-text: #000000;
+  --testimonial-active-border: #ffffff;
+}
+
+[data-testimonials-section].light-section {
+  --testimonial-control-border: rgba(0, 0, 0, 0.15);
+  --testimonial-control-text: rgba(0, 0, 0, 0.5);
+  --testimonial-control-hover-border: rgba(0, 0, 0, 0.4);
+  --testimonial-control-hover-text: rgba(0, 0, 0, 1);
+  --testimonial-active-bg: #000000;
+  --testimonial-active-text: #ffffff;
+  --testimonial-active-border: #000000;
 }
