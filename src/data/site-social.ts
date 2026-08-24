@@ -6,6 +6,14 @@ export type SiteSocialLink = {
   href: string;
 };
 
+export type AppStorePlatform = 'app-store' | 'play-store';
+
+export type SiteAppStoreLink = {
+  id: AppStorePlatform;
+  label: string;
+  href: string;
+};
+
 /** Update hrefs with OneCapital official profile URLs before production. */
 export const SITE_SOCIAL_LINKS: SiteSocialLink[] = [
   {
@@ -27,5 +35,19 @@ export const SITE_SOCIAL_LINKS: SiteSocialLink[] = [
     id: 'facebook',
     label: 'Facebook',
     href: 'https://www.facebook.com/',
+  },
+];
+
+/** Update hrefs with OneCapital official store URLs before production. */
+export const SITE_APP_STORE_LINKS: SiteAppStoreLink[] = [
+  {
+    id: 'app-store',
+    label: 'Download on the App Store',
+    href: 'https://apps.apple.com/',
+  },
+  {
+    id: 'play-store',
+    label: 'Get it on Google Play',
+    href: 'https://play.google.com/store',
   },
 ];

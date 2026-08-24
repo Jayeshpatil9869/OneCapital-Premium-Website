@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { ReactLenis, useLenis } from "lenis/react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import ChatWidget from "../components/chat/ChatWidget";
 import { RiskFactorsStrip } from "../components/sections/legal/RiskFactorsStrip";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -60,6 +61,7 @@ export default function Layout() {
         </main>
         <Footer />
         {pathname === '/' && <RiskFactorsStrip />}
+        <ChatWidget />
       </div>
     </ReactLenis>
   );

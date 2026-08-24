@@ -208,9 +208,16 @@ export function FAQSection() {
       <Container>
         <RevealOnScroll className="max-w-3xl mb-12 md:mb-16">
           <Eyebrow>Frequently Asked Questions</Eyebrow>
-          <SectionHeading id="faq-heading" className="mt-6 mb-4">
+          <SectionHeading
+            id="faq-heading"
+            className="mt-6 mb-3 text-[clamp(1.75rem,1.2rem+2.5vw,3.25rem)] font-semibold tracking-tight"
+          >
             Questions worth asking.
           </SectionHeading>
+          <span
+            aria-hidden
+            className="mb-5 block h-px w-16 bg-white/50"
+          />
           <BodyText className="text-base md:text-lg max-w-2xl">
             Wealth decisions deserve clarity. Explore the questions clients ask before beginning a
             long-term relationship with One Capital.

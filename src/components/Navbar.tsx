@@ -431,8 +431,7 @@ export default function Navbar() {
         aria-hidden={!mobileMenuOpen}
         aria-label="Mobile navigation"
         className={cn(
-          "fixed inset-x-0 bottom-0 z-[var(--z-overlay)] bg-canvas/95 backdrop-blur-xl transition-all duration-500 lg:hidden flex flex-col overflow-y-auto overscroll-contain px-[var(--page-gutter)] pb-[max(1.5rem,env(safe-area-inset-bottom))]",
-          "top-[calc(env(safe-area-inset-top)+4.25rem)]",
+          "fixed inset-0 z-[var(--z-overlay)] bg-canvas transition-all duration-500 lg:hidden flex flex-col overflow-y-auto overscroll-contain px-[var(--page-gutter)] pt-[calc(env(safe-area-inset-top)+4.25rem)] pb-[max(1.5rem,env(safe-area-inset-bottom))]",
           mobileMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none",
