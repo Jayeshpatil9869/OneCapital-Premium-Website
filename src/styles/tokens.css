@@ -34,6 +34,7 @@
   --z-modal: 70;
   --z-toast: 75;
   --z-cursor: 80;
+  --z-preloader: 90;
 }
 
 :root {

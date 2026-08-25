@@ -3,8 +3,10 @@ import { useGSAP } from '@gsap/react';
 import { cn } from '@/src/lib/utils';
 import {
   gsap,
+  isPreloaderActive,
   motionTokens,
   prefersReducedMotion,
+  whenPreloaderDone,
 } from '@/src/lib/motion';
 
 gsap.registerPlugin(useGSAP);
@@ -46,22 +48,28 @@ export function TextReveal({
       const lines = ref.current.querySelectorAll('[data-reveal-line]');
       const targets = lines.length ? lines : ref.current;
 
-      const vars = {
-        y: 28,
-        opacity: 0,
+      const fromVars = { y: 28, opacity: 0 };
+      const tweenVars = {
         duration,
         delay,
         stagger,
         ease: motionTokens.ease.cinematic,
+        clearProps: 'transform',
       };
+      const toVars = { y: 0, opacity: 1, ...tweenVars };
 
       if (trigger === 'load') {
-        gsap.from(targets, vars);
-        return;
+        if (isPreloaderActive()) {
+          gsap.set(targets, fromVars);
+        }
+        return whenPreloaderDone(() => {
+          gsap.fromTo(targets, fromVars, toVars);
+        });
       }
 
       gsap.from(targets, {
-        ...vars,
+        ...fromVars,
+        ...tweenVars,
         scrollTrigger: {
           trigger: ref.current,
           start: motionTokens.scroll.start,
@@ -72,7 +80,7 @@ export function TextReveal({
     {
       scope: ref,
       dependencies: [delay, duration, stagger, trigger, once, disabled],
-    }
+    },
   );
 
   return (

@@ -4,8 +4,10 @@ import { cn } from '@/src/lib/utils';
 import {
   directionOffset,
   gsap,
+  isPreloaderActive,
   motionTokens,
   prefersReducedMotion,
+  whenPreloaderDone,
   type RevealDirection,
   type MotionEase,
 } from '@/src/lib/motion';
@@ -55,23 +57,34 @@ export function RevealOnScroll({
         ? ref.current.querySelectorAll(':scope > *')
         : ref.current;
       const offset = directionOffset(direction, distance);
-
-      const tweenVars = {
-        ...offset,
-        opacity: 0,
+      const fromVars = { ...offset, opacity: 0 };
+      const toVars = {
+        x: 0,
+        y: 0,
+        opacity: 1,
         duration,
         delay,
         ease,
         stagger: stagger ?? 0,
+        clearProps: 'transform',
       };
 
       if (trigger === 'load') {
-        gsap.from(targets, tweenVars);
-        return;
+        // Stay hidden under the preloader; play only on handoff.
+        if (isPreloaderActive()) {
+          gsap.set(targets, fromVars);
+        }
+        return whenPreloaderDone(() => {
+          gsap.fromTo(targets, fromVars, toVars);
+        });
       }
 
       gsap.from(targets, {
-        ...tweenVars,
+        ...fromVars,
+        duration,
+        delay,
+        ease,
+        stagger: stagger ?? 0,
         scrollTrigger: {
           trigger: ref.current,
           start: motionTokens.scroll.start,
@@ -93,7 +106,7 @@ export function RevealOnScroll({
         disabled,
         distance,
       ],
-    }
+    },
   );
 
   return (

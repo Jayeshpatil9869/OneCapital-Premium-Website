@@ -8,7 +8,12 @@ import { SolutionsOverviewSection } from '@/src/components/sections/solutions/So
 import { ContinuityScrollSection } from '@/src/components/sections/continuity/ContinuityScrollSection';
 import { TestimonialsSection } from '@/src/components/sections/testimonials/TestimonialsSection';
 import { FAQSection } from '@/src/components/sections/faq/FAQSection';
-import { gsap, prefersReducedMotion, ScrollTrigger } from '@/src/lib/motion';
+import {
+  gsap,
+  prefersReducedMotion,
+  ScrollTrigger,
+  whenPreloaderDone,
+} from '@/src/lib/motion';
 
 gsap.registerPlugin(useGSAP);
 
@@ -39,53 +44,65 @@ export default function Home() {
         return;
       }
 
-      const mm = gsap.matchMedia();
-
-      // Desktop / tablet+: full expand → pin → overlay
-      mm.add('(min-width: 768px)', () => {
-        gsap.fromTo(
-          imageWrap,
-          { width: '60%', height: '60vh' },
-          {
-            width: '100%',
-            height: () => viewportHeight(),
-            ease: 'none',
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: imageWrap,
-              start: 'top 80%',
-              end: 'top top',
-              scrub: true,
-              invalidateOnRefresh: true,
-              fastScrollEnd: true,
-            },
-          }
-        );
-
-        ScrollTrigger.create({
-          trigger: pin,
-          start: 'top top',
-          end: () => `+=${window.innerHeight * 0.3}`,
-          pin: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          fastScrollEnd: true,
-        });
-      });
-
-      // Mobile: static full-width image — no pin (avoids 100vh / address-bar jank)
-      mm.add('(max-width: 767px)', () => {
-        gsap.set(imageWrap, { width: '100%', height: '40vh' });
-      });
-
+      let mm: ReturnType<typeof gsap.matchMedia> | null = null;
+      let onImgLoad: (() => void) | null = null;
       const img = imageWrap.querySelector('img');
-      if (img && !img.complete) {
-        img.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
-      }
 
-      return () => mm.revert();
+      const cancelWait = whenPreloaderDone(() => {
+        mm = gsap.matchMedia();
+
+        // Desktop / tablet+: full expand → pin → overlay
+        mm.add('(min-width: 768px)', () => {
+          gsap.fromTo(
+            imageWrap,
+            { width: '60%', height: '60vh' },
+            {
+              width: '100%',
+              height: () => viewportHeight(),
+              ease: 'none',
+              immediateRender: false,
+              scrollTrigger: {
+                trigger: imageWrap,
+                start: 'top 80%',
+                end: 'top top',
+                scrub: true,
+                invalidateOnRefresh: true,
+                fastScrollEnd: true,
+              },
+            },
+          );
+
+          ScrollTrigger.create({
+            trigger: pin,
+            start: 'top top',
+            end: () => `+=${window.innerHeight * 0.3}`,
+            pin: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            fastScrollEnd: true,
+          });
+        });
+
+        // Mobile: static full-width image — no pin (avoids 100vh / address-bar jank)
+        mm.add('(max-width: 767px)', () => {
+          gsap.set(imageWrap, { width: '100%', height: '40vh' });
+        });
+
+        if (img && !img.complete) {
+          onImgLoad = () => ScrollTrigger.refresh();
+          img.addEventListener('load', onImgLoad, { once: true });
+        }
+
+        ScrollTrigger.refresh();
+      });
+
+      return () => {
+        cancelWait();
+        if (img && onImgLoad) img.removeEventListener('load', onImgLoad);
+        mm?.revert();
+      };
     },
-    { scope: sceneRef }
+    { scope: sceneRef },
   );
 
   return (

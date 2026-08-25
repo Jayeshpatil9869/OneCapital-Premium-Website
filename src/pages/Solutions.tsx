@@ -60,6 +60,13 @@ export default function Solutions() {
       subtitle: 'Uncorrelated returns for sophisticated portfolios.',
       description: 'Access exclusive private markets, real estate, and private debt opportunities designed to provide portfolio diversification and enhanced yield outside of traditional public markets.',
       features: ['Pre-IPO Opportunities', 'Private Credit & Debt', 'Rigorous Due Diligence', 'Illiquidity Premium Harvesting']
+    },
+    {
+      id: 'tax-strategy',
+      title: 'Tax Strategy',
+      subtitle: 'After-tax outcomes that respect your mandate.',
+      description: 'Investment decisions are evaluated through a tax-aware lens — from asset location and harvesting to cross-entity structuring — so compounding is protected without compromising long-term strategy.',
+      features: ['Tax-Aware Allocation', 'Loss Harvesting & Deferral', 'Cross-Entity Planning', 'Year-Round Review Cadence']
     }
   ];
 

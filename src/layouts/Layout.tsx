@@ -5,6 +5,8 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ChatWidget from "../components/chat/ChatWidget";
 import { RiskFactorsStrip } from "../components/sections/legal/RiskFactorsStrip";
+import { CustomCursor } from "../components/motion/CustomCursor";
+import { Preloader } from "@/src/components/Preloader";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { prefersReducedMotion } from "@/src/lib/motion";
@@ -54,14 +56,16 @@ export default function Layout() {
       }}
     >
       <LenisScrollSync />
-      <div className="flex flex-col min-h-dvh w-full max-w-full overflow-x-clip bg-canvas">
+      <Preloader enabled={pathname === "/"} />
+      <div className="oc-shell flex flex-col min-h-dvh w-full max-w-full overflow-x-clip bg-canvas">
         <Navbar />
-        <main className="flex-grow min-w-0">
+        <main className="grow min-w-0">
           <Outlet />
         </main>
         <Footer />
-        {pathname === '/' && <RiskFactorsStrip />}
+        {pathname === "/" && <RiskFactorsStrip />}
         <ChatWidget />
+        <CustomCursor />
       </div>
     </ReactLenis>
   );

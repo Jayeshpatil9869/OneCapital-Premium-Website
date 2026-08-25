@@ -8,21 +8,21 @@ export type HomeSolution = {
   href: string;
 };
 
-export const HOME_SOLUTIONS_FEATURED: HomeSolution = {
-  id: 'wealth-management',
-  index: '01',
-  category: 'Core Advisory',
-  title: 'Wealth Management',
-  subtitle: 'One connected view of your wealth.',
-  highlights: [
-    'Goal discovery & portfolio strategy',
-    'Continuous risk monitoring',
-    'Strategic rebalancing',
-  ],
-  href: '/solutions#wealth-management',
-};
-
-export const HOME_SOLUTIONS_SECONDARY: HomeSolution[] = [
+/** All home solutions in one equal card grid (no full-width featured). */
+export const HOME_SOLUTIONS: HomeSolution[] = [
+  {
+    id: 'wealth-management',
+    index: '01',
+    category: 'Core Advisory',
+    title: 'Wealth Management',
+    subtitle: 'One connected view of your wealth.',
+    highlights: [
+      'Goal discovery & portfolio strategy',
+      'Continuous risk monitoring',
+      'Strategic rebalancing',
+    ],
+    href: '/solutions#wealth-management',
+  },
   {
     id: 'pms',
     index: '02',
@@ -59,4 +59,14 @@ export const HOME_SOLUTIONS_SECONDARY: HomeSolution[] = [
     highlights: ['Retirement modeling', 'Tax optimization', 'Generational transfer'],
     href: '/solutions#wealth-planning',
   },
+  {
+    id: 'tax-strategy',
+    index: '06',
+    category: 'Tax Strategy',
+    title: 'Tax Strategy',
+    subtitle: 'Structure decisions so after-tax outcomes stay aligned with your mandate.',
+    highlights: ['Tax-aware allocation', 'Harvesting & deferral', 'Cross-entity planning'],
+    href: '/solutions#tax-strategy',
+  },
 ];
+

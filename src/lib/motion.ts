@@ -38,6 +38,25 @@ export function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
+/** Fired when the home preloader begins handing off to the site. */
+export const PRELOADER_DONE_EVENT = 'oc:preloader:done';
+
+export function isPreloaderActive(): boolean {
+  if (typeof document === 'undefined') return false;
+  return document.documentElement.classList.contains('oc-preloader-lock');
+}
+
+/** Runs after preloader handoff; immediate if preloader is not active. */
+export function whenPreloaderDone(callback: () => void): () => void {
+  if (typeof window === 'undefined' || !isPreloaderActive()) {
+    callback();
+    return () => {};
+  }
+  const onDone = () => callback();
+  window.addEventListener(PRELOADER_DONE_EVENT, onDone, { once: true });
+  return () => window.removeEventListener(PRELOADER_DONE_EVENT, onDone);
+}
+
 export function directionOffset(direction: RevealDirection, distance = 40) {
   switch (direction) {
     case 'up':

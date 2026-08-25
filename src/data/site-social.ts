@@ -38,7 +38,10 @@ export const SITE_SOCIAL_LINKS: SiteSocialLink[] = [
   },
 ];
 
-/** Update hrefs with OneCapital official store URLs before production. */
+/**
+ * TODO(prod): replace with OneCapital listing URLs and regenerate
+ * `public/images/app-download-qr.png` so the QR matches the same destination.
+ */
 export const SITE_APP_STORE_LINKS: SiteAppStoreLink[] = [
   {
     id: 'app-store',

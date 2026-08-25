@@ -1,5 +1,173 @@
 /* Motion utilities — prefers-reduced-motion respected globally */
 
+/* Full-screen intro preloader (home, every window reload) */
+.oc-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #000;
+  pointer-events: auto;
+  will-change: opacity;
+}
+
+/* Full-bleed SVG stage — glyphs stay vector-sharp while the <g> scales. */
+.oc-preloader__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+}
+
+.oc-preloader__svg-text {
+  font-family: var(--font-sans);
+  /* ~24–28px on most desktops with 1000² viewBox + meet — matches prior premium size. */
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+/* Portrait phones: square viewBox + meet shrinks glyphs — compensate with larger viewBox type. */
+@media (max-width: 767px) {
+  .oc-preloader__svg-text {
+    font-size: 54px;
+    letter-spacing: 0.12em;
+  }
+}
+
+@media (max-width: 380px) {
+  .oc-preloader__svg-text {
+    font-size: 48px;
+    letter-spacing: 0.1em;
+  }
+}
+
+/*
+ * Full black welcome only — shell (including Navbar) stays hidden
+ * until preloader handoff, then fades in with the page (Dezerv-style).
+ */
+html.oc-preloader-lock .oc-shell {
+  opacity: 0;
+  pointer-events: none;
+}
+
+html.oc-preloader-lock,
+html.oc-preloader-lock body {
+  overflow: hidden !important;
+}
+
+/*
+ * Cinematic light sweep on text (mobile watermark via LightSweepText).
+ * GSAP drives background-position; gradient = lit → dark trough → recover.
+ */
+.oc-light-sweep {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.95) 10%,
+    rgba(255, 255, 255, 1) 20%,
+    rgba(255, 255, 255, 0.55) 30%,
+    rgba(255, 255, 255, 0.12) 38%,
+    rgba(255, 255, 255, 0.03) 48%,
+    rgba(255, 255, 255, 0.14) 56%,
+    rgba(255, 255, 255, 0.5) 68%,
+    rgba(255, 255, 255, 0.85) 82%,
+    rgba(255, 255, 255, 0.65) 100%
+  );
+  background-size: 280% 100%;
+  background-repeat: no-repeat;
+  background-position: 100% 0%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  will-change: background-position;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oc-light-sweep {
+    will-change: auto;
+    color: rgba(255, 255, 255, 0.55);
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.55);
+    background-image: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+  }
+
+  .oc-preloader__shine {
+    background-image: none;
+    color: #fff;
+    -webkit-text-fill-color: #fff;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+  }
+}
+
+/* Custom cursor — only when JS enables .has-custom-cursor (fine pointer) */
+.has-custom-cursor,
+.has-custom-cursor * {
+  cursor: none !important;
+}
+
+.oc-cursor {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+
+.oc-cursor__dot,
+.oc-cursor__ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.oc-cursor__dot {
+  width: 6px;
+  height: 6px;
+  background: #fff;
+}
+
+.oc-cursor__ring {
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .has-custom-cursor,
+  .has-custom-cursor * {
+    cursor: auto !important;
+  }
+
+  .oc-cursor {
+    display: none !important;
+  }
+}
+
+/* Mobile: never show custom cursor */
+@media (max-width: 767px) {
+  .has-custom-cursor,
+  .has-custom-cursor * {
+    cursor: auto !important;
+  }
+
+  .oc-cursor {
+    display: none !important;
+  }
+}
+
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -68,18 +236,25 @@
   }
 }
 
-/* Horizontal light-sweep on text (footer watermark, etc.) */
+/* Horizontal light-sweep on text — prefer GSAP via LightSweepText;
+   CSS fallback kept for any static use of .oc-text-shimmer */
 .oc-text-shimmer {
   color: transparent;
   background-image: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(255, 255, 255, 0.08) 35%,
-    rgba(255, 255, 255, 0.95) 40%,
-    rgba(255, 255, 255, 0.08) 60%,
-    rgba(255, 255, 255, 0.08) 100%
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.95) 10%,
+    rgba(255, 255, 255, 1) 20%,
+    rgba(255, 255, 255, 0.55) 30%,
+    rgba(255, 255, 255, 0.12) 38%,
+    rgba(255, 255, 255, 0.03) 48%,
+    rgba(255, 255, 255, 0.14) 56%,
+    rgba(255, 255, 255, 0.5) 68%,
+    rgba(255, 255, 255, 0.85) 82%,
+    rgba(255, 255, 255, 0.65) 100%
   );
-  background-size: 200% 100%;
+  background-size: 280% 100%;
+  background-position: 100% 0%;
   -webkit-background-clip: text;
   background-clip: text;
   animation: oc-shimmer 7s linear infinite;
