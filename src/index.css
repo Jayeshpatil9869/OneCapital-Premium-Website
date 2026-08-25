@@ -6,12 +6,13 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
-    overflow-x: clip;
+    /* `hidden` is more reliable than `clip` on Android WebViews during scroll. */
+    overflow-x: hidden;
   }
 
   body {
     @apply bg-canvas text-text-main font-sans antialiased selection:bg-white selection:text-black;
-    overflow-x: clip;
+    overflow-x: hidden;
     overflow-wrap: anywhere;
   }
 
@@ -31,6 +32,20 @@
 @layer utilities {
   .glass-panel {
     @apply bg-white/[0.02] border border-white/[0.1] backdrop-blur-xl;
+  }
+  /* Mobile: drop backdrop-blur — Android often smears it into a dark right-edge band while scrolling. */
+  @media (max-width: 767px) {
+    .glass-panel {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background-color: rgba(255, 255, 255, 0.045);
+    }
+
+    [data-nav-surface="pill"] {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background-color: rgba(255, 255, 255, 0.06);
+    }
   }
   .glass-panel-hover {
     @apply transition-colors duration-500 hover:bg-white/[0.04];

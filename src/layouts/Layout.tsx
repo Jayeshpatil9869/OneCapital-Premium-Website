@@ -57,7 +57,7 @@ export default function Layout() {
     >
       <LenisScrollSync />
       <Preloader enabled={pathname === "/"} />
-      <div className="oc-shell flex flex-col min-h-dvh w-full max-w-full overflow-x-clip bg-canvas">
+      <div className="oc-shell flex flex-col min-h-dvh w-full max-w-full overflow-x-hidden bg-canvas">
         <Navbar />
         <main className="grow min-w-0">
           <Outlet />

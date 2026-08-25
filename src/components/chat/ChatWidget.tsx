@@ -141,12 +141,12 @@ export default function ChatWidget() {
         aria-label="One Capital chat"
         aria-hidden={!open}
         className={cn(
-          'w-[min(22.5rem,calc(100vw-2rem))] max-h-[min(70vh,32rem)] flex flex-col rounded-2xl shadow-2xl overflow-hidden',
+          'max-h-[min(70vh,32rem)] flex flex-col rounded-2xl shadow-2xl overflow-hidden',
           shellSurface,
           instant ? 'transition-none' : 'transition-all duration-300',
           open
-            ? 'opacity-100 translate-y-0 pointer-events-auto'
-            : 'opacity-0 translate-y-2 pointer-events-none invisible',
+            ? 'w-[min(22.5rem,calc(100dvw-2rem))] opacity-100 translate-y-0 pointer-events-auto'
+            : 'invisible pointer-events-none h-0 w-0 max-h-0 opacity-0 overflow-hidden border-0',
         )}
       >
         <div

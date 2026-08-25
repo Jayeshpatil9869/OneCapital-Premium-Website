@@ -141,10 +141,10 @@
   opacity: 1;
 }
 
-/* Mobile: no hover — keep interior gradient always visible */
+/* Mobile: no hover — keep a light interior wash, but avoid heavy layers that smear on scroll */
 @media (max-width: 767px) {
   .oc-card-hover-glow::before {
-    opacity: 1;
+    opacity: 0.45;
   }
 }
 

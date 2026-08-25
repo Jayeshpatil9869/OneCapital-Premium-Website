@@ -26,11 +26,12 @@ export function HeroEditorial({
   return (
     <section
       className={cn(
-        'w-full min-h-[min(90svh,56rem)] relative flex flex-col justify-center pt-[max(6rem,env(safe-area-inset-top))] lg:pt-32',
+        'w-full min-h-[min(90svh,56rem)] relative flex flex-col justify-center overflow-x-clip pt-[max(6rem,env(safe-area-inset-top))] lg:pt-32',
         className
       )}
     >
-      <GlowOrb />
+      {/* Blur orbs overflow their box — hide on mobile to avoid right-edge scroll smear */}
+      <GlowOrb className="hidden md:block" />
       <Container className="relative z-10 flex flex-col">
         <div className="max-w-4xl">
           {eyebrow && (
