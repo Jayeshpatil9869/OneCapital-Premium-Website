@@ -388,47 +388,24 @@ export function TestimonialsSection() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex gap-2">
-                {HOME_TESTIMONIALS.map((item, index) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    aria-label={`View testimonial ${index + 1}`}
-                    aria-current={index === activeIndex ? "true" : undefined}
-                    onClick={() => goTo(index)}
-                    className={cn(
-                      "min-h-11 min-w-11 rounded-full border text-xs font-mono transition-colors duration-500",
+            <div className="flex items-center justify-end gap-2">
+              <button
+                type="button"
+                aria-label="Previous testimonial"
+                onClick={() => goTo(activeIndex - 1)}
+                className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-full border border-[color:var(--testimonial-control-border)] text-[color:var(--testimonial-control-text)] hover:border-[color:var(--testimonial-control-hover-border)] hover:text-[color:var(--testimonial-control-hover-text)] transition-colors duration-500"
+              >
+                <ChevronLeft className="w-5 h-5" aria-hidden />
+              </button>
 
-                      index === activeIndex
-                        ? "bg-[var(--testimonial-active-bg)] text-[var(--testimonial-active-text)] border-[color:var(--testimonial-active-border)]"
-                        : "border-[color:var(--testimonial-control-border)] text-[color:var(--testimonial-control-text)] hover:border-[color:var(--testimonial-control-hover-border)] hover:text-[color:var(--testimonial-control-hover-text)]",
-                    )}
-                  >
-                    {String(index + 1).padStart(2, "0")}
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  aria-label="Previous testimonial"
-                  onClick={() => goTo(activeIndex - 1)}
-                  className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-full border border-[color:var(--testimonial-control-border)] text-[color:var(--testimonial-control-text)] hover:border-[color:var(--testimonial-control-hover-border)] hover:text-[color:var(--testimonial-control-hover-text)] transition-colors duration-500"
-                >
-                  <ChevronLeft className="w-5 h-5" aria-hidden />
-                </button>
-
-                <button
-                  type="button"
-                  aria-label="Next testimonial"
-                  onClick={() => goTo(activeIndex + 1)}
-                  className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-full border border-[color:var(--testimonial-control-border)] text-[color:var(--testimonial-control-text)] hover:border-[color:var(--testimonial-control-hover-border)] hover:text-[color:var(--testimonial-control-hover-text)] transition-colors duration-500"
-                >
-                  <ChevronRight className="w-5 h-5" aria-hidden />
-                </button>
-              </div>
+              <button
+                type="button"
+                aria-label="Next testimonial"
+                onClick={() => goTo(activeIndex + 1)}
+                className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-full border border-[color:var(--testimonial-control-border)] text-[color:var(--testimonial-control-text)] hover:border-[color:var(--testimonial-control-hover-border)] hover:text-[color:var(--testimonial-control-hover-text)] transition-colors duration-500"
+              >
+                <ChevronRight className="w-5 h-5" aria-hidden />
+              </button>
             </div>
           </div>
         </div>
