@@ -34,7 +34,7 @@ export function CtaBand({
   }
 
   return (
-    <div className={cn('w-full px-[var(--page-gutter)] py-16 md:py-24 mb-8 md:mb-12', className)}>
+    <div className={cn('w-full px-[var(--page-gutter)]', className)}>
       <RevealOnScroll>
         <Container>
           <Surface className="p-8 sm:p-12 md:p-16 lg:p-24 rounded-[1.5rem] md:rounded-[2rem] text-center flex flex-col items-center relative overflow-hidden">

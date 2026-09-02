@@ -34,7 +34,7 @@ export default function About() {
           <div className="reveal-element w-full h-px bg-white/10 mb-12" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <p className="reveal-element text-xl md:text-2xl font-light leading-relaxed text-balance text-white">
-              We were founded on a singular belief: true wealth management requires the rigor of institutional investing combined with deeply personalized advisory.
+              We were founded on a singular belief: enduring wealth requires institutional rigor, independent thinking, and bespoke capital stewardship — not conventional advisory templates.
             </p>
             <div className="reveal-element flex flex-col gap-6 text-text-muted text-lg font-light leading-relaxed">
               <p>

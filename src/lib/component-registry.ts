@@ -42,12 +42,13 @@ export const componentRegistry: RegistryEntry[] = [
   {
     name: 'Button',
     category: 'buttons',
-    description: 'Unified CTA system with magnetic, pill, glow, and link modes.',
+    description:
+      'Unified CTA system with GSAP stroke flair hover, pill/glow modes, and plain text links.',
     variants: ['primary', 'secondary', 'ghost', 'outline', 'magnetic', 'text', 'pill', 'glow'],
-    dependencies: ['lucide-react'],
-    usage: '<Button to="/contact" variant="magnetic" arrow="right">Explore</Button>',
-    performance: 'light',
-    a11y: 'Focus ring; keyboard operable; magnetic off under reduced-motion.',
+    dependencies: ['gsap', '@gsap/react', 'lucide-react'],
+    usage: '<Button to="/contact" variant="secondary" arrow="right">Explore</Button>',
+    performance: 'moderate',
+    a11y: 'Focus ring; keyboard operable; flair off under reduced-motion and coarse pointers.',
     path: 'components/ui/buttons/Button.tsx',
   },
   {
@@ -60,6 +61,19 @@ export const componentRegistry: RegistryEntry[] = [
     performance: 'light',
     a11y: 'Prefer links wrapping cards for navigation; focus styles on interactive children.',
     path: 'components/ui/cards/Card.tsx',
+  },
+  {
+    name: 'InputField / TextareaField / SelectField',
+    category: 'primitives',
+    description:
+      'Accessible labeled form fields — mono uppercase labels, glass inputs, focus rings.',
+    variants: ['input', 'textarea', 'select'],
+    dependencies: ['lucide-react'],
+    usage:
+      '<InputField id="email" name="email" label="Email" type="email" required />',
+    performance: 'light',
+    a11y: 'Native label association; required + reportValidity on submit.',
+    path: 'components/ui/form/Field.tsx',
   },
   {
     name: 'RevealOnScroll',

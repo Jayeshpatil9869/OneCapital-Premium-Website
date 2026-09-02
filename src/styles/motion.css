@@ -183,8 +183,39 @@ html.oc-preloader-lock body {
   }
 }
 
+.reveal-on-scroll:not(.reveal-done) {
+  opacity: 0;
+}
+
+.reveal-on-scroll {
+  will-change: transform, opacity;
+}
+
+.reveal-on-scroll.reveal-done {
+  will-change: auto;
+}
+
+/* Laptop/desktop: keep content readable — transform-only reveals (no blank gap). */
+@media (min-width: 768px) {
+  .reveal-on-scroll:not(.reveal-done) {
+    opacity: 1;
+  }
+}
+
 .reveal-ready {
   will-change: transform, opacity;
+}
+
+@media (max-width: 767px) {
+  .reveal-on-scroll:not(.reveal-done) {
+    /* Avoid a pre-hydration blank frame on mobile; GSAP still fades in. */
+    opacity: 1;
+  }
+
+  .reveal-on-scroll,
+  .reveal-ready {
+    will-change: auto;
+  }
 }
 
 .magnetic-target {

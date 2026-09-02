@@ -1,6 +1,7 @@
 import { useId, useMemo, useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import {
+  Button,
   Container,
   Section,
   Eyebrow,
@@ -19,9 +20,6 @@ import {
 import { cn } from '@/src/lib/utils';
 
 const FAQ_ALL_INITIAL_COUNT = 4;
-
-const faqToggleButtonClass =
-  'mt-2 self-center lg:self-start inline-flex items-center justify-center min-h-11 px-6 py-3 rounded-full border border-white/25 bg-white/[0.03] font-mono text-xs uppercase tracking-widest text-white transition-colors duration-500 hover:border-white/45 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black';
 
 type FAQCategoryNavProps = {
   activeId: string;
@@ -204,7 +202,11 @@ export function FAQSection() {
   };
 
   return (
-    <Section pad="lg" aria-labelledby="faq-heading">
+    <Section
+      pad="none"
+      className="pt-[var(--space-section)] pb-10 md:pb-14"
+      aria-labelledby="faq-heading"
+    >
       <Container>
         <RevealOnScroll className="max-w-3xl mb-12 md:mb-16">
           <Eyebrow>Frequently Asked Questions</Eyebrow>
@@ -269,28 +271,32 @@ export function FAQSection() {
             ))}
 
             {hasMoreAllQuestions && !showAllQuestions && (
-              <button
+              <Button
                 type="button"
+                variant="outline"
+                size="sm"
                 onClick={() => setShowAllQuestions(true)}
-                className={faqToggleButtonClass}
+                className="mt-2 self-center lg:self-start font-mono tracking-widest bg-white/[0.03]"
               >
                 Show More
-              </button>
+              </Button>
             )}
 
             {hasMoreAllQuestions && showAllQuestions && (
-              <button
+              <Button
                 type="button"
+                variant="outline"
+                size="sm"
                 onClick={collapseAllQuestions}
-                className={faqToggleButtonClass}
+                className="mt-2 self-center lg:self-start font-mono tracking-widest bg-white/[0.03]"
               >
                 Show Less
-              </button>
+              </Button>
             )}
           </RevealOnScroll>
         </div>
 
-        <p className="mt-12 md:mt-16 text-center text-sm text-white/45 font-mono uppercase tracking-widest">
+        <p className="mt-10 md:mt-12 text-center text-sm text-white/45 font-mono uppercase tracking-widest">
           Still have questions? The conversation begins with a consultation.
         </p>
       </Container>

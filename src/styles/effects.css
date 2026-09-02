@@ -254,6 +254,119 @@
   }
 }
 
+/* Button GSAP stroke flair — pointer-tracked radial fill (shared Button component) */
+.oc-btn-stroke {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  --oc-btn-stroke-border: var(--color-text-main);
+  --oc-btn-flair-fill: var(--color-text-main);
+}
+
+.oc-btn-stroke::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 0.125rem solid var(--oc-btn-stroke-border);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.oc-btn-stroke--dark {
+  --oc-btn-flair-fill: var(--color-canvas);
+}
+
+.oc-btn-stroke--dark::after {
+  border-color: transparent;
+}
+
+.oc-btn-flair {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  transform: scale(0);
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.oc-btn-flair::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 170%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background-color: var(--oc-btn-flair-fill);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.oc-btn-label {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  transition: color 50ms var(--ease-in-out-quart);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .oc-btn-stroke--light:hover .oc-btn-label,
+  .oc-btn-stroke--light:focus-visible .oc-btn-label {
+    color: var(--color-canvas);
+    transition: color 0.15s var(--ease-in-out-quart);
+  }
+
+  .oc-btn-stroke--dark:hover .oc-btn-label,
+  .oc-btn-stroke--dark:focus-visible .oc-btn-label {
+    color: var(--color-text-main);
+    transition: color 0.15s var(--ease-in-out-quart);
+  }
+
+  .light-section .oc-btn-stroke--light {
+    --oc-btn-stroke-border: var(--color-canvas);
+    --oc-btn-flair-fill: var(--color-canvas);
+  }
+
+  .light-section .oc-btn-stroke--light:hover .oc-btn-label,
+  .light-section .oc-btn-stroke--light:focus-visible .oc-btn-label {
+    color: var(--color-text-main);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oc-btn-flair {
+    display: none;
+  }
+
+  .oc-btn-stroke--light:hover,
+  .oc-btn-stroke--light:focus-visible {
+    color: var(--color-canvas);
+    background-color: var(--color-text-main);
+  }
+
+  .oc-btn-stroke--dark:hover,
+  .oc-btn-stroke--dark:focus-visible {
+    color: var(--color-text-main);
+    background-color: var(--color-canvas);
+  }
+
+  .light-section .oc-btn-stroke--light:hover,
+  .light-section .oc-btn-stroke--light:focus-visible {
+    color: var(--color-text-main);
+    background-color: var(--color-canvas);
+  }
+}
+
 /* Testimonial carousel controls — defaults so buttons stay visible before/at any scroll state */
 [data-testimonials-section] {
   --testimonial-control-border: rgba(255, 255, 255, 0.15);

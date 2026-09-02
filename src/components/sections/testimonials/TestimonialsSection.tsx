@@ -14,7 +14,6 @@ import {
   Container,
   Eyebrow,
   SectionHeading,
-  BodyText,
 } from "@/src/components/ui";
 
 import { HOME_TESTIMONIALS } from "@/src/data/home-testimonials";
@@ -199,13 +198,6 @@ export function TestimonialsSection() {
       const content = contentRef.current;
       if (!section || !content) return;
 
-      const primaryText = content.querySelectorAll<HTMLElement>(
-        '[data-tone="primary"]',
-      );
-      const mutedText = content.querySelectorAll<HTMLElement>(
-        '[data-tone="muted"]',
-      );
-
       const applyLightSection = (isLight: boolean) => {
         section.classList.toggle("light-section", isLight);
         section.style.borderColor = isLight
@@ -216,8 +208,6 @@ export function TestimonialsSection() {
       const applyStaticLight = () => {
         applyLightSection(true);
         gsap.set(section, { backgroundColor: "#ffffff" });
-        gsap.set(primaryText, { color: "#000000" });
-        gsap.set(mutedText, { color: "rgba(0, 0, 0, 0.55)" });
       };
 
       if (prefersReducedMotion()) {
@@ -227,33 +217,27 @@ export function TestimonialsSection() {
 
       const mm = gsap.matchMedia();
 
-      // Mobile: static final light look — no scroll-scrubbed bg/text
+      // Mobile: static final light look — no scroll-scrubbed bg
       mm.add("(max-width: 767px)", () => {
         applyStaticLight();
       });
 
-      // Desktop / tablet+: scrub black → white
+      // Desktop / tablet+: scrub background only — text stays black via CSS
       mm.add("(min-width: 768px)", () => {
         gsap.set(section, { backgroundColor: "#000000" });
-        gsap.set(primaryText, { color: "#ffffff" });
-        gsap.set(mutedText, { color: "rgba(255, 255, 255, 0.55)" });
 
-        gsap
-          .timeline({
-            scrollTrigger: {
-              trigger: section,
-              start: "top 75%",
-              end: "top 25%",
-              scrub: 0.7,
-              invalidateOnRefresh: true,
-              onUpdate: (self) => applyLightSection(self.progress >= 0.85),
-              onLeave: () => applyLightSection(true),
-              onEnterBack: (self) => applyLightSection(self.progress >= 0.85),
-            },
-          })
-          .to(section, { backgroundColor: "#ffffff", ease: "none" }, 0)
-          .to(primaryText, { color: "#000000", ease: "none" }, 0)
-          .to(mutedText, { color: "rgba(0, 0, 0, 0.55)", ease: "none" }, 0);
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top 85%",
+            end: "top 35%",
+            scrub: 0.7,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => applyLightSection(self.progress >= 0.85),
+            onLeave: () => applyLightSection(true),
+            onEnterBack: (self) => applyLightSection(self.progress >= 0.85),
+          },
+        }).to(section, { backgroundColor: "#ffffff", ease: "none" });
       });
 
       return () => mm.revert();
@@ -275,7 +259,7 @@ export function TestimonialsSection() {
     <section
       ref={sectionRef}
       data-testimonials-section
-      className="relative w-full border-y border-white/10 py-16 overflow-hidden"
+      className="relative w-full border-y border-white/10 py-22 overflow-hidden"
       aria-labelledby="client-perspectives-heading"
     >
       <Container>
@@ -285,30 +269,26 @@ export function TestimonialsSection() {
         >
           <div className="lg:col-span-4 flex flex-col gap-6">
             <Eyebrow
-              data-tone="muted"
-              className="text-inherit [&_span:last-child]:text-inherit [&_span:first-child]:bg-current/30"
+              className="text-black/55 [&_span:last-child]:text-black/55 [&_span:first-child]:bg-black/30"
             >
               Client Perspectives
             </Eyebrow>
 
             <SectionHeading
               id="client-perspectives-heading"
-              data-tone="primary"
+              className="text-black"
             >
               Trusted for the long term.
             </SectionHeading>
 
-            <BodyText
-              data-tone="muted"
-              className="text-base md:text-lg max-w-md !text-inherit"
-            >
-              Wealth management is ultimately about confidence — in the
+            <p className="oc-text-smooth text-base md:text-lg max-w-md leading-relaxed font-light text-balance text-black/70">
+              Capital stewardship is ultimately about confidence — in the
               decisions, the discipline, and the people guiding them.
-            </BodyText>
+            </p>
           </div>
 
           <div
-            className="lg:col-span-8 flex flex-col gap-8 min-w-0"
+            className="lg:col-span-8 min-w-0"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             onFocusCapture={() => setIsPaused(true)}
@@ -380,32 +360,30 @@ export function TestimonialsSection() {
                     </div>
                   </div>
 
-                  <p className="font-mono text-sm text-white/35 tabular-nums">
-                    {String(activeIndex + 1).padStart(2, "0")} /{" "}
-                    {String(total).padStart(2, "0")}
-                  </p>
+                  <div
+                    className="flex items-center justify-end gap-2 shrink-0"
+                    onPointerDown={(event) => event.stopPropagation()}
+                  >
+                    <button
+                      type="button"
+                      aria-label="Previous testimonial"
+                      onClick={() => goTo(activeIndex - 1)}
+                      className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-full border border-white/15 text-white/50 hover:border-white/40 hover:text-white transition-colors duration-500"
+                    >
+                      <ChevronLeft className="w-5 h-5" aria-hidden />
+                    </button>
+
+                    <button
+                      type="button"
+                      aria-label="Next testimonial"
+                      onClick={() => goTo(activeIndex + 1)}
+                      className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-full border border-white/15 text-white/50 hover:border-white/40 hover:text-white transition-colors duration-500"
+                    >
+                      <ChevronRight className="w-5 h-5" aria-hidden />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div className="flex items-center justify-end gap-2">
-              <button
-                type="button"
-                aria-label="Previous testimonial"
-                onClick={() => goTo(activeIndex - 1)}
-                className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-full border border-[color:var(--testimonial-control-border)] text-[color:var(--testimonial-control-text)] hover:border-[color:var(--testimonial-control-hover-border)] hover:text-[color:var(--testimonial-control-hover-text)] transition-colors duration-500"
-              >
-                <ChevronLeft className="w-5 h-5" aria-hidden />
-              </button>
-
-              <button
-                type="button"
-                aria-label="Next testimonial"
-                onClick={() => goTo(activeIndex + 1)}
-                className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-full border border-[color:var(--testimonial-control-border)] text-[color:var(--testimonial-control-text)] hover:border-[color:var(--testimonial-control-hover-border)] hover:text-[color:var(--testimonial-control-hover-text)] transition-colors duration-500"
-              >
-                <ChevronRight className="w-5 h-5" aria-hidden />
-              </button>
             </div>
           </div>
         </div>

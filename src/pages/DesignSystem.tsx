@@ -93,7 +93,12 @@ export default function DesignSystem() {
       {/* Buttons */}
       <Section pad="md" tone="panel">
         <Container>
-          <SectionHeading className="mb-8">Buttons</SectionHeading>
+          <SectionHeading className="mb-4">Buttons</SectionHeading>
+          <BodyText className="mb-8 max-w-2xl text-text-muted">
+            Shaped variants use a GSAP pointer-tracked stroke flair on hover. The{' '}
+            <code className="font-mono text-xs text-white/60">text</code> variant is a
+            plain inline link without flair.
+          </BodyText>
           <div className="flex flex-wrap gap-4 items-center">
             <Button variant="primary" arrow="right">
               Primary

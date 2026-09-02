@@ -5,6 +5,7 @@ import {
   directionOffset,
   gsap,
   isPreloaderActive,
+  isMobileViewport,
   motionTokens,
   prefersReducedMotion,
   whenPreloaderDone,
@@ -28,12 +29,25 @@ export type RevealProps = Omit<HTMLAttributes<HTMLElement>, "children"> & {
   as?: "div" | "section" | "article";
 };
 
+function markRevealDone(el: HTMLElement | null) {
+  el?.classList.add("reveal-done");
+}
+
+function revealVisible(targets: gsap.TweenTarget) {
+  gsap.set(targets, { opacity: 1, x: 0, y: 0, clearProps: "transform" });
+}
+
+function isPastRevealStart(el: HTMLElement) {
+  const rect = el.getBoundingClientRect();
+  return rect.top < window.innerHeight * 0.92;
+}
+
 export function RevealOnScroll({
   children,
   className,
   direction = "up",
   delay = 0,
-  duration = motionTokens.duration.slow,
+  duration = motionTokens.duration.normal,
   ease = motionTokens.ease.premium,
   once = true,
   trigger = "scroll",
@@ -49,51 +63,73 @@ export function RevealOnScroll({
     () => {
       if (disabled || !ref.current) return;
       if (prefersReducedMotion()) {
-        gsap.set(ref.current, { clearProps: "all", opacity: 1 });
+        revealVisible(ref.current);
+        markRevealDone(ref.current);
         return;
       }
 
+      const mobile = isMobileViewport();
       const targets = stagger
         ? ref.current.querySelectorAll(":scope > *")
         : ref.current;
-      const offset = directionOffset(direction, distance);
-      const fromVars = { ...offset, opacity: 0 };
+      const offset = mobile ? { x: 0, y: 0 } : directionOffset(direction, distance);
+      const fromVars = mobile ? { opacity: 0 } : { ...offset, opacity: 1 };
       const toVars = {
         x: 0,
         y: 0,
         opacity: 1,
-        duration,
+        duration: mobile ? motionTokens.duration.fast : duration,
         delay,
         ease,
         stagger: stagger ?? 0,
         clearProps: "transform",
+        onComplete: () => markRevealDone(ref.current),
       };
 
       if (trigger === "load") {
-        // Stay hidden under the preloader; play only on handoff.
         if (isPreloaderActive()) {
           gsap.set(targets, fromVars);
         }
         return whenPreloaderDone(() => {
-          gsap.fromTo(targets, fromVars, toVars);
+          gsap.fromTo(targets, fromVars, {
+            ...toVars,
+            onComplete: () => markRevealDone(ref.current),
+          });
         });
       }
 
-      gsap.from(targets, {
-        ...fromVars,
-        duration,
-        delay,
-        ease,
-        stagger: stagger ?? 0,
+      if (mobile) {
+        revealVisible(targets);
+        markRevealDone(ref.current);
+        return;
+      }
+
+      gsap.set(targets, fromVars);
+
+      const tween = gsap.to(targets, {
+        ...toVars,
         scrollTrigger: {
           trigger: ref.current,
-          start: motionTokens.scroll.start,
+          start: motionTokens.scroll.startEarly,
           once,
           toggleActions: once
             ? "play none none none"
             : "play none none reverse",
+          onEnter: () => markRevealDone(ref.current),
+          onRefresh(self) {
+            if (once && self.progress > 0) {
+              revealVisible(targets);
+              markRevealDone(ref.current);
+            }
+          },
         },
       });
+
+      if (isPastRevealStart(ref.current)) {
+        tween.progress(1);
+        revealVisible(targets);
+        markRevealDone(ref.current);
+      }
     },
     {
       scope: ref,
@@ -114,7 +150,7 @@ export function RevealOnScroll({
   return (
     <Comp
       ref={ref as never}
-      className={cn("reveal-ready", className)}
+      className={cn("reveal-on-scroll", className)}
       {...props}
     >
       {children}

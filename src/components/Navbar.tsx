@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ArrowUpRight, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { useLenis } from "lenis/react";
 import { useGSAP } from "@gsap/react";
 import { cn } from "../lib/utils";
 import {
   gsap,
+  isMobileViewport,
   motionTokens,
   prefersReducedMotion,
 } from "../lib/motion";
 import BrandLogo from "./BrandLogo";
+import { Button } from "@/src/components/ui";
 
 gsap.registerPlugin(useGSAP);
 
@@ -297,8 +299,18 @@ export default function Navbar() {
       );
 
       if (pill) {
+        const vars = surfaceVars("pill", showPill, overLight);
+        const pillVars =
+          isMobileViewport() && showPill
+            ? {
+                ...vars,
+                backgroundColor: overLight
+                  ? SURFACE_OVER_LIGHT.backgroundColor
+                  : "rgba(0, 0, 0, 0.72)",
+              }
+            : vars;
         gsap.to(pill, {
-          ...surfaceVars("pill", showPill, overLight),
+          ...pillVars,
           duration,
           ease,
           overwrite: "auto",
@@ -315,17 +327,6 @@ export default function Navbar() {
       });
     },
     { dependencies: [showPill, overLight, desktopOpenId], scope: headerRef },
-  );
-
-  const ctaPrimary = cn(
-    "group hidden md:flex oc-btn-sweep oc-btn-sweep--light text-xs uppercase tracking-wider font-medium px-5 py-2.5 min-h-11 rounded-full glass-panel",
-  );
-
-  const ctaLogin = cn(
-    "group hidden md:flex oc-btn-sweep oc-btn-sweep--light text-xs uppercase tracking-wider font-medium px-5 py-2.5 min-h-11 rounded-full border",
-    overLight
-      ? "border-white/25 text-white"
-      : "border-white/15 text-white/80",
   );
 
   return (
@@ -345,8 +346,9 @@ export default function Navbar() {
         >
           <div
             data-nav-surface="pill"
+            data-nav-pill-active={showPill ? "true" : undefined}
             aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-xl opacity-0"
+            className="pointer-events-none absolute inset-0 rounded-full border border-white/10 bg-white/[0.02] lg:backdrop-blur-xl opacity-0"
           />
 
           <BrandLogo
@@ -396,15 +398,26 @@ export default function Navbar() {
           </nav>
 
           <div className="relative z-[1] flex items-center gap-2 sm:gap-3">
-            <Link to="/contact" className={ctaPrimary}>
-              <span className="oc-btn-content inline-flex items-center gap-2">
-                Book Consultation
-                <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </span>
-            </Link>
-            <Link to="/contact" className={ctaLogin}>
-              <span className="oc-btn-content">Login</span>
-            </Link>
+            <Button
+              to="/contact"
+              variant="secondary"
+              size="sm"
+              arrow="up-right"
+              className="hidden md:inline-flex text-xs tracking-wider font-medium"
+            >
+              Book Consultation
+            </Button>
+            <Button
+              to="/contact"
+              variant="outline"
+              size="sm"
+              className={cn(
+                "hidden md:inline-flex text-xs tracking-wider font-medium",
+                overLight ? "text-white" : "text-white/80",
+              )}
+            >
+              Login
+            </Button>
 
             <button
               type="button"
@@ -516,19 +529,21 @@ export default function Navbar() {
           })}
 
           <div className="mt-8 flex flex-col gap-3">
-            <Link
+            <Button
               to="/contact"
-              className="flex items-center justify-between text-base uppercase tracking-wider glass-panel px-6 py-4 min-h-14 rounded-xl active:bg-white/10"
+              variant="secondary"
+              arrow="up-right"
+              className="w-full rounded-xl justify-between px-6 py-4 min-h-14 [&_.oc-btn-label]:w-full [&_.oc-btn-label]:justify-between"
             >
               Book Consultation
-              <ArrowUpRight className="w-5 h-5" />
-            </Link>
-            <Link
+            </Button>
+            <Button
               to="/contact"
-              className="flex items-center justify-center text-base uppercase tracking-wider border border-white/15 px-6 py-4 min-h-14 rounded-xl text-white/80 active:bg-white/10"
+              variant="outline"
+              className="w-full rounded-xl px-6 py-4 min-h-14 text-white/80"
             >
               Login
-            </Link>
+            </Button>
           </div>
           </nav>
         </div>

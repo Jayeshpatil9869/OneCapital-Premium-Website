@@ -51,6 +51,6 @@ export const SITE_APP_STORE_LINKS: SiteAppStoreLink[] = [
   {
     id: 'play-store',
     label: 'Get it on Google Play',
-    href: 'https://play.google.com/store',
+    href: 'https://play.google.com/store/apps/details?id=com.dwt.capital1',
   },
 ];

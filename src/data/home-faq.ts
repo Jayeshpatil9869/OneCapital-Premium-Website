@@ -14,14 +14,14 @@ export const FAQ_ALL_ID = 'all';
 
 export const HOME_FAQ_CATEGORIES: FAQCategory[] = [
   {
-    id: 'wealth-management',
-    title: 'Wealth Management',
+    id: 'capital-stewardship',
+    title: 'Capital Stewardship',
     questions: [
       {
         id: 'wm-includes',
-        question: "What does One Capital's wealth management service include?",
+        question: "What does One Capital's capital stewardship mandate include?",
         answer:
-          'Our wealth management combines portfolio strategy, financial planning context, risk awareness, and ongoing advisory review. The scope is shaped around your objectives, liquidity needs, and long-term priorities — not a generic allocation template.',
+          'Our mandate spans capital strategy, portfolio management, risk architecture, and oversight — integrated as one discipline. Scope is shaped around your objectives, liquidity requirements, and long-term vision, not a generic allocation template.',
       },
       {
         id: 'wm-strategy',
@@ -109,9 +109,9 @@ export const HOME_FAQ_CATEGORIES: FAQCategory[] = [
     questions: [
       {
         id: 'cli-who',
-        question: "Who is One Capital's wealth management service designed for?",
+        question: "Who is One Capital's capital stewardship designed for?",
         answer:
-          'We work with select individuals, families, and organizations who value institutional discipline, transparency, and a long-term advisory relationship — typically those with complex or growing financial architectures.',
+          'We work with ultra-high-net-worth principals, families, and organizations who value discretion, institutional discipline, and long-term stewardship — typically those with complex balance sheets, concentrated positions, or multi-generational wealth.',
       },
       {
         id: 'cli-entrepreneurs',
@@ -127,9 +127,9 @@ export const HOME_FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         id: 'cli-when',
-        question: 'When should I consider professional wealth management?',
+        question: 'When should I consider professional capital stewardship?',
         answer:
-          'Consider it when complexity increases — through business success, inheritance, liquidity events, or multi-generational planning — and when you want structured oversight rather than ad hoc decision-making.',
+          'Consider it when complexity increases — through business success, inheritance, liquidity events, or multi-generational planning — and when you require structured oversight and institutional-quality thinking rather than ad hoc decision-making.',
       },
     ],
   },

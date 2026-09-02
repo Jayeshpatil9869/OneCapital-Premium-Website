@@ -38,6 +38,11 @@ export function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
+export function isMobileViewport(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia('(max-width: 767px)').matches;
+}
+
 /** Fired when the home preloader begins handing off to the site. */
 export const PRELOADER_DONE_EVENT = 'oc:preloader:done';
 

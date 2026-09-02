@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { MessageCircle, Send, X } from 'lucide-react';
+import { Send, X } from 'lucide-react';
+import { ChatbotIcon } from '@/src/components/icons/ChatbotIcon';
 import { cn } from '@/src/lib/utils';
 import { prefersReducedMotion } from '@/src/lib/motion';
 
@@ -32,19 +33,28 @@ const SURFACE_GLASS =
 const SURFACE_OVER_LIGHT =
   'bg-black/80 backdrop-blur-xl border border-white/10';
 
-export default function ChatWidget() {
+export default function ChatWidget({
+  embedded = false,
+  overLight: overLightProp,
+}: {
+  embedded?: boolean;
+  overLight?: boolean;
+}) {
   const panelId = useId();
   const inputId = useId();
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [overLight, setOverLight] = useState(false);
+  const [overLightState, setOverLightState] = useState(false);
+  const overLight = overLightProp ?? overLightState;
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const welcomeSeeded = useRef(false);
 
   useEffect(() => {
+    if (overLightProp !== undefined) return;
+
     const updateOverLight = () => {
       // Probe near the FAB (bottom-right), not the nav band.
       const probeY = Math.max(0, window.innerHeight - 56);
@@ -56,7 +66,7 @@ export default function ChatWidget() {
           isOverLight = true;
         }
       });
-      setOverLight(isOverLight);
+      setOverLightState(isOverLight);
     };
 
     updateOverLight();
@@ -66,7 +76,7 @@ export default function ChatWidget() {
       window.removeEventListener('scroll', updateOverLight);
       window.removeEventListener('resize', updateOverLight);
     };
-  }, [location.pathname]);
+  }, [location.pathname, overLightProp]);
 
   useEffect(() => {
     if (!open) return;
@@ -130,8 +140,12 @@ export default function ChatWidget() {
   return (
     <div
       className={cn(
-        'fixed z-[var(--z-toast)] flex flex-col items-end gap-3',
-        'bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1rem,env(safe-area-inset-right))]',
+        embedded
+          ? 'flex flex-col items-end justify-end gap-3 shrink-0'
+          : cn(
+              'fixed z-[var(--z-toast)] flex flex-col items-end gap-3',
+              'bottom-[calc(max(1.25rem,env(safe-area-inset-bottom))+6.25rem)] right-[max(1rem,env(safe-area-inset-right))]',
+            ),
       )}
     >
       <div
@@ -246,7 +260,11 @@ export default function ChatWidget() {
           'transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
         )}
       >
-        {open ? <X className="w-6 h-6" aria-hidden /> : <MessageCircle className="w-6 h-6" aria-hidden />}
+        {open ? (
+          <X className="w-6 h-6" aria-hidden />
+        ) : (
+          <ChatbotIcon className="w-12 h-12 text-white" />
+        )}
       </button>
     </div>
   );

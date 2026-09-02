@@ -8,7 +8,7 @@ import { LightSweepText } from "./motion/LightSweepText";
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t border-white/10 pt-16 md:pt-20 pb-[max(2.5rem,env(safe-area-inset-bottom))] mt-16 md:mt-32 px-[var(--page-gutter)] relative overflow-hidden min-w-0">
+    <footer className="w-full border-t border-white/10 pt-16 md:pt-20 pb-[max(2.5rem,env(safe-area-inset-bottom))] mt-8 md:mt-32 px-[var(--page-gutter)] relative overflow-hidden min-w-0">
       {/* Decorative large bg text — desktop/tablet */}
       <div
         aria-hidden
@@ -35,18 +35,17 @@ export default function Footer() {
               Strategies
             </h4>
             {[
-              "Wealth Management",
-              "Mutual Funds",
-              "PMS",
-              "AIF / Alternatives",
-              "Tax Strategy",
+              { name: "Capital Strategy", path: "/solutions#capital-strategy" },
+              { name: "Portfolio Management", path: "/solutions#portfolio-management" },
+              { name: "Risk & Wealth Architecture", path: "/solutions#risk-wealth-architecture" },
+              { name: "Intelligence & Oversight", path: "/solutions#intelligence-oversight" },
             ].map((item) => (
               <Link
-                key={item}
-                to="/solutions"
+                key={item.path}
+                to={item.path}
                 className="text-sm text-white/80 hover:text-white transition-colors inline-flex items-center group w-fit"
               >
-                {item}
+                {item.name}
                 <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
               </Link>
             ))}
@@ -89,7 +88,7 @@ export default function Footer() {
             to="/contact"
             variant="secondary"
             arrow="up-right"
-            className="w-full rounded-xl justify-between px-6 py-4  min-h-14 [&_.oc-btn-content]:w-full [&_.oc-btn-content]:justify-between"
+            className="w-full rounded-xl justify-between px-6 py-4 min-h-14 [&_.oc-btn-label]:w-full [&_.oc-btn-label]:justify-between"
           >
             Book Consultation
           </Button>

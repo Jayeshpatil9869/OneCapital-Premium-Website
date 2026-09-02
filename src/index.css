@@ -5,15 +5,23 @@
 
 @layer base {
   html {
+    @apply bg-canvas;
     -webkit-text-size-adjust: 100%;
     /* `hidden` is more reliable than `clip` on Android WebViews during scroll. */
     overflow-x: hidden;
+    /* Prevent iOS/Android rubber-band from flashing the default white canvas. */
+    overscroll-behavior-y: none;
   }
 
   body {
     @apply bg-canvas text-text-main font-sans antialiased selection:bg-white selection:text-black;
     overflow-x: hidden;
     overflow-wrap: anywhere;
+    overscroll-behavior-y: none;
+  }
+
+  #root {
+    @apply bg-canvas min-h-dvh;
   }
 
   img,
@@ -41,10 +49,15 @@
       background-color: rgba(255, 255, 255, 0.045);
     }
 
-    [data-nav-surface="pill"] {
+    [data-nav-surface="pill"]:not([data-nav-pill-active="true"]) {
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
-      background-color: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Frosted pill only while scrolled — keeps hero fully transparent at top. */
+    [data-nav-surface="pill"][data-nav-pill-active="true"] {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
   }
   .glass-panel-hover {

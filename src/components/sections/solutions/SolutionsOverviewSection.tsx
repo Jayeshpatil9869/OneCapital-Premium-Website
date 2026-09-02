@@ -9,18 +9,18 @@ import {
   BodyText,
 } from '@/src/components/ui';
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
-import { HOME_SOLUTIONS, type HomeSolution } from '@/src/data/home-solutions';
+import { HOME_PILLAR_PREVIEWS, type HomePillarPreview } from '@/src/data/solutions-pillars';
 import { cn } from '@/src/lib/utils';
 
-function SolutionLabel({ index, category }: Pick<HomeSolution, 'index' | 'category'>) {
+function PillarLabel({ index, title }: Pick<HomePillarPreview, 'index' | 'title'>) {
   return (
     <p className="text-xs font-mono uppercase tracking-widest text-white/40">
-      {index} · {category}
+      {index} · {title}
     </p>
   );
 }
 
-function SolutionHighlights({ highlights }: Pick<HomeSolution, 'highlights'>) {
+function PillarHighlights({ highlights }: Pick<HomePillarPreview, 'highlights'>) {
   return (
     <ul className="flex flex-wrap gap-2 mt-6">
       {highlights.map((item) => (
@@ -35,10 +35,10 @@ function SolutionHighlights({ highlights }: Pick<HomeSolution, 'highlights'>) {
   );
 }
 
-function SolutionCard({ solution }: { solution: HomeSolution }) {
+function PillarCard({ pillar }: { pillar: HomePillarPreview }) {
   return (
     <Link
-      to={solution.href}
+      to={pillar.href}
       className={cn(
         'group flex h-full flex-col justify-between glass-panel rounded-3xl p-8 md:p-10',
         'oc-card-hover-glow transition-colors duration-500 hover:border-white/20',
@@ -46,13 +46,13 @@ function SolutionCard({ solution }: { solution: HomeSolution }) {
       )}
     >
       <div>
-        <SolutionLabel index={solution.index} category={solution.category} />
-        <h3 className="mt-4 text-2xl font-medium tracking-tight text-white">{solution.title}</h3>
-        <p className="mt-3 text-base text-text-muted leading-relaxed">{solution.subtitle}</p>
-        <SolutionHighlights highlights={solution.highlights} />
+        <PillarLabel index={pillar.index} title={pillar.title} />
+        <h3 className="mt-4 text-2xl font-medium tracking-tight text-white">{pillar.title}</h3>
+        <p className="mt-3 text-base text-text-muted leading-relaxed">{pillar.summary}</p>
+        <PillarHighlights highlights={pillar.highlights} />
       </div>
       <span className="mt-8 inline-flex items-center gap-2 text-sm uppercase tracking-wide text-white/50 group-hover:text-white transition-colors duration-500">
-        Learn more
+        Explore pillar
         <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
       </span>
     </Link>
@@ -67,11 +67,11 @@ export function SolutionsOverviewSection() {
           <div className="lg:col-span-8 flex flex-col gap-6">
             <Eyebrow>Our Solutions</Eyebrow>
             <SectionHeading id="solutions-overview-heading">
-              One connected view of your wealth.
+              Capital stewardship, structured in four disciplines.
             </SectionHeading>
             <BodyText className="text-base md:text-lg max-w-2xl">
-              Advisory, portfolio mandates, fund selection, and planning — structured as one
-              integrated offering so every decision serves your long-term mandate.
+              Strategy, portfolio management, risk architecture, and oversight — integrated as one
+              mandate so every decision serves long-term capital preservation and deliberate growth.
             </BodyText>
           </div>
           <div className="lg:col-span-4 lg:flex lg:justify-end lg:items-end">
@@ -81,9 +81,9 @@ export function SolutionsOverviewSection() {
           </div>
         </RevealOnScroll>
 
-        <RevealOnScroll stagger={0.1} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-          {HOME_SOLUTIONS.map((solution) => (
-            <SolutionCard key={solution.id} solution={solution} />
+        <RevealOnScroll stagger={0.06} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          {HOME_PILLAR_PREVIEWS.map((pillar) => (
+            <PillarCard key={pillar.id} pillar={pillar} />
           ))}
         </RevealOnScroll>
       </Container>

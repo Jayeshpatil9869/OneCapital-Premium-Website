@@ -9,7 +9,6 @@ export function RiskFactorsStrip() {
     amfiLine,
     sebiLine,
     regulatoryNote,
-    odrLink,
   } = HOME_RISK_FACTORS;
 
   return (
@@ -48,17 +47,7 @@ export function RiskFactorsStrip() {
             {sebiLine}
           </p>
 
-          <p className="text-[11px] text-text-muted pt-1">
-            Link for ODR Portal —{' '}
-            <a
-              href={odrLink.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/75 underline-offset-4 hover:text-white hover:underline transition-colors duration-300"
-            >
-              {odrLink.label}
-            </a>
-          </p>
+
         </div>
       </div>
     </aside>

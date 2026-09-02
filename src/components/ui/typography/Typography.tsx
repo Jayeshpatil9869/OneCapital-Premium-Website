@@ -6,16 +6,24 @@ type TextProps = HTMLAttributes<HTMLElement> & {
   as?: 'p' | 'span' | 'div' | 'h1' | 'h2' | 'h3' | 'h4';
 };
 
-export function Eyebrow({ className, children, ...props }: HTMLAttributes<HTMLDivElement>) {
+export function Eyebrow({
+  className,
+  children,
+  centered = false,
+  ...props
+}: HTMLAttributes<HTMLDivElement> & { centered?: boolean }) {
   return (
     <div
-      className={cn('flex items-center gap-3', className)}
+      className={cn(
+        'flex items-center gap-3 text-text-muted',
+        centered && 'justify-center',
+        className,
+      )}
       {...props}
     >
       <span className="w-8 h-px bg-current/30 shrink-0" aria-hidden />
-      <span className="text-xs uppercase tracking-[0.2em] font-mono text-text-muted">
-        {children}
-      </span>
+      <span className="text-xs uppercase tracking-[0.2em] font-mono">{children}</span>
+      {centered && <span className="w-8 h-px bg-current/30 shrink-0" aria-hidden />}
     </div>
   );
 }
