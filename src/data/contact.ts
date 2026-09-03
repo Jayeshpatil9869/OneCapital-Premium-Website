@@ -31,16 +31,16 @@ export const CONTACT_DETAILS: ContactDetail[] = [
     icon: Building2,
     lines: [
       'OneCapital Financial Center',
-      'Suite 4500, Financial District',
-      'Mumbai, India',
+      'Financial District',
+      'Pune, Maharashtra, India',
     ],
   },
   {
     id: 'email',
     label: 'Direct Inquiry',
     icon: Mail,
-    lines: ['advisory@onecapital.com'],
-    href: 'mailto:advisory@onecapital.com',
+    lines: ['onecapital0404@gmail.com'],
+    href: 'mailto:onecapital0404@gmail.com',
   },
   {
     id: 'phone',

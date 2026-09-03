@@ -38,10 +38,10 @@ export default function About() {
             </p>
             <div className="reveal-element flex flex-col gap-6 text-text-muted text-lg font-light leading-relaxed">
               <p>
-                For over a decade, OneCapital has served as a trusted partner to individuals, families, and corporate entities, guiding them through complex financial landscapes.
+                ONE CAPITAL INVESTMENT PRIVATE LIMITED is a Pune-based financial services firm focused on helping individuals and businesses grow their wealth through strategic and disciplined investment solutions. Incorporated in 2025, we specialize in investment advisory, portfolio management, and long-term wealth planning tailored to each client's financial goals.
               </p>
               <p>
-                We do not chase fleeting market trends. Our mandate is to build resilient, long-term portfolios that preserve capital and deliver consistent growth across generations.
+                Our approach combines market insights, risk management, and personalized strategies to deliver consistent and transparent financial growth.
               </p>
             </div>
           </div>

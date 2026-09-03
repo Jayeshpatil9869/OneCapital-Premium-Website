@@ -7,10 +7,10 @@ import { OfficesPresenceSection } from '@/src/components/sections/offices/Office
 import { FAQSection } from '@/src/components/sections/faq/FAQSection';
 
 const METRICS = [
-  { label: 'Founded', value: '2010', suffix: '' },
+  { label: 'Founded', value: '2025', suffix: '' },
   { label: 'Client Retention', value: '98', suffix: '%' },
-  { label: 'Advisory Team', value: '25', suffix: '+' },
-  { label: 'Market Experience', value: '15', suffix: ' Yrs' },
+  { label: 'Services & Products', value: '8', suffix: '+' },
+  { label: 'Headquarters', value: '4', suffix: '' },
 ];
 
 export default function Home() {

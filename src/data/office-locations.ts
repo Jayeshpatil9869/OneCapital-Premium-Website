@@ -37,7 +37,7 @@ const OFFICE_SEEDS: OfficeSeed[] = [
     lng: 72.8777,
     mapX: 18,
     mapY: 60,
-    order: 1,
+    order: 2,
     quote:
       'Our Mumbai capital desk anchors OneCapital’s institutional network, connecting global insights with tailored wealth strategies.',
     headline: 'Mumbai Advisory Office',
@@ -50,10 +50,10 @@ const OFFICE_SEEDS: OfficeSeed[] = [
     lng: 73.8567,
     mapX: 24,
     mapY: 63,
-    order: 2,
+    order: 1,
     quote:
       'The Pune desk brings institutional discipline with the accessibility of a dedicated local advisory team.',
-    headline: 'Pune Advisory Office',
+    headline: 'Pune Headquarters',
   },
   {
     id: 'kolhapur',

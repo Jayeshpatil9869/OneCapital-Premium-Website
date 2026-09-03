@@ -19,7 +19,7 @@ export const SITE_SOCIAL_LINKS: SiteSocialLink[] = [
   {
     id: 'linkedin',
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/',
+    href: 'https://www.linkedin.com/company/112562030/admin/dashboard/',
   },
   {
     id: 'twitter',
@@ -29,7 +29,7 @@ export const SITE_SOCIAL_LINKS: SiteSocialLink[] = [
   {
     id: 'instagram',
     label: 'Instagram',
-    href: 'https://www.instagram.com/',
+    href: 'https://www.instagram.com/onecapitalpms?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==',
   },
   {
     id: 'facebook',
