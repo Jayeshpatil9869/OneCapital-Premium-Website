@@ -1,5 +1,7 @@
+import { useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import gsap from 'gsap';
 import {
   Button,
   Container,
@@ -11,14 +13,7 @@ import {
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { HOME_PILLAR_PREVIEWS, type HomePillarPreview } from '@/src/data/solutions-pillars';
 import { cn } from '@/src/lib/utils';
-
-function PillarLabel({ index, title }: Pick<HomePillarPreview, 'index' | 'title'>) {
-  return (
-    <p className="text-xs font-mono uppercase tracking-widest text-white/40">
-      {index} · {title}
-    </p>
-  );
-}
+import { prefersReducedMotion } from '@/src/lib/motion';
 
 function PillarHighlights({ highlights }: Pick<HomePillarPreview, 'highlights'>) {
   return (
@@ -36,9 +31,35 @@ function PillarHighlights({ highlights }: Pick<HomePillarPreview, 'highlights'>)
 }
 
 function PillarCard({ pillar }: { pillar: HomePillarPreview }) {
+  const lineRef = useRef<HTMLSpanElement>(null);
+
+  const handleMouseEnter = () => {
+    if (prefersReducedMotion() || !lineRef.current) return;
+    gsap.to(lineRef.current, {
+      scaleX: 1,
+      duration: 0.45,
+      ease: 'power2.out',
+      overwrite: 'auto',
+    });
+  };
+
+  const handleMouseLeave = () => {
+    if (prefersReducedMotion() || !lineRef.current) return;
+    gsap.to(lineRef.current, {
+      scaleX: 0,
+      duration: 0.35,
+      ease: 'power2.inOut',
+      overwrite: 'auto',
+    });
+  };
+
   return (
     <Link
       to={pillar.href}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
+      onBlur={handleMouseLeave}
       className={cn(
         'group flex h-full flex-col justify-between glass-panel rounded-3xl p-8 md:p-10',
         'oc-card-hover-glow transition-colors duration-500 hover:border-white/20',
@@ -46,15 +67,21 @@ function PillarCard({ pillar }: { pillar: HomePillarPreview }) {
       )}
     >
       <div>
-        <PillarLabel index={pillar.index} title={pillar.title} />
-        <h3 className="mt-4 text-2xl font-medium tracking-tight text-white">{pillar.title}</h3>
+        <h3 className="text-2xl font-medium tracking-tight text-white">{pillar.title}</h3>
         <p className="mt-3 text-base text-text-muted leading-relaxed">{pillar.summary}</p>
         <PillarHighlights highlights={pillar.highlights} />
       </div>
-      <span className="mt-8 inline-flex items-center gap-2 text-sm uppercase tracking-wide text-white/50 group-hover:text-white transition-colors duration-500">
-        Explore pillar
+      <div className="mt-8 inline-flex items-center gap-2 text-sm uppercase tracking-wide text-white/50 group-hover:text-white transition-colors duration-500">
+        <span className="relative inline-block pb-1">
+          Explore pillar
+          <span
+            ref={lineRef}
+            className="absolute bottom-0 left-0 h-[2px] w-full bg-white origin-left scale-x-0"
+            aria-hidden
+          />
+        </span>
         <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
-      </span>
+      </div>
     </Link>
   );
 }

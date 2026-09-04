@@ -22,7 +22,7 @@ type NavChild = {
 
 type NavItem =
   | { kind: "link"; name: string; path: string }
-  | { kind: "dropdown"; name: string; label: string; children: NavChild[] };
+  | { kind: "dropdown"; name: string; label: string; path?: string; children: NavChild[] };
 
 const NAV_ITEMS: NavItem[] = [
   { kind: "link", name: "Home", path: "/" },
@@ -30,17 +30,30 @@ const NAV_ITEMS: NavItem[] = [
     kind: "dropdown",
     name: "About",
     label: "About Us",
+    path: "/about",
     children: [
       { name: "About One Capital", path: "/about" },
       { name: "Our Team", path: "/team" },
       { name: "Our Approach", path: "/approach" },
     ],
   },
-  { kind: "link", name: "Solutions", path: "/solutions" },
+  {
+    kind: "dropdown",
+    name: "Solutions",
+    label: "Solutions",
+    path: "/solutions",
+    children: [
+      { name: "Capital Strategy", path: "/solutions#capital-strategy" },
+      { name: "Portfolio Management", path: "/solutions#portfolio-management" },
+      { name: "Risk & Wealth Architecture", path: "/solutions#risk-wealth-architecture" },
+      { name: "Intelligence & Oversight", path: "/solutions#intelligence-oversight" },
+    ],
+  },
   {
     kind: "dropdown",
     name: "Insights",
     label: "Insights",
+    path: "/insights",
     children: [
       { name: "Blog", path: "/insights" },
       { name: "Newsletter", path: "/insights" },
@@ -85,7 +98,10 @@ function pathMatchesItem(pathname: string, item: NavItem): boolean {
   if (item.kind === "link") {
     return pathname === item.path;
   }
-  return item.children.some((child) => pathname === child.path);
+  return item.children.some((child) => {
+    const basePath = child.path.split("#")[0];
+    return pathname === child.path || (basePath.length > 1 && pathname === basePath);
+  });
 }
 
 function NavLinkStyles(active: boolean, overLight: boolean) {
@@ -145,27 +161,52 @@ function DesktopDropdown({
         }
       }}
     >
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-haspopup="true"
-        className={cn(
-          "text-sm tracking-wide transition-colors relative min-h-11 inline-flex items-center gap-1",
-          NavLinkStyles(active, overLight),
-        )}
-      >
-        {item.label}
-        <ChevronDown
+      {item.path ? (
+        <Link
+          to={item.path}
+          aria-expanded={open}
+          aria-haspopup="true"
+          onClick={() => setOpenId(null)}
           className={cn(
-            "w-3.5 h-3.5 transition-transform duration-300",
-            open && "rotate-180",
+            "text-sm tracking-wide transition-colors relative min-h-11 inline-flex items-center gap-1",
+            NavLinkStyles(active, overLight),
           )}
-          aria-hidden
-        />
-        {active && (
-          <span className="absolute -bottom-1.5 left-0 w-full h-[1px] bg-white opacity-50" />
-        )}
-      </button>
+        >
+          {item.label}
+          <ChevronDown
+            className={cn(
+              "w-3.5 h-3.5 transition-transform duration-300",
+              open && "rotate-180",
+            )}
+            aria-hidden
+          />
+          {active && (
+            <span className="absolute -bottom-1.5 left-0 w-full h-[1px] bg-white opacity-50" />
+          )}
+        </Link>
+      ) : (
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-haspopup="true"
+          className={cn(
+            "text-sm tracking-wide transition-colors relative min-h-11 inline-flex items-center gap-1",
+            NavLinkStyles(active, overLight),
+          )}
+        >
+          {item.label}
+          <ChevronDown
+            className={cn(
+              "w-3.5 h-3.5 transition-transform duration-300",
+              open && "rotate-180",
+            )}
+            aria-hidden
+          />
+          {active && (
+            <span className="absolute -bottom-1.5 left-0 w-full h-[1px] bg-white opacity-50" />
+          )}
+        </button>
+      )}
 
       <div
         className={cn(
@@ -476,28 +517,55 @@ export default function Navbar() {
             const expanded = mobileAccordion === item.name;
             return (
               <div key={item.name} className="flex flex-col">
-                <button
-                  type="button"
-                  aria-expanded={expanded}
-                  onClick={() =>
-                    setMobileAccordion(expanded ? null : item.name)
-                  }
-                  className={cn(
-                    "min-h-12 inline-flex items-center justify-between gap-3 transition-colors text-left",
-                    pathMatchesItem(location.pathname, item)
-                      ? "text-white"
-                      : "text-text-muted hover:text-white",
+                <div className="min-h-12 flex items-center justify-between gap-3">
+                  {item.path ? (
+                    <Link
+                      to={item.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={cn(
+                        "grow py-3 transition-colors text-left",
+                        pathMatchesItem(location.pathname, item)
+                          ? "text-white"
+                          : "text-text-muted hover:text-white",
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <button
+                      type="button"
+                      aria-expanded={expanded}
+                      onClick={() =>
+                        setMobileAccordion(expanded ? null : item.name)
+                      }
+                      className={cn(
+                        "grow py-3 transition-colors text-left",
+                        pathMatchesItem(location.pathname, item)
+                          ? "text-white"
+                          : "text-text-muted hover:text-white",
+                      )}
+                    >
+                      {item.label}
+                    </button>
                   )}
-                >
-                  {item.label}
-                  <ChevronDown
-                    className={cn(
-                      "w-5 h-5 shrink-0 transition-transform duration-300",
-                      expanded && "rotate-180",
-                    )}
-                    aria-hidden
-                  />
-                </button>
+                  <button
+                    type="button"
+                    aria-expanded={expanded}
+                    aria-label={`Toggle ${item.label} menu`}
+                    onClick={() =>
+                      setMobileAccordion(expanded ? null : item.name)
+                    }
+                    className="p-3 -mr-2 text-text-muted hover:text-white transition-colors"
+                  >
+                    <ChevronDown
+                      className={cn(
+                        "w-5 h-5 shrink-0 transition-transform duration-300",
+                        expanded && "rotate-180",
+                      )}
+                      aria-hidden
+                    />
+                  </button>
+                </div>
                 <div
                   className={cn(
                     "overflow-hidden transition-all duration-300",

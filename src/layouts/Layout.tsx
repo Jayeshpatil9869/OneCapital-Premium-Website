@@ -63,12 +63,27 @@ function LenisScrollSync() {
 }
 
 export default function Layout() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
+  const lenis = useLenis();
 
   useEffect(() => {
+    if (hash) {
+      const id = hash.replace("#", "");
+      const timer = setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          if (lenis) {
+            lenis.scrollTo(el, { offset: -100 });
+          } else {
+            el.scrollIntoView({ behavior: "smooth" });
+          }
+        }
+      }, 150);
+      return () => clearTimeout(timer);
+    }
     window.scrollTo(0, 0);
     ScrollTrigger.refresh();
-  }, [pathname]);
+  }, [pathname, hash, lenis]);
 
   return (
     <ReactLenis
@@ -88,7 +103,7 @@ export default function Layout() {
           <Outlet />
         </main>
         <Footer />
-        {pathname === '/' && <RiskFactorsStrip />}
+        <RiskFactorsStrip />
         <div className="fixed z-[var(--z-toast)] bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-[max(1rem,env(safe-area-inset-right))] flex flex-col items-end gap-5 pointer-events-none">
           <div className="pointer-events-auto">
             <ChatWidget embedded />

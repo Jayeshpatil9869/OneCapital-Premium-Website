@@ -209,10 +209,9 @@ export function FAQSection() {
     >
       <Container>
         <RevealOnScroll className="max-w-3xl mb-12 md:mb-16">
-          <Eyebrow>Frequently Asked Questions</Eyebrow>
           <SectionHeading
             id="faq-heading"
-            className="mt-6 mb-3 text-[clamp(1.75rem,1.2rem+2.5vw,3.25rem)] font-semibold tracking-tight"
+            className="mb-3 text-[clamp(1.75rem,1.2rem+2.5vw,3.25rem)] font-semibold tracking-tight"
           >
             Questions worth asking.
           </SectionHeading>
