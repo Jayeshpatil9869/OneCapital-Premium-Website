@@ -1,7 +1,7 @@
 import { useRef, type HTMLAttributes, type ReactNode } from 'react';
 import { useGSAP } from '@gsap/react';
 import { cn } from '@/src/lib/utils';
-import { gsap, prefersReducedMotion } from '@/src/lib/motion';
+import { gsap, isMobileViewport, prefersReducedMotion } from '@/src/lib/motion';
 
 gsap.registerPlugin(useGSAP);
 
@@ -24,7 +24,7 @@ export function Parallax({
   useGSAP(
     () => {
       if (disabled || !ref.current || prefersReducedMotion()) return;
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      const isMobile = isMobileViewport();
       const y = (isMobile ? speed * 0.4 : speed) * 100;
 
       gsap.fromTo(

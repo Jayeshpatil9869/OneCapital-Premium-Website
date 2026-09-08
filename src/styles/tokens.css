@@ -2,10 +2,17 @@
    Named hex for humans: canvas #000, text #FFF, muted #A1A1AA, border white/10 */
 
 @theme {
-  --font-sans: "Geist Sans", system-ui, sans-serif;
+  --font-sans: "Geist", "Plus Jakarta Sans", "Inter", "Geist Sans", -apple-system, system-ui, sans-serif;
+  --font-serif: "Playfair Display", "Cormorant Garamond", Georgia, serif;
+  --font-cormorant: "Cormorant Garamond", Georgia, serif;
+  --font-script: "Alex Brush", cursive;
   --font-mono: "Geist Mono", monospace;
 
   --color-canvas: #000000;
+  --color-gold-warm: #d4af37;
+  --color-gold-subtle: #e6ca65;
+  --color-champagne: #f3e5ab;
+  --color-accent-amber: #e5a93c;
   --color-panel: rgba(255, 255, 255, 0.02);
   --color-border: rgba(255, 255, 255, 0.1);
   --color-text-main: #ffffff;
@@ -33,8 +40,8 @@
   --z-overlay: 60;
   --z-modal: 70;
   --z-toast: 75;
-  --z-cursor: 80;
   --z-preloader: 90;
+  --z-cursor: 9999;
 }
 
 :root {

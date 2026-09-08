@@ -34,8 +34,9 @@ export function OfficesPresenceSection() {
                 </SectionHeading>
                 <BodyText className="text-base md:text-lg max-w-xl">
                   OneCapital serves principals and families from four regional offices —
-                  combining local access with institutional discipline. Hover a location
-                  on the map to explore each office.
+                  combining local access with institutional discipline.{' '}
+                  <span className="md:hidden">Tap a location on the map to explore each office.</span>
+                  <span className="hidden md:inline">Hover a location on the map to explore each office.</span>
                 </BodyText>
               </div>
             </RevealOnScroll>
@@ -48,7 +49,7 @@ export function OfficesPresenceSection() {
                     className={cn(
                       'flex flex-col gap-2 px-6 py-7 md:px-8 md:py-8',
                       index < 2 && 'border-b border-white/10',
-                      index % 2 === 0 && 'border-r border-white/10',
+                      index % 2 === 0 && 'sm:border-r sm:border-white/10',
                     )}
                   >
                     <p className="text-3xl md:text-4xl font-medium tracking-tight text-white tabular-nums">

@@ -1,6 +1,7 @@
 import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import { useLenis } from 'lenis/react';
+import { useLocation } from 'react-router-dom';
 import {
   gsap,
   prefersReducedMotion,
@@ -13,7 +14,10 @@ gsap.registerPlugin(useGSAP);
 const COPY = 'Welcome to One Capital';
 
 type PreloaderProps = {
-  /** Only run on the home route; SPA navigations back to `/` do not replay. */
+  /**
+   * Run on initial Layout mount (any route / hard refresh).
+   * SPA navigations do not replay once the intro has finished.
+   */
   enabled?: boolean;
 };
 
@@ -21,6 +25,7 @@ export function Preloader({ enabled = true }: PreloaderProps) {
   const reactId = useId().replace(/:/g, '');
   const maskGradId = `oc-preloader-mask-grad-${reactId}`;
   const maskId = `oc-preloader-mask-${reactId}`;
+  const { pathname } = useLocation();
 
   const [active, setActive] = useState(() => {
     if (enabled && typeof document !== 'undefined') {
@@ -38,6 +43,7 @@ export function Preloader({ enabled = true }: PreloaderProps) {
   lenisRef.current = lenis;
   const finishedRef = useRef(false);
   const handedOffRef = useRef(false);
+  const pathnameAtStartRef = useRef(pathname);
 
   /** Ensure shell is visible + listeners unblocked if we abort mid-intro. */
   const forceHandoff = () => {
@@ -57,9 +63,11 @@ export function Preloader({ enabled = true }: PreloaderProps) {
     requestAnimationFrame(() => ScrollTrigger.refresh());
   };
 
-  // Leaving `/` mid-intro: kill overlay so the next route is not stuck behind it.
+  // SPA nav mid-intro: kill overlay so the next route is not stuck behind it.
+  // Do not re-arm after finish — refresh alone remounts Layout and replays.
   useLayoutEffect(() => {
-    if (enabled || !active) return;
+    if (!active) return;
+    if (pathname === pathnameAtStartRef.current) return;
 
     timelineRef.current?.kill();
     timelineRef.current = null;
@@ -70,7 +78,7 @@ export function Preloader({ enabled = true }: PreloaderProps) {
     forceHandoff();
     finishedRef.current = true;
     setActive(false);
-  }, [enabled, active]);
+  }, [pathname, active]);
 
   useLayoutEffect(() => {
     if (!active) return;

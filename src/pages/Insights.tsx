@@ -1,10 +1,14 @@
-import { useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
+import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
+import {
+  Container,
+  Section,
+  Eyebrow,
+  DisplayHeading,
+  BodyText,
+  Label,
+} from '@/src/components/ui';
 
 const insights = [
   {
@@ -34,58 +38,53 @@ const insights = [
 ];
 
 export default function Insights() {
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>('.reveal-element').forEach((el) => {
-        gsap.from(el, {
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 85%',
-          },
-          y: 30,
-          opacity: 0,
-          duration: 1,
-          ease: 'power3.out',
-        });
-      });
-    });
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <div className="w-full flex flex-col items-center pt-24 pb-32">
-      <section className="w-full max-w-5xl mx-auto px-6 mb-24 text-center flex flex-col items-center">
-        <h1 className="reveal-element text-[clamp(2.25rem,1.2rem+4.5vw,4.5rem)] font-medium tracking-tight leading-tight break-words mb-8">
-          Clarity in <span className="text-white/40">complexity.</span>
-        </h1>
-        <p className="reveal-element text-xl text-text-muted max-w-2xl text-balance">
-          Perspectives from OneCapital on markets, allocation, and the architecture of enduring wealth.
-        </p>
-      </section>
+    <div className="flex w-full flex-col items-center">
+      <Section pad="lg" className="pt-28 md:pt-32">
+        <Container className="flex flex-col items-center text-center">
+          <RevealOnScroll className="flex max-w-3xl flex-col items-center gap-5">
+            <Eyebrow centered>Insights</Eyebrow>
+            <DisplayHeading className="text-white">
+              Clarity in <span className="text-white/40">complexity.</span>
+            </DisplayHeading>
+            <BodyText className="max-w-2xl text-base md:text-lg">
+              Perspectives from OneCapital on markets, allocation, and the architecture of
+              enduring wealth.
+            </BodyText>
+          </RevealOnScroll>
+        </Container>
+      </Section>
 
-      <section className="w-full max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {insights.map((item) => (
-          <article
-            key={item.title}
-            className="reveal-element group glass-panel p-8 md:p-10 rounded-3xl flex flex-col"
+      <Section pad="none" className="pb-[var(--space-section)]">
+        <Container>
+          <RevealOnScroll
+            stagger={0.06}
+            className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6"
           >
-            <span className="text-xs uppercase tracking-widest text-text-muted font-mono mb-6">
-              {item.category}
-            </span>
-            <h2 className="text-2xl font-medium tracking-tight mb-4 group-hover:text-white/90 transition-colors">
-              {item.title}
-            </h2>
-            <p className="text-text-muted text-balance flex-grow mb-8">{item.excerpt}</p>
-            <Link
-              to="/contact"
-              className="text-xs uppercase tracking-widest text-white/50 group-hover:text-white transition-colors flex items-center gap-2 w-fit"
-            >
-              Discuss with an advisor
-              <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </Link>
-          </article>
-        ))}
-      </section>
+            {insights.map((item) => (
+              <article
+                key={item.title}
+                className="group glass-panel glass-panel-hover flex flex-col rounded-3xl border border-white/10 bg-white/[0.02] p-8 transition-colors duration-500 hover:border-white/20 md:p-10"
+              >
+                <Label className="mb-6 text-text-muted">{item.category}</Label>
+                <h2 className="mb-4 text-2xl font-medium tracking-tight text-white transition-colors duration-500 group-hover:text-white/90">
+                  {item.title}
+                </h2>
+                <BodyText className="mb-8 flex-grow text-base md:text-lg">
+                  {item.excerpt}
+                </BodyText>
+                <Link
+                  to="/contact"
+                  className="flex w-fit items-center gap-2 text-xs uppercase tracking-widest text-white/50 transition-colors duration-500 group-hover:text-white"
+                >
+                  Discuss with an advisor
+                  <ArrowUpRight className="h-3 w-3 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </Link>
+              </article>
+            ))}
+          </RevealOnScroll>
+        </Container>
+      </Section>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Send, X } from 'lucide-react';
 import { ChatbotIcon } from '@/src/components/icons/ChatbotIcon';
 import { cn } from '@/src/lib/utils';
@@ -27,56 +27,20 @@ function createMessage(role: ChatRole, text: string): ChatMessage {
   };
 }
 
-/** Same surfaces as Navbar pill: white frosted glass vs black glass over `.light-section`. */
-const SURFACE_GLASS =
-  'bg-white/[0.02] backdrop-blur-xl border border-white/10';
-const SURFACE_OVER_LIGHT =
-  'bg-black/80 backdrop-blur-xl border border-white/10';
-
 export default function ChatWidget({
   embedded = false,
-  overLight: overLightProp,
 }: {
   embedded?: boolean;
   overLight?: boolean;
 }) {
   const panelId = useId();
   const inputId = useId();
-  const location = useLocation();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [overLightState, setOverLightState] = useState(false);
-  const overLight = overLightProp ?? overLightState;
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const welcomeSeeded = useRef(false);
-
-  useEffect(() => {
-    if (overLightProp !== undefined) return;
-
-    const updateOverLight = () => {
-      // Probe near the FAB (bottom-right), not the nav band.
-      const probeY = Math.max(0, window.innerHeight - 56);
-      const lightSections = document.querySelectorAll('.light-section');
-      let isOverLight = false;
-      lightSections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top <= probeY && rect.bottom >= probeY) {
-          isOverLight = true;
-        }
-      });
-      setOverLightState(isOverLight);
-    };
-
-    updateOverLight();
-    window.addEventListener('scroll', updateOverLight, { passive: true });
-    window.addEventListener('resize', updateOverLight);
-    return () => {
-      window.removeEventListener('scroll', updateOverLight);
-      window.removeEventListener('resize', updateOverLight);
-    };
-  }, [location.pathname, overLightProp]);
 
   useEffect(() => {
     if (!open) return;
@@ -128,14 +92,6 @@ export default function ChatWidget({
   };
 
   const instant = prefersReducedMotion();
-  const shellSurface = overLight ? SURFACE_OVER_LIGHT : SURFACE_GLASS;
-  const stripTone = overLight ? 'bg-black/40' : 'bg-white/[0.02]';
-  const fieldSurface = overLight
-    ? 'bg-black/50 backdrop-blur-md border border-white/15'
-    : 'bg-white/[0.02] backdrop-blur-xl border border-white/10';
-  const assistantBubble = overLight
-    ? 'bg-white/10 border border-white/10'
-    : 'bg-white/[0.02] border border-white/10 backdrop-blur-xl';
 
   return (
     <div
@@ -155,34 +111,31 @@ export default function ChatWidget({
         aria-label="One Capital chat"
         aria-hidden={!open}
         className={cn(
-          'max-h-[min(70vh,32rem)] flex flex-col rounded-2xl shadow-2xl overflow-hidden',
-          shellSurface,
+          'max-h-[min(70vh,32rem)] flex flex-col rounded-2xl overflow-hidden',
+          'bg-[#0b0c0e]/92 backdrop-blur-2xl border border-white/15 shadow-[0_24px_60px_-10px_rgba(0,0,0,0.9)]',
           instant ? 'transition-none' : 'transition-all duration-300',
           open
             ? 'w-[min(22.5rem,calc(100dvw-2rem))] opacity-100 translate-y-0 pointer-events-auto'
             : 'invisible pointer-events-none h-0 w-0 max-h-0 opacity-0 overflow-hidden border-0',
         )}
       >
-        <div
-          className={cn(
-            'flex items-center justify-between gap-3 px-4 py-3 border-b border-white/10 shrink-0',
-            stripTone,
-          )}
-        >
+        {/* Header */}
+        <div className="flex items-center justify-between gap-3 px-4 py-3.5 bg-black/40 border-b border-white/10 shrink-0 backdrop-blur-md">
           <div className="min-w-0">
-            <p className="text-sm font-medium text-white tracking-tight truncate">One Capital</p>
+            <p className="text-sm font-semibold text-white tracking-tight truncate">One Capital</p>
             <p className="text-[11px] font-mono uppercase tracking-widest text-text-muted">Advisory chat</p>
           </div>
           <button
             type="button"
             aria-label="Close chat"
             onClick={() => setOpen(false)}
-            className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-full text-white/70 hover:text-white hover:bg-white/5 transition-colors"
+            className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
           >
             <X className="w-5 h-5" aria-hidden />
           </button>
         </div>
 
+        {/* Message history */}
         <div ref={listRef} className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 space-y-3 min-h-[12rem]">
           {messages.map((message) => (
             <div
@@ -190,8 +143,8 @@ export default function ChatWidget({
               className={cn(
                 'max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed',
                 message.role === 'user'
-                  ? 'ml-auto bg-white text-black'
-                  : cn('mr-auto text-white/90', assistantBubble),
+                  ? 'ml-auto bg-white text-black font-medium shadow-sm'
+                  : 'mr-auto text-white/95 bg-white/[0.08] border border-white/10 backdrop-blur-md',
               )}
             >
               {message.text}
@@ -199,6 +152,7 @@ export default function ChatWidget({
           ))}
         </div>
 
+        {/* Action Link */}
         <div className="px-4 pb-2 shrink-0">
           <Link
             to="/contact"
@@ -209,12 +163,10 @@ export default function ChatWidget({
           </Link>
         </div>
 
+        {/* Input area */}
         <form
           onSubmit={onSubmit}
-          className={cn(
-            'flex items-center gap-2 px-3 py-3 border-t border-white/10 shrink-0',
-            stripTone,
-          )}
+          className="flex items-center gap-2 px-3 py-3 bg-black/40 border-t border-white/10 shrink-0 backdrop-blur-md"
         >
           <label htmlFor={inputId} className="sr-only">
             Message
@@ -228,25 +180,20 @@ export default function ChatWidget({
             onKeyDown={onInputKeyDown}
             placeholder="Type a message…"
             autoComplete="off"
-            className={cn(
-              'min-h-11 flex-1 rounded-xl px-3 text-sm text-white placeholder:text-white/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40',
-              fieldSurface,
-            )}
+            className="min-h-11 flex-1 rounded-xl px-3 text-sm text-white placeholder:text-white/40 bg-white/[0.06] border border-white/12 backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
           />
           <button
             type="submit"
             aria-label="Send message"
             disabled={!input.trim()}
-            className={cn(
-              'inline-flex items-center justify-center min-h-11 min-w-11 rounded-xl text-white hover:bg-white/10 disabled:opacity-40 disabled:pointer-events-none transition-colors',
-              fieldSurface,
-            )}
+            className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-xl text-white bg-white/[0.08] hover:bg-white/15 border border-white/12 disabled:opacity-40 disabled:pointer-events-none transition-colors"
           >
             <Send className="w-4 h-4" aria-hidden />
           </button>
         </form>
       </div>
 
+      {/* Trigger FAB */}
       <button
         type="button"
         aria-label={open ? 'Close chat' : 'Open chat'}
@@ -254,10 +201,9 @@ export default function ChatWidget({
         aria-controls={panelId}
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
-          'inline-flex items-center justify-center min-h-14 min-w-14 rounded-full text-white shadow-lg',
-          shellSurface,
-          overLight ? 'hover:bg-black/90' : 'hover:bg-white/10',
-          'transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
+          'inline-flex items-center justify-center min-h-14 min-w-14 rounded-full text-white',
+          'bg-[#0b0c0e]/92 hover:bg-[#15171c] backdrop-blur-2xl border border-white/15 shadow-[0_12px_36px_rgba(0,0,0,0.8)]',
+          'transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
         )}
       >
         {open ? (

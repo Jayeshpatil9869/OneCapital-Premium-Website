@@ -11,6 +11,7 @@ import {
   prefersReducedMotion,
 } from "../lib/motion";
 import BrandLogo from "./BrandLogo";
+import { subscribeRafScroll } from "../lib/raf-scroll";
 import { Button } from "@/src/components/ui";
 
 gsap.registerPlugin(useGSAP);
@@ -72,26 +73,45 @@ const SURFACE_OVER_LIGHT = {
   borderColor: "rgba(255, 255, 255, 0.1)",
 } as const;
 
-const SURFACE_TOP = {
-  backgroundColor: "rgba(0, 0, 0, 0.95)",
+/** Solid dropdown at top of page (no pill). */
+const SURFACE_DROPDOWN = {
+  backgroundColor: "rgba(0, 0, 0, 0.92)",
   borderColor: "rgba(255, 255, 255, 0.1)",
 } as const;
+
+/**
+ * Glass dropdown when the pill nav is active.
+ * Dark enough to read without waiting on blur, translucent enough for blur to show.
+ */
+const SURFACE_DROPDOWN_PILL = {
+  backgroundColor: "rgba(0, 0, 0, 0.55)",
+  borderColor: "rgba(255, 255, 255, 0.12)",
+} as const;
+
+const DESKTOP_MENU_CLOSE_MS = 160;
 
 function surfaceVars(
   kind: "pill" | "dropdown",
   showPill: boolean,
   overLight: boolean,
 ) {
-  if (kind === "pill" && !showPill) {
-    return { opacity: 0, ...SURFACE_GLASS };
+  if (kind === "pill") {
+    if (!showPill) {
+      return { opacity: 0, ...SURFACE_GLASS };
+    }
+    if (overLight) {
+      return { opacity: 1, ...SURFACE_OVER_LIGHT };
+    }
+    return { opacity: 1, ...SURFACE_GLASS };
   }
-  if (!showPill) {
-    return { opacity: 1, ...SURFACE_TOP };
-  }
+  // Dropdown surfaces (opacity of the panel is CSS-driven by open state).
   if (overLight) {
-    return { opacity: 1, ...SURFACE_OVER_LIGHT };
+    return { ...SURFACE_OVER_LIGHT };
   }
-  return { opacity: 1, ...SURFACE_GLASS };
+  if (showPill) {
+    return { ...SURFACE_DROPDOWN_PILL };
+  }
+  return { ...SURFACE_DROPDOWN };
 }
 
 function pathMatchesItem(pathname: string, item: NavItem): boolean {
@@ -117,47 +137,37 @@ function DesktopDropdown({
   showPill,
   pathname,
   openId,
-  setOpenId,
+  onOpen,
+  onScheduleClose,
+  onClose,
 }: {
   item: Extract<NavItem, { kind: "dropdown" }>;
   overLight: boolean;
   showPill: boolean;
   pathname: string;
   openId: string | null;
-  setOpenId: (id: string | null) => void;
+  onOpen: (id: string) => void;
+  onScheduleClose: () => void;
+  onClose: () => void;
 }) {
   const active = pathMatchesItem(pathname, item);
   const open = openId === item.name;
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const clearClose = () => {
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
+  const openMenu = () => onOpen(item.name);
+
+  const handleLinkClick = () => {
+    onClose();
   };
-
-  const openMenu = () => {
-    clearClose();
-    setOpenId(item.name);
-  };
-
-  const scheduleClose = () => {
-    clearClose();
-    closeTimer.current = setTimeout(() => setOpenId(null), 150);
-  };
-
-  useEffect(() => () => clearClose(), []);
 
   return (
     <div
       className="relative"
       onMouseEnter={openMenu}
-      onMouseLeave={scheduleClose}
+      onMouseLeave={onScheduleClose}
       onFocusCapture={openMenu}
       onBlurCapture={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-          setOpenId(null);
+          onClose();
         }
       }}
     >
@@ -166,7 +176,7 @@ function DesktopDropdown({
           to={item.path}
           aria-expanded={open}
           aria-haspopup="true"
-          onClick={() => setOpenId(null)}
+          onClick={handleLinkClick}
           className={cn(
             "text-sm tracking-wide transition-colors relative min-h-11 inline-flex items-center gap-1",
             NavLinkStyles(active, overLight),
@@ -189,6 +199,7 @@ function DesktopDropdown({
           type="button"
           aria-expanded={open}
           aria-haspopup="true"
+          onClick={() => (open ? handleLinkClick() : openMenu())}
           className={cn(
             "text-sm tracking-wide transition-colors relative min-h-11 inline-flex items-center gap-1",
             NavLinkStyles(active, overLight),
@@ -210,16 +221,31 @@ function DesktopDropdown({
 
       <div
         className={cn(
+          // Never animate opacity here — ancestor opacity < 1 disables backdrop-filter
+          // (that is the transparent → blur flash).
           "absolute top-full left-0 right-0 flex justify-center pt-3 z-[var(--z-overlay)]",
-          open ? "visible pointer-events-auto" : "invisible pointer-events-none",
+          "transition-transform duration-200 ease-out will-change-transform",
+          open
+            ? "translate-y-0 visible pointer-events-auto"
+            : "-translate-y-1 invisible pointer-events-none",
         )}
       >
         <div
           data-nav-surface="dropdown"
           className={cn(
-            "min-w-[17rem] rounded-2xl p-3 border backdrop-blur-xl",
-            showPill ? "shadow-lg" : "shadow-2xl",
+            "min-w-[17rem] rounded-2xl border p-3",
+            // Keep blur class always on (even when closed) so first open paint already has it.
+            showPill || overLight ? "backdrop-blur-2xl shadow-lg" : "backdrop-blur-xl shadow-2xl",
           )}
+          style={{
+            ...surfaceVars("dropdown", showPill, overLight),
+            // Force a composited layer so backdrop-filter is ready on first visible frame.
+            transform: "translateZ(0)",
+            WebkitBackdropFilter:
+              showPill || overLight ? "blur(40px)" : "blur(24px)",
+            backdropFilter:
+              showPill || overLight ? "blur(40px)" : "blur(24px)",
+          }}
           role="menu"
           aria-label={item.label}
         >
@@ -231,6 +257,7 @@ function DesktopDropdown({
                   <Link
                     to={child.path}
                     role="menuitem"
+                    onClick={handleLinkClick}
                     className="group/item block px-3 py-2.5 transition-colors"
                   >
                     <span
@@ -266,37 +293,63 @@ export default function Navbar() {
   const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
   const location = useLocation();
   const lenis = useLenis();
+  const desktopCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearDesktopClose = () => {
+    if (desktopCloseTimer.current) {
+      clearTimeout(desktopCloseTimer.current);
+      desktopCloseTimer.current = null;
+    }
+  };
+
+  const openDesktopMenu = (id: string) => {
+    clearDesktopClose();
+    setDesktopOpenId(id);
+  };
+
+  const scheduleDesktopClose = () => {
+    clearDesktopClose();
+    desktopCloseTimer.current = setTimeout(
+      () => setDesktopOpenId(null),
+      DESKTOP_MENU_CLOSE_MS,
+    );
+  };
+
+  const closeDesktopMenu = () => {
+    clearDesktopClose();
+    setDesktopOpenId(null);
+  };
 
   useEffect(() => {
     const updateNavState = () => {
-      setScrolled(window.scrollY > 50);
+      const nextScrolled = window.scrollY > 50;
 
       const probeY = 48;
       const lightSections = document.querySelectorAll(".light-section");
       let isOverLight = false;
-      lightSections.forEach((section) => {
-        const rect = section.getBoundingClientRect();
+      for (let i = 0; i < lightSections.length; i++) {
+        const rect = lightSections[i].getBoundingClientRect();
         if (rect.top <= probeY && rect.bottom >= probeY) {
           isOverLight = true;
+          break;
         }
-      });
-      setOverLight(isOverLight);
+      }
+
+      setScrolled((prev) => (prev === nextScrolled ? prev : nextScrolled));
+      setOverLight((prev) => (prev === isOverLight ? prev : isOverLight));
     };
 
-    updateNavState();
-    window.addEventListener("scroll", updateNavState, { passive: true });
-    window.addEventListener("resize", updateNavState);
-    return () => {
-      window.removeEventListener("scroll", updateNavState);
-      window.removeEventListener("resize", updateNavState);
-    };
+    const unsubscribe = subscribeRafScroll(updateNavState);
+    return () => unsubscribe();
   }, [location.pathname]);
 
   useEffect(() => {
     setMobileMenuOpen(false);
-    setDesktopOpenId(null);
+    closeDesktopMenu();
     setMobileAccordion(null);
   }, [location.pathname]);
+
+  useEffect(() => () => clearDesktopClose(), []);
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -317,7 +370,7 @@ export default function Navbar() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setMobileMenuOpen(false);
-        setDesktopOpenId(null);
+        closeDesktopMenu();
       }
     };
     window.addEventListener("keydown", onKey);
@@ -335,9 +388,6 @@ export default function Navbar() {
       const duration = prefersReducedMotion() ? 0 : motionTokens.duration.normal;
       const ease = motionTokens.ease.smooth;
       const pill = root.querySelector<HTMLElement>('[data-nav-surface="pill"]');
-      const menus = root.querySelectorAll<HTMLElement>(
-        '[data-nav-surface="dropdown"]',
-      );
 
       if (pill) {
         const vars = surfaceVars("pill", showPill, overLight);
@@ -357,17 +407,9 @@ export default function Navbar() {
           overwrite: "auto",
         });
       }
-
-      menus.forEach((menu) => {
-        gsap.to(menu, {
-          ...surfaceVars("dropdown", showPill, overLight),
-          duration,
-          ease,
-          overwrite: "auto",
-        });
-      });
+      // Dropdown glass is layered in CSS (solid base + blur) — do not GSAP it.
     },
-    { dependencies: [showPill, overLight, desktopOpenId], scope: headerRef },
+    { dependencies: [showPill, overLight], scope: headerRef },
   );
 
   return (
@@ -389,7 +431,7 @@ export default function Navbar() {
             data-nav-surface="pill"
             data-nav-pill-active={showPill ? "true" : undefined}
             aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-full border border-white/10 bg-white/[0.02] lg:backdrop-blur-xl opacity-0"
+            className="pointer-events-none absolute inset-0 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-xl opacity-0"
           />
 
           <BrandLogo
@@ -413,7 +455,9 @@ export default function Navbar() {
                     showPill={showPill}
                     pathname={location.pathname}
                     openId={desktopOpenId}
-                    setOpenId={setDesktopOpenId}
+                    onOpen={openDesktopMenu}
+                    onScheduleClose={scheduleDesktopClose}
+                    onClose={closeDesktopMenu}
                   />
                 );
               }
@@ -444,7 +488,7 @@ export default function Navbar() {
               variant="secondary"
               size="sm"
               arrow="up-right"
-              className="hidden md:inline-flex text-xs tracking-wider font-medium"
+              className="hidden lg:inline-flex text-xs tracking-wider font-medium"
             >
               Book Consultation
             </Button>
@@ -453,7 +497,7 @@ export default function Navbar() {
               variant="outline"
               size="sm"
               className={cn(
-                "hidden md:inline-flex text-xs tracking-wider font-medium",
+                "hidden lg:inline-flex text-xs tracking-wider font-medium",
                 overLight ? "text-white" : "text-white/80",
               )}
             >

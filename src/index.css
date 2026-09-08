@@ -2,6 +2,7 @@
 @import "./styles/tokens.css";
 @import "./styles/motion.css";
 @import "./styles/effects.css";
+@import "./styles/team.css";
 
 @layer base {
   html {
@@ -41,7 +42,13 @@
   .glass-panel {
     @apply bg-white/[0.02] border border-white/[0.1] backdrop-blur-xl;
   }
-  /* Mobile: drop backdrop-blur — Android often smears it into a dark right-edge band while scrolling. */
+  /* Frosted glass on the active navbar pill (desktop + tablet). */
+  [data-nav-surface="pill"][data-nav-pill-active="true"] {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Mobile: drop backdrop-blur on large panels — Android often smears it into a dark right-edge band while scrolling. */
   @media (max-width: 767px) {
     .glass-panel {
       backdrop-filter: none;

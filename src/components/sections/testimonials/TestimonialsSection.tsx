@@ -259,7 +259,7 @@ export function TestimonialsSection() {
     <section
       ref={sectionRef}
       data-testimonials-section
-      className="relative w-full border-y border-white/10 py-22 overflow-hidden"
+      className="relative w-full border-y border-white/10 py-16 md:py-24 overflow-hidden group"
       aria-labelledby="client-perspectives-heading"
     >
       <Container>
@@ -269,19 +269,19 @@ export function TestimonialsSection() {
         >
           <div className="lg:col-span-4 flex flex-col gap-6">
             <Eyebrow
-              className="text-black/55 [&_span:last-child]:text-black/55 [&_span:first-child]:bg-black/30"
+              className="text-white/55 group-[.light-section]:text-black/55 [&_span:last-child]:text-white/55 group-[.light-section]:[&_span:last-child]:text-black/55 [&_span:first-child]:bg-white/30 group-[.light-section]:[&_span:first-child]:bg-black/30"
             >
               Client Perspectives
             </Eyebrow>
 
             <SectionHeading
               id="client-perspectives-heading"
-              className="text-black"
+              className="text-white group-[.light-section]:text-black"
             >
               Trusted for the long term.
             </SectionHeading>
 
-            <p className="oc-text-smooth text-base md:text-lg max-w-md leading-relaxed font-light text-balance text-black/70">
+            <p className="oc-text-smooth text-base md:text-lg max-w-md leading-relaxed font-light text-balance text-white/70 group-[.light-section]:text-black/70">
               Capital stewardship is ultimately about confidence — in the
               decisions, the discipline, and the people guiding them.
             </p>

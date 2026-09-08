@@ -8,7 +8,7 @@ import { LightSweepText } from "./motion/LightSweepText";
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t border-white/10 pt-16 md:pt-20 pb-[max(2.5rem,env(safe-area-inset-bottom))] mt-8 md:mt-32 px-[var(--page-gutter)] relative overflow-hidden min-w-0">
+    <footer className="w-full border-t border-white/10 pt-16 md:pt-20 pb-[max(2.5rem,env(safe-area-inset-bottom))] mt-0 px-[var(--page-gutter)] relative overflow-hidden min-w-0">
       {/* Decorative large bg text — desktop/tablet */}
       <div
         aria-hidden
@@ -97,12 +97,14 @@ export default function Footer() {
       </div>
 
       {/* Mobile-only brand watermark — below CTA, above copyright */}
-      <LightSweepText
-        className="md:hidden relative z-10 text-center text-[13vw] font-bold tracking-tighter leading-none py-3 select-none pointer-events-none whitespace-nowrap overflow-hidden"
-        duration={6}
-      >
-        ONECAPITAL
-      </LightSweepText>
+      <div className="md:hidden relative z-10 w-full flex justify-center items-center py-5 my-2">
+        <LightSweepText
+          className="w-full max-w-md mx-auto px-1"
+          duration={5}
+        >
+          ONECAPITAL
+        </LightSweepText>
+      </div>
 
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t border-white/10 relative z-10">

@@ -18,31 +18,31 @@ type TooltipConfig = {
 };
 
 const TOOLTIP_CONFIGS: Record<string, TooltipConfig> = {
-  // Mumbai: positioned ABOVE-LEFT of marker (inside red box)
+  // Mumbai: above marker, centered — stays inside narrow viewports
   mumbai: {
     className:
-      'pointer-events-none absolute bottom-full right-[-5rem] mb-3 z-50 w-[min(17rem,calc(100vw-3rem))]',
+      'pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)]',
     fromVars: { opacity: 0, y: 18, scale: 0.94 },
     toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
   },
-  // Pune: positioned to the RIGHT of marker
+  // Pune: above on small screens via shared max-width; right of marker on larger
   pune: {
     className:
-      'pointer-events-none absolute left-full top-0 ml-3 z-50 w-[min(17rem,calc(100vw-3rem))]',
-    fromVars: { opacity: 0, x: -18, scale: 0.94 },
-    toVars: { opacity: 1, x: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
+      'pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] sm:bottom-auto sm:left-full sm:top-0 sm:mb-0 sm:ml-3 sm:translate-x-0',
+    fromVars: { opacity: 0, y: 18, scale: 0.94 },
+    toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
   },
-  // Kolhapur: positioned to the RIGHT of marker (inside red box screenshot)
+  // Kolhapur: same mobile-safe above placement
   kolhapur: {
     className:
-      'pointer-events-none absolute left-full top-0 ml-3 z-50 w-[min(17rem,calc(100vw-3rem))]',
-    fromVars: { opacity: 0, x: -18, scale: 0.94 },
-    toVars: { opacity: 1, x: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
+      'pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] sm:bottom-auto sm:left-full sm:top-0 sm:mb-0 sm:ml-3 sm:translate-x-0',
+    fromVars: { opacity: 0, y: 18, scale: 0.94 },
+    toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
   },
   // Nashik: positioned ABOVE marker
   nashik: {
     className:
-      'pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-[min(17rem,calc(100vw-3rem))]',
+      'pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)]',
     fromVars: { opacity: 0, y: 18, scale: 0.94 },
     toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
   },
@@ -66,7 +66,7 @@ function OfficeMarkerItem({
 
   const config = TOOLTIP_CONFIGS[office.id] ?? {
     className:
-      'pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-[min(17rem,calc(100vw-3rem))]',
+      'pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)]',
     fromVars: { opacity: 0, y: 14, scale: 0.94 },
     toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
   };
@@ -165,6 +165,13 @@ function OfficeMarkerItem({
         onMouseLeave={onLeave}
         onFocus={onHover}
         onBlur={onLeave}
+        onClick={(e) => {
+          // Touch devices: tap to toggle (hover already covers fine pointers)
+          if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+          e.stopPropagation();
+          if (isHovered) onLeave();
+          else onHover();
+        }}
       >
         {/* Concentric outer ring (Image 2 hover state) */}
         <span

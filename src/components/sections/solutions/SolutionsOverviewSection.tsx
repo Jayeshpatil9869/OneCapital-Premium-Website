@@ -14,6 +14,9 @@ import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { HOME_PILLAR_PREVIEWS, type HomePillarPreview } from '@/src/data/solutions-pillars';
 import { cn } from '@/src/lib/utils';
 import { prefersReducedMotion } from '@/src/lib/motion';
+import { ParticleCard, GlobalSpotlight, useMobileDetection } from '@/src/components/effects/MagicBento';
+
+const SILVER_GLOW_COLOR = '240, 245, 255'; // Pure White & Silver RGB
 
 function PillarHighlights({ highlights }: Pick<HomePillarPreview, 'highlights'>) {
   return (
@@ -21,7 +24,7 @@ function PillarHighlights({ highlights }: Pick<HomePillarPreview, 'highlights'>)
       {highlights.map((item) => (
         <li
           key={item}
-          className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/70"
+          className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-white/70 backdrop-blur-xs transition-colors duration-300 group-hover:border-white/30 group-hover:text-white"
         >
           {item}
         </li>
@@ -30,7 +33,7 @@ function PillarHighlights({ highlights }: Pick<HomePillarPreview, 'highlights'>)
   );
 }
 
-function PillarCard({ pillar }: { pillar: HomePillarPreview }) {
+function PillarCard({ pillar, isMobile }: { pillar: HomePillarPreview; isMobile: boolean }) {
   const lineRef = useRef<HTMLSpanElement>(null);
 
   const handleMouseEnter = () => {
@@ -54,41 +57,71 @@ function PillarCard({ pillar }: { pillar: HomePillarPreview }) {
   };
 
   return (
-    <Link
-      to={pillar.href}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onFocus={handleMouseEnter}
-      onBlur={handleMouseLeave}
-      className={cn(
-        'group flex h-full flex-col justify-between glass-panel rounded-3xl p-8 md:p-10',
-        'oc-card-hover-glow transition-colors duration-500 hover:border-white/20',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
-      )}
+    <ParticleCard
+      disableAnimations={isMobile || prefersReducedMotion()}
+      enableStars={false}
+      enableTilt={true}
+      enableMagnetism={true}
+      clickEffect={true}
+      glowColor={SILVER_GLOW_COLOR}
+      className="magic-bento-card magic-bento-card--border-glow rounded-3xl group"
+      style={{
+        backgroundColor: 'rgba(255, 255, 255, 0.02)',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        '--glow-color': SILVER_GLOW_COLOR,
+      } as React.CSSProperties}
     >
-      <div>
-        <h3 className="text-2xl font-medium tracking-tight text-white">{pillar.title}</h3>
-        <p className="mt-3 text-base text-text-muted leading-relaxed">{pillar.summary}</p>
-        <PillarHighlights highlights={pillar.highlights} />
-      </div>
-      <div className="mt-8 inline-flex items-center gap-2 text-sm uppercase tracking-wide text-white/50 group-hover:text-white transition-colors duration-500">
-        <span className="relative inline-block pb-1">
-          Explore pillar
-          <span
-            ref={lineRef}
-            className="absolute bottom-0 left-0 h-[2px] w-full bg-white origin-left scale-x-0"
-            aria-hidden
-          />
-        </span>
-        <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
-      </div>
-    </Link>
+      <Link
+        to={pillar.href}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onFocus={handleMouseEnter}
+        onBlur={handleMouseLeave}
+        className={cn(
+          'flex h-full min-h-0 md:min-h-[340px] flex-col justify-between p-8 md:p-10 relative z-10',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black'
+        )}
+      >
+        <div className="[transform:translateZ(18px)] transition-transform duration-300">
+          <h3 className="text-2xl sm:text-3xl font-medium tracking-tight text-white group-hover:text-white transition-colors">
+            {pillar.title}
+          </h3>
+          <p className="mt-3 text-base text-text-muted leading-relaxed font-light">
+            {pillar.summary}
+          </p>
+          <PillarHighlights highlights={pillar.highlights} />
+        </div>
+
+        <div className="mt-8 inline-flex items-center gap-2 text-sm uppercase tracking-wide text-white/50 group-hover:text-white transition-colors duration-500 [transform:translateZ(12px)]">
+          <span className="relative inline-block pb-1">
+            Explore pillar
+            <span
+              ref={lineRef}
+              className="absolute bottom-0 left-0 h-[2px] w-full bg-white origin-left scale-x-0"
+              aria-hidden
+            />
+          </span>
+          <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
+        </div>
+      </Link>
+    </ParticleCard>
   );
 }
 
 export function SolutionsOverviewSection() {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const isMobile = useMobileDetection();
+
   return (
-    <Section tone="panel" pad="lg" aria-labelledby="solutions-overview-heading">
+    <Section tone="panel" pad="lg" aria-labelledby="solutions-overview-heading" className="bento-section relative">
+      <GlobalSpotlight
+        gridRef={gridRef}
+        disableAnimations={isMobile || prefersReducedMotion()}
+        enabled={true}
+        spotlightRadius={340}
+        glowColor={SILVER_GLOW_COLOR}
+      />
+
       <Container>
         <RevealOnScroll className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start mb-16 md:mb-20">
           <div className="lg:col-span-8 flex flex-col gap-6">
@@ -108,11 +141,13 @@ export function SolutionsOverviewSection() {
           </div>
         </RevealOnScroll>
 
-        <RevealOnScroll stagger={0.06} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-          {HOME_PILLAR_PREVIEWS.map((pillar) => (
-            <PillarCard key={pillar.id} pillar={pillar} />
-          ))}
-        </RevealOnScroll>
+        <div ref={gridRef}>
+          <RevealOnScroll stagger={0.06} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            {HOME_PILLAR_PREVIEWS.map((pillar) => (
+              <PillarCard key={pillar.id} pillar={pillar} isMobile={isMobile} />
+            ))}
+          </RevealOnScroll>
+        </div>
       </Container>
     </Section>
   );

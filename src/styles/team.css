@@ -1,0 +1,40 @@
+/* Team carousel — dark-theme glass depth aligned with home panels */
+
+@keyframes text-shimmer {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.team-viewport {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.team-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .team-viewport {
+    overflow: hidden;
+  }
+}
+
+.team-card {
+  box-shadow: 0 20px 50px -28px rgb(0 0 0 / 0.55);
+  transition: box-shadow 0.55s var(--ease-premium, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.team-card.is-raised,
+.team-card.is-expanded {
+  box-shadow: 0 28px 60px -24px rgb(0 0 0 / 0.7);
+}
+
+.team-card [data-team-image] {
+  object-fit: cover;
+  transform-origin: 50% 100%;
+}

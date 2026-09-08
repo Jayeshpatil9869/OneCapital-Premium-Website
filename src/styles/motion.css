@@ -117,9 +117,9 @@ html.oc-preloader-lock body {
 .oc-cursor {
   position: fixed;
   inset: 0;
-  z-index: var(--z-cursor);
+  z-index: 9999;
   pointer-events: none;
-  mix-blend-mode: difference;
+  /* Avoid mix-blend-mode: difference — full-viewport blend is a major scroll paint cost. */
 }
 
 .oc-cursor__dot,
@@ -136,12 +136,14 @@ html.oc-preloader-lock body {
   width: 6px;
   height: 6px;
   background: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
 }
 
 .oc-cursor__ring {
   width: 28px;
   height: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
 }
 
 @media (prefers-reduced-motion: reduce) {
