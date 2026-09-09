@@ -221,30 +221,38 @@ function DesktopDropdown({
 
       <div
         className={cn(
-          // Never animate opacity here — ancestor opacity < 1 disables backdrop-filter
-          // (that is the transparent → blur flash).
+          // Never animate opacity here — ancestor opacity < 1 disables backdrop-filter.
+          // Closed: `hidden` (not invisible) so backdrop-filter cannot leave a compositor ghost.
           "absolute top-full left-0 right-0 flex justify-center pt-3 z-[var(--z-overlay)]",
-          "transition-transform duration-200 ease-out will-change-transform",
           open
-            ? "translate-y-0 visible pointer-events-auto"
-            : "-translate-y-1 invisible pointer-events-none",
+            ? "translate-y-0 visible pointer-events-auto transition-transform duration-200 ease-out"
+            : "hidden pointer-events-none",
         )}
       >
         <div
           data-nav-surface="dropdown"
           className={cn(
             "min-w-[17rem] rounded-2xl border p-3",
-            // Keep blur class always on (even when closed) so first open paint already has it.
-            showPill || overLight ? "backdrop-blur-2xl shadow-lg" : "backdrop-blur-xl shadow-2xl",
+            // Blur only while open — closed panels must not keep a GPU blur layer.
+            open &&
+              (showPill || overLight
+                ? "backdrop-blur-2xl shadow-lg"
+                : "backdrop-blur-xl shadow-2xl"),
           )}
           style={{
             ...surfaceVars("dropdown", showPill, overLight),
-            // Force a composited layer so backdrop-filter is ready on first visible frame.
-            transform: "translateZ(0)",
-            WebkitBackdropFilter:
-              showPill || overLight ? "blur(40px)" : "blur(24px)",
-            backdropFilter:
-              showPill || overLight ? "blur(40px)" : "blur(24px)",
+            ...(open
+              ? {
+                  transform: "translateZ(0)",
+                  WebkitBackdropFilter:
+                    showPill || overLight ? "blur(40px)" : "blur(24px)",
+                  backdropFilter:
+                    showPill || overLight ? "blur(40px)" : "blur(24px)",
+                }
+              : {
+                  WebkitBackdropFilter: "none",
+                  backdropFilter: "none",
+                }),
           }}
           role="menu"
           aria-label={item.label}

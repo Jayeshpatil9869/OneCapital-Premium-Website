@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { prefersReducedMotion } from '@/src/lib/motion';
@@ -51,7 +51,8 @@ export default function Approach() {
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  // useLayoutEffect so cleanup runs before Layout's route ScrollTrigger.refresh().
+  useLayoutEffect(() => {
     const setup = () => {
       const isDesktop = window.innerWidth >= 1024;
       const ctx = gsap.context(() => {
@@ -71,7 +72,11 @@ export default function Approach() {
               pin: true,
               scrub: true,
               snap: 1 / (sections.length - 1),
-              end: () => '+=' + scrollWrapperRef.current!.offsetWidth,
+              end: () => {
+                const el = scrollWrapperRef.current;
+                // Null-safe: refresh can race unmount even with layout cleanup.
+                return el ? '+=' + el.offsetWidth : '+=0';
+              },
               invalidateOnRefresh: true,
               anticipatePin: 1,
             },

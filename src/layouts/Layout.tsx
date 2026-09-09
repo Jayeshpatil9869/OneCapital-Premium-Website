@@ -37,64 +37,14 @@ function LenisScrollSync() {
       },
     });
 
-    // #region agent log
-    let stUpdateCount = 0;
-    let stUpdateMs = 0;
-    let lenisScrollCount = 0;
-    let lastFrameTs = performance.now();
-    let longFrames = 0;
-    let frameSamples = 0;
-    let frameDeltaSum = 0;
-    let reportTimer: ReturnType<typeof setInterval> | null = null;
-    const dbg = (
-      hypothesisId: string,
-      message: string,
-      data: Record<string, unknown>,
-    ) => {
-      fetch("http://127.0.0.1:7812/ingest/e76c3227-8d93-41d7-972e-fde2a2da0b74", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Debug-Session-Id": "1bbe61",
-        },
-        body: JSON.stringify({
-          sessionId: "1bbe61",
-          runId: "post-fix",
-          hypothesisId,
-          location: "Layout.tsx:LenisScrollSync",
-          message,
-          data,
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-    };
-    dbg("C", "lenis-sync-init", {
-      stCount: ScrollTrigger.getAll().length,
-      lerp: 0.14,
-      autoRaf: false,
-      lagSmoothing: 0,
-    });
-    // #endregion
-
     // Coalesce ST updates to one per frame — Lenis can emit many scroll events per raf.
     let stTick = false;
     const onScroll = () => {
-      // #region agent log
-      lenisScrollCount += 1;
-      // #endregion
       if (stTick) return;
       stTick = true;
       requestAnimationFrame(() => {
         stTick = false;
-        // #region agent log
-        const t0 = performance.now();
-        // #endregion
         ScrollTrigger.update();
-        // #region agent log
-        const dt = performance.now() - t0;
-        stUpdateCount += 1;
-        stUpdateMs += dt;
-        // #endregion
       });
     };
     lenis.on("scroll", onScroll);
@@ -103,16 +53,6 @@ function LenisScrollSync() {
     ScrollTrigger.addEventListener("refresh", onRefresh);
 
     const ticker = (time: number) => {
-      // #region agent log
-      const now = performance.now();
-      const frameDelta = now - lastFrameTs;
-      lastFrameTs = now;
-      if (frameSamples > 0) {
-        frameDeltaSum += frameDelta;
-        if (frameDelta > 24) longFrames += 1;
-      }
-      frameSamples += 1;
-      // #endregion
       lenis.raf(time * 1000);
     };
     gsap.ticker.add(ticker);
@@ -120,37 +60,7 @@ function LenisScrollSync() {
 
     ScrollTrigger.refresh();
 
-    // #region agent log
-    reportTimer = setInterval(() => {
-      if (lenisScrollCount === 0 && stUpdateCount === 0) return;
-      const avgFrame =
-        frameSamples > 1 ? frameDeltaSum / (frameSamples - 1) : 0;
-      dbg("A", "scroll-perf-sample", {
-        lenisScrollCount,
-        stUpdateCount,
-        stUpdateAvgMs:
-          stUpdateCount > 0 ? +(stUpdateMs / stUpdateCount).toFixed(3) : 0,
-        stUpdateTotalMs: +stUpdateMs.toFixed(2),
-        stCount: ScrollTrigger.getAll().length,
-        avgFrameMs: +avgFrame.toFixed(2),
-        longFrames24ms: longFrames,
-        approxFps: avgFrame > 0 ? +(1000 / avgFrame).toFixed(1) : 0,
-        velocity: lenis.velocity,
-        scroll: lenis.scroll,
-      });
-      lenisScrollCount = 0;
-      stUpdateCount = 0;
-      stUpdateMs = 0;
-      longFrames = 0;
-      frameSamples = 0;
-      frameDeltaSum = 0;
-    }, 1000);
-    // #endregion
-
     return () => {
-      // #region agent log
-      if (reportTimer) clearInterval(reportTimer);
-      // #endregion
       lenis.off("scroll", onScroll);
       ScrollTrigger.removeEventListener("refresh", onRefresh);
       gsap.ticker.remove(ticker);
