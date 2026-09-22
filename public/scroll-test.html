@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scroll Diagnostic Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0a0a0a;
+      color: white;
+      padding: 20px;
+      min-height: 300vh;
+    }
+    .info {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 15px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      font-size: 12px;
+      max-width: 200px;
+      z-index: 9999;
+    }
+    .section {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .ok { color: #0f0; }
+    .bad { color: #f00; }
+  </style>
+</head>
+<body>
+  <div class="info" id="info">
+    <div>ScrollY: <span id="scrollY">0</span></div>
+    <div>Touch: <span id="touch">-</span></div>
+    <div>Viewport: <span id="viewport">-</span></div>
+    <div>Overflow: <span id="overflow">-</span></div>
+  </div>
+
+  <div class="section">
+    <h1>Scroll Test Page</h1>
+    <p>If you can read this, the page loaded. Try scrolling down with your finger.</p>
+  </div>
+
+  <div class="section">
+    <h2>Section 2</h2>
+    <p>Keep scrolling...</p>
+  </div>
+
+  <div class="section">
+    <h2>Section 3</h2>
+    <p>Still scrolling...</p>
+  </div>
+
+  <div class="section">
+    <h2>Section 4</h2>
+    <p>Almost there...</p>
+  </div>
+
+  <div class="section">
+    <h2>Section 5</h2>
+    <p>You made it! This means native scroll works on your device.</p>
+    <p style="margin-top: 20px;"><strong>If this page scrolls but the main site doesn't, there's a specific element blocking touch on the main site.</strong></p>
+  </div>
+
+  <script>
+    const $scrollY = document.getElementById('scrollY');
+    const $touch = document.getElementById('touch');
+    const $viewport = document.getElementById('viewport');
+    const $overflow = document.getElementById('overflow');
+
+    function update() {
+      $scrollY.textContent = Math.round(window.scrollY);
+      $viewport.textContent = window.innerWidth + 'x' + window.innerHeight;
+      $overflow.textContent = getComputedStyle(document.documentElement).overflowY;
+    }
+
+    window.addEventListener('scroll', update);
+    window.addEventListener('resize', update);
+
+    document.addEventListener('touchstart', (e) => {
+      $touch.textContent = 'START';
+      $touch.className = 'ok';
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      $touch.textContent = 'MOVE';
+      $touch.className = 'ok';
+    });
+
+    document.addEventListener('touchend', () => {
+      setTimeout(() => {
+        $touch.textContent = 'END';
+        $touch.className = '';
+      }, 500);
+    });
+
+    update();
+  </script>
+</body>
+</html>

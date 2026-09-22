@@ -196,8 +196,23 @@ export function getAllServices(): SolutionService[] {
   return SOLUTION_PILLARS.flatMap((pillar) => pillar.services);
 }
 
-export function getPillarHref(pillarId: string): string {
+/** Anchor link on the main /solutions overview page */
+export function getPillarAnchorHref(pillarId: string): string {
   return `/solutions#${pillarId}`;
+}
+
+/** Dedicated deep-dive page route */
+export function getPillarPageHref(pillarId: string): string {
+  return `/solutions/${pillarId}`;
+}
+
+/** @deprecated Use getPillarAnchorHref or getPillarPageHref */
+export function getPillarHref(pillarId: string): string {
+  return getPillarPageHref(pillarId);
+}
+
+export function getSiblingPillars(pillarId: string): SolutionPillar[] {
+  return SOLUTION_PILLARS.filter((pillar) => pillar.id !== pillarId);
 }
 
 export type HomePillarPreview = {
@@ -215,5 +230,5 @@ export const HOME_PILLAR_PREVIEWS: HomePillarPreview[] = SOLUTION_PILLARS.map((p
   title: pillar.title,
   summary: pillar.summary,
   highlights: pillar.services.slice(0, 4).map((service) => service.title),
-  href: getPillarHref(pillar.id),
+  href: getPillarPageHref(pillar.id),
 }));

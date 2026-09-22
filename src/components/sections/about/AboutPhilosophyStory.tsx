@@ -48,6 +48,8 @@ export function AboutPhilosophyStory() {
               <img
                 src="https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1400&q=85"
                 alt="Financial Capital Sunset Skyline"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
@@ -56,7 +58,7 @@ export function AboutPhilosophyStory() {
                   Institutional Roots
                 </p>
                 <p className="text-sm text-white/90 font-sans">
-                  Guiding legacy wealth across India's premier financial corridors.
+                  A Pune-based practice focused on disciplined advisory and long-term planning.
                 </p>
               </div>
             </div>
@@ -81,13 +83,19 @@ export function AboutPhilosophyStory() {
 
             <div className="space-y-5 text-base sm:text-lg text-text-muted font-light leading-relaxed">
               <p>
-                <strong className="text-white font-medium">OneCapital</strong> is an independent Multi-Family Office and bespoke Wealth Advisory Firm. We provide comprehensive stewardship services to prominent business families, tech founders, next-generation entrepreneurs, and institutional entities across India.
+                <strong className="text-white font-medium">OneCapital</strong> (
+                ONE CAPITAL INVESTMENT PRIVATE LIMITED) is a Pune-based financial services firm
+                focused on helping individuals and businesses grow wealth through strategic,
+                disciplined investment solutions.
               </p>
               <p>
-                Built on the fundamentals of <span className="text-white font-medium">trust, alignment, and transparency</span>, OneCapital was established as a pure boutique wealth firm to introduce conflict-free private banking practices and pioneer the concept of client-aligned investment management.
+                Incorporated in 2025, we specialize in investment advisory, portfolio management,
+                and long-term wealth planning tailored to each client&apos;s financial goals.
               </p>
               <p>
-                Drawing from decades of leadership in <span className="text-white font-medium">institutional capital markets, structured private debt, and global multi-asset strategy</span>, our advisory team recognized the imperative of delivering holistic services to the UHNW community without the product distribution bias common in traditional institutions.
+                Our approach combines market insights, risk management, and personalized strategies
+                — delivered with transparency and a client-first cadence through{' '}
+                <span className="text-white font-medium">1capital.in</span>.
               </p>
             </div>
           </motion.div>

@@ -1,12 +1,10 @@
-import { Facebook, Instagram, Linkedin, Twitter, type LucideIcon } from 'lucide-react';
+import { Instagram, Linkedin, type LucideIcon } from 'lucide-react';
 import { SITE_SOCIAL_LINKS, type SocialPlatform } from '@/src/data/site-social';
 import { cn } from '@/src/lib/utils';
 
 const SOCIAL_ICONS: Record<SocialPlatform, LucideIcon> = {
   linkedin: Linkedin,
-  twitter: Twitter,
   instagram: Instagram,
-  facebook: Facebook,
 };
 
 type SocialLinksProps = {

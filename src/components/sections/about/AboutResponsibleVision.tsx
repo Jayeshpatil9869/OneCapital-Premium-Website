@@ -48,7 +48,7 @@ export function AboutResponsibleVision() {
             {/* Action Link */}
             <div className="pt-4">
               <Link
-                to="/solutions/wealth-management"
+                to="/solutions/risk-wealth-architecture"
                 className="inline-flex items-center gap-3 text-sm uppercase tracking-widest font-mono text-white/80 hover:text-white transition-colors group"
               >
                 <span>Explore Sustainable Solutions</span>
@@ -69,6 +69,8 @@ export function AboutResponsibleVision() {
               <img
                 src="https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&w=1400&q=85"
                 alt="Aerial Evergreen Forest Stewardship"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out grayscale-[35%]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />

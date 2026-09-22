@@ -3,10 +3,11 @@ import { AboutHero } from '@/src/components/sections/about/AboutHero';
 import { AboutStorySection } from '@/src/components/sections/about/AboutStorySection';
 import { AboutMissionVision } from '@/src/components/sections/about/AboutMissionVision';
 import { AboutCoreValues } from '@/src/components/sections/about/AboutCoreValues';
+import { ABOUT_PAGE } from '@/src/data/about';
 
 export default function About() {
   useEffect(() => {
-    document.title = 'About Us | OneCapital Precision Wealth Management';
+    document.title = ABOUT_PAGE.documentTitle;
   }, []);
 
   return (

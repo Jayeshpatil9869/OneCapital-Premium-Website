@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState, type ReactNode } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { ReactLenis, useLenis } from "lenis/react";
 import Navbar from "../components/Navbar";
@@ -13,6 +13,52 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { prefersReducedMotion, PRELOADER_DONE_EVENT } from "@/src/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
+
+/**
+ * Enable Lenis smooth scroll only on desktop (non-touch) devices.
+ * Touch devices use native scroll to avoid preventDefault blocking.
+ */
+function useDesktopSmoothScroll() {
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    const finePointer = window.matchMedia("(pointer: fine)");
+    const canHover = window.matchMedia("(hover: hover)");
+    const coarsePointer = window.matchMedia("(pointer: coarse)");
+    const desktopWidth = window.matchMedia("(min-width: 1024px)");
+
+    const sync = () => {
+      const hasTouch =
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        coarsePointer.matches;
+
+      // Enable only on true desktop: no touch, fine pointer, can hover, wide screen
+      setEnabled(
+        !hasTouch &&
+          finePointer.matches &&
+          canHover.matches &&
+          desktopWidth.matches &&
+          !prefersReducedMotion(),
+      );
+    };
+
+    sync();
+    finePointer.addEventListener("change", sync);
+    canHover.addEventListener("change", sync);
+    coarsePointer.addEventListener("change", sync);
+    desktopWidth.addEventListener("change", sync);
+
+    return () => {
+      finePointer.removeEventListener("change", sync);
+      canHover.removeEventListener("change", sync);
+      coarsePointer.removeEventListener("change", sync);
+      desktopWidth.removeEventListener("change", sync);
+    };
+  }, []);
+
+  return enabled;
+}
 
 function LenisScrollSync() {
   const lenis = useLenis();
@@ -37,7 +83,6 @@ function LenisScrollSync() {
       },
     });
 
-    // Coalesce ST updates to one per frame — Lenis can emit many scroll events per raf.
     let stTick = false;
     const onScroll = () => {
       if (stTick) return;
@@ -78,10 +123,6 @@ function resetScrollTop(lenis: ReturnType<typeof useLenis>) {
   window.scrollTo(0, 0);
 }
 
-/**
- * Keeps Lenis + ScrollTrigger in sync on SPA navigations.
- * Must render under ReactLenis so useLenis() resolves.
- */
 function RouteScrollReset() {
   const { pathname, hash } = useLocation();
   const lenis = useLenis();
@@ -92,7 +133,6 @@ function RouteScrollReset() {
     }
   }, []);
 
-  // Reset before React swaps pages — layout effect alone is too late.
   useEffect(() => {
     const onClickCapture = (event: MouseEvent) => {
       if (event.defaultPrevented) return;
@@ -128,9 +168,12 @@ function RouteScrollReset() {
     return () => document.removeEventListener("click", onClickCapture, true);
   }, [lenis]);
 
-  // After preloader handoff (refresh while mid-page), force top + ST refresh.
   useEffect(() => {
     const onPreloaderDone = () => {
+      lenis?.start();
+      document.documentElement.classList.remove("oc-preloader-lock");
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
       resetScrollTop(lenis);
       requestAnimationFrame(() => ScrollTrigger.refresh());
     };
@@ -161,20 +204,9 @@ function RouteScrollReset() {
   return null;
 }
 
-export default function Layout() {
+function AppShell({ children }: { children?: ReactNode }) {
   return (
-    <ReactLenis
-      root
-      options={{
-        // Higher lerp = snappier scroll (0.08 felt laggy behind the wheel).
-        lerp: 0.14,
-        wheelMultiplier: 0.95,
-        smoothWheel: !prefersReducedMotion(),
-        syncTouch: false,
-        autoRaf: false,
-      }}
-    >
-      <LenisScrollSync />
+    <>
       <RouteScrollReset />
       <Preloader />
       <div className="oc-shell flex flex-col min-h-dvh w-full max-w-full overflow-x-hidden bg-canvas">
@@ -193,7 +225,33 @@ export default function Layout() {
           </div>
         </div>
         <CustomCursor />
+        {children}
       </div>
+    </>
+  );
+}
+
+export default function Layout() {
+  const desktopSmoothScroll = useDesktopSmoothScroll();
+
+  // Touch devices / phones / tablets: native browser scroll only.
+  if (!desktopSmoothScroll) {
+    return <AppShell />;
+  }
+
+  return (
+    <ReactLenis
+      root
+      options={{
+        lerp: 0.14,
+        wheelMultiplier: 0.95,
+        smoothWheel: true,
+        syncTouch: false,
+        autoRaf: false,
+      }}
+    >
+      <LenisScrollSync />
+      <AppShell />
     </ReactLenis>
   );
 }

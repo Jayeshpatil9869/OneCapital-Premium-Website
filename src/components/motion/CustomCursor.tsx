@@ -7,18 +7,33 @@ gsap.registerPlugin(useGSAP);
 const INTERACTIVE =
   'a, button, [role="button"], input, textarea, select, label, summary, .magnetic-target, [data-cursor="hover"]';
 
+/**
+ * Only enable custom cursor on true desktop devices.
+ * Touch devices always use native cursor to prevent pointer-events blocking.
+ */
 function canUseCustomCursor(): boolean {
   if (typeof window === 'undefined') return false;
   if (prefersReducedMotion()) return false;
+
+  // Never enable on any touch-capable device
+  const hasTouch =
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0 ||
+    window.matchMedia('(pointer: coarse)').matches;
+
+  if (hasTouch) return false;
+
   // Mobile / narrow screens: always use native cursor
-  if (window.matchMedia('(max-width: 767px)').matches) return false;
+  if (window.matchMedia('(max-width: 1023px)').matches) return false;
+
+  // Only enable on true desktop: fine pointer + hover support
   return (
     window.matchMedia('(pointer: fine)').matches &&
     window.matchMedia('(hover: hover)').matches
   );
 }
 
-/** Site-wide custom cursor — GSAP quickTo lag. Off on mobile / touch / reduced-motion. */
+/** Site-wide custom cursor — GSAP quickTo lag. Desktop only. */
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
@@ -33,18 +48,21 @@ export function CustomCursor() {
 
     sync();
 
-    const mobileMq = window.matchMedia('(max-width: 767px)');
+    const mobileMq = window.matchMedia('(max-width: 1023px)');
     const fineMq = window.matchMedia('(pointer: fine)');
     const hoverMq = window.matchMedia('(hover: hover)');
+    const coarseMq = window.matchMedia('(pointer: coarse)');
 
     mobileMq.addEventListener('change', sync);
     fineMq.addEventListener('change', sync);
     hoverMq.addEventListener('change', sync);
+    coarseMq.addEventListener('change', sync);
 
     return () => {
       mobileMq.removeEventListener('change', sync);
       fineMq.removeEventListener('change', sync);
       hoverMq.removeEventListener('change', sync);
+      coarseMq.removeEventListener('change', sync);
       document.documentElement.classList.remove('has-custom-cursor');
     };
   }, []);

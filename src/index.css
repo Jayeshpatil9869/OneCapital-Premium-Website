@@ -3,13 +3,16 @@
 @import "./styles/motion.css";
 @import "./styles/effects.css";
 @import "./styles/team.css";
+@import "./styles/solutions.css";
 
 @layer base {
   html {
     @apply bg-canvas;
     -webkit-text-size-adjust: 100%;
-    /* `hidden` is more reliable than `clip` on Android WebViews during scroll. */
-    overflow-x: hidden;
+    /*
+     * overflow-x: clip can break scroll on some Android browsers.
+     * Using overflow-x: hidden on body only instead.
+     */
     /* Prevent iOS/Android rubber-band from flashing the default white canvas. */
     overscroll-behavior-y: none;
   }
@@ -108,4 +111,27 @@ html.lenis body {
 select option {
   background-color: #0a0a0a;
   color: #ffffff;
+}
+
+/* Calculator range controls */
+.oc-calc-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 2px solid #0a0a0a;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+}
+
+.oc-calc-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #fff;
+  border: 2px solid #0a0a0a;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35);
+  cursor: pointer;
 }

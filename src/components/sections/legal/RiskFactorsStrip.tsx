@@ -7,7 +7,9 @@ export function RiskFactorsStrip() {
     advisoryNote,
     statutoryLine,
     amfiLine,
-    sebiLine,
+    apmiLine,
+    gstLine,
+    cinLine,
     regulatoryNote,
   } = HOME_RISK_FACTORS;
 
@@ -44,10 +46,12 @@ export function RiskFactorsStrip() {
           <p className="text-[11px] font-mono text-white/50 leading-relaxed max-w-5xl">{amfiLine}</p>
 
           <p className="text-[11px] font-mono font-medium uppercase tracking-wide text-white/70 leading-relaxed max-w-5xl">
-            {sebiLine}
+            {apmiLine}
           </p>
 
+          <p className="text-[11px] font-mono text-white/50 leading-relaxed max-w-5xl">{gstLine}</p>
 
+          <p className="text-[11px] font-mono text-white/50 leading-relaxed max-w-5xl">{cinLine}</p>
         </div>
       </div>
     </aside>

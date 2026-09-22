@@ -303,7 +303,7 @@ export function TestimonialsSection() {
             }}
           >
             <div
-              className="bg-black border border-white/10 rounded-3xl oc-card-hover-glow p-8 md:p-10 lg:p-12 flex flex-col justify-between gap-8 min-h-[22.5rem] sm:min-h-[20rem] md:min-h-0 transition-colors duration-500 hover:border-white/20 touch-pan-y select-none"
+              className="bg-black border border-white/10 rounded-3xl oc-card-hover-glow p-8 md:p-10 lg:p-12 flex flex-col justify-between gap-8 min-h-[26rem] sm:min-h-[24rem] md:min-h-[22rem] transition-colors duration-500 hover:border-white/20 touch-pan-y select-none"
               aria-live="polite"
               aria-atomic="true"
               onPointerDown={onSwipePointerDown}
@@ -337,8 +337,9 @@ export function TestimonialsSection() {
                         alt=""
                         width={40}
                         height={40}
-                        className="h-10 w-10 shrink-0 rounded-full object-cover border border-white/15"
+                        loading="lazy"
                         decoding="async"
+                        className="h-10 w-10 shrink-0 rounded-full object-cover border border-white/15"
                       />
                     ) : (
                       <span

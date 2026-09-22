@@ -28,15 +28,15 @@ export function ContinuityScrollSection() {
 
           <div className="w-full md:w-2/3 flex flex-col gap-6 text-lg md:text-xl leading-relaxed font-light text-balance text-white/55">
             <p>
-              At OneCapital, we steward capital through an institutional lens — bringing the
-              discipline, research, and precision of large-scale asset management to the private
-              mandates of select principals, families, and organizations.
+              ONE CAPITAL INVESTMENT PRIVATE LIMITED is a Pune-based firm focused on helping
+              individuals and businesses grow wealth through strategic investment advisory,
+              portfolio management, and long-term wealth planning.
             </p>
 
             <p>
-              Our approach is architectural, not transactional. We design financial structures
-              built to withstand market cycles, preserve after-tax outcomes, and transfer not
-              merely wealth, but the principles behind it, across generations.
+              Our approach combines market insight, risk management, and personalized strategy —
+              spanning mutual funds, portfolio mandates, wealth planning, tax awareness, and
+              thoughtfully evaluated alternative allocations where appropriate.
             </p>
           </div>
         </div>

@@ -1,4 +1,6 @@
-export type SocialPlatform = 'linkedin' | 'twitter' | 'instagram' | 'facebook';
+import { COMPANY } from '@/src/data/company';
+
+export type SocialPlatform = 'linkedin' | 'instagram';
 
 export type SiteSocialLink = {
   id: SocialPlatform;
@@ -6,7 +8,7 @@ export type SiteSocialLink = {
   href: string;
 };
 
-export type AppStorePlatform = 'app-store' | 'play-store';
+export type AppStorePlatform = 'play-store';
 
 export type SiteAppStoreLink = {
   id: AppStorePlatform;
@@ -14,40 +16,25 @@ export type SiteAppStoreLink = {
   href: string;
 };
 
-/** Update hrefs with OneCapital official profile URLs before production. */
+/** Only publish profiles that resolve to OneCapital public pages. */
 export const SITE_SOCIAL_LINKS: SiteSocialLink[] = [
   {
     id: 'linkedin',
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/company/112562030/admin/dashboard/',
-  },
-  {
-    id: 'twitter',
-    label: 'Twitter',
-    href: 'https://twitter.com/',
+    href: COMPANY.linkedinUrl,
   },
   {
     id: 'instagram',
     label: 'Instagram',
-    href: 'https://www.instagram.com/onecapitalpms?utm_source=ig_web_button_share_sheet&igsi=ZDNlZDc0MzIxNw==',
-  },
-  {
-    id: 'facebook',
-    label: 'Facebook',
-    href: 'https://www.facebook.com/',
+    href: COMPANY.instagramUrl,
   },
 ];
 
 /**
- * TODO(prod): replace with OneCapital listing URLs and regenerate
- * `public/images/app-download-qr.png` so the QR matches the same destination.
+ * App Store listing omitted until an official Apple URL is confirmed.
+ * Play listing uses the package already wired in this project.
  */
 export const SITE_APP_STORE_LINKS: SiteAppStoreLink[] = [
-  {
-    id: 'app-store',
-    label: 'Download on the App Store',
-    href: 'https://apps.apple.com/',
-  },
   {
     id: 'play-store',
     label: 'Get it on Google Play',

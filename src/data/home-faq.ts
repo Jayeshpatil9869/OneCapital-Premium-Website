@@ -111,7 +111,7 @@ export const HOME_FAQ_CATEGORIES: FAQCategory[] = [
         id: 'cli-who',
         question: "Who is One Capital's capital stewardship designed for?",
         answer:
-          'We work with ultra-high-net-worth principals, families, and organizations who value discretion, institutional discipline, and long-term stewardship — typically those with complex balance sheets, concentrated positions, or multi-generational wealth.',
+          'We work with individuals, families, and businesses who value discretion, clear process, and long-term planning — including clients navigating growing complexity across portfolios, business wealth, or multi-year goals.',
       },
       {
         id: 'cli-entrepreneurs',

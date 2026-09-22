@@ -59,6 +59,9 @@ html.oc-preloader-lock .oc-shell {
 html.oc-preloader-lock,
 html.oc-preloader-lock body {
   overflow: hidden !important;
+  /* Keep height from collapsing so unlock restores normal document flow. */
+  height: auto !important;
+  overscroll-behavior: none;
 }
 
 /*
@@ -108,7 +111,7 @@ html.oc-preloader-lock body {
   }
 }
 
-/* Custom cursor — only when JS enables .has-custom-cursor (fine pointer) */
+/* Custom cursor — only when JS enables .has-custom-cursor (desktop with fine pointer) */
 .has-custom-cursor,
 .has-custom-cursor * {
   cursor: none !important;
@@ -118,8 +121,9 @@ html.oc-preloader-lock body {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  pointer-events: none;
+  pointer-events: none !important;
   /* Avoid mix-blend-mode: difference — full-viewport blend is a major scroll paint cost. */
+  /* CRITICAL: pointer-events:none must never be overridden — this div covers the entire viewport. */
 }
 
 .oc-cursor__dot,

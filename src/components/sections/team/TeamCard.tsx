@@ -5,6 +5,7 @@ import { type TeamMember } from '@/src/data/team';
 import { cn } from '@/src/lib/utils';
 import { Button } from '@/src/components/ui/buttons/Button';
 import { expandTeamCard, collapseTeamCard, setTeamCardInstant } from '@/src/lib/team-animations';
+import gsap from 'gsap';
 
 export interface TeamCardProps {
   member: TeamMember;
@@ -71,7 +72,10 @@ export function TeamCard({
       ref={cardRef}
       data-team-card
       id={`team-card-${member.id}`}
-      onMouseEnter={onCardPointerEnter}
+      onMouseEnter={(e) => {
+        gsap.set(e.currentTarget, { opacity: 1, clearProps: 'opacity' });
+        onCardPointerEnter?.();
+      }}
       onMouseLeave={onCardPointerLeave}
       className={cn(
         'team-card group relative flex flex-col justify-between rounded-[28px] p-3 select-none',

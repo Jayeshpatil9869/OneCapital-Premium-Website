@@ -26,7 +26,7 @@
   --radius-xl: 2rem;
   --radius-pill: 9999px;
 
-  --container-max: 80rem; /* max-w-7xl */
+  --container-max: 72rem; /* ~max-w-6xl — slightly tighter than 7xl */
   --page-gutter: clamp(1rem, 4vw, 1.5rem);
   --space-section: clamp(5rem, 10vw, 11.25rem);
   --space-section-sm: clamp(4rem, 6vw, 6rem);
@@ -46,7 +46,7 @@
 
 :root {
   --page-gutter: clamp(1rem, 4vw, 1.5rem);
-  --container-max: 80rem;
+  --container-max: 72rem;
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);

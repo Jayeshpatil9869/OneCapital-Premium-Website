@@ -1,7 +1,7 @@
 export type Testimonial = {
   id: string;
   quote: string;
-  /** Display name (placeholder first name until real client attribution is approved). */
+  /** Display name — anonymized until real client attribution is approved. */
   client: string;
   role: string;
   category: string;
@@ -9,53 +9,32 @@ export type Testimonial = {
   avatarSrc?: string;
 };
 
-/** Cropped Unsplash portraits (free license) — Indian professionals for placeholder avatars. */
-const AVATARS = {
-  rahul:
-    'https://images.unsplash.com/photo-1530268729831-4b0b9e170218?auto=format&fit=crop&w=160&h=160&q=80&crop=faces',
-  meera:
-    'https://images.unsplash.com/photo-1607189200597-4d0923ef98c6?auto=format&fit=crop&w=160&h=160&q=80&crop=faces',
-  arjun:
-    'https://images.unsplash.com/photo-1659353220482-554773c2f7fa?auto=format&fit=crop&w=160&h=160&q=80&crop=faces',
-  kavya:
-    'https://images.unsplash.com/photo-1587538018365-2a1f8b544c08?auto=format&fit=crop&w=160&h=160&q=80&crop=faces',
-} as const;
-
+/**
+ * Client voice pieces from approved fact pack — no invented names or return claims.
+ */
 export const HOME_TESTIMONIALS: Testimonial[] = [
   {
-    id: 'private-client',
+    id: 'trusted-advisory',
     quote:
-      'The right advisor does not simply manage wealth. They understand why it matters — and stay disciplined when markets test conviction.',
-    client: 'Rahul Sharma',
-    role: 'Business Owner',
-    category: 'Private Client',
-    avatarSrc: AVATARS.rahul,
+      'Working with One Capital has made investing much easier for me. The team takes the time to understand my financial goals and risk profile before suggesting any investment. Their advice is practical, transparent, and focused on long-term wealth creation. I especially appreciate the regular portfolio reviews and guidance whenever I need to make an important investment decision.',
+    client: 'Private Client',
+    role: 'Individual Investor',
+    category: 'Trusted Advisory',
   },
   {
-    id: 'hni-client',
+    id: 'right-products',
     quote:
-      'What distinguishes the relationship is clarity. Strategy, reporting, and communication are structured enough to trust, yet personal enough to feel considered.',
-    client: 'Meera Iyer',
-    role: 'Senior Executive',
-    category: 'Executive',
-    avatarSrc: AVATARS.meera,
+      'I was looking for professional guidance to build a diversified investment portfolio. One Capital helped me understand different products and their suitability instead of simply recommending investments. Their team explained the risks, expected returns, and investment horizon clearly, which helped me make decisions with confidence. I value their continuous support and personalized approach.',
+    client: 'Private Client',
+    role: 'Portfolio Client',
+    category: 'Right Products & Portfolio',
   },
   {
-    id: 'entrepreneur',
+    id: 'investment-confidence',
     quote:
-      'We needed an advisory partner who could coordinate complexity — liquidity events, tax awareness, and long-term planning — without losing sight of the mandate.',
-    client: 'Arjun Patel',
-    role: 'Founder',
-    category: 'Entrepreneur',
-    avatarSrc: AVATARS.arjun,
-  },
-  {
-    id: 'family-office',
-    quote:
-      'Continuity was the priority. The framework, review cadence, and transparency gave our family confidence that decisions were deliberate, not reactive.',
-    client: 'Kavya Reddy',
-    role: 'Next Generation',
-    category: 'Family Office',
-    avatarSrc: AVATARS.kavya,
+      'Before working with One Capital, I often found it difficult to decide where and when to invest. Their advisory approach helped me understand my options and make more informed investment decisions. From portfolio planning to selecting suitable investment products, the team has been supportive throughout. Their focus on understanding the client\'s needs rather than just selling a product is what I value most.',
+    client: 'Private Client',
+    role: 'Individual Investor',
+    category: 'Investment Decisions with Confidence',
   },
 ];

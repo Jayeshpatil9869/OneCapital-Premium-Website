@@ -26,7 +26,7 @@ export function AppShowcaseSection({ className }: { className?: string }) {
                 {/* Monochrome Eyebrow */}
                 <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1 text-xs font-mono uppercase tracking-widest text-white/80">
                   <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
-                  OneCapital Mobile OS
+                  OneCapital App
                 </div>
 
                 {/* Pure White Heading */}
@@ -35,16 +35,17 @@ export function AppShowcaseSection({ className }: { className?: string }) {
                 </h2>
 
                 <p className="mt-4 text-base md:text-lg text-white/70 leading-relaxed font-light max-w-xl">
-                  Download the OneCapital app to track your portfolio in real-time, get actionable insights, and speak directly with your relationship manager.
+                  Use the OneCapital app to follow portfolio activity, stay closer to your
+                  advisory conversations, and manage wealth decisions on the go.
                 </p>
 
                 {/* Feature Checklist */}
                 <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full max-w-xl">
                   {[
-                    'Real-time portfolio tracking',
-                    'Instant Wealth Monitor health checks',
-                    'Direct access to your RM',
-                    'Secure 256-bit encryption',
+                    'Portfolio tracking on mobile',
+                    'Wealth monitoring tools',
+                    'Direct path to the advisory team',
+                    'Secure account access',
                   ].map((feature, idx) => (
                     <div key={idx} className="flex items-center gap-3 text-sm md:text-base text-white/90 font-medium">
                       <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/10 border border-white/20 text-white shrink-0">
@@ -114,6 +115,8 @@ export function AppShowcaseSection({ className }: { className?: string }) {
                         alt="Scan QR code"
                         width={128}
                         height={128}
+                        loading="lazy"
+                        decoding="async"
                         className="h-32 w-32 object-cover invert rounded-lg"
                       />
                       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
@@ -123,6 +126,8 @@ export function AppShowcaseSection({ className }: { className?: string }) {
                             alt="OneCapital"
                             width={16}
                             height={16}
+                            loading="lazy"
+                            decoding="async"
                             className="h-4 w-4 object-contain"
                           />
                         </div>

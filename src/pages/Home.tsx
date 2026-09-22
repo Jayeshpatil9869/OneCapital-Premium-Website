@@ -5,12 +5,25 @@ import { ContinuityScrollSection } from '@/src/components/sections/continuity/Co
 import { TestimonialsSection } from '@/src/components/sections/testimonials/TestimonialsSection';
 import { OfficesPresenceSection } from '@/src/components/sections/offices/OfficesPresenceSection';
 import { FAQSection } from '@/src/components/sections/faq/FAQSection';
+import { COMPANY } from '@/src/data/company';
 
 const METRICS = [
-  { label: 'Founded', value: '2025', suffix: '' },
-  { label: 'Client Retention', value: '98', suffix: '%' },
-  { label: 'Services & Products', value: '8', suffix: '+' },
-  { label: 'Headquarters', value: '4', suffix: '' },
+  { label: 'Founded', value: String(COMPANY.foundedYear), suffix: '' },
+  {
+    label: 'Core Mandates',
+    value: String(COMPANY.focusAreas.length),
+    suffix: '',
+  },
+  {
+    label: 'Service Lines',
+    value: String(COMPANY.serviceLines.length),
+    suffix: '+',
+  },
+  {
+    label: 'Regional Offices',
+    value: String(COMPANY.officeCount),
+    suffix: '',
+  },
 ];
 
 export default function Home() {
@@ -19,14 +32,14 @@ export default function Home() {
       <HeroEditorial
         variant="cinematic"
         backgroundImage="/images/hero-wealth.jpg"
-        eyebrow="A Vision Beyond Numbers"
+        eyebrow="Expert Financial Guidance"
         title={
           <>
-            <span className="block">Institutional</span>
-            <span className="block">Wealth Command.</span>
+            <span className="block">Empower Your</span>
+            <span className="block">Financial Future.</span>
           </>
         }
-        description="OneCapital stewards capital for select principals and families — with discretion, institutional discipline, and bespoke advisory across wealth and asset management."
+        description={COMPANY.heroSupport}
         metrics={METRICS}
       />
 

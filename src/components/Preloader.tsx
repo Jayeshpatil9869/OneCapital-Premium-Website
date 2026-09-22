@@ -1,6 +1,5 @@
-import { useId, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
-import { useLenis } from 'lenis/react';
 import { useLocation } from 'react-router-dom';
 import {
   gsap,
@@ -13,6 +12,9 @@ gsap.registerPlugin(useGSAP);
 
 const COPY = 'Welcome to One Capital';
 
+/** Hard unlock if GSAP/timeline never completes (throttled mobile WebViews). */
+const PRELOADER_SAFETY_MS = 8_000;
+
 type PreloaderProps = {
   /**
    * Run on initial Layout mount (any route / hard refresh).
@@ -20,6 +22,21 @@ type PreloaderProps = {
    */
   enabled?: boolean;
 };
+
+/**
+ * Unlock page scroll without Lenis.stop().
+ * Lenis.stop() calls preventDefault on every touch/wheel — that permanently
+ * kills scrolling on some devices if start() never runs cleanly.
+ */
+function lockPageScroll() {
+  document.documentElement.classList.add('oc-preloader-lock');
+}
+
+function unlockPageScroll() {
+  document.documentElement.classList.remove('oc-preloader-lock');
+  document.documentElement.style.overflow = '';
+  document.body.style.overflow = '';
+}
 
 export function Preloader({ enabled = true }: PreloaderProps) {
   const reactId = useId().replace(/:/g, '');
@@ -29,7 +46,7 @@ export function Preloader({ enabled = true }: PreloaderProps) {
 
   const [active, setActive] = useState(() => {
     if (enabled && typeof document !== 'undefined') {
-      document.documentElement.classList.add('oc-preloader-lock');
+      lockPageScroll();
     }
     return enabled;
   });
@@ -38,21 +55,17 @@ export function Preloader({ enabled = true }: PreloaderProps) {
   const textRef = useRef<SVGTextElement>(null);
   const gradRef = useRef<SVGLinearGradientElement>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
-  const lenis = useLenis();
-  const lenisRef = useRef(lenis);
-  lenisRef.current = lenis;
   const finishedRef = useRef(false);
   const handedOffRef = useRef(false);
   const pathnameAtStartRef = useRef(pathname);
 
-  /** Ensure shell is visible + listeners unblocked if we abort mid-intro. */
+  /** Ensure shell is visible + scroll unblocked if we abort mid-intro. */
   const forceHandoff = () => {
     if (handedOffRef.current) return;
     handedOffRef.current = true;
 
-    document.documentElement.classList.remove('oc-preloader-lock');
+    unlockPageScroll();
     window.dispatchEvent(new CustomEvent(PRELOADER_DONE_EVENT));
-    lenisRef.current?.start();
 
     const shell = document.querySelector<HTMLElement>('.oc-shell');
     if (shell) {
@@ -63,8 +76,14 @@ export function Preloader({ enabled = true }: PreloaderProps) {
     requestAnimationFrame(() => ScrollTrigger.refresh());
   };
 
+  const finish = () => {
+    forceHandoff();
+    if (finishedRef.current) return;
+    finishedRef.current = true;
+    setActive(false);
+  };
+
   // SPA nav mid-intro: kill overlay so the next route is not stuck behind it.
-  // Do not re-arm after finish — refresh alone remounts Layout and replays.
   useLayoutEffect(() => {
     if (!active) return;
     if (pathname === pathnameAtStartRef.current) return;
@@ -75,26 +94,27 @@ export function Preloader({ enabled = true }: PreloaderProps) {
     if (root) gsap.killTweensOf(root);
     if (gradRef.current) gsap.killTweensOf(gradRef.current);
 
-    forceHandoff();
-    finishedRef.current = true;
-    setActive(false);
+    finish();
   }, [pathname, active]);
 
   useLayoutEffect(() => {
     if (!active) return;
-    document.documentElement.classList.add('oc-preloader-lock');
+    lockPageScroll();
     return () => {
-      document.documentElement.classList.remove('oc-preloader-lock');
+      unlockPageScroll();
     };
   }, [active]);
 
-  useLayoutEffect(() => {
-    if (!active || !lenis) return;
-    lenis.stop();
-    return () => {
-      lenis.start();
-    };
-  }, [active, lenis]);
+  // Failsafe: never leave the site permanently scroll-locked.
+  useEffect(() => {
+    if (!active) return;
+    const timer = window.setTimeout(() => {
+      timelineRef.current?.kill();
+      timelineRef.current = null;
+      finish();
+    }, PRELOADER_SAFETY_MS);
+    return () => window.clearTimeout(timer);
+  }, [active]);
 
   useGSAP(
     () => {
@@ -103,6 +123,7 @@ export function Preloader({ enabled = true }: PreloaderProps) {
       const root = rootRef.current;
       const text = textRef.current;
       const grad = gradRef.current;
+      // Missing refs: safety timeout will unlock scroll.
       if (!root || !text || !grad) return;
 
       const shell = document.querySelector<HTMLElement>('.oc-shell');
@@ -112,11 +133,9 @@ export function Preloader({ enabled = true }: PreloaderProps) {
         if (handedOffRef.current) return;
         handedOffRef.current = true;
 
-        document.documentElement.classList.remove('oc-preloader-lock');
+        unlockPageScroll();
         window.dispatchEvent(new CustomEvent(PRELOADER_DONE_EVENT));
-        lenisRef.current?.start();
 
-        // Navbar + page fade in together after welcome (Dezerv-style).
         if (shell) {
           gsap.to(shell, {
             opacity: 1,
@@ -133,6 +152,7 @@ export function Preloader({ enabled = true }: PreloaderProps) {
         if (finishedRef.current) return;
         finishedRef.current = true;
         setActive(false);
+        unlockPageScroll();
         gsap.delayedCall(0.05, () => ScrollTrigger.refresh());
       };
 
@@ -163,13 +183,11 @@ export function Preloader({ enabled = true }: PreloaderProps) {
       }
 
       gsap.set(root, { opacity: 1 });
-      // Mask gradient starts fully left of the type (entire line hidden).
       gsap.set(grad, { attr: { x1: -900, x2: -200 } });
 
       const tl = gsap.timeline();
       timelineRef.current = tl;
 
-      // Soft L→R reveal: white trail + feathered edge, right stays invisible.
       tl.to(grad, {
         attr: { x1: 700, x2: 1400 },
         duration: 3.0,
@@ -177,9 +195,7 @@ export function Preloader({ enabled = true }: PreloaderProps) {
       })
         .add(lockSolidWhite)
         .to({}, { duration: 0.35 })
-        // Page + navbar become visible; welcome still covering briefly
         .add(handoff)
-        // Welcome fades out as shell (nav + hero) rises in
         .to(root, {
           opacity: 0,
           duration: 0.85,
@@ -193,6 +209,11 @@ export function Preloader({ enabled = true }: PreloaderProps) {
       return () => {
         tl.kill();
         if (timelineRef.current === tl) timelineRef.current = null;
+        if (handedOffRef.current && !finishedRef.current) {
+          finishedRef.current = true;
+          setActive(false);
+          unlockPageScroll();
+        }
       };
     },
     { dependencies: [active], scope: rootRef },
@@ -216,10 +237,6 @@ export function Preloader({ enabled = true }: PreloaderProps) {
         aria-hidden="true"
       >
         <defs>
-          {/*
-            Mask: white = visible, black = hidden.
-            Soft feather matches the reference wipe (not a thin spotlight).
-          */}
           <linearGradient
             ref={gradRef}
             id={maskGradId}

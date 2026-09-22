@@ -13,30 +13,34 @@ interface EdgeFeature {
 const TOP_FEATURES: EdgeFeature[] = [
   {
     id: 'hyper-personalisation',
-    title: 'Hyper-personalisation',
-    subtitle: 'Bespoke Mandates',
-    description: 'Bespoke portfolios structured around multi-generational goals, liquidity milestones, and custom family covenants.',
+    title: 'Personalized Mandates',
+    subtitle: 'Client-First Design',
+    description:
+      'Portfolios and plans shaped around each client’s goals, liquidity needs, and risk profile — not a one-size template.',
     icon: Sparkles,
   },
   {
     id: '0-conflict',
-    title: '0% Conflict',
-    subtitle: 'Pure Fiduciary Model',
-    description: 'Zero commissions, zero distribution bias. We operate exclusively on a transparent advisory fee aligned with your growth.',
+    title: 'Clear Alignment',
+    subtitle: 'Transparent Advisory',
+    description:
+      'We prioritize clear reasoning and client-aligned recommendations across mutual funds, portfolios, and wealth planning.',
     icon: Shield,
   },
   {
     id: 'data-driven',
-    title: 'Data Driven',
-    subtitle: 'Quantitative Intelligence',
-    description: 'Proprietary risk factor modeling, stress-testing across historical regimes, and systematic portfolio rebalancing.',
+    title: 'Research Led',
+    subtitle: 'Disciplined Process',
+    description:
+      'Market insight, risk awareness, and structured review cadence inform how we evaluate opportunities and manage portfolios.',
     icon: BarChart3,
   },
   {
     id: 'technology-led',
-    title: 'Technology Led',
-    subtitle: 'Institutional Stack',
-    description: 'Real-time consolidated net worth visibility, automated scenario analysis, and encrypted institutional vault.',
+    title: 'Technology Enabled',
+    subtitle: 'Modern Access',
+    description:
+      'Digital access through 1capital.in and the OneCapital app to stay closer to portfolio activity and advisory conversations.',
     icon: Cpu,
   },
 ];
@@ -44,23 +48,26 @@ const TOP_FEATURES: EdgeFeature[] = [
 const BOTTOM_FEATURES: EdgeFeature[] = [
   {
     id: 'domain-expertise',
-    title: 'Domain Expertise',
-    subtitle: 'Tier-1 Pedigree',
-    description: 'Seasoned investment partners with decades of institutional banking and private market leadership.',
+    title: 'Focused Expertise',
+    subtitle: 'Advisory Practice',
+    description:
+      'A Pune-based team focused on investment advisory, portfolio management, and long-term wealth planning.',
     icon: Briefcase,
   },
   {
     id: 'open-architecture',
     title: 'Open Architecture',
-    subtitle: 'Unrestricted Access',
-    description: 'Unconstrained access to global asset managers, private equity, venture syndicates, and direct deals.',
+    subtitle: 'Thoughtful Access',
+    description:
+      'Where appropriate, we evaluate mutual funds, PMS pathways, and alternative allocations such as AIFs and structured opportunities.',
     icon: Globe2,
   },
   {
     id: 'strictly-allocators',
-    title: 'Strictly Allocators',
+    title: 'Disciplined Allocation',
     subtitle: 'Capital Stewardship',
-    description: 'Disciplined allocation framework balancing asymmetric capital compounding with downside preservation.',
+    description:
+      'A deliberate allocation framework balancing growth objectives with risk management across market cycles.',
     icon: Scale,
   },
 ];

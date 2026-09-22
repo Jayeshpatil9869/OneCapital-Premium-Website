@@ -68,7 +68,8 @@ function setImagePose(els: TeamCardEls, expanded: boolean) {
 /** Instant collapsed / expanded — used on mount and reduced-motion. */
 export function setTeamCardState(els: TeamCardEls, expanded: boolean) {
   gsap.killTweensOf(allTargets(els));
-  gsap.set(els.card, { y: expanded ? -6 : 0 });
+  // Never leave a mid-reveal opacity stuck after killTweensOf(card).
+  gsap.set(els.card, { y: expanded ? -6 : 0, opacity: 1, clearProps: "opacity" });
   setImagePose(els, expanded);
   gsap.set(els.info, {
     height: expanded ? "auto" : 0,
@@ -85,6 +86,8 @@ export function setTeamCardState(els: TeamCardEls, expanded: boolean) {
 export function expandTeamCard(els: TeamCardEls): gsap.core.Timeline {
   gsap.killTweensOf(allTargets(els));
   els.card.classList.remove("is-raised");
+  // Hover can interrupt scroll-reveal mid-fade; restore full opacity immediately.
+  gsap.set(els.card, { opacity: 1, clearProps: "opacity" });
   gsap.set(els.image, { transformOrigin: IMAGE_ORIGIN, force3D: true });
 
   if (prefersReducedMotion()) {
@@ -138,6 +141,7 @@ export function expandTeamCard(els: TeamCardEls): gsap.core.Timeline {
 export function collapseTeamCard(els: TeamCardEls): gsap.core.Timeline {
   gsap.killTweensOf(allTargets(els));
   els.card.classList.remove("is-raised");
+  gsap.set(els.card, { opacity: 1, clearProps: "opacity" });
   gsap.set(els.image, { transformOrigin: IMAGE_ORIGIN, force3D: true });
 
   if (prefersReducedMotion()) {
@@ -182,7 +186,11 @@ export function collapseTeamCard(els: TeamCardEls): gsap.core.Timeline {
   return tl;
 }
 
-/** Scroll-in reveal for cards only — header uses RevealOnScroll like the hero. */
+/**
+ * Scroll-in reveal for cards only — header uses RevealOnScroll like the hero.
+ * Do NOT tween card opacity: expand/collapse killTweensOf(card) and would leave
+ * a mid-fade opacity stuck (intermittent “dark” portrait).
+ */
 export function animateTeamSection(root: HTMLElement) {
   if (prefersReducedMotion()) return;
 
@@ -190,13 +198,14 @@ export function animateTeamSection(root: HTMLElement) {
 
   cards.forEach((card, i) => {
     gsap.from(card, {
-      opacity: 0,
       y: 40,
       scale: 0.98,
       duration: DURATION.slow,
       ease: EASE.out,
       delay: i * 0.08,
+      immediateRender: false,
       scrollTrigger: { trigger: card, start: "top 90%", once: true },
+      clearProps: "transform",
     });
   });
 }

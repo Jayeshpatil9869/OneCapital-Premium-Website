@@ -7,30 +7,14 @@ import {
   SectionHeading,
   BodyText,
 } from '@/src/components/ui';
+import { ABOUT_PAGE } from '@/src/data/about';
 import { cn } from '@/src/lib/utils';
 
-const VALUES = [
-  {
-    title: 'Long-Term Planning',
-    description:
-      'At OneCapital, we believe true wealth is built and preserved with patience, discipline, and strategic asset allocation. We focus on long-term wealth structuring tailored to institutional standards, not short-term market speculation.',
-    icon: CalendarCheck,
-  },
-  {
-    title: 'Integrity & Transparency',
-    description:
-      'We operate with complete fiduciary ethics, conflict-free governance, and full fee transparency. Every allocation mandate is backed by clear reasoning, open reporting, and pure alignment with our clients’ best interests.',
-    icon: ShieldCheck,
-  },
-  {
-    title: 'Client-Centric & Customized Solutions',
-    description:
-      'Every family office mandate is unique. We provide personalized financial strategies tailored to individual goals, risk profiles, and life stages — ensuring a truly bespoke and relationship-driven advisory experience.',
-    icon: Users,
-  },
-];
+const VALUE_ICONS = [CalendarCheck, ShieldCheck, Users] as const;
 
 export function AboutCoreValues() {
+  const { values } = ABOUT_PAGE;
+
   return (
     <Section
       pad="none"
@@ -39,23 +23,23 @@ export function AboutCoreValues() {
     >
       <Container>
         <RevealOnScroll className="mx-auto mb-16 flex max-w-3xl flex-col items-center gap-5 text-center md:mb-20">
-          <Eyebrow centered>Core Values</Eyebrow>
+          <Eyebrow centered>{values.eyebrow}</Eyebrow>
           <SectionHeading id="core-values-heading" className="text-white">
-            Our Core Values
+            {values.heading}
           </SectionHeading>
           <BodyText className="mx-auto max-w-xl text-base md:text-lg">
-            The principles that guide every decision we make and every relationship we build.
+            {values.subtext}
           </BodyText>
         </RevealOnScroll>
 
         <RevealOnScroll stagger={0.06} className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-6">
-          {VALUES.map((val) => {
-            const Icon = val.icon;
+          {values.items.map((val, index) => {
+            const Icon = VALUE_ICONS[index] ?? Users;
             return (
               <article
                 key={val.title}
                 className={cn(
-                  'group relative flex flex-col justify-start rounded-3xl p-8 sm:p-10',
+                  'oc-mobile-glass-card group relative flex flex-col justify-start rounded-3xl p-8 sm:p-10',
                   'glass-panel glass-panel-hover border border-white/10 bg-white/[0.02]',
                   'transition-colors duration-500 hover:border-white/20',
                 )}

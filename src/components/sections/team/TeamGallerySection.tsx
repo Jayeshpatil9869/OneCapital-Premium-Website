@@ -13,37 +13,39 @@ import {
 } from '@/src/components/ui';
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { cn } from '@/src/lib/utils';
+import { TEAM_PAGE } from '@/src/data/team-page';
+import { COMPANY } from '@/src/data/company';
 
 const GALLERY_ITEMS = [
   {
     id: 'office-celebration',
     image: '/images/gallery/office-celebration.jpg',
-    title: 'Collaborative Office Culture',
-    caption: 'Our multidisciplinary team celebrating milestone achievements in our headquarters.',
+    title: 'Pune Headquarters',
+    caption: `Collaborative moments from ${COMPANY.brandName}'s Pune headquarters — where advisory, research, and client conversations come together.`,
   },
   {
     id: 'investor-conference',
     image: '/images/gallery/investor-conference.jpg',
-    title: 'Annual Wealth Advisory Symposium',
-    caption: 'Engaging keynote sessions and portfolio masterclasses with valued client partners.',
+    title: 'Client Conversations',
+    caption: 'Structured advisory discussions focused on portfolios, mutual funds, and long-term wealth planning.',
   },
   {
     id: 'research-strategy-desk',
     image: '/images/gallery/research-strategy-desk.jpg',
-    title: 'Quantitative Research & Strategy',
-    caption: 'Portfolio managers formulating bespoke asset allocation models and risk parameters.',
+    title: 'Research & Strategy',
+    caption: 'Market insight and portfolio construction work that informs investment advisory and allocation decisions.',
   },
   {
     id: 'executive-client-meeting',
     image: '/images/gallery/executive-client-meeting.jpg',
-    title: 'Private Family Governance',
-    caption: 'Confidential advisory sessions structuring generational trust and succession frameworks.',
+    title: 'Private Advisory Sessions',
+    caption: 'Discreet conversations with individuals and businesses about goals, risk, and long-term wealth planning.',
   },
   {
     id: 'wealth-headquarters',
     image: '/images/gallery/wealth-headquarters.jpg',
-    title: 'Executive Financial Suite',
-    caption: 'State-of-the-art infrastructure facilitating institutional trading and seamless operations.',
+    title: 'Regional Presence',
+    caption: `Serving clients across Maharashtra from ${COMPANY.hqCity} headquarters and offices in Mumbai, Kolhapur, and Nashik.`,
   },
 ];
 
@@ -163,12 +165,12 @@ export function TeamGallerySection() {
     >
       <Container className="mb-12 md:mb-16">
         <RevealOnScroll className="flex max-w-3xl flex-col gap-5">
-          <Eyebrow>Inside OneCapital</Eyebrow>
+          <Eyebrow>{TEAM_PAGE.gallery.eyebrow}</Eyebrow>
           <SectionHeading id="gallery-heading" className="text-white">
-            Behind the Scenes
+            {TEAM_PAGE.gallery.heading}
           </SectionHeading>
           <BodyText className="max-w-xl text-base md:text-lg">
-            A glimpse into our team, office, and the work we do.
+            {TEAM_PAGE.gallery.body}
           </BodyText>
         </RevealOnScroll>
       </Container>
@@ -192,6 +194,8 @@ export function TeamGallerySection() {
                       <img
                         src={item.image}
                         alt={item.title}
+                        loading="lazy"
+                        decoding="async"
                         className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                       />
                       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -302,6 +306,8 @@ export function TeamGallerySection() {
                     <img
                       src={activeItem.image}
                       alt={activeItem.title}
+                      loading="lazy"
+                      decoding="async"
                       draggable={false}
                       className="pointer-events-none h-auto max-h-[76vh] w-auto max-w-[92vw] rounded-2xl object-contain"
                     />

@@ -73,18 +73,21 @@ export function TeamSection({ members = TEAM_MEMBERS, className }: TeamSectionPr
       if (cards) {
         const cardElements = cards.querySelectorAll('[data-team-card]');
         if (cardElements.length > 0) {
+          // No opacity tween — hover expand/collapse kills card tweens and can
+          // leave a mid-fade opacity stuck (intermittent dark portrait).
           gsap.from(cardElements, {
             scrollTrigger: {
               trigger: cards,
               start: 'top 90%',
               once: true,
             },
-            opacity: 0,
             y: 40,
             scale: 0.98,
             duration: 1.1,
             stagger: 0.08,
             ease: 'power3.out',
+            immediateRender: false,
+            clearProps: 'transform',
           });
         }
       }

@@ -29,6 +29,13 @@
   transition: box-shadow 0.55s var(--ease-premium, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
+/* Desktop grid: never leave GSAP inline opacity stuck after a killed reveal */
+@media (min-width: 768px) {
+  .team-viewport .team-card {
+    opacity: 1 !important;
+  }
+}
+
 .team-card.is-raised,
 .team-card.is-expanded {
   box-shadow: 0 28px 60px -24px rgb(0 0 0 / 0.7);

@@ -99,7 +99,7 @@ export function Surface({
     <div
       className={cn(
         'relative rounded-3xl',
-        variant === 'glass' && 'glass-panel',
+        variant === 'glass' && 'glass-panel', 
         variant === 'elevated' && 'bg-white/[0.04] border border-white/10',
         variant === 'plain' && 'bg-transparent',
         className

@@ -25,7 +25,8 @@ export function AboutInstitutionalEngagement() {
               </h2>
 
               <p className="text-base sm:text-lg text-white/70 font-light max-w-2xl leading-relaxed">
-                Whether structuring a family office mandate, transitioning generational assets, or allocating to private market strategies, our partners are available for a confidential discussion.
+                Whether you are starting an advisory conversation, reviewing a portfolio, or planning
+                longer-term wealth goals, the OneCapital team in Pune is available for a discreet discussion.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-6 text-xs font-mono text-white/40 uppercase tracking-wider">

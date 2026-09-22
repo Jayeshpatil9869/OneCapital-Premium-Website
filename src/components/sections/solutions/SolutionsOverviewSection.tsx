@@ -66,8 +66,7 @@ function PillarCard({ pillar, isMobile }: { pillar: HomePillarPreview; isMobile:
       glowColor={SILVER_GLOW_COLOR}
       className="magic-bento-card magic-bento-card--border-glow rounded-3xl group"
       style={{
-        backgroundColor: 'rgba(255, 255, 255, 0.02)',
-        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderColor: 'rgba(255, 255, 255, 0.12)',
         '--glow-color': SILVER_GLOW_COLOR,
       } as React.CSSProperties}
     >

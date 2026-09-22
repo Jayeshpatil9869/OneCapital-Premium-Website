@@ -12,12 +12,12 @@ import { cn } from "@/src/lib/utils";
 import {
   Button,
   Container,
-  Eyebrow,
   SectionHeading,
   BodyText,
 } from "@/src/components/ui";
 import { RevealOnScroll } from "@/src/components/motion/RevealOnScroll";
 import { teamMembers, type TeamMember } from "@/src/data/team";
+import { TEAM_PAGE } from "@/src/data/team-page";
 import {
   useGsap,
   animateTeamSection,
@@ -32,56 +32,56 @@ import {
 export function Team() {
   const rootRef = useRef<HTMLElement>(null);
   useGsap(rootRef, (root) => animateTeamSection(root), [], { force: true });
+  const { desks } = TEAM_PAGE;
 
   return (
     <section
       id="team"
       ref={rootRef}
-      className="relative w-full pt-16 md:pt-24 lg:pt-28 pb-[var(--space-section)] text-white"
+      className="relative w-full bg-black pt-16 md:pt-24 lg:pt-28 pb-[var(--space-section)] text-white"
       aria-labelledby="team-heading"
     >
       <Container>
-        <header className="mb-14 md:mb-20 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end justify-between">
-          <div className="lg:col-span-7 flex flex-col items-start gap-3">
+        <header className="mb-10 grid grid-cols-1 items-end gap-8 md:mb-14 lg:mb-16 lg:grid-cols-12 lg:gap-16">
+          <div className="flex flex-col items-start gap-4 lg:col-span-6">
             <RevealOnScroll
-              trigger="load"
               direction="up"
-              distance={24}
-              duration={1}
-              delay={0.4}
+              distance={20}
+              duration={0.9}
               ease="power3.out"
             >
-              <Eyebrow>Leadership</Eyebrow>
+              <div className="flex items-center gap-3">
+                <span className="h-px w-8 shrink-0 bg-white/35" aria-hidden />
+                <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-zinc-400 sm:text-xs">
+                  {desks.eyebrow}
+                </span>
+              </div>
             </RevealOnScroll>
             <RevealOnScroll
-              trigger="load"
               direction="up"
-              distance={36}
-              duration={1.15}
-              delay={0.5}
+              distance={28}
+              duration={1}
+              delay={0.08}
               ease="power3.out"
             >
               <SectionHeading
                 id="team-heading"
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-white leading-[1.12]"
+                className="text-3xl font-semibold tracking-tight text-white leading-[1.12] sm:text-4xl md:text-[2.5rem] lg:text-[2.85rem]"
               >
-                Meet Our Expert Team
+                {desks.heading}
               </SectionHeading>
             </RevealOnScroll>
           </div>
-          <div className="lg:col-span-5 flex flex-col justify-end">
+          <div className="flex flex-col justify-end lg:col-span-5 lg:col-start-8">
             <RevealOnScroll
-              trigger="load"
               direction="up"
-              distance={24}
-              delay={0.64}
-              duration={1}
+              distance={20}
+              delay={0.14}
+              duration={0.9}
               ease="power3.out"
             >
-              <BodyText className="text-base sm:text-lg text-text-muted font-light leading-relaxed max-w-xl">
-                A collective of seasoned professionals dedicated to your financial
-                success. Each advisor brings unique expertise and a shared
-                commitment to excellence.
+              <BodyText className="max-w-md text-base font-normal leading-relaxed text-zinc-400 sm:text-lg lg:ml-auto">
+                {desks.body}
               </BodyText>
             </RevealOnScroll>
           </div>
@@ -176,17 +176,19 @@ function TeamCarousel({ members }: { members: TeamMember[] }) {
     return Math.min(SHIFT_MAX, Math.max(SHIFT_MIN, width * SHIFT_RATIO));
   }, []);
 
+  const resetCardShift = useCallback(() => {
+    gsap.set(collectCards(), { x: 0, opacity: 1, scale: 1, force3D: true });
+  }, [collectCards]);
+
   const killShift = useCallback(() => {
     transitionTlRef.current?.kill();
     transitionTlRef.current = null;
     const track = trackRef.current;
     if (track) gsap.killTweensOf(track);
     gsap.killTweensOf(collectCards());
-  }, [collectCards]);
-
-  const resetCardShift = useCallback(() => {
-    gsap.set(collectCards(), { x: 0, opacity: 1, scale: 1, force3D: true });
-  }, [collectCards]);
+    // Killing a mid-slide timeline skips onComplete — restore dimmed cards.
+    resetCardShift();
+  }, [collectCards, resetCardShift]);
 
   const syncAutoplayDir = useCallback(
     (prev: number, next: number) => {
@@ -692,12 +694,19 @@ function TeamCard({
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onMouseEnter={() => {
+        // Scroll-reveal / slide tweens can leave inline opacity stuck; always clear on enter.
+        if (cardRef.current) {
+          gsap.set(cardRef.current, { opacity: 1, clearProps: "opacity" });
+        }
         if (hoverPointer) onOpen();
       }}
       onMouseLeave={() => {
         if (hoverPointer) onClose();
       }}
       onFocusCapture={() => {
+        if (cardRef.current) {
+          gsap.set(cardRef.current, { opacity: 1, clearProps: "opacity" });
+        }
         if (hoverPointer) onOpen();
       }}
       onBlurCapture={(e) => {
@@ -724,7 +733,7 @@ function TeamCard({
         <img
           data-team-image
           src={member.image}
-          alt=""
+          alt={member.name}
           width={720}
           height={1080}
           loading={priority ? "eager" : "lazy"}

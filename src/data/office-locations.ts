@@ -1,4 +1,5 @@
 import { latLngToMapPercent } from '@/src/lib/india-map-geo';
+import { COMPANY } from '@/src/data/company';
 
 export type OfficeLocation = {
   id: string;
@@ -28,6 +29,7 @@ function withMapPosition(office: OfficeSeed): OfficeLocation {
   };
 }
 
+/** OneCapital regional offices across Maharashtra. */
 const OFFICE_SEEDS: OfficeSeed[] = [
   {
     id: 'mumbai',
@@ -39,20 +41,20 @@ const OFFICE_SEEDS: OfficeSeed[] = [
     mapY: 60,
     order: 2,
     quote:
-      'Our Mumbai capital desk anchors OneCapital’s institutional network, connecting global insights with tailored wealth strategies.',
+      'Our Mumbai desk connects clients to OneCapital’s advisory network — mutual funds, portfolio management, and wealth planning with a clear local cadence.',
     headline: 'Mumbai Advisory Office',
   },
   {
     id: 'pune',
-    city: 'Pune',
-    region: 'Maharashtra',
-    lat: 18.5204,
-    lng: 73.8567,
-    mapX: 24,
-    mapY: 63,
+    city: COMPANY.hqCity,
+    region: COMPANY.hqRegion,
+    lat: 18.5515,
+    lng: 73.947,
+    mapX: 24.5,
+    mapY: 62.5,
     order: 1,
     quote:
-      'The Pune desk brings institutional discipline with the accessibility of a dedicated local advisory team.',
+      'Pune headquarters at World Trade Centre, Tower 1, West Kharadi — delivering investment advisory, portfolio management, and long-term wealth planning with a client-first approach.',
     headline: 'Pune Headquarters',
   },
   {
@@ -65,7 +67,7 @@ const OFFICE_SEEDS: OfficeSeed[] = [
     mapY: 70,
     order: 3,
     quote:
-      'From Kolhapur, we support families and principals with structured wealth planning rooted in long-term continuity.',
+      'From Kolhapur, we support families and businesses with structured wealth planning and disciplined portfolio conversations.',
     headline: 'Kolhapur Advisory Office',
   },
   {
@@ -78,12 +80,11 @@ const OFFICE_SEEDS: OfficeSeed[] = [
     mapY: 55,
     order: 4,
     quote:
-      'Our Nashik office extends OneCapital’s mandate to principals who value clarity, cadence, and considered counsel.',
+      'Our Nashik office extends OneCapital’s advisory reach to clients who value clarity, cadence, and considered counsel.',
     headline: 'Nashik Advisory Office',
   },
 ];
 
-/** OneCapital office locations — positions calibrated for real geography on India dot map. */
 export const OFFICE_LOCATIONS: OfficeLocation[] =
   OFFICE_SEEDS.map(withMapPosition);
 
@@ -96,22 +97,22 @@ export type PresenceStat = {
 export const PRESENCE_STATS: PresenceStat[] = [
   {
     id: 'offices',
-    value: '4',
+    value: String(OFFICE_LOCATIONS.length),
     label: 'Regional advisory offices across Maharashtra',
   },
   {
-    id: 'retention',
-    value: '98%',
-    label: 'Client retention across mandates',
+    id: 'founded',
+    value: String(COMPANY.foundedYear),
+    label: 'Year founded — Pune headquarters',
   },
   {
-    id: 'team',
-    value: '25+',
-    label: 'Specialists across wealth & asset management',
+    id: 'focus',
+    value: String(COMPANY.focusAreas.length),
+    label: 'Core mandates: advisory, portfolios, wealth planning',
   },
   {
-    id: 'experience',
-    value: '15 Yrs',
-    label: 'Institutional market experience',
+    id: 'services',
+    value: `${COMPANY.serviceLines.length}+`,
+    label: 'Service lines spanning funds, planning, and alternatives',
   },
 ];

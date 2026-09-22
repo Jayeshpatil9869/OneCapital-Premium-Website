@@ -36,3 +36,13 @@ Fall back to Grep/Glob/Read **only** when the graph doesn't cover what you need.
 2. Use `detect_changes` for code review.
 3. Use `get_affected_flows` to understand impact.
 4. Use `query_graph` pattern="tests_for" to check coverage.
+
+<!-- my-frontend-skills:start -->
+# My Frontend Skills
+
+This project uses the global award-level frontend design system.
+
+Read and follow `.cursor/skills/my-frontend-skills/SKILL.md` before designing or coding UI.
+
+Do not ship generic AI landing pages. Honor the existing stack. GSAP for motion; Lenis only for editorial scroll.
+<!-- my-frontend-skills:end -->

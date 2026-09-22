@@ -19,7 +19,7 @@ export function setTeamCardInstant(cardEl: HTMLElement, isExpanded: boolean) {
 
   if (isExpanded) {
     cardEl.classList.add('is-expanded');
-    gsap.set(cardEl, { y: CARD_LIFT_Y });
+    gsap.set(cardEl, { y: CARD_LIFT_Y, opacity: 1, clearProps: 'opacity' });
     if (image) gsap.set(image, { scale: IMAGE_HOVER_SCALE, y: IMAGE_HOVER_Y, transformOrigin: '50% 100%' });
     if (info) gsap.set(info, { height: 'auto', overflow: 'visible' });
     if (name) gsap.set(name, { y: 0, autoAlpha: 1 });
@@ -28,7 +28,7 @@ export function setTeamCardInstant(cardEl: HTMLElement, isExpanded: boolean) {
     if (cta) gsap.set(cta, { y: 0, autoAlpha: 1 });
   } else {
     cardEl.classList.remove('is-expanded');
-    gsap.set(cardEl, { y: 0 });
+    gsap.set(cardEl, { y: 0, opacity: 1, clearProps: 'opacity' });
     if (image) gsap.set(image, { scale: 1, y: 0, transformOrigin: '50% 100%' });
     if (info) gsap.set(info, { height: 0, overflow: 'hidden' });
     if (name) gsap.set(name, { y: 12, autoAlpha: 0 });
@@ -56,6 +56,8 @@ export function expandTeamCard(cardEl: HTMLElement): gsap.core.Timeline | void {
 
   // Kill existing tweens on these elements
   gsap.killTweensOf([cardEl, image, info, name, desc, tag, cta].filter(Boolean));
+  // Hover can interrupt scroll-reveal mid-fade; restore full opacity immediately.
+  gsap.set(cardEl, { opacity: 1, clearProps: 'opacity' });
 
   // Measure target height
   info.style.height = 'auto';
@@ -173,6 +175,7 @@ export function collapseTeamCard(cardEl: HTMLElement): gsap.core.Timeline | void
   if (!info) return;
 
   gsap.killTweensOf([cardEl, image, info, name, desc, tag, cta].filter(Boolean));
+  gsap.set(cardEl, { opacity: 1, clearProps: 'opacity' });
 
   const items = [cta, tag, desc, name].filter(Boolean);
 

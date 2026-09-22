@@ -5,6 +5,7 @@ import { Button } from "@/src/components/ui";
 import { AppDownloadCard } from "./AppDownloadCard";
 import { SocialLinks } from "./SocialLinks";
 import { LightSweepText } from "./motion/LightSweepText";
+import { COMPANY } from "@/src/data/company";
 
 export default function Footer() {
   return (
@@ -22,8 +23,7 @@ export default function Footer() {
         <div className="flex flex-col gap-6 lg:pr-8">
           <BrandLogo className="text-white w-fit" markClassName="h-9 w-9" />
           <p className="text-text-muted text-sm leading-relaxed max-w-sm text-balance">
-            A sophisticated wealth-management partner helping clients
-            understand, build, manage and preserve wealth over the long term.
+            {COMPANY.tagline}
           </p>
           <SocialLinks className="mt-2" />
         </div>
@@ -35,10 +35,11 @@ export default function Footer() {
               Strategies
             </h4>
             {[
-              { name: "Capital Strategy", path: "/solutions#capital-strategy" },
-              { name: "Portfolio Management", path: "/solutions#portfolio-management" },
-              { name: "Risk & Wealth Architecture", path: "/solutions#risk-wealth-architecture" },
-              { name: "Intelligence & Oversight", path: "/solutions#intelligence-oversight" },
+              { name: "Capital Strategy", path: "/solutions/capital-strategy" },
+              { name: "Portfolio Management", path: "/solutions/portfolio-management" },
+              { name: "Risk & Wealth Architecture", path: "/solutions/risk-wealth-architecture" },
+              { name: "Intelligence & Oversight", path: "/solutions/intelligence-oversight" },
+              { name: "Calculators", path: "/calculators" },
             ].map((item) => (
               <Link
                 key={item.path}
@@ -84,6 +85,24 @@ export default function Footer() {
             Reach out to our advisory team to discuss your portfolio and
             long-term vision.
           </p>
+          <div className="flex flex-col gap-2 text-sm text-white/70">
+            <a
+              href={COMPANY.phoneHref}
+              className="tabular-nums hover:text-white transition-colors w-fit"
+            >
+              {COMPANY.phone}
+            </a>
+            <p className="text-text-muted leading-relaxed">
+              {COMPANY.hqStreet}
+              <br />
+              {COMPANY.hqCity} {COMPANY.hqPostalCode}
+            </p>
+            <p className="text-[11px] font-mono text-white/40 leading-relaxed tracking-wide">
+              GSTIN {COMPANY.gstin}
+              <br />
+              CIN {COMPANY.cin}
+            </p>
+          </div>
           <Button
             to="/contact"
             variant="secondary"
@@ -109,7 +128,7 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t border-white/10 relative z-10">
         <p className="text-xs text-text-muted font-mono tracking-wide">
-          © {new Date().getFullYear()} OneCapital. All rights reserved.
+          © {new Date().getFullYear()} {COMPANY.domain} • {COMPANY.legalName}
         </p>
         <div className="flex flex-wrap items-center gap-6 justify-center">
           {[

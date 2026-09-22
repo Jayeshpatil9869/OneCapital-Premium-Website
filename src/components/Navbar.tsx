@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
-import { useLenis } from "lenis/react";
 import { useGSAP } from "@gsap/react";
 import { cn } from "../lib/utils";
 import {
@@ -40,14 +39,14 @@ const NAV_ITEMS: NavItem[] = [
   },
   {
     kind: "dropdown",
-    name: "Solutions",
-    label: "Solutions",
+    name: "Our Products",
+    label: "Our Products",
     path: "/solutions",
     children: [
-      { name: "Capital Strategy", path: "/solutions#capital-strategy" },
-      { name: "Portfolio Management", path: "/solutions#portfolio-management" },
-      { name: "Risk & Wealth Architecture", path: "/solutions#risk-wealth-architecture" },
-      { name: "Intelligence & Oversight", path: "/solutions#intelligence-oversight" },
+      { name: "Capital Strategy", path: "/solutions/capital-strategy" },
+      { name: "Portfolio Management", path: "/solutions/portfolio-management" },
+      { name: "Risk & Wealth Architecture", path: "/solutions/risk-wealth-architecture" },
+      { name: "Intelligence & Oversight", path: "/solutions/intelligence-oversight" },
     ],
   },
   {
@@ -116,7 +115,10 @@ function surfaceVars(
 
 function pathMatchesItem(pathname: string, item: NavItem): boolean {
   if (item.kind === "link") {
-    return pathname === item.path;
+    if (pathname === item.path) return true;
+    // Keep Calculators active on nested tool pages.
+    if (item.path !== "/" && pathname.startsWith(`${item.path}/`)) return true;
+    return false;
   }
   return item.children.some((child) => {
     const basePath = child.path.split("#")[0];
@@ -300,7 +302,6 @@ export default function Navbar() {
   const [desktopOpenId, setDesktopOpenId] = useState<string | null>(null);
   const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
   const location = useLocation();
-  const lenis = useLenis();
   const desktopCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const clearDesktopClose = () => {
@@ -359,19 +360,44 @@ export default function Navbar() {
 
   useEffect(() => () => clearDesktopClose(), []);
 
+  // Close mobile menu when viewport crosses to desktop — avoids stuck
+  // overflow:hidden while the panel is lg:hidden and the hamburger is gone.
   useEffect(() => {
+    const desktopMq = window.matchMedia("(min-width: 1024px)");
+    const onBreakpoint = () => {
+      if (desktopMq.matches) {
+        setMobileMenuOpen(false);
+        setMobileAccordion(null);
+      }
+    };
+    onBreakpoint();
+    desktopMq.addEventListener("change", onBreakpoint);
+    return () => desktopMq.removeEventListener("change", onBreakpoint);
+  }, []);
+
+  useEffect(() => {
+    // CSS-only lock — never Lenis.stop() (that preventDefaults all touch scroll).
     if (mobileMenuOpen) {
+      document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
-      lenis?.stop();
     } else {
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
-      lenis?.start();
     }
     return () => {
+      // Always force-clear overflow locks on unmount
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
-      lenis?.start();
+      document.documentElement.classList.remove("oc-preloader-lock");
     };
-  }, [mobileMenuOpen, lenis]);
+  }, [mobileMenuOpen]);
+
+  // Safety: force-unlock scroll on mount
+  useEffect(() => {
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
+    document.documentElement.classList.remove("oc-preloader-lock");
+  }, []);
 
   useEffect(() => {
     if (!mobileMenuOpen && !desktopOpenId) return;
@@ -554,6 +580,7 @@ export default function Navbar() {
                 <Link
                   key={item.name}
                   to={item.path}
+                  onClick={() => setMobileMenuOpen(false)}
                   className={cn(
                     "min-h-12 inline-flex items-center transition-colors",
                     location.pathname === item.path

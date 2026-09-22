@@ -1,5 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
-import { Building2, Mail, Phone } from 'lucide-react';
+import { Mail, MapPin, Phone } from 'lucide-react';
+import { COMPANY, COMPANY_LOCATION_LINES } from '@/src/data/company';
 import { SOLUTION_PILLARS } from '@/src/data/solutions-pillars';
 
 export type ContactDetail = {
@@ -11,43 +12,40 @@ export type ContactDetail = {
 };
 
 export const CONTACT_PAGE_COPY = {
-  headline: 'Start Your',
-  headlineAccent: 'Legacy.',
+  eyebrow: 'Contact',
+  watermark: 'CONTACT',
+  headline: 'Get in touch',
   subtext:
-    'Initiate a conversation with our advisory team to discuss your portfolio, goals, and wealth architecture.',
+    'Questions about advisory, mutual funds, or portfolio management? Start a conversation with the OneCapital team in Pune.',
   formTitle: 'Request a Consultation',
-  confidentialityNote: 'All communications are strictly confidential.',
+  confidentialityNote: 'All communications are treated with discretion.',
   successTitle: 'Request received',
   successMessage:
-    'Thank you. Our advisory team will review your brief and respond within one business day.',
+    'Thank you. Our team will review your note and respond as soon as we can.',
   submitAnotherLabel: 'Submit another request',
   submitLabel: 'Submit Request',
 } as const;
 
 export const CONTACT_DETAILS: ContactDetail[] = [
   {
-    id: 'headquarters',
-    label: 'Headquarters',
-    icon: Building2,
-    lines: [
-      'OneCapital Financial Center',
-      'Financial District',
-      'Pune, Maharashtra, India',
-    ],
+    id: 'phone',
+    label: 'Call us',
+    icon: Phone,
+    lines: [COMPANY.phone],
+    href: COMPANY.phoneHref,
   },
   {
     id: 'email',
-    label: 'Direct Inquiry',
+    label: 'Email us',
     icon: Mail,
-    lines: ['onecapital0404@gmail.com'],
-    href: 'mailto:onecapital0404@gmail.com',
+    lines: [COMPANY.email],
+    href: `mailto:${COMPANY.email}`,
   },
   {
-    id: 'phone',
-    label: 'Private Desk',
-    icon: Phone,
-    lines: ['+91 22 0000 0000'],
-    href: 'tel:+912200000000',
+    id: 'headquarters',
+    label: 'Our location',
+    icon: MapPin,
+    lines: [...COMPANY_LOCATION_LINES],
   },
 ];
 
@@ -65,10 +63,10 @@ export const CONTACT_INTEREST_OPTIONS: ContactInterestOption[] = [
 ];
 
 export const CONTACT_FORM_PLACEHOLDERS = {
-  fullName: 'John Doe',
-  email: 'john@company.com',
-  phone: '+91 98765 43210',
+  fullName: 'Your full name',
+  email: 'you@company.com',
+  phone: COMPANY.phone,
   interest: 'Select an interest',
   message:
-    'Briefly describe your current portfolio structure or advisory needs...',
+    'Briefly describe your advisory needs, portfolio questions, or wealth-planning goals...',
 } as const;

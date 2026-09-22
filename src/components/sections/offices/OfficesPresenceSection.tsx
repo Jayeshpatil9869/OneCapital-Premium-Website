@@ -33,8 +33,8 @@ export function OfficesPresenceSection() {
                   Advisory rooted in Maharashtra.
                 </SectionHeading>
                 <BodyText className="text-base md:text-lg max-w-xl">
-                  OneCapital serves principals and families from four regional offices —
-                  combining local access with institutional discipline.{' '}
+                  OneCapital serves clients from four regional offices — Pune headquarters plus
+                  Mumbai, Kolhapur, and Nashik — combining local access with disciplined advisory.{' '}
                   <span className="md:hidden">Tap a location on the map to explore each office.</span>
                   <span className="hidden md:inline">Hover a location on the map to explore each office.</span>
                 </BodyText>
