@@ -29,7 +29,7 @@ export function SolutionPageHero({ config }: SolutionPageHeroProps) {
         )}
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.28)_32%,rgba(0,0,0,0.55)_58%,rgba(0,0,0,0.88)_82%,#000000_100%)]" />
       </div>
-
+,
       <Container className="relative z-10 mx-auto w-full max-w-[1400px] px-6 pb-14 pt-[max(7.5rem,env(safe-area-inset-top))] sm:px-8 sm:pb-16 lg:px-12 lg:pb-20">
         <div className="flex max-w-[1100px] flex-col">
           <RevealOnScroll
@@ -57,7 +57,7 @@ export function SolutionPageHero({ config }: SolutionPageHeroProps) {
           >
             <p className="max-w-[38rem] font-sans text-[15px] font-light leading-[1.65] text-white/85 sm:text-base lg:text-lg">
               {hero.subheadline}
-            </p>
+            </p> 
             <div className="mt-8 sm:mt-10">
               <Button to="/contact" variant="primary" size="md" arrow="right">
                 Request Strategy Session

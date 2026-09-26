@@ -265,9 +265,9 @@ export function TestimonialsSection() {
       <Container>
         <div
           ref={contentRef}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start lg:items-center"
+          className="mx-auto grid max-w-5xl grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:items-center lg:gap-10"
         >
-          <div className="lg:col-span-4 flex flex-col gap-6">
+          <div className="flex flex-col gap-4 lg:col-span-4">
             <Eyebrow
               className="text-white/55 group-[.light-section]:text-black/55 [&_span:last-child]:text-white/55 group-[.light-section]:[&_span:last-child]:text-black/55 [&_span:first-child]:bg-white/30 group-[.light-section]:[&_span:first-child]:bg-black/30"
             >
@@ -276,19 +276,19 @@ export function TestimonialsSection() {
 
             <SectionHeading
               id="client-perspectives-heading"
-              className="text-white group-[.light-section]:text-black"
+              className="max-w-[12ch] text-[clamp(1.35rem,1rem+1.2vw,2rem)] text-white group-[.light-section]:text-black"
             >
               Trusted for the long term.
             </SectionHeading>
 
-            <p className="oc-text-smooth text-base md:text-lg max-w-md leading-relaxed font-light text-balance text-white/70 group-[.light-section]:text-black/70">
+            <p className="oc-text-smooth max-w-sm text-balance text-sm font-light leading-relaxed text-white/70 md:text-base group-[.light-section]:text-black/70">
               Capital stewardship is ultimately about confidence — in the
               decisions, the discipline, and the people guiding them.
             </p>
           </div>
 
           <div
-            className="lg:col-span-8 min-w-0"
+            className="min-w-0 lg:col-span-8"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             onFocusCapture={() => setIsPaused(true)}
@@ -303,7 +303,7 @@ export function TestimonialsSection() {
             }}
           >
             <div
-              className="bg-black border border-white/10 rounded-3xl oc-card-hover-glow p-8 md:p-10 lg:p-12 flex flex-col justify-between gap-8 min-h-[26rem] sm:min-h-[24rem] md:min-h-[22rem] transition-colors duration-500 hover:border-white/20 touch-pan-y select-none"
+              className="oc-card-hover-glow flex min-h-[20rem] touch-pan-y select-none flex-col justify-between gap-5 rounded-2xl border border-white/10 bg-black p-5 transition-colors duration-500 hover:border-white/20 sm:min-h-[18rem] sm:p-6 md:min-h-[17rem] md:p-7"
               aria-live="polite"
               aria-atomic="true"
               onPointerDown={onSwipePointerDown}
@@ -312,15 +312,14 @@ export function TestimonialsSection() {
             >
               <div
                 ref={quoteContentRef}
-                className="reveal-ready flex flex-col justify-between gap-8 flex-1"
+                className="reveal-ready flex flex-1 flex-col justify-between gap-5"
               >
                 <blockquote className="grid min-w-0">
                   {HOME_TESTIMONIALS.map((item) => (
                     <p
                       key={item.id}
                       className={cn(
-                        "col-start-1 row-start-1 text-xl md:text-2xl lg:text-[1.75rem] leading-snug tracking-tight text-white font-light text-balance",
-
+                        "col-start-1 row-start-1 text-balance text-base font-light leading-snug tracking-tight text-white md:text-lg lg:text-xl",
                         item.id === active.id ? "visible" : "invisible",
                       )}
                     >
@@ -329,58 +328,58 @@ export function TestimonialsSection() {
                   ))}
                 </blockquote>
 
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-                  <div className="flex items-center gap-3 min-w-0">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex min-w-0 items-center gap-2.5">
                     {active.avatarSrc ? (
                       <img
                         src={active.avatarSrc}
                         alt=""
-                        width={40}
-                        height={40}
+                        width={32}
+                        height={32}
                         loading="lazy"
                         decoding="async"
-                        className="h-10 w-10 shrink-0 rounded-full object-cover border border-white/15"
+                        className="h-8 w-8 shrink-0 rounded-full border border-white/15 object-cover"
                       />
                     ) : (
                       <span
                         aria-hidden
-                        className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 font-mono text-sm font-medium text-white"
+                        className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 font-mono text-xs font-medium text-white"
                       >
                         {clientInitials(active.client)}
                       </span>
                     )}
 
                     <div className="min-w-0">
-                      <p className="text-lg font-medium text-white truncate">
+                      <p className="truncate text-sm font-medium text-white">
                         {active.client}
                       </p>
 
-                      <p className="text-sm text-text-muted mt-0.5 truncate">
+                      <p className="mt-0.5 truncate text-xs text-text-muted">
                         {active.role}
                       </p>
                     </div>
                   </div>
 
                   <div
-                    className="flex items-center justify-end gap-2 shrink-0"
+                    className="flex shrink-0 items-center justify-end gap-2"
                     onPointerDown={(event) => event.stopPropagation()}
                   >
                     <button
                       type="button"
                       aria-label="Previous testimonial"
                       onClick={() => goTo(activeIndex - 1)}
-                      className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-full border border-white/15 text-white/50 hover:border-white/40 hover:text-white transition-colors duration-500"
+                      className="inline-flex min-h-9 min-w-9 items-center justify-center rounded-full border border-white/15 text-white/50 transition-colors duration-500 hover:border-white/40 hover:text-white"
                     >
-                      <ChevronLeft className="w-5 h-5" aria-hidden />
+                      <ChevronLeft className="h-4 w-4" aria-hidden />
                     </button>
 
                     <button
                       type="button"
                       aria-label="Next testimonial"
                       onClick={() => goTo(activeIndex + 1)}
-                      className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-full border border-white/15 text-white/50 hover:border-white/40 hover:text-white transition-colors duration-500"
+                      className="inline-flex min-h-9 min-w-9 items-center justify-center rounded-full border border-white/15 text-white/50 transition-colors duration-500 hover:border-white/40 hover:text-white"
                     >
-                      <ChevronRight className="w-5 h-5" aria-hidden />
+                      <ChevronRight className="h-4 w-4" aria-hidden />
                     </button>
                   </div>
                 </div>

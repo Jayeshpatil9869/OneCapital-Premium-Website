@@ -62,6 +62,7 @@ export default function Footer() {
               { name: "Our Approach", path: "/approach" },
               { name: "Team", path: "/team" },
               { name: "Insights", path: "/insights" },
+              { name: "Blog", path: "/blog" },
               { name: "Contact", path: "/contact" },
             ].map((item) => (
               <Link

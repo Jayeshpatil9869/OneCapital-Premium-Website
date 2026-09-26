@@ -55,8 +55,8 @@ const NAV_ITEMS: NavItem[] = [
     label: "Insights",
     path: "/insights",
     children: [
-      { name: "Blog", path: "/insights" },
-      { name: "Newsletter", path: "/insights" },
+      { name: "Insights", path: "/insights" },
+      { name: "Blog", path: "/blog" },
     ],
   },
   { kind: "link", name: "Contact Us", path: "/contact" },

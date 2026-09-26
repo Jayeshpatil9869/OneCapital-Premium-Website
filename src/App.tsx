@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './layouts/Layout';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -6,6 +6,7 @@ import Solutions from './pages/Solutions';
 import Approach from './pages/Approach';
 import Team from './pages/Team';
 import Insights from './pages/Insights';
+import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import DesignSystem from './pages/DesignSystem';
 import Calculators from './pages/Calculators';
@@ -35,6 +36,8 @@ const router = createBrowserRouter([
       { path: 'approach', element: <Approach /> },
       { path: 'team', element: <Team /> },
       { path: 'insights', element: <Insights /> },
+      { path: 'blog', element: <Blog /> },
+      { path: 'insights/blog', element: <Navigate to="/blog" replace /> },
       { path: 'calculators', element: <Calculators /> },
       { path: 'calculators/sip', element: <SipCalculatorPage /> },
       { path: 'calculators/lumpsum', element: <LumpsumCalculatorPage /> },
