@@ -4,24 +4,40 @@ import { COMPANY } from '@/src/data/company';
 export const ABOUT_PAGE = {
   documentTitle: `About Us | ${COMPANY.brandName}`,
 
+  seo: {
+    title: `Wealth Management Firm in ${COMPANY.hqCity} | About ${COMPANY.brandName}`,
+    description: `${COMPANY.legalName} is a ${COMPANY.hqCity}-based wealth management and investment advisory firm founded in ${COMPANY.foundedYear} — mutual funds, portfolio management, wealth planning, and tax-aware strategy across Maharashtra.`,
+    keywords: [
+      'wealth management firm Pune',
+      'investment advisory Maharashtra',
+      'One Capital Investment',
+      'portfolio management mutual funds',
+      'wealth planning Pune',
+      COMPANY.brandName,
+    ],
+  },
+
   hero: {
     line1: `About ${COMPANY.brandName},`,
     line2: 'genesis & purpose.',
     meta: [
       'GENESIS • PURPOSE /',
       'PRECISION ADVISORY • WEALTH',
-      'STEWARDSHIP — INSTITUTIONAL',
+      'STEWARDSHIP — MAHARASHTRA',
     ] as const,
-    description:
-      'Redefining wealth management with the precision of experts and the passion of partners. We help individuals and family enterprises protect, structure, and compound enduring capital with institutional clarity.',
+    description: `A ${COMPANY.hqCity}-rooted wealth partner for individuals, families, and businesses — research-led advisory, portfolio stewardship, and long-term planning with clarity and discipline.`,
   },
 
   story: {
     eyebrow: 'Our Story • Genesis',
-    headingLine1: 'Disciplined Wealth,',
-    headingLine2: 'Built in Pune',
-    lead: `${COMPANY.legalName} is a ${COMPANY.hqCity}-based financial services firm founded in ${COMPANY.foundedYear}. We help individuals and businesses grow wealth through strategic, disciplined investment advisory, portfolio management, and long-term wealth planning tailored to each client's goals.`,
+    headingLine1: 'Wealth planned around your life.',
+    headingLine2: '',
+    imageSrc: '/images/about-story.jpg',
     imageAlt: `${COMPANY.brandName} advisory workspace — ${COMPANY.hqCity} headquarters`,
+    lead: `Founded in ${COMPANY.foundedYear}, ${COMPANY.legalName} is a ${COMPANY.hqCity}-based wealth management and investment advisory firm. We partner with individuals, families, and businesses to design capital plans around real goals — then implement them with research, suitability, and ongoing stewardship.`,
+    approach: `Our work spans capital strategy, portfolio management, risk & wealth architecture, and intelligence & oversight — including mutual funds, Portfolio Management Services (PMS), wealth planning, tax-aware investing, and carefully evaluated alternatives such as AIFs, startup equity, and structured real-estate products when they fit the mandate.`,
+    bridge: `From our ${COMPANY.hqCity} headquarters and offices in Mumbai, Kolhapur, and Nashik — and through ${COMPANY.domain} — clients get transparent advisory, consolidated clarity on what they own, and a consistent review cadence across market cycles.`,
+    presence: `Local access across Maharashtra. Institutional discipline in every conversation.`,
     /** Single centered paragraph with inline scroll-reveal images. */
     revealParagraph: [
       { type: 'text', value: 'We build' },
@@ -56,22 +72,17 @@ export const ABOUT_PAGE = {
       },
       { type: 'text', value: 'Kolhapur & Nashik.' },
     ],
-    approach:
-      'Our approach combines market insight, risk management, and personalized strategy — spanning mutual funds, portfolio management services, wealth planning, tax strategy, and thoughtfully evaluated alternative allocations such as AIFs, startup equity, and structured real-estate products.',
-    bridge:
-      `Through ${COMPANY.domain}, we bridge financial aspirations and outcomes with transparent advisory — helping clients build, preserve, and compound wealth with clarity across market cycles.`,
-    presence: `From our ${COMPANY.hqCity} headquarters and regional offices in Mumbai, Kolhapur, and Nashik, we bring local access and a consistent advisory cadence across Maharashtra.`,
   },
 
   missionVision: {
     heading: 'Our Mission & Vision',
     mission: {
       title: 'Our Mission',
-      body: `Help individuals and businesses grow wealth through transparent, customized investment advisory, portfolio management, and long-term wealth planning — tailored to each client's goals.`,
+      body: `Help individuals and businesses grow and protect wealth through transparent investment advisory, portfolio management, and long-term wealth planning — personalized to goals, risk capacity, and life stage.`,
     },
     vision: {
       title: 'Our Vision',
-      body: `To be a trusted Maharashtra-based advisory partner, rooted in ${COMPANY.hqCity} — delivering research-informed wealth solutions and enduring client relationships through clarity, integrity, and a client-first approach.`,
+      body: `To be Maharashtra's trusted wealth partner, rooted in ${COMPANY.hqCity} — known for research-informed solutions, clear reporting, and relationships that outlast a single market cycle.`,
     },
   },
 
@@ -79,22 +90,22 @@ export const ABOUT_PAGE = {
     eyebrow: 'Core Values',
     heading: 'Our Core Values',
     subtext:
-      'The principles that guide every decision we make and every relationship we build.',
+      'The standards behind every recommendation, portfolio review, and client conversation.',
     items: [
       {
         title: 'Long-Term Planning',
         description:
-          'Durable wealth is built with patience, discipline, and deliberate allocation — we focus on long-term planning rather than short-term speculation.',
+          'We prioritize durable allocation and goal funding over short-term speculation — patience and policy before product.',
       },
       {
         title: 'Integrity & Transparency',
         description:
-          'Clear reasoning, open communication, and alignment with client interests across advisory conversations, portfolio decisions, and reporting.',
+          'Clear reasoning on risks, costs, and trade-offs. Clients should always know what they own and why they own it.',
       },
       {
         title: 'Client-Centric Solutions',
         description:
-          'Every mandate is different. We personalize investment advisory, portfolio management, and wealth planning around individual goals, risk profiles, and life stages.',
+          'Every mandate is different. Advisory, mutual funds, PMS pathways, and wealth planning are sized to the person — not a catalog.',
       },
     ],
   },

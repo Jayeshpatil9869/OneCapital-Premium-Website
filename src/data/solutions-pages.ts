@@ -1,5 +1,6 @@
 import type { SolutionPillar } from './solutions-pillars';
 import { getPillarById, SOLUTION_PILLARS } from './solutions-pillars';
+import { COMPANY } from './company';
 
 export type SolutionVisualKind =
   | 'capital-flow'
@@ -11,6 +12,7 @@ export type SolutionPageSection = {
   id: string;
   title: string;
   body: string;
+  /** points[0] renders as section tagline; remaining items as capability chips */
   points?: string[];
 };
 
@@ -23,9 +25,17 @@ export type SolutionOverviewConfig = {
   reversed?: boolean;
 };
 
+export type SolutionPageSeo = {
+  title: string;
+  description: string;
+  keywords: string[];
+  serviceType: string;
+};
+
 export type SolutionDedicatedConfig = {
   pillarId: string;
   documentTitle: string;
+  seo: SolutionPageSeo;
   hero: {
     image: string;
     headline: string;
@@ -48,26 +58,39 @@ export type SolutionDedicatedConfig = {
 };
 
 export const SOLUTIONS_HUB = {
-  documentTitle: 'Solutions | OneCapital',
+  documentTitle: `Our Products | ${COMPANY.brandName}`,
+  seo: {
+    title: `Our Products — Wealth Advisory & Portfolio Solutions | ${COMPANY.brandName}`,
+    description: `${COMPANY.brandName} in ${COMPANY.hqCity} offers capital strategy, portfolio management, risk & wealth architecture, and intelligence & oversight — spanning mutual funds, PMS, wealth planning, tax strategy, and alternatives.`,
+    keywords: [
+      'wealth management advisory',
+      'portfolio management services Pune',
+      'mutual funds India',
+      'capital strategy investment',
+      'risk management wealth planning',
+      'AIF mutual funds India',
+      'One Capital Investment',
+      COMPANY.brandName,
+    ],
+  },
   hero: {
     image: '/images/solutions/solutions-hub.jpg',
-    line1: 'The steward and architect',
-    line2: 'of your capital.',
-    description:
-      'Discretion, clarity, and research-led thinking — structured for individuals, families, and businesses seeking long-term advisory partnership.',
+    line1: 'Products built around',
+    line2: 'how wealth actually works.',
+    description: `From our ${COMPANY.hqCity} base, we help individuals and businesses grow and protect capital through investment advisory, portfolio management, wealth planning, and transparent oversight — across mutual funds, PMS pathways, tax strategy, and carefully evaluated alternatives.`,
   },
   intro: {
-    statement: 'Capital is not merely managed. It is understood, structured, protected, and continuously informed.',
-    body: 'OneCapital’s Solutions ecosystem integrates strategy, portfolio stewardship, risk architecture, and intelligence into one coherent mandate — so every allocation decision serves long-term preservation and deliberate growth.',
+    statement: 'Four product pillars. One coherent wealth mandate.',
+    body: 'Capital Strategy sets direction. Portfolio Management implements and stewards. Risk & Wealth Architecture protects compounding. Intelligence & Oversight keeps every decision visible and accountable — so advisory stays concrete, not abstract.',
   },
   trust: {
-    eyebrow: 'Institutional discipline',
-    headline: 'Research-led. Relationship-driven. Regulation-aware.',
+    eyebrow: 'How we work',
+    headline: 'Research-led. Client-first. Regulation-aware.',
     points: [
-      'Integrated advisory across public and private markets',
-      'Disciplined frameworks for allocation, liquidity, and risk',
-      'Consolidated reporting and transparent oversight',
-      'Long-term partnership with individuals, families, and businesses',
+      'Mutual funds via AMFI-registered distribution (ARN-verified)',
+      'Portfolio pathways including PMS and AIFs where suitable',
+      'Wealth planning and tax strategy integrated with investing',
+      `Local presence across ${COMPANY.hqCity}, Mumbai, Kolhapur & Nashik`,
     ],
   },
 } as const;
@@ -78,33 +101,33 @@ export const SOLUTION_OVERVIEWS: SolutionOverviewConfig[] = [
     visual: 'capital-flow',
     headline: 'Direction before deployment.',
     statement:
-      'Capital Strategy establishes the intellectual framework behind every allocation — objectives, constraints, and deliberate portfolio design.',
-    flowSteps: ['Capital', 'Allocation', 'Opportunity', 'Growth'],
+      'Capital Strategy turns goals, risk capacity, and liquidity needs into a clear allocation policy — before mutual funds, PMS, or alternatives are selected.',
+    flowSteps: ['Goals', 'Policy', 'Allocation', 'Products'],
   },
   {
     id: 'portfolio-management',
     visual: 'allocation-chart',
-    headline: 'Precision in every position.',
+    headline: 'Portfolios that earn their keep.',
     statement:
-      'Portfolio Management is active stewardship across public and private markets — constructed, monitored, and rebalanced with intent.',
-    flowSteps: ['Portfolio', 'Allocation', 'Monitoring', 'Rebalancing'],
+      'Portfolio Management builds and stewards holdings across mutual funds, PMS, and suitable alternatives — monitored and rebalanced as life and markets change.',
+    flowSteps: ['Construct', 'Invest', 'Monitor', 'Rebalance'],
     reversed: true,
   },
   {
     id: 'risk-wealth-architecture',
     visual: 'risk-map',
-    headline: 'Structure beneath the portfolio.',
+    headline: 'Structure beneath the returns.',
     statement:
-      'Risk & Wealth Architecture addresses protection, liquidity design, tax efficiency, and intergenerational transfer — the foundation beneath growth.',
-    flowSteps: ['Growth', 'Liquidity', 'Protection', 'Legacy'],
+      'Risk & Wealth Architecture covers risk profiling, liquidity, tax-aware investing, and long-term wealth planning — the foundation that lets portfolios compound.',
+    flowSteps: ['Risk', 'Liquidity', 'Tax', 'Legacy'],
   },
   {
     id: 'intelligence-oversight',
     visual: 'intelligence-pipeline',
     headline: 'Visibility that informs action.',
     statement:
-      'Intelligence & Oversight delivers manager diligence, performance transparency, consolidated reporting, and disciplined capital deployment.',
-    flowSteps: ['Data', 'Research', 'Insight', 'Oversight', 'Decision'],
+      'Intelligence & Oversight delivers fund diligence, consolidated reporting, and disciplined deployment — transparent advisory across your financial picture.',
+    flowSteps: ['Diligence', 'Insight', 'Report', 'Decide'],
     reversed: true,
   },
 ];
@@ -117,7 +140,7 @@ function buildDedicated(pillarId: string, config: DedicatedPageInput): SolutionD
 
   return {
     pillarId,
-    documentTitle: `${pillar.title} | OneCapital`,
+    documentTitle: config.seo.title,
     ...config,
     sections:
       config.sections.length > 0
@@ -133,43 +156,75 @@ function buildDedicated(pillarId: string, config: DedicatedPageInput): SolutionD
 
 export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> = {
   'capital-strategy': buildDedicated('capital-strategy', {
+    seo: {
+      title: `Capital Strategy & Investment Advisory | ${COMPANY.brandName}`,
+      description: `Capital strategy and investment advisory in ${COMPANY.hqCity} — goal mapping, asset allocation, and portfolio design across mutual funds, debt, equity, and alternatives before capital is deployed.`,
+      keywords: [
+        'capital strategy investment',
+        'investment advisory Pune',
+        'asset allocation India',
+        'wealth management advisory',
+        'One Capital Investment',
+      ],
+      serviceType: 'Investment advisory and capital allocation strategy',
+    },
     hero: {
       image: '/images/solutions/capital-strategy.jpg',
-      headline: 'Strategic decisions before capital moves.',
+      headline: 'Strategy first. Products second.',
       subheadline:
-        'The intellectual framework behind every allocation — objectives, constraints, and deliberate portfolio design.',
+        'Define goals, risk budget, and liquidity — then design how capital should sit across mutual funds, debt, equity, and alternatives.',
       imagePosition: 'center 40%',
     },
     intro: {
-      statement: 'Strategy is the discipline of choosing what not to do.',
-      body: 'Before capital is deployed, we establish clarity on objectives, liquidity requirements, risk budget, and investment constraints — creating a reference point for decisions through changing market environments.',
+      statement: 'Capital moves with clarity when the policy is written first.',
+      body: `At ${COMPANY.brandName}, Capital Strategy is the advisory layer that precedes product selection. We align objectives, time horizon, cash needs, and constraints into an investment policy — so every mutual fund, PMS sleeve, or alternative allocation has a defined job.`,
     },
     theme: 'direction',
     visual: 'capital-flow',
     sections: [
       {
         id: 'strategic-framework',
-        title: 'Strategic Framework',
-        body: 'We align capital decisions with your objectives, time horizon, and constraints — translating intent into an actionable investment policy.',
-        points: ['Objectives mapping', 'Constraint analysis', 'Policy documentation'],
+        title: 'Goals & Strategic Framework',
+        body: 'We start with what the capital must fund — retirement, education, business liquidity, family milestones — and translate that into measurable objectives, a risk budget, and a decision policy you can revisit each year.',
+        points: [
+          'A living policy for every rupee you invest',
+          'Goal mapping',
+          'Risk capacity',
+          'Liquidity calendar',
+        ],
       },
       {
         id: 'capital-allocation',
-        title: 'Capital Allocation',
-        body: 'We determine how capital should be distributed across equities, fixed income, alternatives, cash and other asset classes — balancing opportunity with resilience across market cycles.',
-        points: ['Asset class mix', 'Risk budgeting', 'Cycle awareness'],
+        title: 'Asset Allocation Design',
+        body: 'We set target ranges across equity, debt, hybrids, cash, and — where suitable — AIFs, startup equity, and structured real-estate exposures. The mix is built for your cycle resilience, not last year’s trend.',
+        points: [
+          'Allocation that matches life, not fashion',
+          'Equity & debt mix',
+          'Alternatives sleeve',
+          'Cash buffer design',
+        ],
       },
       {
         id: 'opportunity-mapping',
-        title: 'Opportunity Mapping',
-        body: 'Independent investment insight across securities, funds, managers and strategies — helping you make deliberate decisions in a complex landscape.',
-        points: ['Manager evaluation', 'Strategy selection', 'Access assessment'],
+        title: 'Opportunity & Product Mapping',
+        body: 'Once the framework is set, we map which product types fit each sleeve — mutual fund categories, PMS pathways, or private-market structures — with research-led screening rather than product push.',
+        points: [
+          'Fit-first product selection',
+          'Fund category fit',
+          'PMS suitability',
+          'AIF screening',
+        ],
       },
       {
         id: 'decision-framework',
-        title: 'Decision Framework',
-        body: 'From ideas to a coherent portfolio — every investment is selected for the role it plays within the broader architecture, not in isolation.',
-        points: ['Portfolio construction', 'Correlation analysis', 'Liquidity planning'],
+        title: 'Decision & Construction Framework',
+        body: 'Every proposed holding must earn a role: growth, income, stability, or satellite opportunity. Correlation, tax character, and liquidity are checked before capital is committed.',
+        points: [
+          'Role-based portfolio design',
+          'Diversification rules',
+          'Tax character check',
+          'Liquidity gates',
+        ],
       },
     ],
     cta: {
@@ -177,20 +232,33 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
       line2: 'your capital',
       outlined: 'strategy',
       quote:
-        'Speak with our advisory team about establishing the strategic framework that governs every allocation decision.',
+        'Book a consultation to establish the investment policy that will govern every allocation decision.',
     },
   }),
+
   'portfolio-management': buildDedicated('portfolio-management', {
+    seo: {
+      title: `Portfolio Management Services & Mutual Funds | ${COMPANY.brandName}`,
+      description: `Portfolio management in ${COMPANY.hqCity} — mutual funds, PMS pathways, and suitable AIFs with ongoing monitoring and rebalancing. AMFI-registered distribution and disciplined stewardship.`,
+      keywords: [
+        'portfolio management services Pune',
+        'mutual funds India',
+        'AIF mutual funds India',
+        'portfolio rebalancing',
+        'One Capital Investment',
+      ],
+      serviceType: 'Portfolio management and mutual fund investment services',
+    },
     hero: {
       image: '/images/solutions/portfolio-management.jpg',
-      headline: 'Capital, managed with intent.',
+      headline: 'Portfolios built for your mandate.',
       subheadline:
-        'Active stewardship across public and private markets — constructed, monitored, and rebalanced with discipline.',
+        'Mutual funds, portfolio management services, and carefully selected alternatives — constructed, monitored, and rebalanced with discipline.',
       imagePosition: 'center',
     },
     intro: {
-      statement: 'Every position must earn its place.',
-      body: 'We design and manage portfolios around your objectives, liquidity requirements, and long-term vision. Allocation, diversification, and monitoring are integrated — not treated as separate activities.',
+      statement: 'Every position should serve a goal — not a catalog.',
+      body: 'We implement Capital Strategy through regulated products: diversified mutual-fund cores, PMS where ticket size and preference fit, and alternatives such as AIFs, startup equity, or structured real estate when suitability and eligibility allow. Stewardship continues after the first deployment.',
     },
     theme: 'precision',
     visual: 'allocation-chart',
@@ -198,26 +266,46 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
       {
         id: 'portfolio-philosophy',
         title: 'Portfolio Philosophy',
-        body: 'Portfolios are built around purpose — income, growth, preservation, or a deliberate blend — with every holding assigned a defined role.',
-        points: ['Mandate alignment', 'Role-based construction', 'Purposeful diversification'],
+        body: 'Portfolios are purpose-built — growth, income, preservation, or a deliberate blend. We assign each sleeve a role and avoid collecting products that do not improve the whole.',
+        points: [
+          'Mandate-led, not product-led',
+          'Goal alignment',
+          'Role-based holdings',
+          'Purposeful diversification',
+        ],
       },
       {
         id: 'portfolio-architecture',
-        title: 'Portfolio Architecture',
-        body: 'We construct portfolios across public and private markets, including fixed income, alternatives, and specialized mandates where appropriate.',
-        points: ['Multi-asset construction', 'Fixed-income engineering', 'Alternative access'],
+        title: 'Multi-Asset Architecture',
+        body: 'Core architecture typically spans equity, debt, and hybrid mutual funds. For qualifying investors, we layer PMS strategies and alternatives after diligence — always sized to risk budget and liquidity constraints.',
+        points: [
+          'Public markets first; alternatives by fit',
+          'Mutual fund core',
+          'PMS pathways',
+          'AIF & private markets',
+        ],
       },
       {
         id: 'performance-intelligence',
-        title: 'Performance Intelligence',
-        body: 'Continuous monitoring of exposures, valuations, risk and allocation drift — with rebalancing when the portfolio’s intended architecture demands it.',
-        points: ['Exposure tracking', 'Drift detection', 'Disciplined rebalancing'],
+        title: 'Monitoring & Performance Care',
+        body: 'We track category drift, fund or manager changes, concentration, and progress against goals. Rebalancing and switches are recommended when the architecture — not short-term noise — demands it.',
+        points: [
+          'Stewardship on a defined cadence',
+          'Exposure tracking',
+          'Drift alerts',
+          'Disciplined rebalancing',
+        ],
       },
       {
         id: 'scenario-analysis',
-        title: 'Scenario Analysis',
-        body: 'Portfolios are evaluated against changing circumstances — market shifts, liquidity needs, and evolving objectives — before adjustments are made.',
-        points: ['Stress awareness', 'Liquidity review', 'Mandate recalibration'],
+        title: 'Life & Market Recalibration',
+        body: 'Job changes, business exits, inheritance, or large expenses change the mandate. We recalibrate allocations and product mix when your circumstances or market structure shift materially.',
+        points: [
+          'Plans that update with your life',
+          'Liquidity review',
+          'Stress awareness',
+          'Mandate refresh',
+        ],
       },
     ],
     cta: {
@@ -225,20 +313,33 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
       line2: 'your portfolio',
       outlined: 'mandate',
       quote:
-        'Discuss how active portfolio management can align with your liquidity needs, risk appetite, and long-term objectives.',
+        'Discuss how mutual funds, PMS, and suitable alternatives can be structured around your liquidity needs and risk appetite.',
     },
   }),
+
   'risk-wealth-architecture': buildDedicated('risk-wealth-architecture', {
+    seo: {
+      title: `Risk Management & Wealth Planning | ${COMPANY.brandName}`,
+      description: `Risk management and wealth planning in ${COMPANY.hqCity} — risk profiling, liquidity design, tax-aware investing, and long-term wealth transfer architecture beneath your portfolio.`,
+      keywords: [
+        'risk management wealth planning',
+        'tax strategy investing India',
+        'wealth planning Pune',
+        'liquidity planning',
+        'One Capital Investment',
+      ],
+      serviceType: 'Risk management and wealth planning services',
+    },
     hero: {
       image: '/images/solutions/risk-wealth-architecture.jpg',
-      headline: 'Structure that protects compounding.',
+      headline: 'Protect the engine of compounding.',
       subheadline:
-        'Structural protection, liquidity design, tax efficiency, and intergenerational wealth transfer — the architecture beneath the portfolio.',
+        'Risk profiling, liquidity design, tax strategy, and wealth planning — structure that lets portfolios work through cycles.',
       imagePosition: 'center 35%',
     },
     intro: {
-      statement: 'Protection is the first principle of enduring wealth.',
-      body: 'We look beyond volatility to assess concentration, liquidity, credit, duration, currency and structural risks — integrating protection, liquidity, and legacy planning into one coherent architecture.',
+      statement: 'Growth without structure is fragile.',
+      body: 'Risk & Wealth Architecture looks past day-to-day volatility to concentration, liquidity gaps, tax drag, and succession readiness. It is the layer that turns a portfolio into a durable wealth plan for individuals, families, and business owners.',
     },
     theme: 'structure',
     visual: 'risk-map',
@@ -246,26 +347,46 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
       {
         id: 'wealth-architecture',
         title: 'Wealth Architecture',
-        body: 'Your portfolio is only one part of your wealth. We examine the complete family balance sheet — assets, businesses, liabilities, and exposures — to understand true concentration of risk and opportunity.',
-        points: ['Balance-sheet view', 'Concentration mapping', 'Structural alignment'],
+        body: 'We examine the full picture — investments, business equity, real estate, liabilities, and guarantees — so portfolio design complements what you already own instead of amplifying hidden concentration.',
+        points: [
+          'Balance-sheet thinking, not siloed products',
+          'Asset map',
+          'Concentration check',
+          'Business-linked wealth',
+        ],
       },
       {
         id: 'risk-mapping',
         title: 'Risk Mapping',
-        body: 'We identify vulnerabilities before they become permanent impairments — assessing concentration, liquidity, credit, duration, and currency risks across holdings.',
-        points: ['Multi-factor risk', 'Stress testing', 'Vulnerability identification'],
+        body: 'We identify where capital can be impaired — market, credit, duration, liquidity, and currency where relevant — and size exposures so a single shock cannot break long-term goals.',
+        points: [
+          'Vulnerabilities surfaced early',
+          'Multi-factor risk',
+          'Stress scenarios',
+          'Position sizing',
+        ],
       },
       {
         id: 'protection-resilience',
-        title: 'Protection & Resilience',
-        body: 'Portfolios are subjected to scenario analysis — equity drawdowns, rate shocks, currency depreciation and credit stress — to assess resilience before markets test them.',
-        points: ['Scenario modelling', 'Downside awareness', 'Resilience planning'],
+        title: 'Liquidity, Tax & Resilience',
+        body: 'Cash buckets fund near-term needs; tax-aware choices improve what you retain; scenario reviews test whether goals survive drawdowns. Protection and growth are designed together.',
+        points: [
+          'Resilience built into the plan',
+          'Emergency & goal cash',
+          'Tax-aware investing',
+          'Drawdown readiness',
+        ],
       },
       {
         id: 'legacy',
-        title: 'Legacy & Transfer',
-        body: 'We integrate investments with succession, gifting, trusts and intergenerational transfer strategies — preserving not merely wealth, but the structures and principles behind it.',
-        points: ['Estate integration', 'Tax-aware structuring', 'Intergenerational planning'],
+        title: 'Legacy & Transfer Planning',
+        body: 'Nominations, account structures, gifting conversations, and intergenerational intent are brought into the advisory process — so wealth and wishes transfer with fewer gaps.',
+        points: [
+          'Wealth that outlasts a single generation',
+          'Succession readiness',
+          'Nomination hygiene',
+          'Family coordination',
+        ],
       },
     ],
     cta: {
@@ -273,47 +394,80 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
       line2: 'your wealth',
       outlined: 'structure',
       quote:
-        'Explore how risk architecture, liquidity design, and legacy planning can reinforce your long-term capital mandate.',
+        'Explore how risk architecture, tax strategy, and wealth planning can reinforce your long-term capital plan.',
     },
   }),
+
   'intelligence-oversight': buildDedicated('intelligence-oversight', {
+    seo: {
+      title: `Investment Research, Reporting & Oversight | ${COMPANY.brandName}`,
+      description: `Intelligence & oversight from ${COMPANY.brandName} — fund and manager diligence, consolidated reporting, and disciplined capital deployment for transparent wealth advisory.`,
+      keywords: [
+        'investment research reporting',
+        'fund due diligence India',
+        'consolidated wealth reporting',
+        'transparent investment advisory',
+        'One Capital Investment',
+      ],
+      serviceType: 'Investment research, reporting, and oversight services',
+    },
     hero: {
       image: '/images/solutions/intelligence-oversight.jpg',
-      headline: 'Powered by insight. Governed by discipline.',
+      headline: 'Insight you can act on.',
       subheadline:
-        'Manager diligence, performance transparency, consolidated reporting, and disciplined capital deployment.',
+        'Fund diligence, performance clarity, consolidated views, and disciplined deployment — oversight that keeps advisory transparent.',
       imagePosition: 'center',
     },
     intro: {
-      statement: 'Access is not the same as selection.',
-      body: 'Rigorous evaluation of managers, clear consolidated reporting, and disciplined deployment frameworks — giving you visibility across your entire financial universe without ambiguity.',
+      statement: 'Clarity is a competitive advantage in wealth.',
+      body: `Through ${COMPANY.domain} and our advisory cadence, Intelligence & Oversight gives you visibility into what you own, why you own it, and when capital should move — grounded in diligence and reporting, not slogans.`,
     },
     theme: 'intelligence',
     visual: 'intelligence-pipeline',
     sections: [
       {
         id: 'intelligence-layer',
-        title: 'Intelligence Layer',
-        body: 'We undertake rigorous evaluation of external managers — examining philosophy, process, people, performance attribution, risk, liquidity, alignment and operational robustness.',
-        points: ['Due diligence', 'Manager selection', 'Alignment assessment'],
+        title: 'Diligence Layer',
+        body: 'Mutual funds, PMS strategies, and AIF managers are assessed on process, people, risk controls, costs, and alignment — so selection is earned, not assumed from brand recognition.',
+        points: [
+          'Selection over mere access',
+          'Manager evaluation',
+          'Process & people review',
+          'Cost & alignment check',
+        ],
       },
       {
         id: 'research',
-        title: 'Research & Market Intelligence',
-        body: 'Research-led insight informs manager selection, allocation decisions, and capital deployment — connecting market intelligence to mandate requirements.',
-        points: ['Research integration', 'Market context', 'Opportunity assessment'],
+        title: 'Research & Market Context',
+        body: 'Market and category research informs when to stay the course, rebalance, or introduce a new sleeve — connecting macro and product insight to your written mandate.',
+        points: [
+          'Research tied to your policy',
+          'Category insights',
+          'Opportunity windows',
+          'Mandate filters',
+        ],
       },
       {
         id: 'reporting',
         title: 'Reporting & Visibility',
-        body: 'Clear, consolidated reporting across portfolios, strategies and asset classes — bringing together investments across custodians, accounts and external managers into one integrated view.',
-        points: ['Consolidated reporting', 'Performance attribution', 'Exposure visibility'],
+        body: 'Clear reporting covers performance, allocation, and material changes. Where holdings span multiple accounts or product types, we work toward a consolidated picture of progress against goals.',
+        points: [
+          'One coherent wealth view',
+          'Performance attribution',
+          'Allocation snapshot',
+          'Multi-account clarity',
+        ],
       },
       {
         id: 'executive-oversight',
-        title: 'Executive Oversight',
-        body: 'A disciplined framework for deploying liquidity across market cycles — enabling decisive action when valuations, dislocations or exceptional opportunities create an attractive risk-reward equation.',
-        points: ['Capital deployment', 'Cycle discipline', 'Decision governance'],
+        title: 'Deployment Oversight',
+        body: 'New inflows and idle cash follow a deployment framework — SIPs, paced lumpsums, or opportunistic moves — so decisions remain deliberate when markets or life events create urgency.',
+        points: [
+          'Capital ready, not restless',
+          'SIP & lumpsum pacing',
+          'Opportunity protocol',
+          'Decision checkpoints',
+        ],
       },
     ],
     cta: {
@@ -321,7 +475,7 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
       line2: 'capital',
       outlined: 'visibility',
       quote:
-        'Request a consultation on consolidated reporting, manager diligence, and oversight frameworks for your mandate.',
+        'Request a consultation on fund diligence, consolidated reporting, and oversight for your wealth mandate.',
     },
   }),
 };

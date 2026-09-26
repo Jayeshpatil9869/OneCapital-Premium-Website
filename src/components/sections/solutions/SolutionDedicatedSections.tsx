@@ -10,10 +10,10 @@ type SolutionDedicatedSectionsProps = {
 };
 
 const THEME_FLOW_STEPS: Record<SolutionDedicatedConfig['theme'], string[]> = {
-  direction: ['Capital', 'Allocation', 'Opportunity', 'Growth'],
-  precision: ['Portfolio', 'Allocation', 'Monitoring', 'Rebalance'],
-  structure: ['Growth', 'Liquidity', 'Protection', 'Legacy'],
-  intelligence: ['Data', 'Research', 'Insight', 'Oversight', 'Decision'],
+  direction: ['Goals', 'Policy', 'Allocation', 'Products'],
+  precision: ['Construct', 'Invest', 'Monitor', 'Rebalance'],
+  structure: ['Risk', 'Liquidity', 'Tax', 'Legacy'],
+  intelligence: ['Diligence', 'Insight', 'Report', 'Decide'],
 };
 
 export function SolutionDedicatedSections({ config }: SolutionDedicatedSectionsProps) {

@@ -13,41 +13,47 @@ export type SolutionPillar = {
   services: SolutionService[];
 };
 
+/**
+ * Our Products pillars — aligned with About / 1capital.in offerings:
+ * mutual funds, portfolio management, wealth planning, tax strategy,
+ * AIFs, startup equity, and structured real-estate products.
+ * No invented returns, AUM, or unconfirmed SEBI license numbers.
+ */
 export const SOLUTION_PILLARS: SolutionPillar[] = [
   {
     id: 'capital-strategy',
     index: '01',
     title: 'Capital Strategy',
     summary:
-      'The intellectual framework behind every allocation — objectives, constraints, and deliberate portfolio design.',
+      'Clarify goals, risk capacity, and liquidity needs — then design how capital should be allocated across mutual funds, debt, equity, and alternatives before a single rupee is deployed.',
     services: [
       {
         id: 'asset-allocation',
-        title: 'Asset Allocation',
-        tagline: 'The architecture behind enduring wealth.',
+        title: 'Asset Allocation Framework',
+        tagline: 'Equity, debt, hybrids, and alternatives in deliberate proportion.',
         description:
-          'We determine how capital should be distributed across equities, fixed income, alternatives, cash and other asset classes, balancing opportunity with resilience across market cycles.',
+          'We map how your capital should sit across equity and debt mutual funds, fixed income, cash buffers, and — where suitable — AIFs, startup equity, and structured real-estate exposures. The mix reflects your goals, time horizon, and ability to withstand market cycles — not a one-size model.',
       },
       {
         id: 'investment-advisory',
         title: 'Investment Advisory',
-        tagline: 'Independent thinking. Informed decisions.',
+        tagline: 'Research-led counsel across products and strategies.',
         description:
-          'We provide institutional-calibre investment insight across securities, funds, managers and strategies—helping you make deliberate decisions in an increasingly complex investment landscape.',
+          'Independent, research-informed guidance across mutual fund categories, portfolio management options, and thoughtfully screened alternatives. Recommendations are framed around fit for your mandate — not product push.',
       },
       {
         id: 'investment-policy',
-        title: 'Investment Policy & Wealth Strategy',
-        tagline: 'A framework for every capital-allocation decision.',
+        title: 'Goals & Investment Policy',
+        tagline: 'A written reference for every allocation decision.',
         description:
-          'We establish a clear investment framework around your objectives, return expectations, liquidity needs, risk budget and investment constraints—creating a disciplined reference point for decisions through changing market environments.',
+          'We translate life goals — retirement, education, business liquidity, family milestones — into a clear investment policy: return expectations, risk budget, liquidity calendar, and constraints. That policy becomes the filter for every subsequent product and portfolio choice.',
       },
       {
         id: 'portfolio-construction',
-        title: 'Portfolio Construction',
-        tagline: 'From ideas to a coherent portfolio.',
+        title: 'Portfolio Construction Blueprint',
+        tagline: 'Each holding earns a defined role.',
         description:
-          'We select investments not in isolation, but for the role they play within the broader portfolio. Diversification, correlation, liquidity, valuation and downside risk are considered before capital is deployed.',
+          'Before implementation, we define the role of each sleeve — growth, income, stability, satellite opportunity — and how instruments work together. Diversification, correlation, tax character, and liquidity are considered before capital moves.',
       },
     ],
   },
@@ -56,42 +62,42 @@ export const SOLUTION_PILLARS: SolutionPillar[] = [
     index: '02',
     title: 'Portfolio Management',
     summary:
-      'Active stewardship of capital across public and private markets — constructed, monitored, and rebalanced with intent.',
+      'Build, monitor, and rebalance portfolios through mutual funds, portfolio management services, and carefully selected alternatives — with ongoing stewardship across market cycles.',
     services: [
       {
         id: 'investment-portfolio-management',
-        title: 'Investment Portfolio Management',
-        tagline: 'Capital, managed with intent.',
+        title: 'Managed Investment Portfolios',
+        tagline: 'Goal-aligned portfolios, actively stewarded.',
         description:
-          'We design and manage portfolios around your objectives, liquidity requirements, risk appetite and long-term vision—across public and private markets. Every allocation has a purpose, and every position earns its place.',
+          'We design and oversee portfolios around your objectives, cash-flow needs, and risk profile. Core building blocks typically include equity, debt, and hybrid mutual funds, with portfolio management services and alternatives introduced where your ticket size, sophistication, and mandate justify them.',
       },
       {
         id: 'fixed-income-management',
-        title: 'Fixed-Income Management',
-        tagline: 'Stability engineered, not assumed.',
+        title: 'Debt & Income Positioning',
+        tagline: 'Stability and cash flow, engineered with intent.',
         description:
-          'We manage fixed-income portfolios with deliberate attention to duration, credit quality, yield, maturity and liquidity—building portfolios designed to serve both income requirements and capital-preservation objectives.',
+          'Debt mutual funds, bonds, and income-oriented sleeves are structured for duration, credit quality, liquidity, and tax character — supporting near-term needs without abandoning long-term compounding.',
       },
       {
         id: 'alternative-investments',
-        title: 'Alternative Investments',
-        tagline: 'Access beyond conventional markets.',
+        title: 'Alternatives & Private Markets',
+        tagline: 'AIFs, startup equity, and structured real estate — when appropriate.',
         description:
-          'For appropriate investors, we evaluate opportunities across private equity, venture capital, private credit, real estate, infrastructure, hedge funds and structured investments—focusing on quality, access, alignment and risk.',
+          'For suitable investors, we evaluate Alternative Investment Funds (AIFs), startup equity, and structured real-estate products alongside public-market holdings. Selection focuses on manager quality, structure, liquidity lock-ups, and alignment with your overall risk budget.',
       },
       {
         id: 'specialized-mandates',
-        title: 'Specialized Mandates',
-        tagline: 'When conventional portfolios are not enough.',
+        title: 'Specialized & Concentrated Mandates',
+        tagline: 'When wealth is already complex.',
         description:
-          'Concentrated equity positions, family-business wealth, employee stock, restricted securities and other complex holdings require bespoke thinking. We design strategies around the realities of your existing wealth rather than forcing it into a standard model.',
+          'Business equity, ESOPs, concentrated stock, or family holdings rarely fit a standard model. We design strategies around what you already own — diversification paths, liquidity events, and complementary mutual-fund or PMS sleeves — rather than forcing a template.',
       },
       {
         id: 'portfolio-monitoring-rebalancing',
-        title: 'Portfolio Monitoring & Rebalancing',
-        tagline: 'Wealth requires continuous stewardship.',
+        title: 'Monitoring & Rebalancing',
+        tagline: 'Drift is managed; intent is preserved.',
         description:
-          "Markets move. Circumstances change. Portfolios therefore require active oversight. We monitor exposures, valuations, risk and allocation drift, rebalancing when the portfolio's intended architecture demands it.",
+          'We review exposures, category drift, fund/manager changes, and life-event shifts on a defined cadence. Rebalancing and product switches are recommended when the portfolio no longer matches the agreed architecture — not when markets simply move.',
       },
     ],
   },
@@ -100,49 +106,49 @@ export const SOLUTION_PILLARS: SolutionPillar[] = [
     index: '03',
     title: 'Risk & Wealth Architecture',
     summary:
-      'Structural protection, liquidity design, tax efficiency, and intergenerational wealth transfer — the architecture beneath the portfolio.',
+      'Protect compounding with risk profiling, liquidity design, tax-aware investing, and long-term wealth planning — so growth is supported by structure, not hope.',
     services: [
       {
         id: 'risk-management',
-        title: 'Risk Management',
-        tagline: 'Protecting capital is the first principle of compounding it.',
+        title: 'Risk Profiling & Management',
+        tagline: 'Know what can impair capital — before markets do.',
         description:
-          'We look beyond volatility to assess concentration, liquidity, credit, duration, currency and structural risks—identifying vulnerabilities before they become permanent impairments of capital.',
+          'Beyond market volatility, we assess concentration, liquidity gaps, credit and duration risk, currency exposure where relevant, and business-linked wealth. The goal is to surface vulnerabilities early and size positions accordingly.',
       },
       {
         id: 'portfolio-stress-testing',
-        title: 'Portfolio Stress Testing',
-        tagline: 'Understanding what can go wrong before it does.',
+        title: 'Scenario & Stress Awareness',
+        tagline: 'Test the plan against drawdowns and rate shocks.',
         description:
-          "We subject portfolios to a range of market scenarios—from equity drawdowns and rate shocks to currency depreciation and credit stress—to identify vulnerabilities and assess the portfolio's resilience.",
+          'Portfolios are reviewed against plausible stress paths — equity corrections, rate moves, credit events — so you understand how goals and cash needs hold up, and where buffers or hedges may be warranted.',
       },
       {
         id: 'cash-liquidity-management',
-        title: 'Cash & Liquidity Management',
-        tagline: 'Liquidity is an asset class—and an option.',
+        title: 'Cash & Liquidity Design',
+        tagline: 'Liquidity as a planned asset, not an afterthought.',
         description:
-          'We structure cash reserves and short-term investments around your spending requirements, commitments and opportunities, ensuring liquidity is available when required without unnecessarily compromising returns.',
+          'We structure emergency reserves, near-term goal buckets, and opportunity cash so spending and commitments are funded without forced selling of long-term holdings at the wrong time.',
       },
       {
         id: 'tax-aware-investing',
-        title: 'Tax-Aware Investing',
-        tagline: 'Returns matter. What you retain matters more.',
+        title: 'Tax Strategy & Tax-Aware Investing',
+        tagline: 'What you retain matters as much as what you earn.',
         description:
-          'Investment decisions are evaluated with tax efficiency in mind. We work to improve after-tax outcomes through thoughtful asset selection, portfolio structuring and coordination with your broader tax strategy.',
+          'Asset location, holding periods, mutual-fund tax character, capital-gains timing, and coordination with your CA form part of the advisory conversation. We aim to improve after-tax outcomes without letting tax alone dictate strategy.',
       },
       {
         id: 'estate-wealth-transfer',
-        title: 'Estate & Wealth Transfer',
-        tagline: 'Preserving wealth beyond a single generation.',
+        title: 'Wealth Planning & Transfer',
+        tagline: 'Structure wealth for the next chapter and the next generation.',
         description:
-          'We help integrate investments with succession, gifting, trusts and intergenerational wealth-transfer strategies, with the objective of transferring not merely wealth, but the structures and principles behind it.',
+          'Long-term wealth planning covers succession conversations, nomination hygiene, gifting where appropriate, and how investment accounts sit within family structures — so capital and intent transfer with fewer surprises.',
       },
       {
         id: 'family-balance-sheet',
-        title: 'Family Balance-Sheet Management',
-        tagline: 'Your portfolio is only one part of your wealth.',
+        title: 'Family & Business Balance Sheet',
+        tagline: 'Your demat account is only one slice of wealth.',
         description:
-          'We look across the complete family balance sheet—financial assets, businesses, real estate, liabilities, guarantees and other exposures—to understand the true concentration of risk and opportunity.',
+          'We look across financial assets, operating businesses, real estate, liabilities, and guarantees to understand true concentration — then design portfolios that complement, rather than double, those exposures.',
       },
     ],
   },
@@ -151,42 +157,42 @@ export const SOLUTION_PILLARS: SolutionPillar[] = [
     index: '04',
     title: 'Intelligence & Oversight',
     summary:
-      'Manager diligence, performance transparency, consolidated reporting, and disciplined capital deployment.',
+      'Fund and manager diligence, clear consolidated reporting, and disciplined deployment — transparent advisory so you always know what you own and why.',
     services: [
       {
         id: 'manager-due-diligence',
-        title: 'Manager Selection & Due Diligence',
+        title: 'Fund & Manager Diligence',
         tagline: 'Access is not the same as selection.',
         description:
-          'We undertake rigorous evaluation of external managers across public and private markets, examining investment philosophy, process, people, performance attribution, risk, liquidity, alignment and operational robustness.',
+          'Mutual funds, PMS strategies, and AIF managers are evaluated on process, people, portfolio construction, risk controls, costs, and alignment — so recommendations rest on diligence, not brand familiarity alone.',
       },
       {
         id: 'performance-reporting',
-        title: 'Performance Reporting',
-        tagline: 'Complete visibility. No ambiguity.',
+        title: 'Performance & Attribution Reporting',
+        tagline: 'Clarity on what drove results.',
         description:
-          'We provide clear, consolidated reporting across portfolios, strategies and asset classes, giving you a precise view of performance, attribution, exposures and risk.',
+          'Periodic reporting covers portfolio performance, contribution by sleeve or category, and material changes in holdings — so reviews stay factual and forward-looking rather than narrative-only.',
       },
       {
         id: 'consolidated-wealth-reporting',
-        title: 'Consolidated Wealth Reporting',
-        tagline: 'One view of your entire financial universe.',
+        title: 'Consolidated Wealth View',
+        tagline: 'One coherent picture across accounts and products.',
         description:
-          "We bring together investments across custodians, accounts and external managers into a consolidated view—allowing you to understand your family's wealth, exposures and performance as one integrated portfolio.",
+          'Where holdings span multiple folios, brokers, or product types, we work toward a consolidated view of allocation, risk, and progress against goals — reducing blind spots that fragment decision-making.',
       },
       {
         id: 'capital-deployment',
-        title: 'Capital Deployment Strategy',
-        tagline: 'Keeping capital ready for exceptional opportunities.',
+        title: 'Disciplined Capital Deployment',
+        tagline: 'Ready liquidity when opportunity or need appears.',
         description:
-          'We develop a disciplined framework for deploying liquidity across market cycles, enabling you to act decisively when valuations, dislocations or exceptional opportunities create an attractive risk-reward equation.',
+          'We define how idle cash and new inflows enter the market — staggered SIPs, lumpsum pacing, or opportunistic deployment — so you act with a framework when valuations, life events, or dislocations demand a decision.',
       },
     ],
   },
 ];
 
 export const PORTFOLIO_MANAGEMENT_FOOTNOTE =
-  'Implemented through regulated vehicles including PMS, mutual funds, and AIFs where appropriate.';
+  'Portfolio implementation uses regulated market products such as mutual funds, Portfolio Management Services (PMS), and Alternative Investment Funds (AIFs) where appropriate and suitable. OneCapital is an AMFI-registered Mutual Fund Distributor and holds APMI registration; product availability depends on eligibility, ticket size, and suitability.';
 
 export function getPillarById(id: string): SolutionPillar | undefined {
   return SOLUTION_PILLARS.find((pillar) => pillar.id === id);
