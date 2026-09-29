@@ -13,7 +13,6 @@ import {
   Button,
   Container,
   SectionHeading,
-  BodyText,
 } from "@/src/components/ui";
 import { RevealOnScroll } from "@/src/components/motion/RevealOnScroll";
 import { teamMembers, type TeamMember } from "@/src/data/team";
@@ -42,8 +41,8 @@ export function Team() {
       aria-labelledby="team-heading"
     >
       <Container>
-        <header className="mb-10 grid grid-cols-1 items-end gap-8 md:mb-14 lg:mb-16 lg:grid-cols-12 lg:gap-16">
-          <div className="flex flex-col items-start gap-4 lg:col-span-6">
+        <header className="mb-10 md:mb-14 lg:mb-16">
+          <div className="flex flex-col items-start gap-4">
             <RevealOnScroll
               direction="up"
               distance={20}
@@ -70,19 +69,6 @@ export function Team() {
               >
                 {desks.heading}
               </SectionHeading>
-            </RevealOnScroll>
-          </div>
-          <div className="flex flex-col justify-end lg:col-span-5 lg:col-start-8">
-            <RevealOnScroll
-              direction="up"
-              distance={20}
-              delay={0.14}
-              duration={0.9}
-              ease="power3.out"
-            >
-              <BodyText className="max-w-md text-base font-normal leading-relaxed text-zinc-400 sm:text-lg lg:ml-auto">
-                {desks.body}
-              </BodyText>
             </RevealOnScroll>
           </div>
         </header>

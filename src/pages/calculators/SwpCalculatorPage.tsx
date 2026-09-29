@@ -42,7 +42,7 @@ export default function SwpCalculatorPage() {
   return (
     <CalculatorShell
       slug="swp"
-      title="SWP Calculator — Plan Systematic Withdrawals"
+      title="SWP Calculator"
       subtitle="Estimate how monthly withdrawals may affect a starting corpus under an assumed return rate."
       controls={
         <>

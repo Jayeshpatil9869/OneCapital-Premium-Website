@@ -7,7 +7,7 @@ export {
   Label,
   Caption,
 } from './typography/Typography';
-export { Button } from './buttons/Button';
+export { Button, ButtonFlair } from './buttons/Button';
 export type { ButtonProps, ButtonVariant } from './buttons/Button';
 export { InputField, TextareaField, SelectField, Field } from './form/Field';
 export { Card } from './cards/Card';

@@ -7,6 +7,7 @@ import Approach from './pages/Approach';
 import Team from './pages/Team';
 import Insights from './pages/Insights';
 import Blog from './pages/Blog';
+import Newsletter from './pages/Newsletter';
 import Contact from './pages/Contact';
 import DesignSystem from './pages/DesignSystem';
 import Calculators from './pages/Calculators';
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
       { path: 'team', element: <Team /> },
       { path: 'insights', element: <Insights /> },
       { path: 'blog', element: <Blog /> },
+      { path: 'newsletter', element: <Newsletter /> },
       { path: 'insights/blog', element: <Navigate to="/blog" replace /> },
       { path: 'calculators', element: <Calculators /> },
       { path: 'calculators/sip', element: <SipCalculatorPage /> },

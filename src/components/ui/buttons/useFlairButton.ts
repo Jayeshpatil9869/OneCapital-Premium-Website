@@ -31,7 +31,7 @@ function getCursorPercent(button: HTMLElement, clientX: number, clientY: number)
 
 /** GSAP pointer-tracked radial flair for stroke buttons. */
 export function useFlairButton(enabled: boolean) {
-  const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null);
+  const buttonRef = useRef<HTMLElement | null>(null);
   const flairRef = useRef<HTMLSpanElement | null>(null);
 
   useGSAP(

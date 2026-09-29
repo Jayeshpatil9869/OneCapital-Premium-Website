@@ -19,7 +19,6 @@ export const TEAM_PAGE = {
   desks: {
     eyebrow: 'Leadership',
     heading: 'Meet Our Expert Team',
-    body: 'A collective of seasoned professionals dedicated to your financial success. Each advisor brings unique expertise and a shared commitment to excellence.',
   },
 
   gallery: {

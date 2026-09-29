@@ -76,6 +76,35 @@ type ButtonAsAnchor = SharedProps &
 
 export type ButtonProps = ButtonAsButton | ButtonAsLink | ButtonAsAnchor;
 
+/** Same pointer-tracked fill as `Button`, for a label that already sits inside a link. */
+export function ButtonFlair({
+  className,
+  children,
+  tone = 'dark',
+}: {
+  className?: string;
+  children?: ReactNode;
+  tone?: 'dark' | 'light' | 'on-black';
+}) {
+  const { buttonRef, flairRef } = useFlairButton(true);
+
+  return (
+    <span
+      ref={buttonRef}
+      className={cn(
+        'oc-btn-stroke inline-flex items-center justify-center rounded-full',
+        tone === 'dark' && 'oc-btn-stroke--dark',
+        tone === 'light' && 'oc-btn-stroke--light',
+        tone === 'on-black' && 'oc-btn-stroke--on-black',
+        className,
+      )}
+    >
+      <span ref={flairRef} className="oc-btn-flair" aria-hidden />
+      <span className="oc-btn-label">{children}</span>
+    </span>
+  );
+}
+
 export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   function Button(props, forwardedRef) {
     const {

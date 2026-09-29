@@ -193,25 +193,24 @@ export function TeamGallerySection() {
                     <div className="relative aspect-[4/3] w-full overflow-hidden">
                       <img
                         src={item.image}
-                        alt={item.title}
+                        alt=""
                         loading="lazy"
                         decoding="async"
                         className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                       />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
                       <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-3 py-1 text-[11px] font-mono uppercase tracking-wider text-white/80 opacity-100 backdrop-blur-md transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100">
                         <ZoomIn className="size-3.5" />
                         <span>Expand</span>
                       </div>
-                    </div>
-
-                    <div className="flex flex-1 flex-col p-6 sm:p-7">
-                      <h3 className="mb-2 text-xl sm:text-2xl font-medium tracking-tight text-white">
-                        {item.title}
-                      </h3>
-                      <p className="text-sm font-light leading-relaxed text-text-muted">
-                        {item.caption}
-                      </p>
+                      <div className="absolute inset-x-0 bottom-0 z-10 p-5 sm:p-6">
+                        <h3 className="text-lg font-medium tracking-tight text-white sm:text-xl">
+                          {item.title}
+                        </h3>
+                        <p className="mt-1.5 text-sm font-light leading-relaxed text-white/75">
+                          {item.caption}
+                        </p>
+                      </div>
                     </div>
                   </button>
                 </li>

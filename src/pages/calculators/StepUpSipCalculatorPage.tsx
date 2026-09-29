@@ -42,7 +42,7 @@ export default function StepUpSipCalculatorPage() {
   return (
     <CalculatorShell
       slug="step-up-sip"
-      title="Step Up SIP Calculator — Model Rising Contributions"
+      title="Step Up SIP"
       subtitle="See how increasing your SIP each year can change invested capital and projected corpus versus a flat SIP."
       controls={
         <>

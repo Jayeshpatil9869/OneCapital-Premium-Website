@@ -29,7 +29,7 @@ export default function GoalPlanningCalculatorPage() {
   return (
     <CalculatorShell
       slug="goal-planning"
-      title="Financial Goal Planning — Required SIP & Lumpsum"
+      title="Goal Planning"
       subtitle="Start from a target amount and estimate the monthly SIP or lumpsum that could be needed at an assumed return rate."
       controls={
         <>

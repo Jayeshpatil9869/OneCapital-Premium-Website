@@ -5,6 +5,7 @@ import { Button } from "@/src/components/ui";
 import { AppDownloadCard } from "./AppDownloadCard";
 import { SocialLinks } from "./SocialLinks";
 import { LightSweepText } from "./motion/LightSweepText";
+import { LetterSwap } from "./motion/LetterSwap";
 import { COMPANY } from "@/src/data/company";
 
 export default function Footer() {
@@ -26,6 +27,7 @@ export default function Footer() {
             {COMPANY.tagline}
           </p>
           <SocialLinks className="mt-2" />
+          <AppDownloadCard className="mt-2 w-full max-w-sm" />
         </div>
 
         <div className="grid grid-cols-2 gap-8 lg:contents">
@@ -46,7 +48,7 @@ export default function Footer() {
                 to={item.path}
                 className="text-sm text-white/80 hover:text-white transition-colors inline-flex items-center group w-fit"
               >
-                {item.name}
+                <LetterSwap label={item.name} />
                 <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
               </Link>
             ))}
@@ -70,7 +72,7 @@ export default function Footer() {
                 to={item.path}
                 className="text-sm text-white/80 hover:text-white transition-colors inline-flex items-center group w-fit"
               >
-                {item.name}
+                <LetterSwap label={item.name} />
                 <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
               </Link>
             ))}
@@ -112,7 +114,6 @@ export default function Footer() {
           >
             Book Consultation
           </Button>
-          <AppDownloadCard />
         </div>
       </div>
 
@@ -129,7 +130,7 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t border-white/10 relative z-10">
         <p className="text-xs text-text-muted font-mono tracking-wide">
-          © {new Date().getFullYear()} {COMPANY.domain} • {COMPANY.legalName}
+          © {new Date().getFullYear()} {COMPANY.legalName}
         </p>
         <div className="flex flex-wrap items-center gap-6 justify-center">
           {[
@@ -142,7 +143,7 @@ export default function Footer() {
               key={item}
               className="relative group text-xs text-text-muted hover:text-white transition-colors inline-flex items-center cursor-default"
             >
-              {item}
+              <LetterSwap label={item} />
               <span className="absolute -bottom-1.5 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-50" />
             </span>
           ))}

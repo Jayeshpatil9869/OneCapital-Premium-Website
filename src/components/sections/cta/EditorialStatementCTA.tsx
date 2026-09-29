@@ -58,7 +58,7 @@ export function EditorialStatementCTA({
               variant="primary"
               size="md"
               arrow="up-right"
-              className="bg-black text-white hover:bg-neutral-900"
+              className="oc-btn-stroke--on-black bg-black text-white"
             >
               {buttonText}
             </Button>

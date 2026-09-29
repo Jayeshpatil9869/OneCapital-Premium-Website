@@ -5,8 +5,6 @@ import {
   Container,
   Section,
   Eyebrow,
-  DisplayHeading,
-  BodyText,
   Button,
 } from '@/src/components/ui';
 import { Accordion } from '@/src/components/ui/overlays/Accordion';
@@ -54,14 +52,13 @@ export function CalculatorShell({
 }: CalculatorShellProps) {
   return (
     <div className="flex w-full flex-col items-center">
-      <Section pad="lg" className="relative overflow-hidden pt-28 md:pt-32">
-        <div
-          className="pointer-events-none absolute -left-[20%] top-[10%] h-[min(42rem,70vw)] w-[min(42rem,70vw)] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.07)_0%,transparent_68%)] blur-3xl"
-          aria-hidden
-        />
+      <Section pad="lg" className="relative pt-28 md:pt-32">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+          <div className="absolute -left-[20%] top-[10%] h-[min(42rem,70vw)] w-[min(42rem,70vw)] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.07)_0%,transparent_68%)] blur-3xl" />
+        </div>
 
         <Container className="relative z-10">
-          <RevealOnScroll className="mb-8 flex flex-col gap-4 md:mb-10">
+          <RevealOnScroll className="mb-8 md:mb-10">
             <Link
               to="/calculators"
               className="inline-flex w-fit items-center gap-2 text-sm text-white/55 transition-colors hover:text-white"
@@ -69,9 +66,18 @@ export function CalculatorShell({
               <ArrowLeft className="h-4 w-4" aria-hidden />
               All calculators
             </Link>
-            <Eyebrow>Calculator</Eyebrow>
-            <DisplayHeading className="max-w-4xl text-white">{title}</DisplayHeading>
-            <BodyText className="max-w-2xl text-base md:text-lg">{subtitle}</BodyText>
+            <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
+              <div className="flex min-h-[9.5rem] max-w-2xl flex-col justify-end gap-3">
+                <Eyebrow>Calculator</Eyebrow>
+                <h1 className="font-sans text-[clamp(2.25rem,1.6rem+1.8vw,3.25rem)] font-medium leading-[1.05] tracking-[-0.03em] text-balance text-white">
+                  {title}
+                </h1>
+                <p className="max-w-xl font-sans text-base font-light leading-relaxed text-white/65">
+                  {subtitle}
+                </p>
+              </div>
+              <CalculatorSideNav active={slug} className="shrink-0 lg:mb-1" />
+            </div>
           </RevealOnScroll>
 
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6 xl:gap-8">
@@ -112,9 +118,6 @@ export function CalculatorShell({
             </RevealOnScroll>
           </div>
 
-          <div className="mt-8">
-            <CalculatorSideNav active={slug} />
-          </div>
         </Container>
       </Section>
 
