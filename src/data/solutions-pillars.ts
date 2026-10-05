@@ -1,3 +1,5 @@
+import { COMPANY } from './company';
+
 export type SolutionService = {
   id: string;
   title: string;
@@ -25,35 +27,35 @@ export const SOLUTION_PILLARS: SolutionPillar[] = [
     index: '01',
     title: 'Capital Strategy',
     summary:
-      'Clarify goals, risk capacity, and liquidity needs — then design how capital should be allocated across mutual funds, debt, equity, and alternatives before a single rupee is deployed.',
+      'Goal-based financial planning: retirement, education, a home, and business liquidity, written into an asset allocation before any fund is chosen.',
     services: [
       {
-        id: 'asset-allocation',
-        title: 'Asset Allocation Framework',
-        tagline: 'Equity, debt, hybrids, and alternatives in deliberate proportion.',
-        description:
-          'We map how your capital should sit across equity and debt mutual funds, fixed income, cash buffers, and — where suitable — AIFs, startup equity, and structured real-estate exposures. The mix reflects your goals, time horizon, and ability to withstand market cycles — not a one-size model.',
-      },
-      {
-        id: 'investment-advisory',
-        title: 'Investment Advisory',
-        tagline: 'Research-led counsel across products and strategies.',
-        description:
-          'Independent, research-informed guidance across mutual fund categories, portfolio management options, and thoughtfully screened alternatives. Recommendations are framed around fit for your mandate — not product push.',
-      },
-      {
         id: 'investment-policy',
-        title: 'Goals & Investment Policy',
-        tagline: 'A written reference for every allocation decision.',
+        title: 'Goal-based financial planning',
+        tagline: 'Retirement, education, home, and business goals on one page.',
         description:
-          'We translate life goals — retirement, education, business liquidity, family milestones — into a clear investment policy: return expectations, risk budget, liquidity calendar, and constraints. That policy becomes the filter for every subsequent product and portfolio choice.',
+          'We write down what the money is for, when you need it, and how much you can invest each month. That plan is the filter for every mutual fund, PMS, or alternative that follows.',
       },
       {
-        id: 'portfolio-construction',
-        title: 'Portfolio Construction Blueprint',
-        tagline: 'Each holding earns a defined role.',
+        id: 'risk-profile',
+        title: 'Risk profiling',
+        tagline: 'Capacity and comfort, recorded before markets test them.',
         description:
-          'Before implementation, we define the role of each sleeve — growth, income, stability, satellite opportunity — and how instruments work together. Diversification, correlation, tax character, and liquidity are considered before capital moves.',
+          'Income, dependents, loans, and how you behave in a falling market decide how much equity the plan can hold. The profile is reviewed when your life changes, not only when the index moves.',
+      },
+      {
+        id: 'asset-allocation',
+        title: 'Asset allocation',
+        tagline: 'Equity, debt, hybrid, and cash in stated ranges.',
+        description:
+          'Long-term goals sit in equity and hybrid funds. Near-term goals sit in debt and liquid funds. Alternatives are sized only after the core allocation is set.',
+      },
+      {
+        id: 'product-mapping',
+        title: 'Product mapping',
+        tagline: 'The right product type for each goal.',
+        description:
+          'SIPs for monthly surplus, lumpsums for bonuses, PMS where the amount and preference fit, and AIFs only for suitable investors. The plan names the category before it names a scheme.',
       },
     ],
   },
@@ -62,42 +64,35 @@ export const SOLUTION_PILLARS: SolutionPillar[] = [
     index: '02',
     title: 'Portfolio Management',
     summary:
-      'Build, monitor, and rebalance portfolios through mutual funds, portfolio management services, and carefully selected alternatives — with ongoing stewardship across market cycles.',
+      'Mutual funds through SIPs and lumpsums, Portfolio Management Services, and alternatives such as AIFs, with reviews and rebalancing built in.',
     services: [
       {
-        id: 'investment-portfolio-management',
-        title: 'Managed Investment Portfolios',
-        tagline: 'Goal-aligned portfolios, actively stewarded.',
+        id: 'mutual-funds',
+        title: 'Mutual funds',
+        tagline: 'Equity, debt, hybrid, and index funds matched to the goal.',
         description:
-          'We design and oversee portfolios around your objectives, cash-flow needs, and risk profile. Core building blocks typically include equity, debt, and hybrid mutual funds, with portfolio management services and alternatives introduced where your ticket size, sophistication, and mandate justify them.',
+          'Large cap, mid cap, small cap, flexi cap, and ELSS for growth and tax saving. Debt and hybrid funds for stability and medium-term goals. Investments are made in Regular plans through our AMFI registration.',
       },
       {
-        id: 'fixed-income-management',
-        title: 'Debt & Income Positioning',
-        tagline: 'Stability and cash flow, engineered with intent.',
+        id: 'sip-lumpsum',
+        title: 'SIP and lumpsum',
+        tagline: 'Monthly investing, step-up SIPs, and one-time amounts.',
         description:
-          'Debt mutual funds, bonds, and income-oriented sleeves are structured for duration, credit quality, liquidity, and tax character — supporting near-term needs without abandoning long-term compounding.',
+          'A SIP builds the habit and averages the entry price. A step-up SIP rises with income. A lumpsum is paced when a bonus, sale, or inheritance should not go in on a single day.',
       },
       {
-        id: 'alternative-investments',
-        title: 'Alternatives & Private Markets',
-        tagline: 'AIFs, startup equity, and structured real estate — when appropriate.',
+        id: 'pms',
+        title: 'Portfolio Management Services',
+        tagline: 'A custom equity or debt portfolio, when the amount fits.',
         description:
-          'For suitable investors, we evaluate Alternative Investment Funds (AIFs), startup equity, and structured real-estate products alongside public-market holdings. Selection focuses on manager quality, structure, liquidity lock-ups, and alignment with your overall risk budget.',
+          'PMS is a SEBI-regulated portfolio, usually with a minimum of ₹50 lakh, held in your own demat account. We help you compare discretionary, non-discretionary, and advisory mandates and judge whether a PMS belongs beside your mutual funds.',
       },
       {
-        id: 'specialized-mandates',
-        title: 'Specialized & Concentrated Mandates',
-        tagline: 'When wealth is already complex.',
+        id: 'alternatives',
+        title: 'AIFs and other alternatives',
+        tagline: 'Private markets only after suitability and lock-in are clear.',
         description:
-          'Business equity, ESOPs, concentrated stock, or family holdings rarely fit a standard model. We design strategies around what you already own — diversification paths, liquidity events, and complementary mutual-fund or PMS sleeves — rather than forcing a template.',
-      },
-      {
-        id: 'portfolio-monitoring-rebalancing',
-        title: 'Monitoring & Rebalancing',
-        tagline: 'Drift is managed; intent is preserved.',
-        description:
-          'We review exposures, category drift, fund/manager changes, and life-event shifts on a defined cadence. Rebalancing and product switches are recommended when the portfolio no longer matches the agreed architecture — not when markets simply move.',
+          'Category I, II, and III AIFs, startup equity, and structured real-estate products are reviewed for manager, structure, and liquidity. They are a satellite, not a substitute for the mutual fund core.',
       },
     ],
   },
@@ -106,49 +101,35 @@ export const SOLUTION_PILLARS: SolutionPillar[] = [
     index: '03',
     title: 'Risk & Wealth Architecture',
     summary:
-      'Protect compounding with risk profiling, liquidity design, tax-aware investing, and long-term wealth planning — so growth is supported by structure, not hope.',
+      'Risk profiling, emergency liquidity, tax-aware investing, and nominations so the portfolio can survive a bad year and a family transition.',
     services: [
       {
         id: 'risk-management',
-        title: 'Risk Profiling & Management',
-        tagline: 'Know what can impair capital — before markets do.',
+        title: 'Risk and concentration',
+        tagline: 'One stock, one fund house, or one business should not be the whole plan.',
         description:
-          'Beyond market volatility, we assess concentration, liquidity gaps, credit and duration risk, currency exposure where relevant, and business-linked wealth. The goal is to surface vulnerabilities early and size positions accordingly.',
-      },
-      {
-        id: 'portfolio-stress-testing',
-        title: 'Scenario & Stress Awareness',
-        tagline: 'Test the plan against drawdowns and rate shocks.',
-        description:
-          'Portfolios are reviewed against plausible stress paths — equity corrections, rate moves, credit events — so you understand how goals and cash needs hold up, and where buffers or hedges may be warranted.',
+          'We look at how much of your wealth sits in employer stock, the family business, a single fund, or a single sector, and whether a market fall would force you to sell long-term holdings.',
       },
       {
         id: 'cash-liquidity-management',
-        title: 'Cash & Liquidity Design',
-        tagline: 'Liquidity as a planned asset, not an afterthought.',
+        title: 'Emergency fund and liquidity',
+        tagline: 'Cash for the next year, growth for the years after.',
         description:
-          'We structure emergency reserves, near-term goal buckets, and opportunity cash so spending and commitments are funded without forced selling of long-term holdings at the wrong time.',
+          'Near-term spending and an emergency reserve stay in liquid or short-duration funds and bank deposits. Equity is not asked to pay next month’s bills.',
       },
       {
         id: 'tax-aware-investing',
-        title: 'Tax Strategy & Tax-Aware Investing',
-        tagline: 'What you retain matters as much as what you earn.',
+        title: 'Tax-aware investing',
+        tagline: 'ELSS, holding periods, and capital gains, planned with your CA.',
         description:
-          'Asset location, holding periods, mutual-fund tax character, capital-gains timing, and coordination with your CA form part of the advisory conversation. We aim to improve after-tax outcomes without letting tax alone dictate strategy.',
+          'We use ELSS where Section 80C still helps, and we time switches with holding-period rules in mind. Tax improves the plan. It does not replace the goal.',
       },
       {
         id: 'estate-wealth-transfer',
-        title: 'Wealth Planning & Transfer',
-        tagline: 'Structure wealth for the next chapter and the next generation.',
+        title: 'Nominations and succession',
+        tagline: 'Accounts, wills, and family intent, kept current.',
         description:
-          'Long-term wealth planning covers succession conversations, nomination hygiene, gifting where appropriate, and how investment accounts sit within family structures — so capital and intent transfer with fewer surprises.',
-      },
-      {
-        id: 'family-balance-sheet',
-        title: 'Family & Business Balance Sheet',
-        tagline: 'Your demat account is only one slice of wealth.',
-        description:
-          'We look across financial assets, operating businesses, real estate, liabilities, and guarantees to understand true concentration — then design portfolios that complement, rather than double, those exposures.',
+          'We review nominations on folios and demat accounts and coordinate with your lawyer or CA on wills and succession. We do not draft legal documents.',
       },
     ],
   },
@@ -157,42 +138,41 @@ export const SOLUTION_PILLARS: SolutionPillar[] = [
     index: '04',
     title: 'Intelligence & Oversight',
     summary:
-      'Fund and manager diligence, clear consolidated reporting, and disciplined deployment — transparent advisory so you always know what you own and why.',
+      'A portfolio review you can act on: fund quality, overlap, costs, consolidated holdings, and a clear reason to stay or switch.',
     services: [
       {
-        id: 'manager-due-diligence',
-        title: 'Fund & Manager Diligence',
-        tagline: 'Access is not the same as selection.',
+        id: 'portfolio-review',
+        title: 'Portfolio review',
+        tagline: 'Allocation, overlap, and risk against the plan you agreed.',
         description:
-          'Mutual funds, PMS strategies, and AIF managers are evaluated on process, people, portfolio construction, risk controls, costs, and alignment — so recommendations rest on diligence, not brand familiarity alone.',
+          'We check whether the portfolio still matches the target mix, whether too many funds do the same job, and whether a recent fall is noise or a broken holding.',
       },
       {
-        id: 'performance-reporting',
-        title: 'Performance & Attribution Reporting',
-        tagline: 'Clarity on what drove results.',
+        id: 'manager-due-diligence',
+        title: 'Fund and manager diligence',
+        tagline: 'Process, people, cost, and behaviour in a down market.',
         description:
-          'Periodic reporting covers portfolio performance, contribution by sleeve or category, and material changes in holdings — so reviews stay factual and forward-looking rather than narrative-only.',
+          'A fund is kept when the process is intact. A change of manager, a style drift, or a cost that no longer earns its place is a reason to look again.',
       },
       {
         id: 'consolidated-wealth-reporting',
-        title: 'Consolidated Wealth View',
-        tagline: 'One coherent picture across accounts and products.',
+        title: 'Consolidated reporting',
+        tagline: 'Folios, brokers, and products in one conversation.',
         description:
-          'Where holdings span multiple folios, brokers, or product types, we work toward a consolidated view of allocation, risk, and progress against goals — reducing blind spots that fragment decision-making.',
+          'Holdings spread across apps and advisors are pulled into one allocation view so you can see equity, debt, and alternatives together.',
       },
       {
-        id: 'capital-deployment',
-        title: 'Disciplined Capital Deployment',
-        tagline: 'Ready liquidity when opportunity or need appears.',
+        id: 'review-cadence',
+        title: 'Review cadence',
+        tagline: 'A scheduled review, plus a call when life changes.',
         description:
-          'We define how idle cash and new inflows enter the market — staggered SIPs, lumpsum pacing, or opportunistic deployment — so you act with a framework when valuations, life events, or dislocations demand a decision.',
+          'We review on a set calendar and when income, a goal date, or a large cash event changes the plan. We do not reshuffle the portfolio after every headline.',
       },
     ],
   },
 ];
 
-export const PORTFOLIO_MANAGEMENT_FOOTNOTE =
-  'Portfolio implementation uses regulated market products such as mutual funds, Portfolio Management Services (PMS), and Alternative Investment Funds (AIFs) where appropriate and suitable. OneCapital is an AMFI-registered Mutual Fund Distributor and holds APMI registration; product availability depends on eligibility, ticket size, and suitability.';
+export const PORTFOLIO_MANAGEMENT_FOOTNOTE = `Mutual fund investments are subject to market risk. Read all scheme-related documents carefully. ${COMPANY.brandName} distributes Regular plans of mutual funds as an AMFI-registered Mutual Fund Distributor (ARN-${COMPANY.amfiArn}). Direct plans have a lower expense ratio and are available from the AMC; we do not earn commission on Direct plans. PMS and AIFs are offered only where you meet the product eligibility, including the SEBI minimums that generally apply (₹50 lakh for PMS and ₹1 crore for most AIFs). Past performance is not a guide to future returns.`;
 
 export function getPillarById(id: string): SolutionPillar | undefined {
   return SOLUTION_PILLARS.find((pillar) => pillar.id === id);

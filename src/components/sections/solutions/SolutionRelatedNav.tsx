@@ -1,45 +1,265 @@
+import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
-import { Container, Eyebrow, SectionHeading, Section } from '@/src/components/ui';
-import { getSiblingPillars, getPillarPageHref } from '@/src/data/solutions-pillars';
+import { Container, Section } from '@/src/components/ui';
+import { getPillarById, getPillarPageHref } from '@/src/data/solutions-pillars';
 
 type SolutionRelatedNavProps = {
   currentPillarId: string;
 };
 
-export function SolutionRelatedNav({ currentPillarId }: SolutionRelatedNavProps) {
-  const siblings = getSiblingPillars(currentPillarId);
+type NextLink = {
+  pillarId: string;
+  kicker: string;
+  line: string;
+};
+
+type Continuation = {
+  eyebrow: string;
+  heading: string;
+  links: NextLink[];
+};
+
+const CONTINUATIONS: Record<string, Continuation> = {
+  'capital-strategy': {
+    eyebrow: 'After the plan is written',
+    heading: 'The plan only works once it is invested, protected, and checked against what you already hold.',
+    links: [
+      {
+        pillarId: 'portfolio-management',
+        kicker: 'Invest the allocation',
+        line: 'SIPs, mutual fund categories, and a PMS only when the amount and the lock-in fit the goals you just wrote.',
+      },
+      {
+        pillarId: 'risk-wealth-architecture',
+        kicker: 'Set the guardrails',
+        line: 'Emergency cash, tax holding periods, and nominations belong in the plan before the first instalment goes out.',
+      },
+      {
+        pillarId: 'intelligence-oversight',
+        kicker: 'Start from current folios',
+        line: 'If money already sits in other apps or with another advisor, review that before adding a new fund.',
+      },
+    ],
+  },
+  'portfolio-management': {
+    eyebrow: 'Around the portfolio',
+    heading: 'A fund list is not the whole relationship. These are the conversations that sit next to it.',
+    links: [
+      {
+        pillarId: 'capital-strategy',
+        kicker: 'If the goals are still vague',
+        line: 'Go back and write the dates and amounts. Otherwise every SIP is a guess.',
+      },
+      {
+        pillarId: 'risk-wealth-architecture',
+        kicker: 'Before the next lumpsum',
+        line: 'Check whether the cash reserve and the tax bill can absorb a large one-time investment.',
+      },
+      {
+        pillarId: 'intelligence-oversight',
+        kicker: 'If you already invest elsewhere',
+        line: 'Bring those statements. Overlap is the usual reason a new fund should not be added.',
+      },
+    ],
+  },
+  'risk-wealth-architecture': {
+    eyebrow: 'Once the structure is clear',
+    heading: 'Risk, cash, and tax change what you should buy and what you should leave alone.',
+    links: [
+      {
+        pillarId: 'capital-strategy',
+        kicker: 'Rewrite the allocation',
+        line: 'A lower equity ceiling or a nearer goal date means the original mix has to be redrawn.',
+      },
+      {
+        pillarId: 'portfolio-management',
+        kicker: 'Fund the buckets',
+        line: 'Liquid funds for the reserve, equity SIPs for the long goals, ELSS only if Section 80C still has room.',
+      },
+      {
+        pillarId: 'intelligence-oversight',
+        kicker: 'See if the current portfolio breaks the rules',
+        line: 'A review will show concentration, missing nominees, and funds that no longer match the cash dates.',
+      },
+    ],
+  },
+  'intelligence-oversight': {
+    eyebrow: 'What the review is for',
+    heading: 'A keep, switch, or wait list is useful only if it changes the plan or the portfolio.',
+    links: [
+      {
+        pillarId: 'capital-strategy',
+        kicker: 'Update the written plan',
+        line: 'If a goal date moved or the risk you can live with has changed, the allocation page has to change with it.',
+      },
+      {
+        pillarId: 'portfolio-management',
+        kicker: 'Make the switches',
+        line: 'The funds that failed the review are replaced here. The ones that passed stay on their SIP.',
+      },
+      {
+        pillarId: 'risk-wealth-architecture',
+        kicker: 'Fix what the statements exposed',
+        line: 'Missing nominations, a thin cash reserve, or a tax-heavy switch belong in the wealth structure, not in another fund.',
+      },
+    ],
+  },
+};
+
+function linksFor(pillarId: string): Continuation | undefined {
+  return CONTINUATIONS[pillarId];
+}
+
+function PathSteps({ continuation }: { continuation: Continuation }) {
+  return (
+    <ol className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      {continuation.links.map((item, index) => {
+        const pillar = getPillarById(item.pillarId);
+        if (!pillar) return null;
+        return (
+          <li key={item.pillarId} className="relative">
+            {index < continuation.links.length - 1 ? (
+              <span className="absolute left-8 top-5 hidden h-px w-[calc(100%+2rem)] bg-white/15 lg:block" aria-hidden />
+            ) : null}
+            <Link to={getPillarPageHref(item.pillarId)} className="group relative block">
+              <span className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black font-mono text-[11px] text-white">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">{item.kicker}</p>
+              <p className="mt-2 font-sans text-xl font-medium tracking-tight text-white group-hover:text-white/80">
+                {pillar.title}
+              </p>
+              <p className="mt-2 font-sans text-sm font-light leading-relaxed text-white/50">{item.line}</p>
+            </Link>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+function WideRows({ continuation }: { continuation: Continuation }) {
+  return (
+    <ul className="border-t border-white/10">
+      {continuation.links.map((item) => {
+        const pillar = getPillarById(item.pillarId);
+        if (!pillar) return null;
+        return (
+          <li key={item.pillarId}>
+            <Link
+              to={getPillarPageHref(item.pillarId)}
+              className="group grid grid-cols-1 gap-2 border-b border-white/10 py-6 md:grid-cols-12 md:items-center md:gap-6"
+            >
+              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/40 md:col-span-3">
+                {item.kicker}
+              </span>
+              <span className="font-sans text-lg font-medium tracking-tight text-white md:col-span-3">
+                {pillar.title}
+              </span>
+              <span className="font-sans text-sm font-light leading-relaxed text-white/50 md:col-span-5">
+                {item.line}
+              </span>
+              <ArrowRight className="hidden h-4 w-4 text-white/40 transition-transform group-hover:translate-x-1 md:col-span-1 md:block md:justify-self-end" />
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+function FeaturedSplit({ continuation }: { continuation: Continuation }) {
+  const [lead, ...rest] = continuation.links;
+  const leadPillar = lead ? getPillarById(lead.pillarId) : undefined;
 
   return (
-    <Section pad="md" tone="panel" className="border-t border-white/10">
-      <Container>
-        <RevealOnScroll className="flex flex-col gap-10">
-          <div className="flex flex-col gap-3">
-            <Eyebrow>Continue exploring</Eyebrow>
-            <SectionHeading className="text-white">Related disciplines</SectionHeading>
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-5">
+      {lead && leadPillar ? (
+        <Link
+          to={getPillarPageHref(lead.pillarId)}
+          className="group flex flex-col justify-between border border-white/15 p-8 lg:col-span-3 lg:min-h-[280px]"
+        >
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">{lead.kicker}</p>
+          <div>
+            <p className="font-sans text-3xl font-semibold tracking-tight text-white">{leadPillar.title}</p>
+            <p className="mt-3 max-w-md font-sans text-sm font-light leading-relaxed text-white/55">{lead.line}</p>
           </div>
+        </Link>
+      ) : null}
+      <div className="flex flex-col gap-4 lg:col-span-2">
+        {rest.map((item) => {
+          const pillar = getPillarById(item.pillarId);
+          if (!pillar) return null;
+          return (
+            <Link
+              key={item.pillarId}
+              to={getPillarPageHref(item.pillarId)}
+              className="group flex flex-1 flex-col justify-center border border-white/10 bg-white/[0.03] px-6 py-5"
+            >
+              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">{item.kicker}</p>
+              <p className="mt-2 font-sans text-lg font-medium tracking-tight text-white">{pillar.title}</p>
+              <p className="mt-2 font-sans text-sm font-light leading-relaxed text-white/50">{item.line}</p>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {siblings.map((sibling) => (
-              <Link
-                key={sibling.id}
-                to={getPillarPageHref(sibling.id)}
-                className="group flex flex-col gap-3 border border-white/10 bg-white/[0.02] p-6 transition-all duration-500 hover:border-white/25 hover:bg-white/[0.04]"
-              >
-                <span className="font-mono text-[11px] uppercase tracking-widest text-white/40">
-                  {sibling.index}
-                </span>
-                <span className="font-sans text-lg font-medium tracking-tight text-white">{sibling.title}</span>
-                <span className="font-sans text-sm font-light leading-relaxed text-white/55">{sibling.summary}</span>
-                <span className="mt-auto inline-flex items-center gap-2 pt-4 text-xs font-mono uppercase tracking-widest text-white/45 transition-colors group-hover:text-white">
-                  Explore
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" />
-                </span>
-              </Link>
-            ))}
-          </div>
+function HandoffColumns({ continuation }: { continuation: Continuation }) {
+  return (
+    <div className="grid grid-cols-1 divide-y divide-white/10 border-y border-white/10 md:grid-cols-3 md:divide-x md:divide-y-0">
+      {continuation.links.map((item) => {
+        const pillar = getPillarById(item.pillarId);
+        if (!pillar) return null;
+        return (
+          <Link key={item.pillarId} to={getPillarPageHref(item.pillarId)} className="group block px-0 py-8 md:px-6 md:first:pl-0 md:last:pr-0">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">{item.kicker}</p>
+            <p className="mt-3 font-sans text-2xl font-medium tracking-tight text-white">{pillar.title}</p>
+            <p className="mt-3 font-sans text-sm font-light leading-relaxed text-white/50">{item.line}</p>
+            <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/40 group-hover:text-white">
+              Open
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+            </span>
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
+function renderContinuation(pillarId: string, continuation: Continuation): ReactNode {
+  switch (pillarId) {
+    case 'capital-strategy':
+      return <PathSteps continuation={continuation} />;
+    case 'portfolio-management':
+      return <WideRows continuation={continuation} />;
+    case 'risk-wealth-architecture':
+      return <FeaturedSplit continuation={continuation} />;
+    case 'intelligence-oversight':
+      return <HandoffColumns continuation={continuation} />;
+    default:
+      return <WideRows continuation={continuation} />;
+  }
+}
+
+export function SolutionRelatedNav({ currentPillarId }: SolutionRelatedNavProps) {
+  const continuation = linksFor(currentPillarId);
+  if (!continuation) return null;
+
+  return (
+    <Section pad="lg" className="border-t border-white/10">
+      <Container>
+        <RevealOnScroll className="mb-10 max-w-3xl">
+          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-white/40">{continuation.eyebrow}</p>
+          <h2 className="mt-3 font-sans text-[clamp(1.6rem,1rem+1.6vw,2.4rem)] font-semibold leading-[1.15] tracking-tight text-white">
+            {continuation.heading}
+          </h2>
         </RevealOnScroll>
+        {renderContinuation(currentPillarId, continuation)}
       </Container>
     </Section>
   );

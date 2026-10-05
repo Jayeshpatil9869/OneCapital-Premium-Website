@@ -16,8 +16,7 @@ export function SolutionsPillarsNav() {
             One integrated mandate
           </h2>
           <p className="font-sans text-base font-light leading-relaxed text-white/55 md:text-lg">
-            Four disciplines working as a single capital framework — from strategic intent through
-            stewardship, protection, and informed oversight.
+            The plan, the investments, the risks around them, and a review of what you already hold.
           </p>
         </RevealOnScroll>
 
