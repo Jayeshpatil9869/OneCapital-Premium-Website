@@ -59,7 +59,7 @@ const BOTTOM_FEATURES: EdgeFeature[] = [
     title: 'Open Architecture',
     subtitle: 'Thoughtful Access',
     description:
-      'Where appropriate, we evaluate mutual funds, PMS pathways, and alternative allocations such as AIFs and structured opportunities.',
+      'Where appropriate, we evaluate mutual funds, PMS, AIFs, equity, baskets, and broking — after the strategy, not before it.',
     icon: Globe2,
   },
   {

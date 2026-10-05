@@ -18,7 +18,7 @@ export type SolutionPillar = {
 /**
  * Our Products pillars — aligned with About / 1capital.in offerings:
  * mutual funds, portfolio management, wealth planning, tax strategy,
- * AIFs, startup equity, and structured real-estate products.
+ * AIFs, equity, baskets, and broking.
  * No invented returns, AUM, or unconfirmed SEBI license numbers.
  */
 export const SOLUTION_PILLARS: SolutionPillar[] = [
@@ -92,7 +92,7 @@ export const SOLUTION_PILLARS: SolutionPillar[] = [
         title: 'AIFs and other alternatives',
         tagline: 'Private markets only after suitability and lock-in are clear.',
         description:
-          'Category I, II, and III AIFs, startup equity, and structured real-estate products are reviewed for manager, structure, and liquidity. They are a satellite, not a substitute for the mutual fund core.',
+          'Category I, II, and III AIFs are reviewed for manager, structure, and liquidity. They are a satellite, not a substitute for the mutual fund core. Equity, baskets, and broking are separate products.',
       },
     ],
   },

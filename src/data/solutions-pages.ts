@@ -61,7 +61,7 @@ export const SOLUTIONS_HUB = {
   documentTitle: `Our Products | ${COMPANY.brandName}`,
   seo: {
     title: `Our Products — Wealth Advisory & Portfolio Solutions | ${COMPANY.brandName}`,
-    description: `${COMPANY.brandName} in ${COMPANY.hqCity} offers capital strategy, portfolio management, risk & wealth architecture, and intelligence & oversight — spanning mutual funds, PMS, wealth planning, tax strategy, and alternatives.`,
+    description: `${COMPANY.brandName} in ${COMPANY.hqCity} explains the work in four pages, then the products: mutual funds, PMS, AIF, equity, baskets, broking, and investment advisory. Research first, then the strategy.`,
     keywords: [
       'wealth management advisory',
       'portfolio management services Pune',
@@ -315,12 +315,12 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
       {
         id: 'alternatives',
         title: 'AIFs and other alternatives',
-        body: 'Alternative Investment Funds are private pooled vehicles. Category I and II are often private equity, venture, or private credit. Category III can use listed equities and more active strategies. Most AIFs ask for ₹1 crore and lock capital for years. Startup equity and structured real-estate products are reviewed the same way: manager, structure, fees, and whether you can do without that money until the exit. They stay a small part of the plan.',
+        body: 'Alternative Investment Funds are private pooled vehicles. Category I and II are often private equity, venture, or private credit. Category III can use listed equities and more active strategies. Most AIFs ask for ₹1 crore and lock capital for years. The full product page covers eligibility, what we look at, and why an AIF stays a small part of the plan.',
         points: [
           'Private markets, sized with care',
           'AIF Category I, II, III',
-          'Startup equity',
-          'Structured real estate',
+          'Eligibility and lock-in',
+          'A satellite, not the core',
         ],
       },
       {

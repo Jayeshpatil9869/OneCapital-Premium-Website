@@ -25,7 +25,7 @@ const GALLERY_ITEMS = [
   },
   {
     id: 'investor-conference',
-    image: '/images/gallery/investor-conference.jpg',
+    image: '/images/gallery/inside-client-session.png',
     title: 'Client Conversations',
     caption: 'Structured advisory discussions focused on portfolios, mutual funds, and long-term wealth planning.',
   },
@@ -37,7 +37,7 @@ const GALLERY_ITEMS = [
   },
   {
     id: 'executive-client-meeting',
-    image: '/images/gallery/executive-client-meeting.jpg',
+    image: '/images/gallery/inside-team-gathering.jpeg',
     title: 'Private Advisory Sessions',
     caption: 'Discreet conversations with individuals and businesses about goals, risk, and long-term wealth planning.',
   },

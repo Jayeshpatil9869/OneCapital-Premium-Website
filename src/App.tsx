@@ -20,6 +20,7 @@ import CapitalStrategyPage from './pages/solutions/CapitalStrategyPage';
 import PortfolioManagementPage from './pages/solutions/PortfolioManagementPage';
 import RiskWealthArchitecturePage from './pages/solutions/RiskWealthArchitecturePage';
 import IntelligenceOversightPage from './pages/solutions/IntelligenceOversightPage';
+import ProductPage from './pages/solutions/ProductPage';
 import NotFound from './pages/NotFound';
 
 const router = createBrowserRouter([
@@ -34,6 +35,15 @@ const router = createBrowserRouter([
       { path: 'solutions/portfolio-management', element: <PortfolioManagementPage /> },
       { path: 'solutions/risk-wealth-architecture', element: <RiskWealthArchitecturePage /> },
       { path: 'solutions/intelligence-oversight', element: <IntelligenceOversightPage /> },
+      { path: 'solutions/mutual-funds', element: <ProductPage productId="mutual-funds" /> },
+      { path: 'solutions/pms', element: <ProductPage productId="pms" /> },
+      { path: 'solutions/aif', element: <ProductPage productId="aif" /> },
+      { path: 'solutions/equity', element: <ProductPage productId="equity" /> },
+      { path: 'solutions/equity-baskets', element: <ProductPage productId="equity-baskets" /> },
+      { path: 'solutions/options-baskets', element: <ProductPage productId="options-baskets" /> },
+      { path: 'solutions/equity-broking', element: <ProductPage productId="equity-broking" /> },
+      { path: 'solutions/retail-broking', element: <ProductPage productId="retail-broking" /> },
+      { path: 'solutions/investment-advisory', element: <ProductPage productId="investment-advisory" /> },
       { path: 'approach', element: <Approach /> },
       { path: 'team', element: <Team /> },
       { path: 'insights', element: <Insights /> },

@@ -1,4 +1,5 @@
 import { SolutionsCatalogue } from '@/src/components/sections/solutions/SolutionsCatalogue';
+import { PRODUCT_OFFERS } from '@/src/data/products';
 import { SOLUTIONS_HUB, SOLUTION_OVERVIEWS } from '@/src/data/solutions-pages';
 import { COMPANY } from '@/src/data/company';
 import { usePageSeo } from '@/src/hooks/usePageSeo';
@@ -23,12 +24,20 @@ export default function Solutions() {
         '@context': 'https://schema.org',
         '@type': 'ItemList',
         name: `${COMPANY.brandName} Our Products`,
-        itemListElement: SOLUTION_OVERVIEWS.map((overview, index) => ({
-          '@type': 'ListItem',
-          position: index + 1,
-          name: overview.headline,
-          url: absoluteUrl(`/solutions/${overview.id}`),
-        })),
+        itemListElement: [
+          ...SOLUTION_OVERVIEWS.map((overview, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: overview.headline,
+            url: absoluteUrl(`/solutions/${overview.id}`),
+          })),
+          ...PRODUCT_OFFERS.map((product, index) => ({
+            '@type': 'ListItem',
+            position: SOLUTION_OVERVIEWS.length + index + 1,
+            name: product.title,
+            url: absoluteUrl(product.path),
+          })),
+        ],
       },
     ],
   });

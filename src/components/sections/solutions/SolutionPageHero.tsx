@@ -29,7 +29,7 @@ export function SolutionPageHero({ config }: SolutionPageHeroProps) {
         )}
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.55)_0%,rgba(0,0,0,0.28)_32%,rgba(0,0,0,0.55)_58%,rgba(0,0,0,0.88)_82%,#000000_100%)]" />
       </div>
-,
+
       <Container className="relative z-10 mx-auto w-full max-w-[1400px] px-6 pb-14 pt-[max(7.5rem,env(safe-area-inset-top))] sm:px-8 sm:pb-16 lg:px-12 lg:pb-20">
         <div className="flex max-w-[1100px] flex-col">
           <RevealOnScroll
@@ -41,21 +41,21 @@ export function SolutionPageHero({ config }: SolutionPageHeroProps) {
             ease="power3.out"
           >
             <SolutionsBreadcrumb current={pillarTitle} />
-            <h1 className="mt-6 max-w-[18ch] font-sans text-[2.5rem] font-bold leading-[1.02] tracking-[-0.03em] text-white sm:mt-8 sm:text-6xl md:text-7xl lg:text-[4.2rem] xl:text-[4.2rem]">
+            <h1 className="mt-6 max-w-[1100px] font-sans text-[2.5rem] font-bold leading-[1.02] tracking-[-0.03em] text-white sm:mt-8 sm:text-6xl md:text-7xl lg:text-[4.2rem] xl:text-[4.2rem]">
               {hero.headline}
             </h1>
           </RevealOnScroll>
 
           <RevealOnScroll
             trigger="load"
-            direction="up" 
+            direction="up"
             distance={24}
             duration={1}
             delay={0.22}
             ease="power3.out"
             className="mt-8 sm:mt-10 lg:mt-12"
           >
-            <p className="max-w-[38rem] font-sans text-[15px] font-light leading-[1.65] text-white/85 sm:text-base lg:text-lg">
+            <p className="max-w-[36rem] text-[15px] font-light leading-[1.65] text-white/85 sm:text-base lg:text-lg">
               {hero.subheadline}
             </p> 
             <div className="mt-8 sm:mt-10">

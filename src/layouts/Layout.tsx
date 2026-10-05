@@ -205,11 +205,16 @@ function RouteScrollReset() {
 }
 
 function AppShell({ children }: { children?: ReactNode }) {
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
+
   return (
     <>
       <RouteScrollReset />
       <Preloader />
-      <div className="oc-shell flex flex-col min-h-dvh w-full max-w-full overflow-x-hidden bg-canvas">
+      <div
+        className={`oc-shell flex flex-col min-h-dvh w-full max-w-full overflow-x-hidden bg-canvas${isHome ? " is-home" : ""}`}
+      >
         <Navbar />
         <main className="grow min-w-0">
           <Outlet />

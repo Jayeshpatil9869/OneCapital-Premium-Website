@@ -56,3 +56,31 @@
   --border-subtle: rgba(255, 255, 255, 0.12);
   --spotlight-size: 420px;
 }
+
+/* Homepage laptop: match the tighter frame seen at 110% zoom. Other routes stay at 72rem. */
+@media (min-width: 1280px) {
+  .is-home {
+    --container-max: min(79.2rem, calc(100vw - 4.5rem));
+  }
+
+  /* Insights only: keep a short side margin instead of the 72rem column. */
+  .is-insights {
+    --container-max: calc(100vw - 12rem);
+  }
+}
+
+@keyframes nav-line-reveal {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-nav-reveal] {
+    animation: none !important;
+    transform: none !important;
+  }
+}

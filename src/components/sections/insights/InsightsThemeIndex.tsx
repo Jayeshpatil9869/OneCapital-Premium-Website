@@ -1,80 +1,99 @@
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
-import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
-import { BodyText, Container, DisplayHeading, Eyebrow, Section } from '@/src/components/ui';
+import { useGSAP } from '@gsap/react';
+import { Container } from '@/src/components/ui';
+import { gsap, motionTokens, prefersReducedMotion } from '@/src/lib/motion';
 import { INSIGHT_THEMES, type InsightTheme } from '@/src/data/insights';
 
+gsap.registerPlugin(useGSAP);
+
 export function InsightsThemeIndex() {
-  const lead = INSIGHT_THEMES[0];
+  const listRef = useRef<HTMLOListElement>(null);
+
+  useGSAP(
+    () => {
+      const list = listRef.current;
+      if (!list || prefersReducedMotion()) return;
+
+      const rows = list.querySelectorAll<HTMLElement>('[data-theme-row]');
+      gsap.fromTo(
+        rows,
+        { clipPath: 'inset(14% 0% 14% 0%)', autoAlpha: 0 },
+        {
+          clipPath: 'inset(0% 0% 0% 0%)',
+          autoAlpha: 1,
+          duration: motionTokens.duration.slow,
+          ease: motionTokens.ease.premium,
+          stagger: motionTokens.stagger.relaxed,
+          scrollTrigger: {
+            trigger: list,
+            start: 'top 78%',
+          },
+        },
+      );
+    },
+    { scope: listRef },
+  );
 
   return (
-    <Section
-      pad="lg"
-      className="border-y border-white/10 bg-black text-white"
-      aria-labelledby="insight-theme-index-heading"
-    >
-      <Container>
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-14">
-          <div className="lg:col-span-4">
-            <div className="lg:sticky lg:top-28">
-              <RevealOnScroll className="flex max-w-md flex-col gap-5">
-                <Eyebrow>Theme index</Eyebrow>
-                <DisplayHeading id="insight-theme-index-heading" className="text-white">
-                  Themes we watch with{' '}
-                  <span className="text-white/40">clients.</span>
-                </DisplayHeading>
-                <BodyText className="text-base md:text-lg">
-                  {lead?.mandate ??
-                    'Editorial themes — not claimed third-party press. Each lane points to deeper reading or the advisory frameworks behind it.'}
-                </BodyText>
-              </RevealOnScroll>
-            </div>
-          </div>
-
-          <RevealOnScroll stagger={0.06} className="flex flex-col lg:col-span-8">
-            {INSIGHT_THEMES.map((theme) => (
-              <ThemeRow key={theme.id} theme={theme} />
-            ))}
-          </RevealOnScroll>
+    <section className="w-full border-t border-white/10 bg-black text-white" aria-labelledby="insight-theme-index-heading">
+      <Container className="py-20 md:py-28">
+        <div className="max-w-3xl">
+          <h2
+            id="insight-theme-index-heading"
+            className="font-sans text-[clamp(2rem,1.2rem+2.4vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-white"
+          >
+            Themes we watch with clients.
+          </h2>
         </div>
+
+        <ol ref={listRef} className="mt-14 border-t border-white/15">
+          {INSIGHT_THEMES.map((theme) => (
+            <li key={theme.id}>
+              <ThemeRow theme={theme} />
+            </li>
+          ))}
+        </ol>
       </Container>
-    </Section>
+    </section>
   );
 }
 
 function ThemeRow({ theme }: { theme: InsightTheme }) {
   return (
-    <article className="group grid grid-cols-1 gap-4 border-t border-white/10 py-8 first:border-t-0 first:pt-0 sm:grid-cols-12 sm:gap-6 sm:py-10">
-      <div className="flex items-start gap-4 sm:col-span-3">
-        <span className="font-mono text-xs text-white/35">{theme.index}</span>
-        <div className="flex flex-col gap-2">
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--color-gold-warm)]">
-            {theme.theme}
-          </p>
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/35">
-            {theme.period}
-          </p>
+    <article id={theme.id} data-theme-row className="scroll-mt-28 border-b border-white/15">
+      <Link
+        to={theme.href}
+        className="group grid grid-cols-1 items-center gap-6 py-8 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white md:grid-cols-12 md:gap-8 md:py-10"
+      >
+        <div className="md:col-span-2">
+          <p className="text-sm font-medium text-white">{theme.theme}</p>
+          <p className="mt-1 text-sm text-white/55">{theme.period}</p>
         </div>
-      </div>
-
-      <div className="sm:col-span-7">
-        <h3 className="max-w-[34ch] text-balance text-xl font-semibold leading-snug tracking-tight text-white sm:text-2xl">
-          {theme.headline}
-        </h3>
-        <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/50 sm:text-[15px]">
-          {theme.mandate}
-        </p>
-      </div>
-
-      <div className="flex items-end sm:col-span-2 sm:justify-end">
-        <Link
-          to={theme.href}
-          className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.16em] text-white/50 transition-colors duration-300 group-hover:text-white"
-        >
-          {theme.cta}
-          <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </Link>
-      </div>
+        <div className="md:col-span-6">
+          <h3 className="text-balance text-2xl font-medium leading-snug tracking-[-0.02em] text-white md:text-[1.75rem]">
+            {theme.headline}
+          </h3>
+          <p className="mt-3 max-w-[46ch] text-base leading-relaxed text-white/75 md:text-lg">
+            {theme.mandate}
+          </p>
+          <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-white">
+            {theme.cta}
+            <ArrowUpRight
+              className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              aria-hidden
+            />
+          </span>
+        </div>
+        <div className="overflow-hidden md:col-span-4">
+          <img
+            src={theme.image}
+            alt=""
+            className="aspect-[16/10] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          />
+        </div>
+      </Link>
     </article>
   );
 }

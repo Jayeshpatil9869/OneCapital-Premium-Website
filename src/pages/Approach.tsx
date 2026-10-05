@@ -1,6 +1,8 @@
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { COMPANY } from '@/src/data/company';
+import { usePageSeo } from '@/src/hooks/usePageSeo';
 import { prefersReducedMotion } from '@/src/lib/motion';
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import {
@@ -17,37 +19,68 @@ gsap.registerPlugin(ScrollTrigger);
 const STEPS = [
   {
     num: '01',
-    title: 'DISCOVER',
-    desc: 'We begin by understanding the architecture of your financial life. This involves deep conversations about your liquidity needs, risk tolerance, generational wealth goals, and existing asset structures.',
+    title: 'UNDERSTAND',
+    desc: 'We first understand the economy and the markets: interest rates, liquidity, market cycles, and the broader trend. History is part of that picture. It is not enough on its own.',
   },
   {
     num: '02',
-    title: 'DIAGNOSE',
-    desc: 'Our analytical team dissects your current portfolio. We identify hidden risks, structural inefficiencies, tax leakages, and areas where your capital is underperforming relative to its potential.',
+    title: 'ANALYSE',
+    desc: 'We then analyse sectors, companies, earnings, valuations, market trends, and risks. The question is what could drive the result from here, not only what already happened.',
   },
   {
     num: '03',
-    title: 'DESIGN',
-    desc: 'We engineer a bespoke portfolio architecture. This involves strategic asset allocation, selecting optimal investment vehicles, and establishing a rigorous framework for decision-making.',
+    title: 'IDENTIFY',
+    desc: 'From that research we identify the opportunity: a fund, a business, a theme, or a reason to wait. The solution follows the investor’s requirement.',
   },
   {
     num: '04',
-    title: 'IMPLEMENT',
-    desc: 'Execution requires precision. We deploy capital methodically, taking advantage of tactical entry points while ensuring tax-efficient transitions from legacy holdings.',
+    title: 'BUILD',
+    desc: 'We build the investment strategy around that opportunity. Mutual funds, PMS, AIF, equity, equity baskets, and options baskets are how the same research view is put to work.',
   },
   {
     num: '05',
     title: 'MONITOR',
-    desc: 'Markets are dynamic; your strategy must be resilient. We employ continuous risk monitoring, stress-testing your portfolio against macro-economic shifts and black-swan events.',
+    desc: 'We keep watching the investment thesis after the money is invested. If the original case no longer holds, the holding is revisited. The larger trend and the risks stay in view.',
+  },
+];
+
+const DIFFERENCES = [
+  {
+    title: 'We look forward, not just backward',
+    body: 'Past performance tells us what happened. The research focuses on what could drive performance from here.',
   },
   {
-    num: '06',
-    title: 'EVOLVE',
-    desc: 'As your life and the markets change, so must your plan. We conduct strategic rebalancing and periodic reviews to ensure your wealth command remains optimally aligned with your legacy.',
+    title: 'Research before recommendation',
+    body: 'We do not start with a product and look for an investor to fit it. Research and the investor’s requirement come first. The appropriate solution follows.',
+  },
+  {
+    title: 'One research engine across products',
+    body: 'The same research supports mutual funds, PMS, AIF, equity, equity baskets, and options baskets. An opportunity is looked at across those solutions, not inside one product alone.',
+  },
+  {
+    title: 'Strategy over short-term noise',
+    body: 'Markets move every day. The focus is the larger trend, the opportunity underneath it, and the risks, rather than every short-term move.',
+  },
+  {
+    title: 'Risk is part of the research',
+    body: 'The question is not only what an investment can make. It is also what can go wrong. Understanding the downside is part of the process.',
   },
 ];
 
 export default function Approach() {
+  usePageSeo({
+    title: `Investment Research Approach | ${COMPANY.brandName}`,
+    description:
+      'OneCapital studies the economy, markets, sectors, and valuations before a recommendation. Research first, then the strategy, then the investment.',
+    path: '/approach',
+    keywords: [
+      'investment research process',
+      'wealth management approach Pune',
+      'OneCapital advisory process',
+    ],
+    type: 'website',
+  });
+
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
 
@@ -111,12 +144,13 @@ export default function Approach() {
           >
             <Eyebrow centered>Our Approach</Eyebrow>
             <DisplayHeading className="text-white">
-              The Framework of <br />
-              <span className="text-white/40">Wealth Command.</span>
+              Research. Strategy. <br />
+              <span className="text-white/40">Discipline.</span>
             </DisplayHeading>
             <BodyText className="max-w-2xl text-base md:text-lg">
-              A disciplined, six-stage methodology designed to reduce emotional bias and keep
-              portfolio decisions aligned with each client&apos;s goals through changing markets.
+              Research helps us understand the opportunity. Strategy decides how to participate.
+              Discipline keeps the focus through different market conditions. Research first.
+              Strategy next. Investment last.
             </BodyText>
           </RevealOnScroll>
         </Container>
@@ -154,6 +188,26 @@ export default function Approach() {
           ))}
         </div>
       </div>
+
+      <Section pad="lg" className="border-t border-white/10">
+        <Container>
+          <Eyebrow>How One Capital is different</Eyebrow>
+          <SectionHeading className="mt-4 max-w-3xl text-white">
+            Research-led investing for what lies ahead.
+          </SectionHeading>
+          <ol className="mt-12 grid gap-10 md:grid-cols-2">
+            {DIFFERENCES.map((item, index) => (
+              <li key={item.title} className="border-t border-white/10 pt-6">
+                <p className="font-mono text-xs tracking-widest text-text-muted">
+                  {String(index + 1).padStart(2, '0')}
+                </p>
+                <h3 className="mt-3 text-2xl font-medium tracking-tight text-white">{item.title}</h3>
+                <BodyText className="mt-3 text-base md:text-lg">{item.body}</BodyText>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </Section>
     </div>
   );
 }

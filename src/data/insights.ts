@@ -44,7 +44,6 @@ export const INSIGHTS_PAGE = {
     image: '/images/gallery/research-strategy-desk.jpg',
     line1: 'Clarity in',
     line2: 'complexity.',
-    meta: ['RESEARCH /', 'MARKETS • ALLOCATION', 'WEALTH ARCHITECTURE'] as const,
     keywords: ['Allocation', 'Macro', 'Private markets'] as const,
     description: `Perspectives from ${COMPANY.brandName} on markets, allocation, and the architecture of enduring wealth — written for clients who prefer discipline over noise.`,
   },

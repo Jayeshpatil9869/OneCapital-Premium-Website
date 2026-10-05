@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { Container, Section } from '@/src/components/ui';
 import { ABOUT_PAGE } from '@/src/data/about';
@@ -55,7 +56,10 @@ export function AboutStorySection() {
             className="lg:col-span-4 flex flex-col justify-end self-end lg:pb-3 space-y-6 sm:space-y-8"
           >
             <p className="text-base lg:text-[17px] xl:text-lg text-zinc-400 font-normal leading-relaxed">
-              {story.approach}
+              {story.approach}{' '}
+              <Link to="/solutions" className="text-white underline-offset-4 hover:underline">
+                See how we work and what we offer.
+              </Link>
             </p>
             <p className="text-base lg:text-[17px] xl:text-lg text-zinc-400 font-normal leading-relaxed">
               {story.bridge}

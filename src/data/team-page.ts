@@ -7,11 +7,6 @@ export const TEAM_PAGE = {
   hero: {
     line1: 'Our team,',
     line2: 'our leadership.',
-    meta: [
-      'LEADERSHIP /',
-      'ADVISORY • PORTFOLIOS',
-      'STEWARDSHIP — LONG TERM',
-    ] as const,
     description:
       'Meet the people guiding OneCapital’s advisory work — practical guidance, clear communication, and a long-term view of wealth for clients across Maharashtra.',
   },

@@ -27,20 +27,10 @@ export function TeamHero() {
           </RevealOnScroll>
 
           <RevealOnScroll trigger="load" direction="up" distance={24} duration={1} delay={0.22} ease="power3.out">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 pt-6 sm:pt-8 border-t border-white/15 items-start">
-              <div className="lg:col-span-4 flex flex-col gap-0.5 text-[11px] sm:text-xs uppercase tracking-[0.14em] text-white/70 font-medium leading-relaxed">
-                {hero.meta.map((line) => (
-                  <p key={line} className="lg:whitespace-nowrap">
-                    {line}
-                  </p>
-                ))}
-              </div>
-
-              <div className="lg:col-span-8 lg:pl-4">
-                <p className="text-[15px] sm:text-base lg:text-lg text-white/90 font-light leading-[1.65] max-w-[38rem]">
-                  {hero.description}
-                </p>
-              </div>
+            <div className="border-t border-white/15 pt-6 sm:pt-8">
+              <p className="max-w-[38rem] text-[15px] font-light leading-[1.65] text-white/90 sm:text-base lg:text-lg">
+                {hero.description}
+              </p>
             </div>
           </RevealOnScroll>
         </div>

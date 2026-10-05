@@ -1,20 +1,25 @@
-import { useEffect } from 'react';
 import { EditorialStatementCTA } from '@/src/components/sections/cta/EditorialStatementCTA';
 import { InsightsBridgeStrip } from '@/src/components/sections/insights/InsightsBridgeStrip';
 import { InsightsFeaturedNote } from '@/src/components/sections/insights/InsightsFeaturedNote';
 import { InsightsMasthead } from '@/src/components/sections/insights/InsightsMasthead';
 import { InsightsThemeIndex } from '@/src/components/sections/insights/InsightsThemeIndex';
 import { INSIGHTS_PAGE } from '@/src/data/insights';
+import { usePageSeo } from '@/src/hooks/usePageSeo';
 
 export default function Insights() {
   const { cta } = INSIGHTS_PAGE;
 
-  useEffect(() => {
-    document.title = INSIGHTS_PAGE.documentTitle;
-  }, []);
+  usePageSeo({
+    title: INSIGHTS_PAGE.documentTitle,
+    description: INSIGHTS_PAGE.hero.description,
+    path: '/insights',
+    keywords: ['investment insights', 'market outlook', 'wealth planning notes', 'OneCapital'],
+    image: INSIGHTS_PAGE.hero.image,
+    type: 'website',
+  });
 
   return (
-    <div className="flex w-full flex-col items-center bg-black">
+    <div className="is-insights flex w-full flex-col items-center bg-black">
       <InsightsMasthead />
       <InsightsThemeIndex />
       <InsightsFeaturedNote />

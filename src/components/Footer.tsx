@@ -27,10 +27,10 @@ export default function Footer() {
             {COMPANY.tagline}
           </p>
           <SocialLinks className="mt-2" />
-          <AppDownloadCard className="mt-2 w-full max-w-sm" />
+          <AppDownloadCard className="mt-2 hidden w-full max-w-sm md:block" />
         </div>
 
-        <div className="grid grid-cols-2 gap-8 lg:contents">
+        <div className="grid grid-cols-1 gap-8 lg:contents">
           {/* Strategies */}
           <div className="flex flex-col gap-4">
             <h4 className="text-xs uppercase tracking-wider font-mono text-text-muted mb-2">
@@ -114,6 +114,7 @@ export default function Footer() {
           >
             Book Consultation
           </Button>
+          <AppDownloadCard className="w-full max-w-sm md:hidden" />
         </div>
       </div>
 

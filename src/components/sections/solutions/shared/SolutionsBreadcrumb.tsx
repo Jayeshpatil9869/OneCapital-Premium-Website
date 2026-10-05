@@ -8,7 +8,7 @@ export function SolutionsBreadcrumb({ current }: SolutionsBreadcrumbProps) {
   return (
     <nav
       aria-label="Breadcrumb"
-      className="flex flex-wrap items-center gap-2 text-[11px] font-mono uppercase tracking-[0.14em] text-white/45"
+      className="flex flex-wrap items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-text-muted"
     >
       <Link to="/solutions" className="transition-colors hover:text-white">
         Solutions

@@ -13,12 +13,16 @@ import BrandLogo from "./BrandLogo";
 import { LetterSwap } from "./motion/LetterSwap";
 import { subscribeRafScroll } from "../lib/raf-scroll";
 import { Button } from "@/src/components/ui";
+import { PRODUCT_OFFERS } from "../data/products";
+
+const CLIENT_LOGIN_URL = "https://onecapitalinvestment.investwell.app/app/#/login";
 
 gsap.registerPlugin(useGSAP);
 
 type NavChild = {
   name: string;
   path: string;
+  group?: string;
 };
 
 type NavItem =
@@ -44,10 +48,15 @@ const NAV_ITEMS: NavItem[] = [
     label: "Our Products",
     path: "/solutions",
     children: [
-      { name: "Capital Strategy", path: "/solutions/capital-strategy" },
-      { name: "Portfolio Management", path: "/solutions/portfolio-management" },
-      { name: "Risk & Wealth Architecture", path: "/solutions/risk-wealth-architecture" },
-      { name: "Intelligence & Oversight", path: "/solutions/intelligence-oversight" },
+      { name: "Capital Strategy", path: "/solutions/capital-strategy", group: "How we work" },
+      { name: "Portfolio Management", path: "/solutions/portfolio-management", group: "How we work" },
+      { name: "Risk & Wealth Architecture", path: "/solutions/risk-wealth-architecture", group: "How we work" },
+      { name: "Intelligence & Oversight", path: "/solutions/intelligence-oversight", group: "How we work" },
+      ...PRODUCT_OFFERS.map((product) => ({
+        name: product.navLabel,
+        path: product.path,
+        group: "What we offer",
+      })),
     ],
   },
   {
@@ -125,6 +134,22 @@ function pathMatchesItem(pathname: string, item: NavItem): boolean {
     const basePath = child.path.split("#")[0];
     return pathname === child.path || (basePath.length > 1 && pathname === basePath);
   });
+}
+
+function groupNavChildren(children: NavChild[]) {
+  const order: string[] = [];
+  const grouped = new Map<string, NavChild[]>();
+  for (const child of children) {
+    const key = child.group ?? "";
+    const bucket = grouped.get(key);
+    if (bucket) {
+      bucket.push(child);
+    } else {
+      grouped.set(key, [child]);
+      order.push(key);
+    }
+  }
+  return order.map((label) => ({ label, items: grouped.get(label) ?? [] }));
 }
 
 function NavLinkStyles(active: boolean, overLight: boolean) {
@@ -236,6 +261,7 @@ function DesktopDropdown({
           data-nav-surface="dropdown"
           className={cn(
             "min-w-[17rem] rounded-2xl border p-3",
+            groupNavChildren(item.children).some((group) => group.label) && "min-w-[34rem]",
             // Blur only while open — closed panels must not keep a GPU blur layer.
             open &&
               (showPill || overLight
@@ -260,36 +286,64 @@ function DesktopDropdown({
           role="menu"
           aria-label={item.label}
         >
-          <ul className="flex flex-col gap-0.5">
-            {item.children.map((child) => {
-              const childActive = pathname === child.path;
-              return (
-                <li key={child.name}>
-                  <Link
-                    to={child.path}
-                    role="menuitem"
-                    onClick={handleLinkClick}
-                    className="group/item block px-3 py-2.5 transition-colors"
-                  >
-                    <span
-                      className={cn(
-                        "relative inline-block text-sm font-medium tracking-tight transition-colors",
-                        childActive
-                          ? "text-white"
-                          : "text-white/90 group-hover/item:text-white",
-                      )}
-                    >
-                      <LetterSwap label={child.name} />
-                      {childActive && (
-                        <span className="absolute -bottom-1 left-0 w-full h-px bg-white opacity-50" />
-                      )}
-                      <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 opacity-0 group-hover/item:w-full group-hover/item:opacity-50" />
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+          <div
+            className={cn(
+              "flex max-h-[70vh] flex-col gap-4 overflow-y-auto",
+              groupNavChildren(item.children).filter((group) => group.label).length > 1 &&
+                "sm:grid sm:grid-cols-2 sm:gap-6",
+            )}
+          >
+            {groupNavChildren(item.children).map((group) => (
+              <div key={group.label || "links"}>
+                <ul className="flex flex-col gap-0.5">
+                  {group.items.map((child, index) => {
+                    const childActive = pathname === child.path;
+                    const reveal = open && !prefersReducedMotion();
+                    return (
+                      <li key={child.path}>
+                        <Link
+                          to={child.path}
+                          role="menuitem"
+                          onClick={handleLinkClick}
+                          className="group/item block px-3 py-2.5 transition-colors"
+                        >
+                          <span
+                            className={cn(
+                              "relative inline-block text-sm font-medium tracking-tight transition-colors",
+                              childActive
+                                ? "text-white"
+                                : "text-white/90 group-hover/item:text-white",
+                            )}
+                          >
+                            <span className="block overflow-hidden">
+                              <span
+                              data-nav-reveal
+                              className="block"
+                              style={
+                                reveal
+                                  ? {
+                                      animation: "nav-line-reveal 0.62s var(--ease-premium) both",
+                                      animationDelay: `${index * 0.045}s`,
+                                    }
+                                  : undefined
+                              }
+                            >
+                                <LetterSwap label={child.name} />
+                              </span>
+                            </span>
+                            {childActive && (
+                              <span className="absolute -bottom-1 left-0 w-full h-px bg-white opacity-50" />
+                            )}
+                            <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 opacity-0 group-hover/item:w-full group-hover/item:opacity-50" />
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -529,7 +583,9 @@ export default function Navbar() {
               Book Consultation
             </Button>
             <Button
-              to="/contact"
+              href={CLIENT_LOGIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               variant="outline"
               size="sm"
               className={cn(
@@ -651,27 +707,33 @@ export default function Navbar() {
                   className={cn(
                     "overflow-hidden transition-all duration-300",
                     expanded
-                      ? "max-h-80 opacity-100 pb-2"
+                      ? "max-h-[70vh] overflow-y-auto opacity-100 pb-2"
                       : "max-h-0 opacity-0",
                   )}
                 >
-                  <ul className="flex flex-col gap-1 pl-3 border-l border-white/10 ml-1">
-                    {item.children.map((child) => (
-                      <li key={child.name}>
-                        <Link
-                          to={child.path}
-                          className={cn(
-                            "block py-2 text-base transition-colors",
-                            location.pathname === child.path
-                              ? "text-white"
-                              : "text-text-muted hover:text-white",
-                          )}
-                        >
-                          {child.name}
-                        </Link>
-                      </li>
+                  <div className="flex flex-col gap-4 pl-3 ml-1 border-l border-white/10">
+                    {groupNavChildren(item.children).map((group) => (
+                      <div key={group.label || item.name}>
+                        <ul className="flex flex-col gap-1">
+                          {group.items.map((child) => (
+                            <li key={child.path}>
+                              <Link
+                                to={child.path}
+                                className={cn(
+                                  "block py-2 text-base transition-colors",
+                                  location.pathname === child.path
+                                    ? "text-white"
+                                    : "text-text-muted hover:text-white",
+                                )}
+                              >
+                                {child.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               </div>
             );
@@ -687,9 +749,12 @@ export default function Navbar() {
               Book Consultation
             </Button>
             <Button
-              to="/contact"
+              href={CLIENT_LOGIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               variant="outline"
               className="w-full rounded-xl px-6 py-4 min-h-14 text-white/80"
+              onClick={() => setMobileMenuOpen(false)}
             >
               Login
             </Button>

@@ -5,6 +5,7 @@ import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { Button, Container } from '@/src/components/ui';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { gsap, prefersReducedMotion } from '@/src/lib/motion';
+import { PRODUCT_GROUPS, getProductsInGroup } from '@/src/data/products';
 import { SOLUTIONS_HUB } from '@/src/data/solutions-pages';
 import {
   PORTFOLIO_MANAGEMENT_FOOTNOTE,
@@ -120,6 +121,50 @@ export function SolutionsCatalogue() {
           tone={index % 2 === 0 ? 'dark' : 'light'}
         />
       ))}
+
+      <section id="what-we-offer" className="scroll-mt-28 border-b border-white/10 bg-black text-white">
+        <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-text-muted">What we offer</p>
+          <h2 className="mt-4 max-w-3xl font-sans text-[clamp(1.5rem,1rem+2vw,3rem)] font-medium leading-tight tracking-tight">
+            Nine products. One research view.
+          </h2>
+          <p className="mt-5 max-w-2xl text-lg font-light leading-relaxed text-text-muted md:text-xl">
+            Mutual funds, PMS, AIFs, equity, baskets, broking, and investment advisory. Research comes first. The product is chosen after the strategy.
+          </p>
+          <div className="mt-16">
+            {PRODUCT_GROUPS.map((group) => (
+              <div
+                key={group.id}
+                className="grid gap-8 border-t border-white/15 py-10 lg:grid-cols-12 lg:gap-16 lg:py-12"
+              >
+                <h3 className="font-sans text-2xl font-medium tracking-tight text-white lg:col-span-4 lg:text-3xl">
+                  {group.title}
+                </h3>
+                <ul className="border-t border-white/15 lg:col-span-8">
+                  {getProductsInGroup(group.id).map((product) => (
+                    <li key={product.id} className="border-b border-white/15">
+                      <Link
+                        to={product.path}
+                        className="grid gap-2 py-7 transition-colors hover:text-white/80 sm:grid-cols-12 sm:gap-6 sm:py-8"
+                      >
+                        <span className="font-sans text-lg font-medium tracking-tight text-white sm:col-span-4 sm:text-xl">
+                          {product.title}
+                        </span>
+                        <span className="font-sans text-sm font-light leading-relaxed text-white/60 sm:col-span-5 sm:text-base">
+                          {product.audience}
+                        </span>
+                        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/45 sm:col-span-3">
+                          {product.eligibility}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
 
       <section className={cn(ink.light, 'border-t border-black/10')}>
         <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">

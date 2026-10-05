@@ -18,13 +18,7 @@ export const ABOUT_PAGE = {
   },
 
   hero: {
-    line1: `About ${COMPANY.brandName},`,
-    line2: 'genesis & purpose.',
-    meta: [
-      'GENESIS • PURPOSE /',
-      'PRECISION ADVISORY • WEALTH',
-      'STEWARDSHIP — MAHARASHTRA',
-    ] as const,
+    line1: `About ${COMPANY.brandName}`,
     description: `A ${COMPANY.hqCity}-rooted wealth partner for individuals, families, and businesses — research-led advisory, portfolio stewardship, and long-term planning with clarity and discipline.`,
   },
 
@@ -35,7 +29,7 @@ export const ABOUT_PAGE = {
     imageSrc: '/images/about-story.jpg',
     imageAlt: `${COMPANY.brandName} advisory workspace — ${COMPANY.hqCity} headquarters`,
     lead: `Founded in ${COMPANY.foundedYear}, ${COMPANY.legalName} is a ${COMPANY.hqCity}-based wealth management and investment advisory firm. We partner with individuals, families, and businesses to design capital plans around real goals — then implement them with research, suitability, and ongoing stewardship.`,
-    approach: `Our work spans capital strategy, portfolio management, risk & wealth architecture, and intelligence & oversight — including mutual funds, Portfolio Management Services (PMS), wealth planning, tax-aware investing, and carefully evaluated alternatives such as AIFs, startup equity, and structured real-estate products when they fit the mandate.`,
+    approach: `The work is four disciplines: capital strategy, portfolio management, risk and wealth architecture, and intelligence and oversight. The products inside that work run from mutual funds and PMS to AIFs, equity, baskets, broking, and investment advisory.`,
     bridge: `From our ${COMPANY.hqCity} headquarters and offices in Mumbai, Kolhapur, and Nashik — and through ${COMPANY.domain} — clients get transparent advisory, consolidated clarity on what they own, and a consistent review cadence across market cycles.`,
     presence: `Local access across Maharashtra. Institutional discipline in every conversation.`,
     /** Single centered paragraph with inline scroll-reveal images. */

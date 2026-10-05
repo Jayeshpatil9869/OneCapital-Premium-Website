@@ -20,27 +20,15 @@ export function AboutHero() {
         <div className="flex flex-col gap-8 sm:gap-10 lg:gap-12 max-w-[1100px]">
           <RevealOnScroll trigger="load" direction="up" distance={32} duration={1.1} delay={0.1} ease="power3.out">
             <h1 className="font-sans text-[2.5rem] font-bold leading-[1.02] tracking-[-0.03em] text-white sm:text-6xl md:text-7xl lg:text-[4.2rem] xl:text-[4.2rem]">
-              <span>{hero.line1}</span>
-              <br />
-              <span className="text-white/45 font-medium">{hero.line2}</span>
+              {hero.line1}
             </h1>
           </RevealOnScroll>
 
           <RevealOnScroll trigger="load" direction="up" distance={24} duration={1} delay={0.22} ease="power3.out">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 pt-6 sm:pt-8 border-t border-white/15 items-start">
-              <div className="lg:col-span-4 flex flex-col gap-0.5 text-[11px] sm:text-xs uppercase tracking-[0.14em] text-white/55 font-medium leading-relaxed">
-                {hero.meta.map((line) => (
-                  <p key={line} className="lg:whitespace-nowrap">
-                    {line}
-                  </p>
-                ))}
-              </div>
-
-              <div className="lg:col-span-8 lg:pl-4">
-                <p className="text-[15px] sm:text-base lg:text-lg text-white/85 font-light leading-[1.65] max-w-[36rem]">
-                  {hero.description}
-                </p>
-              </div>
+            <div className="border-t border-white/15 pt-6 sm:pt-8">
+              <p className="max-w-[36rem] text-[15px] font-light leading-[1.65] text-white/85 sm:text-base lg:text-lg">
+                {hero.description}
+              </p>
             </div>
           </RevealOnScroll>
         </div>

@@ -265,7 +265,7 @@ export function TestimonialsSection() {
       <Container>
         <div
           ref={contentRef}
-          className="mx-auto grid max-w-5xl grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:items-center lg:gap-10"
+          className="mx-auto grid max-w-5xl grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:items-center lg:gap-10 xl:max-w-[70.4rem]"
         >
           <div className="flex flex-col gap-4 lg:col-span-4">
             <Eyebrow

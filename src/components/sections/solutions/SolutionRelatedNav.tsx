@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
-import { Container, Section } from '@/src/components/ui';
+import { Container, Eyebrow, Section, SectionHeading } from '@/src/components/ui';
 import { getPillarById, getPillarPageHref } from '@/src/data/solutions-pillars';
 
 type SolutionRelatedNavProps = {
@@ -124,14 +124,14 @@ function PathSteps({ continuation }: { continuation: Continuation }) {
               <span className="absolute left-8 top-5 hidden h-px w-[calc(100%+2rem)] bg-white/15 lg:block" aria-hidden />
             ) : null}
             <Link to={getPillarPageHref(item.pillarId)} className="group relative block">
-              <span className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black font-mono text-[11px] text-white">
+              <span className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black font-mono text-xs text-text-muted">
                 {String(index + 1).padStart(2, '0')}
               </span>
-              <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">{item.kicker}</p>
-              <p className="mt-2 font-sans text-xl font-medium tracking-tight text-white group-hover:text-white/80">
+              <p className="mt-4 text-xs font-mono uppercase tracking-[0.2em] text-text-muted">{item.kicker}</p>
+              <p className="mt-2 text-2xl font-medium tracking-tight text-white group-hover:text-white/80 sm:text-3xl">
                 {pillar.title}
               </p>
-              <p className="mt-2 font-sans text-sm font-light leading-relaxed text-white/50">{item.line}</p>
+              <p className="mt-2 text-base font-light leading-relaxed text-text-muted">{item.line}</p>
             </Link>
           </li>
         );
@@ -152,13 +152,13 @@ function WideRows({ continuation }: { continuation: Continuation }) {
               to={getPillarPageHref(item.pillarId)}
               className="group grid grid-cols-1 gap-2 border-b border-white/10 py-6 md:grid-cols-12 md:items-center md:gap-6"
             >
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/40 md:col-span-3">
+              <span className="text-xs font-mono uppercase tracking-[0.2em] text-text-muted md:col-span-3">
                 {item.kicker}
               </span>
-              <span className="font-sans text-lg font-medium tracking-tight text-white md:col-span-3">
+              <span className="text-2xl font-medium tracking-tight text-white md:col-span-3">
                 {pillar.title}
               </span>
-              <span className="font-sans text-sm font-light leading-relaxed text-white/50 md:col-span-5">
+              <span className="text-base font-light leading-relaxed text-text-muted md:col-span-5">
                 {item.line}
               </span>
               <ArrowRight className="hidden h-4 w-4 text-white/40 transition-transform group-hover:translate-x-1 md:col-span-1 md:block md:justify-self-end" />
@@ -181,10 +181,10 @@ function FeaturedSplit({ continuation }: { continuation: Continuation }) {
           to={getPillarPageHref(lead.pillarId)}
           className="group flex flex-col justify-between border border-white/15 p-8 lg:col-span-3 lg:min-h-[280px]"
         >
-          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">{lead.kicker}</p>
+          <p className="text-xs font-mono uppercase tracking-[0.2em] text-text-muted">{lead.kicker}</p>
           <div>
-            <p className="font-sans text-3xl font-semibold tracking-tight text-white">{leadPillar.title}</p>
-            <p className="mt-3 max-w-md font-sans text-sm font-light leading-relaxed text-white/55">{lead.line}</p>
+            <p className="text-2xl font-medium tracking-tight text-white sm:text-3xl">{leadPillar.title}</p>
+            <p className="mt-3 max-w-md text-base font-light leading-relaxed text-text-muted">{lead.line}</p>
           </div>
         </Link>
       ) : null}
@@ -198,9 +198,9 @@ function FeaturedSplit({ continuation }: { continuation: Continuation }) {
               to={getPillarPageHref(item.pillarId)}
               className="group flex flex-1 flex-col justify-center border border-white/10 bg-white/[0.03] px-6 py-5"
             >
-              <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">{item.kicker}</p>
-              <p className="mt-2 font-sans text-lg font-medium tracking-tight text-white">{pillar.title}</p>
-              <p className="mt-2 font-sans text-sm font-light leading-relaxed text-white/50">{item.line}</p>
+              <p className="text-xs font-mono uppercase tracking-[0.2em] text-text-muted">{item.kicker}</p>
+              <p className="mt-2 text-2xl font-medium tracking-tight text-white">{pillar.title}</p>
+              <p className="mt-2 text-base font-light leading-relaxed text-text-muted">{item.line}</p>
             </Link>
           );
         })}
@@ -217,10 +217,10 @@ function HandoffColumns({ continuation }: { continuation: Continuation }) {
         if (!pillar) return null;
         return (
           <Link key={item.pillarId} to={getPillarPageHref(item.pillarId)} className="group block px-0 py-8 md:px-6 md:first:pl-0 md:last:pr-0">
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/40">{item.kicker}</p>
-            <p className="mt-3 font-sans text-2xl font-medium tracking-tight text-white">{pillar.title}</p>
-            <p className="mt-3 font-sans text-sm font-light leading-relaxed text-white/50">{item.line}</p>
-            <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-white/40 group-hover:text-white">
+            <p className="text-xs font-mono uppercase tracking-[0.2em] text-text-muted">{item.kicker}</p>
+            <p className="mt-3 text-2xl font-medium tracking-tight text-white sm:text-3xl">{pillar.title}</p>
+            <p className="mt-3 text-base font-light leading-relaxed text-text-muted">{item.line}</p>
+            <span className="mt-5 inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-text-muted group-hover:text-white">
               Open
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
             </span>
@@ -254,10 +254,10 @@ export function SolutionRelatedNav({ currentPillarId }: SolutionRelatedNavProps)
     <Section pad="lg" className="border-t border-white/10">
       <Container>
         <RevealOnScroll className="mb-10 max-w-3xl">
-          <p className="text-[11px] font-mono uppercase tracking-[0.22em] text-white/40">{continuation.eyebrow}</p>
-          <h2 className="mt-3 font-sans text-[clamp(1.6rem,1rem+1.6vw,2.4rem)] font-semibold leading-[1.15] tracking-tight text-white">
+          <Eyebrow>{continuation.eyebrow}</Eyebrow>
+          <SectionHeading className="mt-3 text-white">
             {continuation.heading}
-          </h2>
+          </SectionHeading>
         </RevealOnScroll>
         {renderContinuation(currentPillarId, continuation)}
       </Container>
