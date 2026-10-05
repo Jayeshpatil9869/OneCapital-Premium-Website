@@ -304,6 +304,12 @@
   border-color: transparent;
 }
 
+/* Solid black button: white fill grows from the pointer, label turns black. */
+.oc-btn-stroke--on-black {
+  --oc-btn-flair-fill: #fff;
+  --oc-btn-stroke-border: transparent;
+}
+
 .oc-btn-flair {
   position: absolute;
   inset: 0;
@@ -352,6 +358,12 @@
     transition: color 0.15s var(--ease-in-out-quart);
   }
 
+  .oc-btn-stroke--on-black:hover .oc-btn-label,
+  .oc-btn-stroke--on-black:focus-visible .oc-btn-label {
+    color: #000;
+    transition: color 0.15s var(--ease-in-out-quart);
+  }
+
   .light-section .oc-btn-stroke--light {
     --oc-btn-stroke-border: var(--color-canvas);
     --oc-btn-flair-fill: var(--color-canvas);
@@ -378,6 +390,12 @@
   .oc-btn-stroke--dark:focus-visible {
     color: var(--color-text-main);
     background-color: var(--color-canvas);
+  }
+
+  .oc-btn-stroke--on-black:hover,
+  .oc-btn-stroke--on-black:focus-visible {
+    color: #000;
+    background-color: #fff;
   }
 
   .light-section .oc-btn-stroke--light:hover,

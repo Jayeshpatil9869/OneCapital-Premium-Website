@@ -1,9 +1,4 @@
-import { SolutionOverviewBlock } from '@/src/components/sections/solutions/SolutionOverviewBlock';
-import { SolutionsExploreStrip } from '@/src/components/sections/solutions/SolutionsExploreStrip';
-import { SolutionsHero } from '@/src/components/sections/solutions/SolutionsHero';
-import { SolutionsIntro } from '@/src/components/sections/solutions/SolutionsIntro';
-import { SolutionsPillarsNav } from '@/src/components/sections/solutions/SolutionsPillarsNav';
-import { SolutionsTrustBand } from '@/src/components/sections/solutions/SolutionsTrustBand';
+import { SolutionsCatalogue } from '@/src/components/sections/solutions/SolutionsCatalogue';
 import { SOLUTIONS_HUB, SOLUTION_OVERVIEWS } from '@/src/data/solutions-pages';
 import { COMPANY } from '@/src/data/company';
 import { usePageSeo } from '@/src/hooks/usePageSeo';
@@ -38,16 +33,5 @@ export default function Solutions() {
     ],
   });
 
-  return (
-    <div className="flex w-full flex-col items-center bg-black">
-      <SolutionsHero />
-      <SolutionsIntro />
-      <SolutionsPillarsNav />
-      {SOLUTION_OVERVIEWS.map((overview) => (
-        <SolutionOverviewBlock key={overview.id} config={overview} />
-      ))}
-      <SolutionsTrustBand />
-      <SolutionsExploreStrip />
-    </div>
-  );
+  return <SolutionsCatalogue />;
 }

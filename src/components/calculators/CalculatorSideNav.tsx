@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { SelectField } from '@/src/components/ui';
 import { CALCULATOR_CARDS, type CalculatorSlug } from '@/src/data/calculators';
 import { cn } from '@/src/lib/utils';
 
@@ -8,39 +9,25 @@ type CalculatorSideNavProps = {
 };
 
 export function CalculatorSideNav({ active, className }: CalculatorSideNavProps) {
+  const navigate = useNavigate();
+
   return (
-    <nav
-      aria-label="Other calculators"
-      className={cn(
-        'rounded-3xl border border-white/12 bg-white/[0.02] p-4 sm:p-5',
-        className,
-      )}
-    >
-      <p className="mb-4 px-2 text-xs font-mono uppercase tracking-[0.2em] text-white/45">
-        Calculators
-      </p>
-      <ul className="flex flex-col gap-1">
-        {CALCULATOR_CARDS.map((card) => {
-          const Icon = card.icon;
-          const isActive = card.slug === active;
-          return (
-            <li key={card.slug}>
-              <Link
-                to={card.path}
-                className={cn(
-                  'flex items-center gap-3 rounded-2xl px-3 py-3 text-sm transition-colors',
-                  isActive
-                    ? 'bg-white text-black'
-                    : 'text-white/70 hover:bg-white/[0.06] hover:text-white',
-                )}
-              >
-                <Icon className="h-4 w-4 shrink-0" aria-hidden />
-                <span className="font-medium">{card.shortTitle}</span>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
+    <div className={cn('w-full max-w-xs lg:w-72', className)}>
+      <SelectField
+        id="calculator-switcher"
+        label="Calculators"
+        name="calculator"
+        value={active}
+        options={CALCULATOR_CARDS.map((card) => ({
+          value: card.slug,
+          label: card.shortTitle,
+        }))}
+        onValueChange={(value) => {
+          const next = CALCULATOR_CARDS.find((card) => card.slug === value);
+          if (!next || next.slug === active) return;
+          navigate(next.path);
+        }}
+      />
+    </div>
   );
 }

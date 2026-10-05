@@ -10,6 +10,7 @@ import {
   prefersReducedMotion,
 } from "../lib/motion";
 import BrandLogo from "./BrandLogo";
+import { LetterSwap } from "./motion/LetterSwap";
 import { subscribeRafScroll } from "../lib/raf-scroll";
 import { Button } from "@/src/components/ui";
 
@@ -55,8 +56,8 @@ const NAV_ITEMS: NavItem[] = [
     label: "Insights",
     path: "/insights",
     children: [
-      { name: "Insights", path: "/insights" },
       { name: "Blog", path: "/blog" },
+      { name: "Newsletter", path: "/newsletter" },
     ],
   },
   { kind: "link", name: "Contact Us", path: "/contact" },
@@ -184,7 +185,7 @@ function DesktopDropdown({
             NavLinkStyles(active, overLight),
           )}
         >
-          {item.label}
+          <LetterSwap label={item.label} />
           <ChevronDown
             className={cn(
               "w-3.5 h-3.5 transition-transform duration-300",
@@ -207,7 +208,7 @@ function DesktopDropdown({
             NavLinkStyles(active, overLight),
           )}
         >
-          {item.label}
+          <LetterSwap label={item.label} />
           <ChevronDown
             className={cn(
               "w-3.5 h-3.5 transition-transform duration-300",
@@ -278,7 +279,7 @@ function DesktopDropdown({
                           : "text-white/90 group-hover/item:text-white",
                       )}
                     >
-                      {child.name}
+                      <LetterSwap label={child.name} />
                       {childActive && (
                         <span className="absolute -bottom-1 left-0 w-full h-px bg-white opacity-50" />
                       )}
@@ -449,6 +450,7 @@ export default function Navbar() {
   return (
     <header
       ref={headerRef}
+      data-site-nav
       className={cn(
         "fixed top-0 inset-x-0 z-[var(--z-nav)] transition-all duration-500 pt-[env(safe-area-inset-top)]",
         scrolled || overLight ? "py-4" : "py-6",
@@ -506,7 +508,7 @@ export default function Navbar() {
                     NavLinkStyles(active, overLight),
                   )}
                 >
-                  {item.name}
+                  <LetterSwap label={item.name} />
                   {active && (
                     <span className="absolute -bottom-1.5 left-0 w-full h-[1px] bg-white opacity-50" />
                   )}

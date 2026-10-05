@@ -1,4 +1,5 @@
 import { CheckCircle2, Smartphone } from 'lucide-react';
+import qrCodeUrl from '@/qr-code.svg';
 import { Button, Container, Surface } from '@/src/components/ui';
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { Noise } from '@/src/components/effects/Atmosphere';
@@ -109,29 +110,16 @@ export function AppShowcaseSection({ className }: { className?: string }) {
 
                   {/* QR Card */}
                   <div className="flex flex-col items-center rounded-2xl border border-white/10 bg-white/[0.02] p-5 text-center">
-                    <div className="relative overflow-hidden rounded-xl border border-white/10 bg-black p-2.5 shadow-xl">
+                    <div className="overflow-hidden rounded-xl border border-white/10 bg-black p-2.5 shadow-xl">
                       <img
-                        src="/images/app-download-qr.png"
+                        src={qrCodeUrl}
                         alt="Scan QR code"
                         width={128}
                         height={128}
                         loading="lazy"
                         decoding="async"
-                        className="h-32 w-32 object-cover invert rounded-lg"
+                        className="h-32 w-32 object-contain invert rounded-lg"
                       />
-                      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                        <div className="rounded bg-black px-1.5 py-0.5 ring-1 ring-white/10 shadow">
-                          <img
-                            src="/brand/logo-mark-white.png"
-                            alt="OneCapital"
-                            width={16}
-                            height={16}
-                            loading="lazy"
-                            decoding="async"
-                            className="h-4 w-4 object-contain"
-                          />
-                        </div>
-                      </div>
                     </div>
 
                     <p className="mt-3 text-xs font-medium leading-relaxed text-white/60">

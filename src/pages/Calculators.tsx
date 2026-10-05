@@ -8,6 +8,7 @@ import {
   Eyebrow,
   DisplayHeading,
   BodyText,
+  ButtonFlair,
 } from '@/src/components/ui';
 import {
   CALCULATOR_CARDS,
@@ -182,10 +183,13 @@ function CalculatorBentoCard({
       </div>
 
       <div className="relative z-10 mt-5 flex items-end justify-between gap-3 sm:mt-6">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-[10px] font-semibold uppercase tracking-wide text-black transition-transform duration-300 group-hover:scale-[1.03] sm:px-4 sm:py-2.5 sm:text-xs">
+        <ButtonFlair
+          tone="dark"
+          className="bg-white px-3.5 py-2 text-[10px] font-semibold uppercase tracking-wide text-black sm:px-4 sm:py-2.5 sm:text-xs"
+        >
           Calculate
-          <ArrowRight className="h-3 w-3" aria-hidden />
-        </span>
+          <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
+        </ButtonFlair>
       </div>
     </Link>
   );

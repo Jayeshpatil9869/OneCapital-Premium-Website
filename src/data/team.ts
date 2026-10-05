@@ -71,6 +71,4 @@ export const DIRECTOR_ABOUT = {
     'I am passionate about finance and investments and continuously work to understand market developments, investment opportunities, and evolving financial needs. My approach is centered around understanding each client\'s financial situation and providing practical, well-informed guidance to help them build and manage their wealth.',
     'Over the years, I have had the opportunity to work closely with clients across different financial needs, helping them navigate investment decisions with greater clarity and confidence.',
   ],
-  closing:
-    'My goal is simple: to help clients make better financial decisions today and build a stronger financial future.',
 } as const;
