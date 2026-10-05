@@ -44,7 +44,7 @@ export function BlogReadingPath() {
                   <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-black/40">
                     {String(index + 1).padStart(2, '0')} · {article.category}
                   </p>
-                  <p className="mt-2 max-w-[28ch] font-serif text-xl font-medium leading-snug text-black sm:text-2xl">
+                  <p className="mt-2 max-w-[28ch] font-sans text-xl font-medium leading-snug tracking-[-0.03em] text-black sm:text-2xl">
                     {article.title}
                   </p>
                 </div>
