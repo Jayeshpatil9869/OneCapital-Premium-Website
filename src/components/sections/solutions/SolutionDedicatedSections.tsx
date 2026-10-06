@@ -1,22 +1,15 @@
 import { useRef, type ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
+import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import { BodyText, Container, Eyebrow, Section, SectionHeading } from '@/src/components/ui';
 import type { SolutionDedicatedConfig } from '@/src/data/solutions-pages';
-import { PORTFOLIO_MANAGEMENT_FOOTNOTE } from '@/src/data/solutions-pillars';
 import { gsap, prefersReducedMotion } from '@/src/lib/motion';
 import { cn } from '@/src/lib/utils';
 
 type SolutionDedicatedSectionsProps = {
   config: SolutionDedicatedConfig;
-};
-
-const THEME_FLOW_STEPS: Record<SolutionDedicatedConfig['theme'], string[]> = {
-  direction: ['Goals', 'Risk profile', 'Allocation', 'Products'],
-  precision: ['Mutual funds', 'SIP', 'PMS', 'Review'],
-  structure: ['Risk', 'Cash', 'Tax', 'Nominations'],
-  intelligence: ['Review', 'Diligence', 'Report', 'Decide'],
 };
 
 function leadSentence(text: string): string {
@@ -127,7 +120,7 @@ function DirectionTimeline({ config }: { config: SolutionDedicatedConfig }) {
   return (
     <Section pad="lg">
       <Container>
-        <RevealOnScroll className="mx-auto max-w-6xl text-center">
+        <ScrollFade className="mx-auto max-w-6xl text-center">
           <Eyebrow centered className="text-text-muted">
             The sequence
           </Eyebrow>
@@ -137,7 +130,7 @@ function DirectionTimeline({ config }: { config: SolutionDedicatedConfig }) {
           <BodyText className="mt-5">
             {config.intro.body}
           </BodyText>
-        </RevealOnScroll>
+        </ScrollFade>
 
         <ol ref={listRef} className="relative mx-auto mt-20 w-full">
           <div
@@ -201,85 +194,210 @@ function DirectionTimeline({ config }: { config: SolutionDedicatedConfig }) {
   );
 }
 
+function TextLink({ to, children }: { to: string; children: ReactNode }) {
+  return (
+    <Link
+      to={to}
+      className="mt-8 inline-flex min-h-11 items-center text-sm font-medium text-white underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+    >
+      {children}
+    </Link>
+  );
+}
+
 function PrecisionShelf({ config }: { config: SolutionDedicatedConfig }) {
-  const steps = THEME_FLOW_STEPS.precision;
+  const funds = config.sections.find((section) => section.id === 'mutual-funds');
+  const sip = config.sections.find((section) => section.id === 'sip-lumpsum');
+  const pms = config.sections.find((section) => section.id === 'pms');
+  const alternatives = config.sections.find((section) => section.id === 'alternatives');
+  const review = config.sections.find((section) => section.id === 'monitoring');
+  const fundFacts = funds?.points?.slice(1) ?? [];
+  const ways = sip?.points?.slice(1) ?? [];
 
   return (
-    <Section pad="lg">
-      <Container>
-        <RevealOnScroll className="flex flex-col gap-8 border-b border-white/10 pb-10 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-xl">
-            <Eyebrow>The shelf</Eyebrow>
-            <SectionHeading className="mt-3 text-white">
+    <div className="w-full bg-black text-white">
+      <section className="border-b border-white/15" aria-labelledby="portfolio-intro-heading">
+        <Container className="grid grid-cols-1 items-start gap-10 py-20 md:py-28 lg:grid-cols-12 lg:gap-16">
+          <ScrollFade className="lg:col-span-6">
+            <h2
+              id="portfolio-intro-heading"
+              className="max-w-[14ch] text-balance font-sans text-[clamp(2.1rem,1.15rem+2.5vw,3.6rem)] font-semibold leading-[1.06] tracking-[-0.03em]"
+            >
               {config.intro.statement}
-            </SectionHeading>
-          </div>
-          <BodyText className="max-w-md">
-            {config.intro.body}
-          </BodyText>
-        </RevealOnScroll>
-
-        <ol className="mt-8 grid grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-4">
-          {steps.map((step, index) => (
-            <li key={step} className="bg-black px-4 py-4">
-              <span className="font-mono text-xs tracking-widest text-text-muted">
-                {indexLabel(index)}
-              </span>
-              <p className="mt-1 text-base font-medium text-white">{step}</p>
-            </li>
-          ))}
-        </ol>
-
-        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-          {config.sections.map((section, index) => {
-            const facts = section.points?.slice(1) ?? [];
-            const lead = index === 0;
-            return (
-              <RevealOnScroll key={section.id}>
-                <article
-                  id={section.id}
-                  className={cn(
-                    'flex h-full scroll-mt-28 flex-col border border-white/10 bg-white/[0.02] p-6 sm:p-8',
-                    lead && 'md:col-span-2 md:grid md:grid-cols-2 md:gap-10',
-                  )}
+            </h2>
+          </ScrollFade>
+          <ScrollFade delay={0.08} className="lg:col-span-5 lg:col-start-8">
+            <p className="max-w-[40rem] text-base font-light leading-[1.7] text-white/80 sm:text-lg">
+              {config.intro.body}
+            </p>
+            <nav aria-label="On this page" className="mt-10 flex flex-col gap-3 border-t border-white/15 pt-6">
+              {[
+                ['#mutual-funds', 'Mutual funds'],
+                ['#sip-lumpsum', 'SIP and lumpsum'],
+                ['#pms', 'Portfolio Management Services'],
+                ['#alternatives', 'AIFs'],
+                ['#monitoring', 'Reviews'],
+              ].map(([href, label]) => (
+                <a
+                  key={href}
+                  href={href}
+                  className="w-fit text-sm font-medium text-white/80 underline-offset-4 hover:text-white hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                 >
-                  <div>
-                    <span className="font-mono text-xs tracking-widest text-text-muted">
-                      {indexLabel(index)}
-                    </span>
-                    <h3 className="mt-3 text-2xl font-medium tracking-tight text-white sm:text-3xl">
-                      {section.title}
-                    </h3>
-                    {section.points?.[0] ? (
-                      <p className="mt-2 text-base font-light text-text-muted">{section.points[0]}</p>
-                    ) : null}
-                    <p className="mt-3 text-base font-light leading-relaxed text-text-muted">
-                      {leadSentence(section.body)}
-                    </p>
-                  </div>
-                  {facts.length > 0 ? (
-                    <ul className={cn('mt-6 flex flex-wrap gap-2', lead && 'md:mt-0 md:content-end')}>
-                      {facts.map((fact) => (
-                        <li
-                          key={fact}
-                          className="border border-white/10 px-3 py-2 text-sm font-medium tracking-tight text-white"
-                        >
-                          {fact}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </article>
-              </RevealOnScroll>
-            );
-          })}
-        </div>
+                  {label}
+                </a>
+              ))}
+            </nav>
+          </ScrollFade>
+        </Container>
+      </section>
 
-        <BodyText className="mt-8 max-w-3xl text-base md:text-lg">
-          {PORTFOLIO_MANAGEMENT_FOOTNOTE}
-        </BodyText>
-      </Container>
-    </Section>
+      {funds ? (
+        <section id={funds.id} className="scroll-mt-28 border-b border-white/15" aria-labelledby="mutual-funds-heading">
+          <Container className="grid grid-cols-1 gap-8 py-16 md:py-24 lg:grid-cols-12 lg:gap-16">
+            <ScrollFade className="lg:col-span-4">
+              <h3
+                id="mutual-funds-heading"
+                className="max-w-[12ch] font-sans text-[clamp(1.85rem,1rem+2vw,3rem)] font-semibold leading-[1.08] tracking-[-0.03em]"
+              >
+                {funds.title}
+              </h3>
+              {funds.points?.[0] ? (
+                <p className="mt-5 max-w-[28ch] text-lg font-medium leading-snug text-white">{funds.points[0]}</p>
+              ) : null}
+              <TextLink to="/solutions/mutual-funds">Open the mutual fund page</TextLink>
+            </ScrollFade>
+            <ScrollFade delay={0.06} className="lg:col-span-7 lg:col-start-6">
+              <p className="max-w-[65ch] text-base font-light leading-[1.7] text-white/80 sm:text-lg">{funds.body}</p>
+              {fundFacts.length > 0 ? (
+                <ul className="mt-8 grid grid-cols-1 gap-x-10 gap-y-3 border-t border-white/15 pt-6 sm:grid-cols-2">
+                  {fundFacts.map((fact) => (
+                    <li key={fact} className="text-base font-medium text-white">
+                      {fact}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </ScrollFade>
+          </Container>
+        </section>
+      ) : null}
+
+      {sip ? (
+        <section id={sip.id} className="scroll-mt-28 border-b border-white/15" aria-labelledby="sip-heading">
+          <Container className="py-16 md:py-24">
+            <ScrollFade className="max-w-3xl">
+              <h3
+                id="sip-heading"
+                className="font-sans text-[clamp(1.85rem,1rem+2vw,3rem)] font-semibold leading-[1.08] tracking-[-0.03em]"
+              >
+                {sip.title}
+              </h3>
+              {sip.points?.[0] ? (
+                <p className="mt-4 text-lg font-medium text-white">{sip.points[0]}</p>
+              ) : null}
+              <p className="mt-5 max-w-[65ch] text-base font-light leading-[1.7] text-white/80 sm:text-lg">{sip.body}</p>
+            </ScrollFade>
+            {ways.length > 0 ? (
+              <ol className="mt-12 grid grid-cols-1 border-t border-white/15 md:grid-cols-3">
+                {ways.map((way, index) => (
+                  <li
+                    key={way}
+                    className={cn(
+                      'py-6 md:px-8 md:py-8',
+                      index > 0 && 'border-t border-white/15 md:border-t-0 md:border-l',
+                      index === 0 && 'md:pl-0',
+                    )}
+                  >
+                    <p className="text-xl font-medium tracking-[-0.02em] text-white">{way}</p>
+                  </li>
+                ))}
+              </ol>
+            ) : null}
+            <div className="mt-2 flex flex-col gap-1 sm:flex-row sm:gap-10">
+              <TextLink to="/calculators/sip">SIP calculator</TextLink>
+              <TextLink to="/calculators/lumpsum">Lumpsum calculator</TextLink>
+            </div>
+          </Container>
+        </section>
+      ) : null}
+
+      <section className="border-b border-white/15">
+        <Container className="grid grid-cols-1 lg:grid-cols-2">
+          {pms ? (
+            <article id={pms.id} className="scroll-mt-28 border-b border-white/15 py-16 md:py-24 lg:border-b-0 lg:border-r lg:pr-14" aria-labelledby="pms-heading">
+              <ScrollFade>
+                <h3
+                  id="pms-heading"
+                  className="max-w-[16ch] font-sans text-[clamp(1.75rem,1rem+1.6vw,2.6rem)] font-semibold leading-[1.1] tracking-[-0.03em]"
+                >
+                  {pms.title}
+                </h3>
+                <p className="mt-4 text-lg font-medium text-white">Generally ₹50 lakh</p>
+                <p className="mt-5 max-w-[58ch] text-base font-light leading-[1.7] text-white/80 sm:text-lg">{pms.body}</p>
+                <ul className="mt-8 flex flex-col gap-2">
+                  {(pms.points?.slice(1, 4) ?? []).map((item) => (
+                    <li key={item} className="text-base font-medium text-white">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <TextLink to="/solutions/pms">Open the PMS page</TextLink>
+              </ScrollFade>
+            </article>
+          ) : null}
+          {alternatives ? (
+            <article id={alternatives.id} className="scroll-mt-28 py-16 md:py-24 lg:pl-14" aria-labelledby="aif-heading">
+              <ScrollFade delay={0.06}>
+                <h3
+                  id="aif-heading"
+                  className="max-w-[16ch] font-sans text-[clamp(1.75rem,1rem+1.6vw,2.6rem)] font-semibold leading-[1.1] tracking-[-0.03em]"
+                >
+                  {alternatives.title}
+                </h3>
+                <p className="mt-4 text-lg font-medium text-white">Generally ₹1 crore</p>
+                <p className="mt-5 max-w-[58ch] text-base font-light leading-[1.7] text-white/80 sm:text-lg">{alternatives.body}</p>
+                <ul className="mt-8 flex flex-col gap-2">
+                  {(alternatives.points?.slice(1) ?? []).map((item) => (
+                    <li key={item} className="text-base font-medium text-white">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <TextLink to="/solutions/aif">Open the AIF page</TextLink>
+              </ScrollFade>
+            </article>
+          ) : null}
+        </Container>
+      </section>
+
+      {review ? (
+        <section id={review.id} className="scroll-mt-28 border-b border-white/15" aria-labelledby="review-heading">
+          <Container className="grid grid-cols-1 gap-8 py-16 md:py-24 lg:grid-cols-12 lg:gap-16">
+            <ScrollFade className="lg:col-span-5">
+              <h3
+                id="review-heading"
+                className="font-sans text-[clamp(1.85rem,1rem+2vw,3rem)] font-semibold leading-[1.08] tracking-[-0.03em]"
+              >
+                {review.title}
+              </h3>
+              {review.points?.[0] ? (
+                <p className="mt-4 max-w-[24ch] text-lg font-medium leading-snug text-white">{review.points[0]}</p>
+              ) : null}
+            </ScrollFade>
+            <ScrollFade delay={0.06} className="lg:col-span-6 lg:col-start-7">
+              <p className="max-w-[65ch] text-base font-light leading-[1.7] text-white/80 sm:text-lg">{review.body}</p>
+              <ul className="mt-8 flex flex-col gap-3">
+                {(review.points?.slice(1) ?? []).map((item) => (
+                  <li key={item} className="text-base font-medium text-white">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </ScrollFade>
+          </Container>
+        </section>
+      ) : null}
+    </div>
   );
 }
 
@@ -288,7 +406,7 @@ function StructureBands({ config }: { config: SolutionDedicatedConfig }) {
     <div>
       <Section pad="md" className="border-b border-white/10">
         <Container>
-          <RevealOnScroll className="max-w-3xl">
+          <ScrollFade className="max-w-3xl">
             <Eyebrow>The layers</Eyebrow>
             <SectionHeading className="mt-4 text-white">
               {config.intro.statement}
@@ -296,7 +414,7 @@ function StructureBands({ config }: { config: SolutionDedicatedConfig }) {
             <BodyText className="mt-5 max-w-2xl">
               {config.intro.body}
             </BodyText>
-          </RevealOnScroll>
+          </ScrollFade>
         </Container>
       </Section>
 
@@ -311,6 +429,7 @@ function StructureBands({ config }: { config: SolutionDedicatedConfig }) {
               index % 2 === 1 && 'bg-white/[0.03]',
             )}
           >
+            <ScrollFade>
             <Container className="grid grid-cols-1 gap-6 py-10 lg:grid-cols-12 lg:items-end lg:py-14">
               <div className="lg:col-span-2">
                 <span className="text-5xl font-medium leading-none tracking-tight text-text-muted sm:text-6xl">
@@ -339,6 +458,7 @@ function StructureBands({ config }: { config: SolutionDedicatedConfig }) {
                 ))}
               </ul>
             </Container>
+            </ScrollFade>
           </article>
         );
       })}
@@ -350,14 +470,14 @@ function IntelligenceReview({ config }: { config: SolutionDedicatedConfig }) {
   return (
     <Section pad="none" className="border-t border-white/10">
       <Container className="py-16 sm:py-20 lg:py-24">
-        <div className="grid grid-cols-1 items-end gap-8 lg:grid-cols-12">
+        <ScrollFade className="grid grid-cols-1 items-end gap-8 lg:grid-cols-12">
           <SectionHeading className="max-w-xl text-white lg:col-span-7">
             {config.intro.statement}
           </SectionHeading>
           <BodyText className="max-w-md lg:col-span-5">
             {config.intro.body}
           </BodyText>
-        </div>
+        </ScrollFade>
       </Container>
 
       <div className="border-t border-white/10">
@@ -365,8 +485,9 @@ function IntelligenceReview({ config }: { config: SolutionDedicatedConfig }) {
           <Container>
             <article
               id={config.sections[0].id}
-              className="grid scroll-mt-28 grid-cols-1 gap-10 py-14 lg:grid-cols-12 lg:items-end lg:py-20"
+              className="scroll-mt-28"
             >
+            <ScrollFade className="grid grid-cols-1 gap-10 py-14 lg:grid-cols-12 lg:items-end lg:py-20">
               <div className="lg:col-span-5">
                 <span className="font-mono text-xs tracking-widest text-text-muted">01</span>
                 <h3 className="mt-5 max-w-sm text-2xl font-medium leading-tight tracking-tight text-white sm:text-3xl">
@@ -383,6 +504,7 @@ function IntelligenceReview({ config }: { config: SolutionDedicatedConfig }) {
                   </li>
                 ))}
               </ul>
+            </ScrollFade>
             </article>
 
             <div className="grid grid-cols-1 border-t border-white/10 lg:grid-cols-3">
@@ -393,11 +515,12 @@ function IntelligenceReview({ config }: { config: SolutionDedicatedConfig }) {
                 key={section.id}
                 id={section.id}
                 className={cn(
-                  'scroll-mt-28 py-12 lg:py-16',
+                  'scroll-mt-28',
                   index < 2 && 'border-b border-white/10 lg:border-b-0 lg:border-r lg:pr-10',
                   index > 0 && 'lg:pl-10',
                 )}
               >
+                <ScrollFade className="py-12 lg:py-16">
                 <span className="font-mono text-xs tracking-widest text-text-muted">
                   {indexLabel(index + 1)}
                 </span>
@@ -416,6 +539,7 @@ function IntelligenceReview({ config }: { config: SolutionDedicatedConfig }) {
                     ))}
                   </ul>
                 ) : null}
+                </ScrollFade>
               </article>
             );
           })}

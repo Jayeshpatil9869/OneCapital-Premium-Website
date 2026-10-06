@@ -1,3 +1,4 @@
+import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { Button, Container, SectionHeading } from '@/src/components/ui';
 
 export function ContinuityScrollSection() {
@@ -7,7 +8,7 @@ export function ContinuityScrollSection() {
       aria-labelledby="continuity-heading"
     >
       <Container>
-        <div className="flex flex-col md:flex-row gap-12 md:gap-20 items-start">
+        <RevealOnScroll className="flex flex-col md:flex-row gap-12 md:gap-20 items-start">
           <div className="w-full md:w-1/3 flex flex-col gap-6">
             <SectionHeading
               id="continuity-heading"
@@ -39,7 +40,7 @@ export function ContinuityScrollSection() {
               thoughtfully evaluated alternative allocations where appropriate.
             </p>
           </div>
-        </div>
+        </RevealOnScroll>
       </Container>
     </section>
   );

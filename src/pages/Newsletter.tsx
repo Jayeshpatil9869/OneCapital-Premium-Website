@@ -1,4 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react';
+import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { InsightsBreadcrumb } from '@/src/components/sections/insights/InsightsBreadcrumb';
 import { Container } from '@/src/components/ui';
 import { COMPANY } from '@/src/data/company';
@@ -25,6 +26,7 @@ export default function Newsletter() {
   return (
     <section className="w-full bg-black pt-[max(7.5rem,env(safe-area-inset-top))] pb-[var(--space-section)] text-white">
       <Container className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
+        <RevealOnScroll trigger="load">
         <InsightsBreadcrumb current="Newsletter" />
         <h1 className="mt-6 max-w-[14ch] font-sans text-[2.5rem] font-bold leading-[1.02] tracking-[-0.03em] sm:mt-8 sm:text-6xl">
           <span className="block">Notes, when</span>
@@ -65,6 +67,7 @@ export default function Newsletter() {
             ) : null}
           </form>
         )}
+        </RevealOnScroll>
       </Container>
     </section>
   );

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
+import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import { BodyText, Button, Container, DisplayHeading, SectionHeading } from '@/src/components/ui';
 import { getRelatedProducts, type ProductOffer } from '@/src/data/products';
 import { getPillarById, getPillarPageHref } from '@/src/data/solutions-pillars';
@@ -17,7 +17,7 @@ export function ProductOfferPage({ product }: ProductOfferPageProps) {
     <div className="flex w-full flex-col bg-black text-white">
       <section className="border-b border-white/15 pt-[max(7.5rem,env(safe-area-inset-top))]">
         <Container className="mx-auto w-full max-w-[1400px] px-6 pb-14 sm:px-8 lg:px-12 lg:pb-20">
-          <RevealOnScroll trigger="load" direction="up" distance={24} duration={1} ease="power3.out">
+          <ScrollFade>
             <SolutionsBreadcrumb current={product.title} />
             <DisplayHeading className="mt-6 max-w-[16ch] text-white sm:mt-8">
               {product.title}
@@ -30,11 +30,11 @@ export function ProductOfferPage({ product }: ProductOfferPageProps) {
                 Discuss this product
               </Button>
             </div>
-          </RevealOnScroll>
+          </ScrollFade>
         </Container>
       </section>
 
-      <section className="border-b border-white/15">
+      <ScrollFade as="section" className="border-b border-white/15">
         <Container className="mx-auto max-w-[1400px] px-6 py-12 sm:px-8 lg:px-12 lg:py-16">
           <dl className="grid gap-10 md:grid-cols-3 md:gap-12">
             <div>
@@ -70,9 +70,9 @@ export function ProductOfferPage({ product }: ProductOfferPageProps) {
             </div>
           </dl>
         </Container>
-      </section>
+      </ScrollFade>
 
-      <section className="border-b border-white/15">
+      <ScrollFade as="section" className="border-b border-white/15">
         <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
             <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/60 lg:col-span-4">
@@ -93,18 +93,18 @@ export function ProductOfferPage({ product }: ProductOfferPageProps) {
             </ol>
           </div>
         </Container>
-      </section>
+      </ScrollFade>
 
-      <section className="border-b border-white/15">
+      <ScrollFade as="section" className="border-b border-white/15">
         <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/60">
             What makes One Capital different
           </p>
           <SectionHeading className="mt-4 max-w-4xl text-white">{product.difference}</SectionHeading>
         </Container>
-      </section>
+      </ScrollFade>
 
-      <section>
+      <ScrollFade as="section">
         <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
           <SectionHeading className="max-w-xl text-white">Other products</SectionHeading>
           <ul className="mt-10 border-t border-white/15">
@@ -135,7 +135,7 @@ export function ProductOfferPage({ product }: ProductOfferPageProps) {
             </Button>
           </div>
         </Container>
-      </section>
+      </ScrollFade>
     </div>
   );
 }

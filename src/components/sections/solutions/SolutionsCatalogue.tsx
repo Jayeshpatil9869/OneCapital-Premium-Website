@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
+import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { Button, Container } from '@/src/components/ui';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -132,9 +133,10 @@ export function SolutionsCatalogue() {
             Mutual funds, PMS, AIFs, equity, baskets, broking, and investment advisory. Research comes first. The product is chosen after the strategy.
           </p>
           <div className="mt-16">
-            {PRODUCT_GROUPS.map((group) => (
-              <div
+            {PRODUCT_GROUPS.map((group, groupIndex) => (
+              <ScrollFade
                 key={group.id}
+                delay={groupIndex * 0.06}
                 className="grid gap-8 border-t border-white/15 py-10 lg:grid-cols-12 lg:gap-16 lg:py-12"
               >
                 <h3 className="font-sans text-2xl font-medium tracking-tight text-white lg:col-span-4 lg:text-3xl">
@@ -160,7 +162,7 @@ export function SolutionsCatalogue() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </ScrollFade>
             ))}
           </div>
         </Container>
@@ -284,8 +286,13 @@ function Mandate({
 
           <div ref={listRef} className="lg:col-span-8">
             <ul className="border-t border-current/15">
-              {pillar.services.map((service) => (
-                <li key={service.id} className="border-b border-current/15 py-7 sm:py-8">
+              {pillar.services.map((service, serviceIndex) => (
+                <ScrollFade
+                  as="li"
+                  key={service.id}
+                  delay={Math.min(serviceIndex * 0.05, 0.2)}
+                  className="border-b border-current/15 py-7 sm:py-8"
+                >
                   <div className="grid gap-2 sm:grid-cols-12 sm:gap-6">
                     <h3 className="font-sans text-lg font-medium tracking-tight sm:col-span-5 sm:text-xl">
                       {service.title}
@@ -297,7 +304,7 @@ function Mandate({
                       {service.description}
                     </p>
                   </div>
-                </li>
+                </ScrollFade>
               ))}
             </ul>
             {pillar.id === 'portfolio-management' ? (

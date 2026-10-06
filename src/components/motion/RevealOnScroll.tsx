@@ -1,22 +1,20 @@
-import { useRef, type HTMLAttributes, type ReactNode } from "react";
-import { useGSAP } from "@gsap/react";
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { animate, motion, useInView, useReducedMotion } from "motion/react";
 import { cn } from "@/src/lib/utils";
 import {
   directionOffset,
-  gsap,
   isPreloaderActive,
-  isMobileViewport,
   motionTokens,
-  prefersReducedMotion,
   whenPreloaderDone,
-  type RevealDirection,
   type MotionEase,
+  type RevealDirection,
 } from "@/src/lib/motion";
 
-gsap.registerPlugin(useGSAP);
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-export type RevealProps = Omit<HTMLAttributes<HTMLElement>, "children"> & {
+export type RevealProps = {
   children?: ReactNode;
+  className?: string;
   direction?: RevealDirection;
   delay?: number;
   duration?: number;
@@ -26,21 +24,8 @@ export type RevealProps = Omit<HTMLAttributes<HTMLElement>, "children"> & {
   stagger?: number;
   disabled?: boolean;
   distance?: number;
-  as?: "div" | "section" | "article";
+  as?: "div" | "section" | "article" | "ul";
 };
-
-function markRevealDone(el: HTMLElement | null) {
-  el?.classList.add("reveal-done");
-}
-
-function revealVisible(targets: gsap.TweenTarget) {
-  gsap.set(targets, { opacity: 1, x: 0, y: 0, clearProps: "transform" });
-}
-
-function isPastRevealStart(el: HTMLElement) {
-  const rect = el.getBoundingClientRect();
-  return rect.top < window.innerHeight * 0.92;
-}
 
 export function RevealOnScroll({
   children,
@@ -48,113 +33,71 @@ export function RevealOnScroll({
   direction = "up",
   delay = 0,
   duration = motionTokens.duration.normal,
-  ease = motionTokens.ease.premium,
+  ease: _ease,
   once = true,
   trigger = "scroll",
   stagger,
   disabled = false,
-  distance = 40,
-  as: Comp = "div",
-  ...props
+  distance = 28,
+  as: tag = "div",
 }: RevealProps) {
   const ref = useRef<HTMLElement>(null);
+  const played = useRef(false);
+  const reduce = useReducedMotion();
+  const inView = useInView(ref, { once, margin: "0px 0px -10% 0px" });
+  const [ready, setReady] = useState(() => !isPreloaderActive());
+  const offset = directionOffset(direction, distance);
+  const MotionComp = motion[tag];
+  const childStagger = stagger != null && stagger > 0;
 
-  useGSAP(
-    () => {
-      if (disabled || !ref.current) return;
-      if (prefersReducedMotion()) {
-        revealVisible(ref.current);
-        markRevealDone(ref.current);
-        return;
-      }
+  useEffect(() => whenPreloaderDone(() => setReady(true)), []);
 
-      const mobile = isMobileViewport();
-      const targets = stagger
-        ? ref.current.querySelectorAll(":scope > *")
-        : ref.current;
-      const offset = mobile ? { x: 0, y: 0 } : directionOffset(direction, distance);
-      const fromVars = mobile ? { opacity: 0 } : { ...offset, opacity: 1 };
-      const toVars = {
-        x: 0,
-        y: 0,
-        opacity: 1,
-        duration: mobile ? motionTokens.duration.fast : duration,
-        delay,
-        ease,
-        stagger: stagger ?? 0,
-        clearProps: "transform",
-        onComplete: () => markRevealDone(ref.current),
-      };
+  useLayoutEffect(() => {
+    const root = ref.current;
+    if (!root || !childStagger || reduce || disabled || played.current) return;
+    for (const child of root.children) {
+      const node = child as HTMLElement;
+      node.style.opacity = "0";
+      node.style.transform = `translate3d(${offset.x}px, ${offset.y}px, 0)`;
+    }
+  }, [childStagger, disabled, offset.x, offset.y, reduce]);
 
-      if (trigger === "load") {
-        if (isPreloaderActive()) {
-          gsap.set(targets, fromVars);
-        }
-        return whenPreloaderDone(() => {
-          gsap.fromTo(targets, fromVars, {
-            ...toVars,
-            onComplete: () => markRevealDone(ref.current),
-          });
-        });
-      }
+  const play = ready && (trigger === "load" || inView);
 
-      if (mobile) {
-        revealVisible(targets);
-        markRevealDone(ref.current);
-        return;
-      }
+  useEffect(() => {
+    const root = ref.current;
+    if (!root || !childStagger || !play || reduce || disabled || played.current) return;
+    played.current = true;
+    Array.from(root.children).forEach((child, index) => {
+      animate(
+        child,
+        { opacity: 1, x: 0, y: 0 },
+        { duration, delay: delay + index * (stagger ?? 0), ease: EASE },
+      );
+    });
+  }, [childStagger, delay, disabled, duration, play, reduce, stagger]);
 
-      gsap.set(targets, fromVars);
-
-      const tween = gsap.to(targets, {
-        ...toVars,
-        scrollTrigger: {
-          trigger: ref.current,
-          start: motionTokens.scroll.startEarly,
-          once,
-          toggleActions: once
-            ? "play none none none"
-            : "play none none reverse",
-          onEnter: () => markRevealDone(ref.current),
-          onRefresh(self) {
-            if (once && self.progress > 0) {
-              revealVisible(targets);
-              markRevealDone(ref.current);
-            }
-          },
-        },
-      });
-
-      if (isPastRevealStart(ref.current)) {
-        tween.progress(1);
-        revealVisible(targets);
-        markRevealDone(ref.current);
-      }
-    },
-    {
-      scope: ref,
-      dependencies: [
-        direction,
-        delay,
-        duration,
-        ease,
-        once,
-        trigger,
-        stagger,
-        disabled,
-        distance,
-      ],
-    },
-  );
+  if (childStagger) {
+    const Comp = tag;
+    return (
+      <Comp ref={ref as never} className={cn("reveal-on-scroll", className)}>
+        {children}
+      </Comp>
+    );
+  }
 
   return (
-    <Comp
+    <MotionComp
       ref={ref as never}
       className={cn("reveal-on-scroll", className)}
-      {...props}
+      initial={reduce || disabled ? false : { opacity: 0, x: offset.x, y: offset.y }}
+      animate={
+        play && !reduce && !disabled ? { opacity: 1, x: 0, y: 0 } : undefined
+      }
+      transition={{ duration, delay, ease: EASE }}
     >
       {children}
-    </Comp>
+    </MotionComp>
   );
 }
 

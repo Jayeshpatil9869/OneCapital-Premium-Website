@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
+import { RevealOnScroll } from "@/src/components/motion/RevealOnScroll";
 import BrandLogo from "./BrandLogo";
 import { Button } from "@/src/components/ui";
 import { AppDownloadCard } from "./AppDownloadCard";
@@ -19,7 +20,7 @@ export default function Footer() {
         ONECAPITAL
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-8 md:mb-20 relative z-10">
+      <RevealOnScroll className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-8 md:mb-20 relative z-10">
         {/* Brand */}
         <div className="flex flex-col gap-6 lg:pr-8">
           <BrandLogo className="text-white w-fit" markClassName="h-9 w-9" />
@@ -116,7 +117,7 @@ export default function Footer() {
           </Button>
           <AppDownloadCard className="w-full max-w-sm md:hidden" />
         </div>
-      </div>
+      </RevealOnScroll>
 
       {/* Mobile-only brand watermark — below CTA, above copyright */}
       <div className="md:hidden relative z-10 w-full flex justify-center items-center py-5 my-2">

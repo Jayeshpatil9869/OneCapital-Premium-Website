@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
+import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import { Container, Eyebrow, Section, SectionHeading } from '@/src/components/ui';
 import { getPillarById, getPillarPageHref } from '@/src/data/solutions-pillars';
 
@@ -114,24 +114,29 @@ function linksFor(pillarId: string): Continuation | undefined {
 
 function PathSteps({ continuation }: { continuation: Continuation }) {
   return (
-    <ol className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-      {continuation.links.map((item, index) => {
+    <ol className="border-t border-white/15">
+      {continuation.links.map((item) => {
         const pillar = getPillarById(item.pillarId);
         if (!pillar) return null;
         return (
-          <li key={item.pillarId} className="relative">
-            {index < continuation.links.length - 1 ? (
-              <span className="absolute left-8 top-5 hidden h-px w-[calc(100%+2rem)] bg-white/15 lg:block" aria-hidden />
-            ) : null}
-            <Link to={getPillarPageHref(item.pillarId)} className="group relative block">
-              <span className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black font-mono text-xs text-text-muted">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <p className="mt-4 text-xs font-mono uppercase tracking-[0.2em] text-text-muted">{item.kicker}</p>
-              <p className="mt-2 text-2xl font-medium tracking-tight text-white group-hover:text-white/80 sm:text-3xl">
+          <li key={item.pillarId} className="border-b border-white/15">
+            <Link
+              to={getPillarPageHref(item.pillarId)}
+              className="group grid grid-cols-1 items-start gap-3 py-8 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:py-10 lg:grid-cols-12 lg:items-baseline lg:gap-10"
+            >
+              <span className="font-sans text-[clamp(1.65rem,1rem+1.4vw,2.35rem)] font-semibold leading-[1.12] tracking-[-0.03em] text-white lg:col-span-5">
                 {pillar.title}
-              </p>
-              <p className="mt-2 text-base font-light leading-relaxed text-text-muted">{item.line}</p>
+              </span>
+              <span className="lg:col-span-6">
+                <span className="block text-base font-medium text-white">{item.kicker}</span>
+                <span className="mt-2 block max-w-[58ch] text-base font-light leading-[1.65] text-white/75">
+                  {item.line}
+                </span>
+              </span>
+              <ArrowRight
+                className="h-5 w-5 text-white transition-transform duration-300 ease-out group-hover:translate-x-1 lg:col-span-1 lg:justify-self-end"
+                aria-hidden
+              />
             </Link>
           </li>
         );
@@ -253,12 +258,12 @@ export function SolutionRelatedNav({ currentPillarId }: SolutionRelatedNavProps)
   return (
     <Section pad="lg" className="border-t border-white/10">
       <Container>
-        <RevealOnScroll className="mb-10 max-w-3xl">
-          <Eyebrow>{continuation.eyebrow}</Eyebrow>
-          <SectionHeading className="mt-3 text-white">
+        <ScrollFade className={currentPillarId === 'capital-strategy' ? 'mb-12 max-w-4xl md:mb-16' : 'mb-10 max-w-3xl'}>
+          {currentPillarId === 'capital-strategy' ? null : <Eyebrow>{continuation.eyebrow}</Eyebrow>}
+          <SectionHeading className={currentPillarId === 'capital-strategy' ? 'text-balance text-white' : 'mt-3 text-white'}>
             {continuation.heading}
           </SectionHeading>
-        </RevealOnScroll>
+        </ScrollFade>
         {renderContinuation(currentPillarId, continuation)}
       </Container>
     </Section>

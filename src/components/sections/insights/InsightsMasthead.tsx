@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { Container } from '@/src/components/ui';
 import { INSIGHT_THEMES, INSIGHTS_PAGE } from '@/src/data/insights';
 
@@ -8,6 +9,7 @@ export function InsightsMasthead() {
   return (
     <section className="w-full bg-black text-white">
       <Container className="pb-16 pt-[max(8.5rem,env(safe-area-inset-top))] sm:pb-20 lg:pb-24">
+        <RevealOnScroll trigger="load">
         <h1 className="max-w-[12ch] font-sans text-[2.5rem] font-bold leading-[1.02] tracking-[-0.03em] text-white sm:text-6xl lg:text-[4.2rem]">
           <span className="block">{hero.line1}</span>
           <span className="block font-medium text-white/45">{hero.line2}</span>
@@ -37,6 +39,7 @@ export function InsightsMasthead() {
             </li>
           </ul>
         </nav>
+        </RevealOnScroll>
       </Container>
     </section>
   );

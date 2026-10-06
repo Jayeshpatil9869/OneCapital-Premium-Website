@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { Container } from '@/src/components/ui';
 import { INSIGHTS_PAGE } from '@/src/data/insights';
 
 export function InsightsBridgeStrip() {
   return (
     <section className="w-full border-t border-white/10 bg-black text-white" aria-labelledby="insights-bridge-heading">
-      <Container className="flex flex-col gap-10 py-20 md:flex-row md:items-end md:justify-between md:py-28">
+      <Container>
+        <RevealOnScroll className="flex flex-col gap-10 py-20 md:flex-row md:items-end md:justify-between md:py-28">
         <div className="max-w-3xl">
           <h2
             id="insights-bridge-heading"
@@ -33,6 +35,7 @@ export function InsightsBridgeStrip() {
             Book consultation
           </Link>
         </div>
+        </RevealOnScroll>
       </Container>
     </section>
   );

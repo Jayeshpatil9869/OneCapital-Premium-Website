@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { Container } from '@/src/components/ui';
 import { INSIGHT_ARTICLES } from '@/src/data/insights';
 
@@ -20,6 +21,7 @@ export function InsightsFeaturedNote() {
         />
         <div className="absolute inset-0 bg-[linear-gradient(to_top,#000_0%,rgba(0,0,0,0.72)_28%,rgba(0,0,0,0.15)_62%,rgba(0,0,0,0.35)_100%)]" />
         <Container className="relative flex min-h-[70svh] flex-col justify-end pb-12 pt-28 sm:pb-16">
+          <RevealOnScroll>
           <p className="text-sm text-white/80">
             {featured.category}
             <span className="mx-2 text-white/40" aria-hidden>
@@ -43,13 +45,14 @@ export function InsightsFeaturedNote() {
               aria-hidden
             />
           </span>
+          </RevealOnScroll>
         </Container>
       </Link>
 
       {rest.length > 0 ? (
         <Container className="border-t border-white/15">
           <h3 className="sr-only">More notes</h3>
-          <ul>
+          <RevealOnScroll as="ul" stagger={0.06}>
             {rest.map((article) => (
               <li key={article.id} className="border-b border-white/15">
                 <Link
@@ -70,7 +73,7 @@ export function InsightsFeaturedNote() {
                 </Link>
               </li>
             ))}
-          </ul>
+          </RevealOnScroll>
         </Container>
       ) : null}
     </section>
