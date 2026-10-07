@@ -37,7 +37,7 @@ export const COMPANY = {
     'A Pune-based financial services firm helping individuals and businesses grow wealth through strategic investment advisory, portfolio management, and long-term wealth planning.',
   /** Live-site hero support line — product focus without invented returns. */
   heroSupport:
-    'Mutual funds, portfolios, equity, and investment advisory — research first, then the strategy, then the investment.',
+    'Mutual Funds, PMS, AIF, Equity, Equity Baskets, Options Baskets, Broking and Investment Advisory. Research first. Strategy next. Investment last.',
   focusAreas: [
     'Investment advisory',
     'Portfolio management',

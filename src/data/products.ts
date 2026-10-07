@@ -46,7 +46,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     navLabel: 'Mutual Funds',
     title: 'Mutual Funds',
     seoTitle: `Mutual Funds | ${brand}`,
-    seoDescription: `Research-based mutual fund selection in ${COMPANY.hqCity}: SIPs, lumpsums, and goal-based portfolios. ${brand} studies the fund and the market, not past returns alone.`,
+    seoDescription: `Mutual fund selection from your goals, risk profile, time horizon, and ${brand}'s research view of the market. SIPs, lump sums, and reviews as conditions change.`,
     keywords: [
       'mutual funds Pune',
       'SIP investment',
@@ -55,19 +55,19 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'We help investors choose mutual funds from their goals, risk profile, time horizon, and our research view of the market.',
+      'We help investors select mutual funds based on their goals, risk profile, investment horizon and our research view of the market.',
     audience:
-      'First-time investors, and experienced investors who want to build wealth over years rather than chase last year’s ranking.',
+      'First-time investors as well as experienced investors looking to build long-term wealth.',
     features: [
       'Research-based fund selection',
       'SIP and lump-sum investments',
       'Diversification across asset classes and categories',
       'Portfolio review and monitoring',
       'Goal-based investing',
-      'Reviews when market conditions change',
+      'Regular review based on changing market conditions',
     ],
     difference:
-      'A fund is not chosen because it has already done well. We look at the portfolio, the sectors and companies underneath it, valuations, and the market environment, and ask what that implies from here.',
+      'We do not select funds only because they have delivered strong past returns. We study the fund, its portfolio, underlying sectors and companies, valuations and the market environment to understand its future potential.',
     journeyId: 'portfolio-management',
     group: 'portfolios',
     eligibility: 'Market risk. Regular plans.',
@@ -79,7 +79,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     navLabel: 'PMS',
     title: 'Portfolio Management Services',
     seoTitle: `Portfolio Management Services | ${brand}`,
-    seoDescription: `PMS for investors with larger capital who want a custom, actively managed portfolio. ${brand} builds it from research and a market view, not from popular stocks.`,
+    seoDescription: `A professionally managed, more personalised portfolio for investors with larger capital. ${brand} builds it from research and a market outlook, not from popular stocks.`,
     keywords: [
       'portfolio management services',
       'PMS India',
@@ -88,9 +88,9 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'Portfolio Management Services is a professionally managed portfolio, shaped more closely to one investor than a mutual fund can be.',
+      'PMS provides investors with a professionally managed and more personalised investment portfolio.',
     audience:
-      'Investors with larger investible capital who want a customised portfolio and active management. Under SEBI rules the minimum is generally ₹50 lakh.',
+      'Primarily investors with larger investible capital who want a customised portfolio and active management.',
     features: [
       'Customized portfolios',
       'Research-driven stock selection',
@@ -100,7 +100,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       'Regular performance and portfolio reviews',
     ],
     difference:
-      'The portfolio follows our research and market outlook. It is not a list of stocks that are already popular or that have just run up.',
+      'Our portfolios are built around our research and market outlook rather than simply following popular stocks or recent performers.',
     journeyId: 'portfolio-management',
     group: 'portfolios',
     eligibility: 'Generally ₹50 lakh',
@@ -112,7 +112,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     navLabel: 'AIF',
     title: 'Alternative Investment Funds',
     seoTitle: `Alternative Investment Funds | ${brand}`,
-    seoDescription: `AIF access for eligible investors who want strategies beyond mutual funds. ${brand} looks at the opportunity, the assets, and the risks before considering an investment.`,
+    seoDescription: `Access to professionally managed strategies beyond traditional mutual funds, for eligible investors with higher capital and a longer horizon.`,
     keywords: [
       'alternative investment funds',
       'AIF India',
@@ -121,18 +121,18 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'Alternative Investment Funds give eligible investors access to professionally managed strategies beyond traditional mutual funds.',
+      'AIF solutions provide access to professionally managed investment strategies beyond traditional mutual funds.',
     audience:
-      'Sophisticated and eligible investors with higher investible capital and a longer horizon. Most AIFs ask for ₹1 crore and lock capital for years.',
+      'Primarily sophisticated and eligible investors with higher investible capital and a longer investment horizon.',
     features: [
       'Access to alternative investment strategies',
-      'Research-driven selection',
+      'Research-driven investment selection',
       'Professional portfolio management',
-      'Diversification beyond traditional products',
-      'Opportunities tied to a specific theme or strategy',
+      'Diversification beyond traditional investment products',
+      'Opportunities based on specific investment themes and strategies',
     ],
     difference:
-      'We start with the opportunity, the underlying assets, the risks, and what could drive the result. The fund name comes after that work, not before it.',
+      'We focus on understanding the investment opportunity, underlying assets, risks and potential future drivers before considering an investment.',
     journeyId: 'portfolio-management',
     group: 'portfolios',
     eligibility: 'Generally ₹1 crore',
@@ -144,7 +144,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     navLabel: 'Equity',
     title: 'Equity Investments',
     seoTitle: `Equity Investments | ${brand}`,
-    seoDescription: `Direct equity investing backed by fundamental, sector, and valuation research. ${brand} looks for businesses where future earnings may create an opportunity.`,
+    seoDescription: `Direct equity investing supported by research and market insights. ${brand} looks for businesses and sectors where future growth, earnings and valuations may create an opportunity.`,
     keywords: [
       'direct equity investing',
       'equity research',
@@ -153,9 +153,9 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'Direct equity gives investors listed companies, with research and a market view behind the idea rather than a tip.',
+      'We provide investors with access to direct equity investing supported by our research and market insights.',
     audience:
-      'Investors who want to own listed companies directly and are comfortable with equity-market risk.',
+      'Investors who want to invest directly in listed companies and are comfortable with equity-market risk.',
     features: [
       'Research-backed stock ideas',
       'Fundamental analysis',
@@ -165,7 +165,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       'Portfolio monitoring',
     ],
     difference:
-      'We do not chase a stock because it is popular or because it has already risen. We look for businesses and sectors where future growth, earnings, and valuations may create an opportunity.',
+      'We do not simply chase stocks that are already popular or have recently gone up. We look for businesses and sectors where future growth, earnings and valuations may create investment opportunities.',
     journeyId: 'portfolio-management',
     group: 'listed-markets',
     eligibility: 'Listed-market risk',
@@ -177,7 +177,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     navLabel: 'Equity Baskets',
     title: 'Equity Baskets',
     seoTitle: `Equity Baskets | ${brand}`,
-    seoDescription: `A researched group of stocks around one theme or strategy, reviewed as the thesis changes. For investors who want equities without picking every name alone.`,
+    seoDescription: `A group of stocks selected for one investment strategy or theme. Built from a research view, then reviewed to see whether the original thesis still holds.`,
     keywords: [
       'equity baskets',
       'stock basket strategy',
@@ -186,18 +186,18 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'An equity basket is a group of stocks chosen for one investment strategy or theme, held as a structured portfolio rather than a pile of unrelated names.',
+      'Equity Baskets provide investors with a group of carefully selected stocks based on a particular investment strategy or theme.',
     audience:
-      'Investors who want direct equities but prefer a structured portfolio to selecting every stock themselves.',
+      'Investors who want exposure to direct equities but prefer a structured portfolio rather than selecting individual stocks themselves.',
     features: [
-      'Several stocks inside one strategy',
-      'Research-based selection',
-      'A defined theme or strategy',
-      'Diversification across the chosen companies',
-      'Periodic review and rebalancing where it applies',
+      'Multiple stocks in one strategy',
+      'Research-based stock selection',
+      'Defined investment theme or strategy',
+      'Diversification across selected companies',
+      'Periodic review and rebalancing where applicable',
     ],
     difference:
-      'The basket starts from a research view, not from stocks that have just performed well. We name the theme, choose companies that can benefit from it, and check whether that thesis still holds.',
+      'Our baskets are built around a research view, not simply a collection of stocks that have performed well recently. We identify the underlying theme, select companies that can benefit from it and review whether the original investment thesis remains valid.',
     journeyId: 'portfolio-management',
     group: 'listed-markets',
     eligibility: 'Listed-market risk',
@@ -209,7 +209,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     navLabel: 'Options Baskets',
     title: 'Options Baskets',
     seoTitle: `Options Baskets | ${brand}`,
-    seoDescription: `Options strategies for experienced investors, built from a market view and defined risk. ${brand} starts with the strategy and the risk, not with a trading call.`,
+    seoDescription: `Structured options strategies for experienced investors, based on a market view and defined risk. ${brand} starts with the strategy and the risk, not with a trading call.`,
     keywords: [
       'options baskets',
       'options strategies',
@@ -218,18 +218,18 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'Options baskets are structured strategies that use options around a specific market view and a defined set of risks.',
+      'Options Baskets are structured strategies using options based on specific market views and defined risk parameters.',
     audience:
-      'Experienced investors who understand derivatives and are comfortable with the higher risks that come with options.',
+      'Experienced investors who understand derivatives and are comfortable with the higher risks associated with options.',
     features: [
       'Research-driven market strategies',
-      'A defined strategy and approach',
-      'Risk set before the trade',
-      'Strategies tied to specific market conditions',
+      'Defined strategy and investment approach',
+      'Focus on risk management',
+      'Strategies based on specific market conditions',
       'Active monitoring',
     ],
     difference:
-      'The work starts with the strategy and the risk, not with an options call. Research covers direction, volatility, important levels, and the wider market before a strategy is built.',
+      'We focus on the strategy and risk first, rather than simply providing options trading calls. Our research considers market direction, volatility, important levels and broader market conditions before developing a strategy.',
     journeyId: 'portfolio-management',
     group: 'listed-markets',
     eligibility: 'Experienced investors',
@@ -241,7 +241,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     navLabel: 'Equity Broking',
     title: 'Equity Broking',
     seoTitle: `Equity Broking | ${brand}`,
-    seoDescription: `Equity market access for buying and selling securities, with research and portfolio support alongside execution. For retail, active, and long-term investors.`,
+    seoDescription: `Access to equity markets for buying and selling securities, with research insights, market updates and portfolio support for retail, active and long-term investors.`,
     keywords: [
       'equity broking',
       'stock market access',
@@ -250,8 +250,8 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'Equity broking is access to the market for buying and selling securities, with research and portfolio support sitting next to the order.',
-    audience: 'Retail investors, active investors, and long-term equity investors.',
+      'We provide investors with access to equity markets for buying and selling securities.',
+    audience: 'Retail investors, active investors and long-term equity investors.',
     features: [
       'Equity market access',
       'Investment and trading support',
@@ -260,7 +260,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       'Portfolio support',
     ],
     difference:
-      'Execution is not the whole offer. Research sits beside market access, so an order can be tied to an investment view rather than to the screen alone.',
+      'Our broking offering is supported by our research capabilities, allowing investors to combine market access with informed investment insights.',
     journeyId: 'portfolio-management',
     group: 'broking',
     eligibility: 'Listed-market risk',
@@ -272,7 +272,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     navLabel: 'Retail Broking',
     title: 'Retail Broking',
     seoTitle: `Retail Broking | ${brand}`,
-    seoDescription: `Market access for individual investors, with research that explains the opportunity behind a decision. For first-time, salaried, active, and long-term investors.`,
+    seoDescription: `Market access for individual investors, with investment support and research insights behind the decision. For salaried, first-time, active and long-term investors.`,
     keywords: [
       'retail broking',
       'individual investor broking',
@@ -281,17 +281,16 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'Retail broking is market access for an individual investor, with investment support and research written for that person rather than for a trading desk.',
+      'Retail Broking provides individual investors with access to financial markets along with investment support and research insights.',
     audience:
-      'Individual investors, salaried professionals, first-time investors, active investors, and long-term equity investors.',
+      'Individual investors, salaried professionals, first-time investors, active investors and long-term equity investors.',
     features: [
-      'Market access for an individual account',
-      'Support while an investment is being considered',
-      'Research that explains the opportunity',
-      'A path from a first investment to a longer holding',
+      'Access to financial markets',
+      'Investment support',
+      'Research insights',
     ],
     difference:
-      'The aim is more than getting an order done. Research and market context are there so the investor can see the opportunity behind the decision.',
+      'We aim to provide more than just execution. Our research and market insights help investors understand the opportunity behind an investment decision.',
     journeyId: 'portfolio-management',
     group: 'broking',
     eligibility: 'Listed-market risk',
@@ -303,7 +302,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     navLabel: 'Investment Advisory',
     title: 'Investment Advisory',
     seoTitle: `Investment Advisory | ${brand}`,
-    seoDescription: `Investment advice that starts with your goals, risk, and time horizon, then chooses the strategy. For individuals, families, professionals, and business owners in ${COMPANY.hqCity}.`,
+    seoDescription: `An investment strategy built from your goals, risk profile and time horizon. For individuals, families, professionals, business owners and investors who want a structured plan.`,
     keywords: [
       'investment advisory Pune',
       'financial goal planning',
@@ -312,9 +311,9 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'Advisory builds an investment strategy from your goals, your risk, and how long the money can stay invested. The product is chosen after that, not before.',
+      'Our advisory service helps investors create an investment strategy based on their financial goals, risk profile and investment horizon.',
     audience:
-      'Individuals, families, professionals, business owners, and anyone who wants a structured investment strategy rather than a product list.',
+      'Individuals, families, professionals, business owners and investors looking for a structured investment strategy.',
     features: [
       'Financial goal assessment',
       'Risk profiling',
@@ -325,7 +324,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       'Market and investment insights',
     ],
     difference:
-      'We start with the investor, not with a product looking for a buyer. The question is what strategy fits you, not which product should be sold.',
+      'We start with the investor’s objective, not the product. The question is not simply “Which product should you buy?” but “What is the right investment strategy for you?”',
     journeyId: 'capital-strategy',
     group: 'advice',
     eligibility: 'The product comes after the plan.',

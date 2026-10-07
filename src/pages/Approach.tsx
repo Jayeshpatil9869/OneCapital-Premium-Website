@@ -20,50 +20,50 @@ const STEPS = [
   {
     num: '01',
     title: 'UNDERSTAND',
-    desc: 'We first understand the economy and the markets: interest rates, liquidity, market cycles, and the broader trend. History is part of that picture. It is not enough on its own.',
+    desc: 'We first understand what is happening in the economy and markets: interest rates, liquidity, market cycles and the broader trend. History matters. It is not enough on its own.',
   },
   {
     num: '02',
     title: 'ANALYSE',
-    desc: 'We then analyse sectors, companies, earnings, valuations, market trends, and risks. The question is what could drive the result from here, not only what already happened.',
+    desc: 'We then analyse sectors, companies, earnings, valuations, market trends and risks, including where an opportunity may emerge and what can go wrong.',
   },
   {
     num: '03',
     title: 'IDENTIFY',
-    desc: 'From that research we identify the opportunity: a fund, a business, a theme, or a reason to wait. The solution follows the investor’s requirement.',
+    desc: 'From this research we identify potential opportunities. We do not start with a product and look for an investor to fit it.',
   },
   {
     num: '04',
     title: 'BUILD',
-    desc: 'We build the investment strategy around that opportunity. Mutual funds, PMS, AIF, equity, equity baskets, and options baskets are how the same research view is put to work.',
+    desc: 'We build investment strategies around those opportunities. The same research supports Mutual Funds, PMS, AIF, Equity, Equity Baskets and Options Baskets.',
   },
   {
     num: '05',
     title: 'MONITOR',
-    desc: 'We keep watching the investment thesis after the money is invested. If the original case no longer holds, the holding is revisited. The larger trend and the risks stay in view.',
+    desc: 'We continuously monitor the investment thesis. Markets move every day. The focus stays on the larger trend, the underlying opportunity and the risks.',
   },
 ];
 
 const DIFFERENCES = [
   {
     title: 'We look forward, not just backward',
-    body: 'Past performance tells us what happened. The research focuses on what could drive performance from here.',
+    body: 'Past performance tells us what happened. Our research focuses on understanding what could drive performance in the future.',
   },
   {
     title: 'Research before recommendation',
-    body: 'We do not start with a product and look for an investor to fit it. Research and the investor’s requirement come first. The appropriate solution follows.',
+    body: 'We do not start with a product and try to find an investor for it. We start with research and the investor’s requirement, and then identify the appropriate solution.',
   },
   {
     title: 'One research engine across products',
-    body: 'The same research supports mutual funds, PMS, AIF, equity, equity baskets, and options baskets. An opportunity is looked at across those solutions, not inside one product alone.',
+    body: 'Our research supports Mutual Funds, PMS, AIF, Equity, Equity Baskets and Options Baskets, so an opportunity can be seen across solutions rather than inside one product alone.',
   },
   {
     title: 'Strategy over short-term noise',
-    body: 'Markets move every day. The focus is the larger trend, the opportunity underneath it, and the risks, rather than every short-term move.',
+    body: 'Markets move every day. Our focus is on understanding the larger trend, the underlying opportunity and the risks rather than reacting to every short-term market movement.',
   },
   {
     title: 'Risk is part of the research',
-    body: 'The question is not only what an investment can make. It is also what can go wrong. Understanding the downside is part of the process.',
+    body: 'We don’t look only at how much an investment can make. We also ask what can go wrong. Understanding downside risk is part of the investment process.',
   },
 ];
 
@@ -71,7 +71,7 @@ export default function Approach() {
   usePageSeo({
     title: `Investment Research Approach | ${COMPANY.brandName}`,
     description:
-      'OneCapital studies the economy, markets, sectors, and valuations before a recommendation. Research first, then the strategy, then the investment.',
+      'Research first. Strategy next. Investment last. OneCapital studies the economy, markets, sectors, businesses, valuations and market trends before a recommendation.',
     path: '/approach',
     keywords: [
       'investment research process',
@@ -148,9 +148,9 @@ export default function Approach() {
               <span className="text-white/40">Discipline.</span>
             </DisplayHeading>
             <BodyText className="max-w-2xl text-base md:text-lg">
-              Research helps us understand the opportunity. Strategy decides how to participate.
-              Discipline keeps the focus through different market conditions. Research first.
-              Strategy next. Investment last.
+              Research helps us understand the opportunity. Strategy helps us decide how to
+              participate. Discipline helps us stay focused through different market conditions.
+              Research first. Strategy next. Investment last.
             </BodyText>
           </RevealOnScroll>
         </Container>

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
@@ -13,39 +13,48 @@ type IndiaDotMapProps = {
 
 type TooltipConfig = {
   className: string;
+  /** From sm up, sit to the right of the marker. Mobile always sits above. */
+  smSide: boolean;
   fromVars: gsap.TweenVars;
   toVars: gsap.TweenVars;
 };
 
+/** West-coast markers center the card off the left edge of the phone. */
+const MOBILE_TOOLTIP_NUDGE = '5rem';
+const MOBILE_MAP_QUERY = '(max-width: 639px)';
+/** Long enough to read the quote, then the active dot steps south. */
+const MOBILE_CYCLE_MS = 4500;
+
+function isMobileMap() {
+  return window.matchMedia(MOBILE_MAP_QUERY).matches;
+}
+
+/** North to south matches the phone sequence: Nashik, Mumbai, Pune, Kolhapur. */
+function northToSouth(offices: OfficeLocation[]) {
+  return [...offices].sort((a, b) => a.mapY - b.mapY || a.mapX - b.mapX);
+}
+
+function initialMobileOffice(offices: OfficeLocation[]): string | null {
+  if (typeof window === 'undefined' || !isMobileMap()) return null;
+  return northToSouth(offices)[0]?.id ?? null;
+}
+
+const ABOVE_MARKER =
+  'pointer-events-none absolute bottom-full left-1/2 z-50 mb-3 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] max-sm:translate-x-[calc(-50%+5rem)] sm:-translate-x-1/2';
+
+const ABOVE_THEN_SIDE =
+  'pointer-events-none absolute bottom-full left-1/2 z-50 mb-3 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] max-sm:translate-x-[calc(-50%+5rem)] sm:bottom-auto sm:left-full sm:top-0 sm:mb-0 sm:ml-3 sm:translate-x-0';
+
+const TOOLTIP_MOTION = {
+  fromVars: { opacity: 0, y: 18, scale: 0.94 },
+  toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
+} as const;
+
 const TOOLTIP_CONFIGS: Record<string, TooltipConfig> = {
-  // Mumbai: above marker, centered — stays inside narrow viewports
-  mumbai: {
-    className:
-      'pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)]',
-    fromVars: { opacity: 0, y: 18, scale: 0.94 },
-    toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
-  },
-  // Pune: above on small screens via shared max-width; right of marker on larger
-  pune: {
-    className:
-      'pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] sm:bottom-auto sm:left-full sm:top-0 sm:mb-0 sm:ml-3 sm:translate-x-0',
-    fromVars: { opacity: 0, y: 18, scale: 0.94 },
-    toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
-  },
-  // Kolhapur: same mobile-safe above placement
-  kolhapur: {
-    className:
-      'pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] sm:bottom-auto sm:left-full sm:top-0 sm:mb-0 sm:ml-3 sm:translate-x-0',
-    fromVars: { opacity: 0, y: 18, scale: 0.94 },
-    toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
-  },
-  // Nashik: positioned ABOVE marker
-  nashik: {
-    className:
-      'pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)]',
-    fromVars: { opacity: 0, y: 18, scale: 0.94 },
-    toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
-  },
+  mumbai: { className: ABOVE_MARKER, smSide: false, ...TOOLTIP_MOTION },
+  pune: { className: ABOVE_THEN_SIDE, smSide: true, ...TOOLTIP_MOTION },
+  kolhapur: { className: ABOVE_THEN_SIDE, smSide: true, ...TOOLTIP_MOTION },
+  nashik: { className: ABOVE_MARKER, smSide: false, ...TOOLTIP_MOTION },
 };
 
 function OfficeMarkerItem({
@@ -53,11 +62,13 @@ function OfficeMarkerItem({
   isHovered,
   onHover,
   onLeave,
+  onSelect,
 }: {
   office: OfficeLocation;
   isHovered: boolean;
   onHover: () => void;
   onLeave: () => void;
+  onSelect: () => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -65,18 +76,26 @@ function OfficeMarkerItem({
   const dotRef = useRef<HTMLSpanElement>(null);
 
   const config = TOOLTIP_CONFIGS[office.id] ?? {
-    className:
-      'pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-50 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)]',
+    className: ABOVE_MARKER,
+    smSide: false,
     fromVars: { opacity: 0, y: 14, scale: 0.94 },
     toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
   };
 
   useGSAP(
     () => {
+      const mobile = window.matchMedia('(max-width: 639px)').matches;
+      const x = mobile ? MOBILE_TOOLTIP_NUDGE : 0;
+      const xPercent = !mobile && config.smSide ? 0 : -50;
+
       if (isHovered) {
         if (tooltipRef.current) {
           gsap.killTweensOf(tooltipRef.current);
-          gsap.fromTo(tooltipRef.current, config.fromVars, config.toVars);
+          gsap.fromTo(
+            tooltipRef.current,
+            { ...config.fromVars, x, xPercent },
+            { ...config.toVars, x, xPercent },
+          );
         }
         if (dotRef.current) {
           gsap.to(dotRef.current, {
@@ -166,11 +185,9 @@ function OfficeMarkerItem({
         onFocus={onHover}
         onBlur={onLeave}
         onClick={(e) => {
-          // Touch devices: tap to toggle (hover already covers fine pointers)
-          if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+          if (!isMobileMap()) return;
           e.stopPropagation();
-          if (isHovered) onLeave();
-          else onHover();
+          onSelect();
         }}
       >
         {/* Concentric outer ring (Image 2 hover state) */}
@@ -192,7 +209,73 @@ function OfficeMarkerItem({
 }
 
 export function IndiaDotMap({ offices, className }: IndiaDotMapProps) {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const cycle = useMemo(() => northToSouth(offices), [offices]);
+  const [hoveredId, setHoveredId] = useState<string | null>(() => initialMobileOffice(offices));
+  const hoveredIdRef = useRef(hoveredId);
+  const pickRef = useRef<(id: string) => void>(() => {});
+  hoveredIdRef.current = hoveredId;
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia(MOBILE_MAP_QUERY);
+    const reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let timer = 0;
+    let index = Math.max(
+      0,
+      cycle.findIndex((office) => office.id === hoveredIdRef.current),
+    );
+
+    const clear = () => window.clearInterval(timer);
+
+    const publish = (next: number) => {
+      if (cycle.length === 0) return;
+      index = (next + cycle.length) % cycle.length;
+      setHoveredId(cycle[index].id);
+    };
+
+    const arm = (next: number) => {
+      clear();
+      if (!mobileQuery.matches || cycle.length === 0) return;
+      publish(next);
+      if (reduceQuery.matches || cycle.length < 2 || document.hidden) return;
+      timer = window.setInterval(() => publish(index + 1), MOBILE_CYCLE_MS);
+    };
+
+    pickRef.current = (id: string) => {
+      const found = cycle.findIndex((office) => office.id === id);
+      arm(found === -1 ? index : found);
+    };
+
+    const sync = () => {
+      if (!mobileQuery.matches) {
+        clear();
+        setHoveredId(null);
+        return;
+      }
+      arm(index);
+    };
+
+    const onVisibility = () => {
+      if (!mobileQuery.matches) return;
+      if (document.hidden) {
+        clear();
+        return;
+      }
+      arm(index);
+    };
+
+    if (mobileQuery.matches) arm(index);
+    mobileQuery.addEventListener('change', sync);
+    reduceQuery.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', onVisibility);
+
+    return () => {
+      clear();
+      pickRef.current = () => {};
+      mobileQuery.removeEventListener('change', sync);
+      reduceQuery.removeEventListener('change', sync);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [cycle]);
 
   return (
     <div
@@ -213,8 +296,15 @@ export function IndiaDotMap({ offices, className }: IndiaDotMapProps) {
           key={office.id}
           office={office}
           isHovered={hoveredId === office.id}
-          onHover={() => setHoveredId(office.id)}
-          onLeave={() => setHoveredId(null)}
+          onHover={() => {
+            if (isMobileMap()) return;
+            setHoveredId(office.id);
+          }}
+          onLeave={() => {
+            if (isMobileMap()) return;
+            setHoveredId(null);
+          }}
+          onSelect={() => pickRef.current(office.id)}
         />
       ))}
     </div>
