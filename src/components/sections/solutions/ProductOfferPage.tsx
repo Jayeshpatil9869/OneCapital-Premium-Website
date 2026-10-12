@@ -1,9 +1,21 @@
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useGSAP } from '@gsap/react';
+import { ScrollColorText } from '@/src/components/motion/ScrollColorText';
 import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import { BodyText, Button, Container, DisplayHeading, SectionHeading } from '@/src/components/ui';
-import { getRelatedProducts, type ProductOffer } from '@/src/data/products';
+import {
+  getProductChildren,
+  getRelatedProducts,
+  type ProductOffer,
+  type StrategyDiagram,
+} from '@/src/data/products';
 import { getPillarById, getPillarPageHref } from '@/src/data/solutions-pillars';
+import { gsap, prefersReducedMotion } from '@/src/lib/motion';
+import { cn } from '@/src/lib/utils';
 import { SolutionsBreadcrumb } from './shared/SolutionsBreadcrumb';
+
+gsap.registerPlugin(useGSAP);
 
 type ProductOfferPageProps = {
   product: ProductOffer;
@@ -12,6 +24,7 @@ type ProductOfferPageProps = {
 export function ProductOfferPage({ product }: ProductOfferPageProps) {
   const journey = getPillarById(product.journeyId);
   const related = getRelatedProducts(product.id);
+  const children = getProductChildren(product.id);
 
   return (
     <div className="flex w-full flex-col bg-black text-white">
@@ -33,6 +46,8 @@ export function ProductOfferPage({ product }: ProductOfferPageProps) {
           </ScrollFade>
         </Container>
       </section>
+
+      {product.diagram ? <StrategyDiagramView diagram={product.diagram} /> : null}
 
       <ScrollFade as="section" className="border-b border-white/15">
         <Container className="mx-auto max-w-[1400px] px-6 py-12 sm:px-8 lg:px-12 lg:py-16">
@@ -95,33 +110,43 @@ export function ProductOfferPage({ product }: ProductOfferPageProps) {
         </Container>
       </ScrollFade>
 
-      <ScrollFade as="section" className="border-b border-white/15">
+      <section className="border-b border-white/15">
         <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/60">
             What makes One Capital different
           </p>
-          <SectionHeading className="mt-4 max-w-4xl text-white">{product.difference}</SectionHeading>
+          <ScrollColorText text={product.difference} className="mt-4" />
         </Container>
-      </ScrollFade>
+      </section>
+
+      {children.length > 0 ? (
+        <ScrollFade as="section" className="border-b border-white/15">
+          <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/60">
+              Inside {product.navLabel}
+            </p>
+            <ul className="mt-8 border-t border-white/15">
+              {children.map((child) => (
+                <li key={child.path} className="border-b border-white/15">
+                  <Link
+                    to={child.path}
+                    className="block py-5 font-sans text-lg font-medium tracking-tight text-white transition-colors hover:text-white/80 sm:text-xl"
+                  >
+                    {child.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </ScrollFade>
+      ) : null}
 
       <ScrollFade as="section">
         <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
           <SectionHeading className="max-w-xl text-white">Other products</SectionHeading>
           <ul className="mt-10 border-t border-white/15">
             {related.map((item) => (
-              <li key={item.id} className="border-b border-white/15">
-                <Link
-                  to={item.path}
-                  className="grid gap-2 py-6 transition-colors hover:text-white/80 sm:grid-cols-12 sm:gap-6 sm:py-7"
-                >
-                  <span className="font-sans text-lg font-medium tracking-tight text-white sm:col-span-4 sm:text-xl">
-                    {item.title}
-                  </span>
-                  <span className="font-sans text-base font-light leading-relaxed text-white/60 sm:col-span-8">
-                    {item.opening}
-                  </span>
-                </Link>
-              </li>
+              <RelatedProductRow key={item.id} item={item} />
             ))}
           </ul>
           {product.note ? (
@@ -136,6 +161,137 @@ export function ProductOfferPage({ product }: ProductOfferPageProps) {
           </div>
         </Container>
       </ScrollFade>
+    </div>
+  );
+}
+
+function diagramHeading(kind: StrategyDiagram['kind']): string {
+  switch (kind) {
+    case 'stack':
+      return 'The income path';
+    case 'flow':
+      return 'The hedge path';
+    default: {
+      const exhaustive: never = kind;
+      return exhaustive;
+    }
+  }
+}
+
+function stepMark(kind: StrategyDiagram['kind'], index: number): string | null {
+  if (kind === 'stack' && index === 1) return '+';
+  if (kind === 'stack' && index === 2) return '=';
+  if (kind === 'flow' && index > 0) return '→';
+  return null;
+}
+
+function StrategyDiagramView({ diagram }: { diagram: StrategyDiagram }) {
+  return (
+    <ScrollFade as="section" className="border-b border-white/15">
+      <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+        <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/60">
+          {diagramHeading(diagram.kind)}
+        </p>
+        <ol className="mt-8 grid gap-px bg-white/15 md:grid-cols-3">
+          {diagram.steps.map((step, index) => {
+            const mark = stepMark(diagram.kind, index);
+            return (
+              <li key={step.title} className="bg-black px-6 py-8 sm:px-8">
+                <div className="flex items-baseline gap-3">
+                  <span className="font-mono text-[11px] tracking-[0.16em] text-white/40">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  {mark ? (
+                    <span className="font-mono text-sm text-white/70" aria-hidden>
+                      {mark}
+                    </span>
+                  ) : null}
+                </div>
+                <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.22em] text-white/60">
+                  {step.kicker}
+                </p>
+                <p className="mt-3 max-w-[18rem] font-sans text-xl font-medium tracking-tight text-white">
+                  {step.title}
+                </p>
+              </li>
+            );
+          })}
+        </ol>
+      </Container>
+    </ScrollFade>
+  );
+}
+
+function RelatedProductRow({ item }: { item: ProductOffer }) {
+  const linkRef = useRef<HTMLAnchorElement>(null);
+  const coverRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    (_context, contextSafe) => {
+      const link = linkRef.current;
+      const cover = coverRef.current;
+      if (!link || !cover || !contextSafe) return;
+
+      gsap.set(cover, { yPercent: -100 });
+      if (prefersReducedMotion()) return;
+
+      const slide = contextSafe((yPercent: number) => {
+        gsap.to(cover, { yPercent, duration: 0.6, ease: 'power2.out', overwrite: 'auto' });
+      });
+      const enter = () => slide(0);
+      const leave = () => slide(-100);
+
+      link.addEventListener('mouseenter', enter);
+      link.addEventListener('mouseleave', leave);
+      link.addEventListener('focus', enter);
+      link.addEventListener('blur', leave);
+      return () => {
+        link.removeEventListener('mouseenter', enter);
+        link.removeEventListener('mouseleave', leave);
+        link.removeEventListener('focus', enter);
+        link.removeEventListener('blur', leave);
+      };
+    },
+    { scope: linkRef },
+  );
+
+  return (
+    <li className="border-b border-white/15">
+      <Link
+        ref={linkRef}
+        to={item.path}
+        className="relative block overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white"
+      >
+        <RelatedProductCopy item={item} tone="rest" />
+        <div ref={coverRef} className="absolute inset-0 bg-white" aria-hidden="true">
+          <RelatedProductCopy item={item} tone="cover" />
+        </div>
+      </Link>
+    </li>
+  );
+}
+
+function RelatedProductCopy({ item, tone }: { item: ProductOffer; tone: 'rest' | 'cover' }) {
+  const cover = tone === 'cover';
+
+  return (
+    <div className={cn('grid gap-2 py-6 sm:grid-cols-12 sm:gap-6 sm:py-7', cover && 'h-full bg-white')}>
+      <span
+        className={cn(
+          'font-sans text-lg font-medium tracking-tight sm:col-span-4 sm:text-xl',
+          cover ? 'text-black' : 'text-white',
+        )}
+      >
+        {item.title}
+      </span>
+      <span
+        className={cn(
+          'font-sans text-base font-light leading-relaxed sm:col-span-8',
+          cover ? 'text-black/60' : 'text-white/60',
+        )}
+      >
+        {item.opening}
+      </span>
     </div>
   );
 }

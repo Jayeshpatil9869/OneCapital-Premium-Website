@@ -48,7 +48,7 @@ export function AboutResponsibleVision() {
             {/* Action Link */}
             <div className="pt-4">
               <Link
-                to="/solutions/risk-wealth-architecture"
+                to="/solutions/wealth-management"
                 className="inline-flex items-center gap-3 text-sm uppercase tracking-widest font-mono text-white/80 hover:text-white transition-colors group"
               >
                 <span>Explore Sustainable Solutions</span>

@@ -67,6 +67,11 @@
   .is-insights {
     --container-max: calc(100vw - 12rem);
   }
+
+  /* Team: the 72rem column leaves a wide black band on each side of a laptop. */
+  .is-team {
+    --container-max: calc(100vw - 15rem);
+  }
 }
 
 @keyframes nav-line-reveal {

@@ -88,7 +88,10 @@ function HeroMetrics({ metrics }: { metrics: HeroMetric[] }) {
   return (
     <div
       ref={gridRef}
-      className="grid grid-cols-2 gap-y-8 gap-x-4 sm:grid-cols-4 sm:gap-8 md:gap-12 justify-items-center text-center"
+      className={cn(
+        "grid gap-y-8 gap-x-4 justify-items-center text-center sm:gap-8 md:gap-12",
+        metrics.length === 3 ? "grid-cols-3" : "grid-cols-2 sm:grid-cols-4",
+      )}
     >
       {metrics.map((metric) => (
         <div

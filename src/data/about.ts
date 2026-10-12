@@ -29,7 +29,7 @@ export const ABOUT_PAGE = {
     imageSrc: '/images/about-story.jpg',
     imageAlt: `${COMPANY.brandName} advisory workspace — ${COMPANY.hqCity} headquarters`,
     lead: `Founded in ${COMPANY.foundedYear}, ${COMPANY.legalName} is a ${COMPANY.hqCity}-based wealth management and investment advisory firm. We partner with individuals, families, and businesses to design capital plans around real goals — then implement them with research, suitability, and ongoing stewardship.`,
-    approach: `The work is four disciplines: capital strategy, portfolio management, risk and wealth architecture, and intelligence and oversight. The products inside that work run from mutual funds and PMS to AIFs, equity, baskets, broking, and investment advisory.`,
+    approach: `The work is three disciplines inside investment advisory: capital strategy, portfolio management, and wealth management. The products run from mutual funds and PMS to AIFs, equity, and options baskets.`,
     bridge: `From our ${COMPANY.hqCity} headquarters and offices in Mumbai, Kolhapur, and Nashik — and through ${COMPANY.domain} — clients get transparent advisory, consolidated clarity on what they own, and a consistent review cadence across market cycles.`,
     presence: `Local access across Maharashtra. Institutional discipline in every conversation.`,
     /** Single centered paragraph with inline scroll-reveal images. */

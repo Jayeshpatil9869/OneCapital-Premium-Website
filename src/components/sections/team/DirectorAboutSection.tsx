@@ -1,13 +1,59 @@
+import { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
-import { Parallax } from '@/src/components/motion/Parallax';
 import { Container } from '@/src/components/ui';
 import { DIRECTOR_ABOUT } from '@/src/data/team';
+import { gsap, prefersReducedMotion, ScrollTrigger } from '@/src/lib/motion';
+
+gsap.registerPlugin(useGSAP);
 
 /**
- * About Me — bio beside a portrait that drifts inside its frame on scroll.
+ * About Me — the portrait opens once from its left edge, then stays open.
  */
 export function DirectorAboutSection() {
   const { eyebrow, image, imagePosition, imageAlt, lead, paragraphs } = DIRECTOR_ABOUT;
+  const frameRef = useRef<HTMLDivElement>(null);
+  const clipRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+
+  useGSAP(
+    () => {
+      const frame = frameRef.current;
+      const clip = clipRef.current;
+      const photo = imageRef.current;
+      if (!frame || !clip || !photo) return;
+
+      const fit = () => {
+        gsap.set(photo, { width: frame.offsetWidth, height: frame.offsetHeight });
+      };
+
+      fit();
+      ScrollTrigger.addEventListener('refreshInit', fit);
+
+      if (prefersReducedMotion()) {
+        gsap.set(clip, { width: '100%' });
+        return () => ScrollTrigger.removeEventListener('refreshInit', fit);
+      }
+
+      gsap.fromTo(
+        clip,
+        { width: '0%' },
+        {
+          width: '100%',
+          duration: 1.1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: frame,
+            start: 'top 80%',
+            once: true,
+          },
+        },
+      );
+
+      return () => ScrollTrigger.removeEventListener('refreshInit', fit);
+    },
+    { scope: frameRef },
+  );
 
   return (
     <section
@@ -51,20 +97,24 @@ export function DirectorAboutSection() {
             </RevealOnScroll>
           </div>
 
-          <div className="lg:col-span-5">
-            <div className="relative mx-auto aspect-[4/5] w-full max-w-[26rem] overflow-hidden rounded-[20px] bg-neutral-900 lg:mx-0 lg:max-w-none">
-              <Parallax speed={0.22} className="absolute -inset-y-[14%] inset-x-0">
+          <div className="lg:col-span-5 lg:flex lg:justify-end">
+            <div ref={frameRef} className="relative mx-auto aspect-[4/5] w-full max-w-[24rem] lg:mx-0">
+              <div
+                ref={clipRef}
+                className="absolute inset-y-0 left-0 w-0 overflow-hidden rounded-[20px] bg-neutral-900 motion-reduce:w-full"
+              >
                 <img
+                  ref={imageRef}
                   src={image}
                   alt={imageAlt}
                   width={720}
                   height={900}
                   loading="lazy"
                   decoding="async"
-                  className="h-full w-full object-cover"
+                  className="absolute top-0 left-0 h-full max-w-none object-cover"
                   style={{ objectPosition: imagePosition }}
                 />
-              </Parallax>
+              </div>
             </div>
           </div>
         </div>

@@ -1,8 +1,9 @@
 import { COMPANY } from './company';
+import { SOLUTION_PILLARS, getPillarPageHref } from './solutions-pillars';
 
 export type ProductJourneyId = 'portfolio-management' | 'capital-strategy';
 
-export type ProductGroupId = 'portfolios' | 'listed-markets' | 'broking' | 'advice';
+export type ProductGroupId = 'portfolios' | 'listed-markets' | 'advice';
 
 export type ProductGroup = {
   id: ProductGroupId;
@@ -12,9 +13,13 @@ export type ProductGroup = {
 export const PRODUCT_GROUPS: readonly ProductGroup[] = [
   { id: 'portfolios', title: 'Portfolios' },
   { id: 'listed-markets', title: 'Listed markets' },
-  { id: 'broking', title: 'Broking' },
   { id: 'advice', title: 'Advice' },
 ];
+
+export type ProductChild = {
+  name: string;
+  path: string;
+};
 
 export type ProductOffer = {
   id: string;
@@ -32,9 +37,23 @@ export type ProductOffer = {
   difference: string;
   journeyId: ProductJourneyId;
   group: ProductGroupId;
+  /** When set, this offer is listed under that parent instead of as its own row. */
+  parentId?: string;
   /** Short eligibility or risk line shared by the hub and the product page. */
   eligibility: string;
   note?: string;
+  /** Sequence shown on the product page when the offer needs a picture, not only a list. */
+  diagram?: StrategyDiagram;
+};
+
+export type StrategyStep = {
+  kicker: string;
+  title: string;
+};
+
+export type StrategyDiagram = {
+  kind: 'stack' | 'flow';
+  steps: readonly StrategyStep[];
 };
 
 const brand = COMPANY.brandName;
@@ -200,6 +219,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       'Our baskets are built around a research view, not simply a collection of stocks that have performed well recently. We identify the underlying theme, select companies that can benefit from it and review whether the original investment thesis remains valid.',
     journeyId: 'portfolio-management',
     group: 'listed-markets',
+    parentId: 'equity',
     eligibility: 'Listed-market risk',
     note: 'Investments in securities markets are subject to market risks. Read all related documents carefully before investing.',
   },
@@ -236,65 +256,85 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     note: 'Options and other derivatives can lose more than a simple stock holding and are not suitable for every investor. This page does not describe a specific exchange membership or a strategy’s past results.',
   },
   {
-    id: 'equity-broking',
-    path: '/solutions/equity-broking',
-    navLabel: 'Equity Broking',
-    title: 'Equity Broking',
-    seoTitle: `Equity Broking | ${brand}`,
-    seoDescription: `Access to equity markets for buying and selling securities, with research insights, market updates and portfolio support for retail, active and long-term investors.`,
+    id: 'passive-income-strategy',
+    path: '/solutions/passive-income-strategy',
+    navLabel: 'Passive Income',
+    title: 'Passive Income Strategy',
+    seoTitle: `Passive Income Strategy | ${brand}`,
+    seoDescription: `A NIFTY 50 systematic income strategy for HNI and UHNI investors who want regular cash-flow while keeping long-term equity exposure. ${brand} uses disciplined derivatives strategies, with a focus on capital efficiency, consistency, and downside management.`,
     keywords: [
-      'equity broking',
-      'stock market access',
-      'equity trading support',
-      'research backed broking',
+      'passive income strategy',
+      'HNI UHNI income strategy',
+      'NIFTY 50 systematic income',
+      'derivatives income strategy',
       brand,
     ],
     opening:
-      'We provide investors with access to equity markets for buying and selling securities.',
-    audience: 'Retail investors, active investors and long-term equity investors.',
+      'A NIFTY 50-based systematic income strategy for HNI and UHNI investors seeking regular cash-flow generation while maintaining long-term equity exposure.',
+    audience:
+      'HNI and UHNI investors who want regular cash-flow without leaving their long-term equity exposure.',
     features: [
-      'Equity market access',
-      'Investment and trading support',
-      'Research insights',
-      'Market updates',
-      'Portfolio support',
+      'NIFTY 50 exposure stays invested',
+      'Additional income through disciplined derivatives strategies',
+      'Capital efficiency',
+      'Consistency of the income approach',
+      'Downside management written into the strategy',
     ],
     difference:
-      'Our broking offering is supported by our research capabilities, allowing investors to combine market access with informed investment insights.',
+      'The equity exposure is the core. Derivatives are used to generate additional income, not to replace the long-term holding.',
     journeyId: 'portfolio-management',
-    group: 'broking',
-    eligibility: 'Listed-market risk',
-    note: 'Broking is offered only within the registrations that actually apply to the account. This page does not state a membership number. Investments in securities markets are subject to market risks.',
+    group: 'listed-markets',
+    parentId: 'options-baskets',
+    eligibility: 'HNI and UHNI investors who understand derivatives',
+    note: 'Options and other derivatives can lose more than a simple stock holding and are not suitable for every investor. This page does not describe a specific exchange membership or a strategy’s past results.',
+    diagram: {
+      kind: 'stack',
+      steps: [
+        { kicker: 'Equity', title: 'NIFTY 50 exposure stays invested' },
+        { kicker: 'Overlay', title: 'Disciplined derivatives strategies' },
+        { kicker: 'Cash-flow', title: 'Income, with downside rules' },
+      ],
+    },
   },
   {
-    id: 'retail-broking',
-    path: '/solutions/retail-broking',
-    navLabel: 'Retail Broking',
-    title: 'Retail Broking',
-    seoTitle: `Retail Broking | ${brand}`,
-    seoDescription: `Market access for individual investors, with investment support and research insights behind the decision. For salaried, first-time, active and long-term investors.`,
+    id: 'nifty-50-hedging',
+    path: '/solutions/nifty-50-hedging',
+    navLabel: 'NIFTY 50 Hedging',
+    title: 'NIFTY 50 Hedging Strategy',
+    seoTitle: `NIFTY 50 Hedging Strategy | ${brand}`,
+    seoDescription: `A systematic hedging framework that adjusts NIFTY 50 futures and options exposure when predefined risk and market conditions change. Built for investors who want the hedge written as rules.`,
     keywords: [
-      'retail broking',
-      'individual investor broking',
-      'first time stock investor',
-      'retail equity access',
+      'NIFTY 50 hedging strategy',
+      'NIFTY 50 futures and options',
+      'systematic hedging',
+      'index hedge',
       brand,
     ],
     opening:
-      'Retail Broking provides individual investors with access to financial markets along with investment support and research insights.',
+      'An adaptive hedging framework that dynamically adjusts NIFTY 50 futures and options exposure according to predefined risk and market conditions.',
     audience:
-      'Individual investors, salaried professionals, first-time investors, active investors and long-term equity investors.',
+      'Investors who want a rules-based hedge around NIFTY 50 exposure, using futures and options.',
     features: [
-      'Access to financial markets',
-      'Investment support',
-      'Research insights',
+      'NIFTY 50 futures and options',
+      'Exposure adjusts when predefined risk conditions change',
+      'Exposure adjusts when predefined market conditions change',
+      'A systematic framework, not a one-off trade',
     ],
     difference:
-      'We aim to provide more than just execution. Our research and market insights help investors understand the opportunity behind an investment decision.',
+      'The hedge is adaptive. Futures and options exposure changes only when the predefined risk and market conditions change.',
     journeyId: 'portfolio-management',
-    group: 'broking',
-    eligibility: 'Listed-market risk',
-    note: 'Broking is offered only within the registrations that actually apply to the account. This page does not state a membership number. Investments in securities markets are subject to market risks.',
+    group: 'listed-markets',
+    parentId: 'options-baskets',
+    eligibility: 'Investors who understand NIFTY 50 futures and options',
+    note: 'Options and other derivatives can lose more than a simple stock holding and are not suitable for every investor. This page does not describe a specific exchange membership or a strategy’s past results.',
+    diagram: {
+      kind: 'flow',
+      steps: [
+        { kicker: 'Condition', title: 'A predefined risk or market condition' },
+        { kicker: 'Rule', title: 'The hedging rule for that condition' },
+        { kicker: 'Exposure', title: 'NIFTY 50 futures and options are adjusted' },
+      ],
+    },
   },
   {
     id: 'investment-advisory',
@@ -344,15 +384,48 @@ export function getProductsForJourney(journeyId: ProductJourneyId): ProductOffer
 }
 
 export function getProductsInGroup(groupId: ProductGroupId): ProductOffer[] {
-  return PRODUCT_OFFERS.filter((product) => product.group === groupId);
+  return PRODUCT_OFFERS.filter((product) => product.group === groupId && !product.parentId);
+}
+
+export function getTopLevelProducts(): ProductOffer[] {
+  return PRODUCT_OFFERS.filter((product) => !product.parentId);
+}
+
+export function getProductChildren(id: string): ProductChild[] {
+  if (id === 'investment-advisory') {
+    return SOLUTION_PILLARS.map((pillar) => ({
+      name: pillar.title,
+      path: getPillarPageHref(pillar.id),
+    }));
+  }
+  return PRODUCT_OFFERS.filter((product) => product.parentId === id).map((product) => ({
+    name: product.navLabel,
+    path: product.path,
+  }));
+}
+
+export type ProductTreeNode = {
+  product: ProductOffer;
+  children: ProductChild[];
+};
+
+export function getOfferTree(): ProductTreeNode[] {
+  return getTopLevelProducts().map((product) => ({
+    product,
+    children: getProductChildren(product.id),
+  }));
 }
 
 export function getRelatedProducts(id: string, count = 3): ProductOffer[] {
-  const index = PRODUCT_OFFERS.findIndex((product) => product.id === id);
+  const current = PRODUCT_OFFERS.find((product) => product.id === id);
+  if (!current) return [];
+  const anchorId = current.parentId ?? current.id;
+  const tops = getTopLevelProducts();
+  const index = tops.findIndex((product) => product.id === anchorId);
   if (index < 0) return [];
   const related: ProductOffer[] = [];
-  for (let step = 1; related.length < count && step < PRODUCT_OFFERS.length; step += 1) {
-    related.push(PRODUCT_OFFERS[(index + step) % PRODUCT_OFFERS.length]);
+  for (let step = 1; related.length < count && step < tops.length; step += 1) {
+    related.push(tops[(index + step) % tops.length]);
   }
   return related;
 }

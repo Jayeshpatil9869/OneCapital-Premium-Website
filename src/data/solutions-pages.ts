@@ -61,7 +61,7 @@ export const SOLUTIONS_HUB = {
   documentTitle: `Our Products | ${COMPANY.brandName}`,
   seo: {
     title: `Our Products — Wealth Advisory & Portfolio Solutions | ${COMPANY.brandName}`,
-    description: `${COMPANY.brandName} in ${COMPANY.hqCity} explains the work in four pages, then the products: mutual funds, PMS, AIF, equity, baskets, broking, and investment advisory. Research first, then the strategy.`,
+    description: `${COMPANY.brandName} in ${COMPANY.hqCity} offers mutual funds, PMS, AIF, equity, options baskets, and investment advisory. Capital strategy, portfolio management, and wealth management sit inside advisory. Research first, then the strategy.`,
     keywords: [
       'wealth management advisory',
       'portfolio management services Pune',
@@ -80,8 +80,8 @@ export const SOLUTIONS_HUB = {
     description: `From ${COMPANY.hqCity}, we help individuals, families, and business owners plan goals, invest through mutual funds, PMS, and suitable alternatives, and review the portfolio with tax, liquidity, and nominations in view.`,
   },
   intro: {
-    statement: 'Four services. One wealth relationship.',
-    body: 'Capital Strategy is the financial plan. Portfolio Management is where the money is invested. Risk & Wealth Architecture covers risk, cash, tax, and succession. Intelligence & Oversight is the portfolio review that tells you what to keep and what to change.',
+    statement: 'Three services. One wealth relationship.',
+    body: 'Capital Strategy is the financial plan. Portfolio Management is where the money is invested. Wealth Management covers risk, cash, tax, and succession.',
   },
   trust: {
     eyebrow: 'How we work',
@@ -114,21 +114,12 @@ export const SOLUTION_OVERVIEWS: SolutionOverviewConfig[] = [
     reversed: true,
   },
   {
-    id: 'risk-wealth-architecture',
+    id: 'wealth-management',
     visual: 'risk-map',
     headline: 'Risk, cash, tax, and succession.',
     statement:
       'An emergency reserve, a risk profile you can live with, tax-aware holding periods, and nominations that are actually up to date.',
     flowSteps: ['Risk', 'Cash', 'Tax', 'Nominations'],
-  },
-  {
-    id: 'intelligence-oversight',
-    visual: 'intelligence-pipeline',
-    headline: 'A portfolio review you can use.',
-    statement:
-      'We look at allocation, fund overlap, costs, and manager changes, then tell you what to keep, what to switch, and what to leave alone.',
-    flowSteps: ['Review', 'Diligence', 'Report', 'Decide'],
-    reversed: true,
   },
 ];
 
@@ -344,10 +335,10 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
     },
   }),
 
-  'risk-wealth-architecture': buildDedicated('risk-wealth-architecture', {
+  'wealth-management': buildDedicated('wealth-management', {
     seo: {
-      title: `Risk Management & Wealth Planning | ${COMPANY.brandName}`,
-      description: `Risk management and wealth planning in ${COMPANY.hqCity} — risk profiling, liquidity design, tax-aware investing, and long-term wealth transfer architecture beneath your portfolio.`,
+      title: `Wealth Management & Risk Planning | ${COMPANY.brandName}`,
+      description: `Wealth management in ${COMPANY.hqCity}: risk profiling, liquidity, tax-aware investing, and nominations, planned beside the portfolio.`,
       keywords: [
         'risk management wealth planning',
         'tax strategy investing India',
@@ -359,7 +350,7 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
     },
     hero: {
       image: '/images/solutions/risk-wealth-architecture.jpg',
-      headline: 'Risk, tax, and what you keep.',
+      headline: 'Wealth management, beside the portfolio.',
       subheadline:
         'A risk profile, an emergency reserve, tax-aware holding periods, and nominations that match your wishes.',
       imagePosition: 'center 35%',
@@ -433,90 +424,6 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
       outlined: 'properly',
       quote:
         'Sit with us on risk, cash needs, tax, and whether your nominations still match the family.',
-    },
-  }),
-
-  'intelligence-oversight': buildDedicated('intelligence-oversight', {
-    seo: {
-      title: `Investment Research, Reporting & Oversight | ${COMPANY.brandName}`,
-      description: `Intelligence & oversight from ${COMPANY.brandName} — fund and manager diligence, consolidated reporting, and disciplined capital deployment for transparent wealth advisory.`,
-      keywords: [
-        'investment research reporting',
-        'fund due diligence India',
-        'consolidated wealth reporting',
-        'transparent investment advisory',
-        'One Capital Investment',
-      ],
-      serviceType: 'Investment research, reporting, and oversight services',
-    },
-    hero: {
-      image: '/images/solutions/intelligence-oversight.jpg',
-      headline: 'A review of what you already own.',
-      subheadline:
-        'Allocation, overlap, fund quality, and costs, pulled into one view so the next decision is obvious.',
-      imagePosition: 'center',
-    },
-    intro: {
-      statement: 'Most portfolios do not need more products. They need a clear look at the ones already there.',
-      body: `Intelligence & Oversight is the portfolio review. We read your folios the way a serious advisor should: against your plan, against overlap, and against whether each fund still deserves its place. You leave with a keep, switch, or wait list. Not a new pitch.`,
-    },
-    theme: 'intelligence',
-    visual: 'intelligence-pipeline',
-    sections: [
-      {
-        id: 'portfolio-review',
-        title: 'What a portfolio review covers',
-        body: 'We compare your current mix with the allocation in your plan. We count how many equity funds are doing the same job. We check debt funds against the dates you need cash. We note SIPs that have stopped, folios you forgot, and any holding that has become a large share of the total. The output is a short written note, not a hundred-page report.',
-        points: [
-          'A keep, switch, or wait decision',
-          'Allocation versus plan',
-          'Fund overlap',
-          'Stopped SIPs',
-          'Forgotten folios',
-        ],
-      },
-      {
-        id: 'fund-diligence',
-        title: 'Fund and manager diligence',
-        body: 'A familiar brand is not a reason to stay. We look at whether the fund still follows the process you bought, whether the manager has changed, how it behaved in a falling market, and whether the cost is fair for that job. The same questions apply to a PMS strategy or an AIF: people, process, fees, liquidity, and fit with the rest of the portfolio.',
-        points: [
-          'Process over brand',
-          'Manager change',
-          'Down-market behaviour',
-          'Cost',
-          'PMS and AIF fit',
-        ],
-      },
-      {
-        id: 'reporting',
-        title: 'One view across accounts',
-        body: 'Investments often sit in more than one app, a bank, an old advisor, and a demat account. We bring equity, debt, hybrid, PMS, and alternatives into a single allocation so you can see the real risk. Consolidated account statements from the depositories are the starting point. The review meeting is where that statement becomes a decision.',
-        points: [
-          'Every folio in one conversation',
-          'CAS and statements',
-          'Equity, debt, alternatives',
-          'Multiple apps and advisors',
-        ],
-      },
-      {
-        id: 'when-we-act',
-        title: 'When we suggest a change',
-        body: 'We suggest a switch when the fund has drifted, the manager story has broken, the cost no longer makes sense, or your goal date has moved. We suggest doing nothing when the only news is a bad quarter. New money follows the same rule: fill the underweight part of the plan before adding a new idea.',
-        points: [
-          'Change for a reason you can repeat',
-          'Style drift',
-          'Broken process',
-          'Goal date moved',
-          'Leave a bad quarter alone',
-        ],
-      },
-    ],
-    cta: {
-      line1: 'Ready for a',
-      line2: 'straight review',
-      outlined: 'of the portfolio',
-      quote:
-        'Bring your folios. We will tell you what is working, what overlaps, and what should change.',
     },
   }),
 };

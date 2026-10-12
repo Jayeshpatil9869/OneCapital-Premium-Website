@@ -32,14 +32,9 @@ const CONTINUATIONS: Record<string, Continuation> = {
         line: 'SIPs, mutual fund categories, and a PMS only when the amount and the lock-in fit the goals you just wrote.',
       },
       {
-        pillarId: 'risk-wealth-architecture',
+        pillarId: 'wealth-management',
         kicker: 'Set the guardrails',
         line: 'Emergency cash, tax holding periods, and nominations belong in the plan before the first instalment goes out.',
-      },
-      {
-        pillarId: 'intelligence-oversight',
-        kicker: 'Start from current folios',
-        line: 'If money already sits in other apps or with another advisor, review that before adding a new fund.',
       },
     ],
   },
@@ -53,18 +48,13 @@ const CONTINUATIONS: Record<string, Continuation> = {
         line: 'Go back and write the dates and amounts. Otherwise every SIP is a guess.',
       },
       {
-        pillarId: 'risk-wealth-architecture',
+        pillarId: 'wealth-management',
         kicker: 'Before the next lumpsum',
         line: 'Check whether the cash reserve and the tax bill can absorb a large one-time investment.',
       },
-      {
-        pillarId: 'intelligence-oversight',
-        kicker: 'If you already invest elsewhere',
-        line: 'Bring those statements. Overlap is the usual reason a new fund should not be added.',
-      },
     ],
   },
-  'risk-wealth-architecture': {
+  'wealth-management': {
     eyebrow: 'Once the structure is clear',
     heading: 'Risk, cash, and tax change what you should buy and what you should leave alone.',
     links: [
@@ -77,32 +67,6 @@ const CONTINUATIONS: Record<string, Continuation> = {
         pillarId: 'portfolio-management',
         kicker: 'Fund the buckets',
         line: 'Liquid funds for the reserve, equity SIPs for the long goals, ELSS only if Section 80C still has room.',
-      },
-      {
-        pillarId: 'intelligence-oversight',
-        kicker: 'See if the current portfolio breaks the rules',
-        line: 'A review will show concentration, missing nominees, and funds that no longer match the cash dates.',
-      },
-    ],
-  },
-  'intelligence-oversight': {
-    eyebrow: 'What the review is for',
-    heading: 'A keep, switch, or wait list is useful only if it changes the plan or the portfolio.',
-    links: [
-      {
-        pillarId: 'capital-strategy',
-        kicker: 'Update the written plan',
-        line: 'If a goal date moved or the risk you can live with has changed, the allocation page has to change with it.',
-      },
-      {
-        pillarId: 'portfolio-management',
-        kicker: 'Make the switches',
-        line: 'The funds that failed the review are replaced here. The ones that passed stay on their SIP.',
-      },
-      {
-        pillarId: 'risk-wealth-architecture',
-        kicker: 'Fix what the statements exposed',
-        line: 'Missing nominations, a thin cash reserve, or a tax-heavy switch belong in the wealth structure, not in another fund.',
       },
     ],
   },
@@ -214,38 +178,14 @@ function FeaturedSplit({ continuation }: { continuation: Continuation }) {
   );
 }
 
-function HandoffColumns({ continuation }: { continuation: Continuation }) {
-  return (
-    <div className="grid grid-cols-1 divide-y divide-white/10 border-y border-white/10 md:grid-cols-3 md:divide-x md:divide-y-0">
-      {continuation.links.map((item) => {
-        const pillar = getPillarById(item.pillarId);
-        if (!pillar) return null;
-        return (
-          <Link key={item.pillarId} to={getPillarPageHref(item.pillarId)} className="group block px-0 py-8 md:px-6 md:first:pl-0 md:last:pr-0">
-            <p className="text-xs font-mono uppercase tracking-[0.2em] text-text-muted">{item.kicker}</p>
-            <p className="mt-3 text-2xl font-medium tracking-tight text-white sm:text-3xl">{pillar.title}</p>
-            <p className="mt-3 text-base font-light leading-relaxed text-text-muted">{item.line}</p>
-            <span className="mt-5 inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-text-muted group-hover:text-white">
-              Open
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-            </span>
-          </Link>
-        );
-      })}
-    </div>
-  );
-}
-
 function renderContinuation(pillarId: string, continuation: Continuation): ReactNode {
   switch (pillarId) {
     case 'capital-strategy':
       return <PathSteps continuation={continuation} />;
     case 'portfolio-management':
       return <WideRows continuation={continuation} />;
-    case 'risk-wealth-architecture':
+    case 'wealth-management':
       return <FeaturedSplit continuation={continuation} />;
-    case 'intelligence-oversight':
-      return <HandoffColumns continuation={continuation} />;
     default:
       return <WideRows continuation={continuation} />;
   }

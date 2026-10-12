@@ -34,9 +34,8 @@ export function OfficesPresenceSection() {
                 </SectionHeading>
                 <BodyText className="text-base md:text-lg max-w-xl">
                   OneCapital serves clients from four regional offices — Pune headquarters plus
-                  Mumbai, Kolhapur, and Nashik — combining local access with disciplined advisory.{' '}
-                  <span className="md:hidden">Tap a location on the map to explore each office.</span>
-                  <span className="hidden md:inline">Hover a location on the map to explore each office.</span>
+                  Mumbai, Kolhapur, and Nashik — combining local access with disciplined advisory.
+                  Each office opens in turn. Select a location on the map to look closer.
                 </BodyText>
               </div>
             </RevealOnScroll>

@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Splide from '@splidejs/splide';
-import { AutoScroll } from '@splidejs/splide-extension-auto-scroll';
 import '@splidejs/splide/css/core';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   Container,
   Section,
@@ -24,10 +23,10 @@ const GALLERY_ITEMS = [
     caption: `Collaborative moments from ${COMPANY.brandName}'s Pune headquarters — where advisory, research, and client conversations come together.`,
   },
   {
-    id: 'investor-conference',
-    image: '/images/gallery/inside-client-session.png',
-    title: 'Client Conversations',
-    caption: 'Structured advisory discussions focused on portfolios, mutual funds, and long-term wealth planning.',
+    id: 'investor-session',
+    image: '/images/gallery/investor-session.jpeg',
+    title: 'Investor Session',
+    caption: 'A stage conversation on a new beginning, with the same focus on long-term wealth.',
   },
   {
     id: 'research-strategy-desk',
@@ -73,6 +72,8 @@ const SWIPE_THRESHOLD = 40;
 
 export function TeamGallerySection() {
   const splideRef = useRef<HTMLDivElement>(null);
+  const prevRef = useRef<HTMLButtonElement>(null);
+  const nextRef = useRef<HTMLButtonElement>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState(0);
 
@@ -124,34 +125,88 @@ export function TeamGallerySection() {
   useEffect(() => {
     if (!splideRef.current) return;
 
+    const frameWidth = () => splideRef.current?.parentElement?.clientWidth ?? window.innerWidth;
+
     const splide = new Splide(splideRef.current, {
-      type: 'loop',
-      drag: 'free',
-      focus: 'center',
-      perPage: 3,
-      gap: '1.5rem',
+      type: 'slide',
+      drag: true,
+      snap: false,
       arrows: false,
       pagination: false,
-      autoScroll: {
-        speed: 1,
-        pauseOnHover: true,
-        pauseOnFocus: false,
-      },
-      breakpoints: {
-        1024: {
-          perPage: 2,
-          gap: '1.25rem',
-        },
-        640: {
-          perPage: 1,
-          gap: '1rem',
-        },
-      },
+      fixedWidth: '18rem',
+      gap: '1.25rem',
+      padding: { left: 16, right: 16 },
+      speed: 800,
+      easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+      omitEnd: true,
     });
 
-    splide.mount({ AutoScroll });
+    const prev = prevRef.current;
+    const next = nextRef.current;
+
+    const limits = () => {
+      const { Move } = splide.Components;
+      return { min: Move.getLimit(false), max: Move.getLimit(true) };
+    };
+
+    const syncEnds = () => {
+      const { min, max } = limits();
+      const position = splide.Components.Move.getPosition();
+      if (prev) prev.disabled = position >= min - 1;
+      if (next) next.disabled = position <= max + 1;
+    };
+
+    const place = (position: number, animate: boolean) => {
+      const { min, max } = limits();
+      const nextPosition = Math.min(min, Math.max(max, position));
+      const list = splide.Components.Elements.list;
+      list.style.transition = animate
+        ? 'transform 800ms cubic-bezier(0.22, 1, 0.36, 1)'
+        : '';
+      splide.Components.Move.translate(nextPosition, true);
+      syncEnds();
+    };
+
+    let pad = -1;
+    const center = () => {
+      const root = splideRef.current;
+      if (root) root.style.transform = '';
+      const nextPad = frameWidth() < 768 ? 16 : 0;
+      if (nextPad !== pad) {
+        pad = nextPad;
+        splide.options = { padding: { left: nextPad, right: nextPad } };
+        return;
+      }
+      const { min, max } = limits();
+      place(nextPad > 0 ? min : (min + max) / 2, false);
+    };
+
+    const step = () => {
+      const slide = splide.Components.Elements.slides[0];
+      const styles = getComputedStyle(splide.Components.Elements.list);
+      const gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
+      return (slide?.offsetWidth ?? 0) + gap;
+    };
+
+    const onPrev = () => place(splide.Components.Move.getPosition() + step(), true);
+    const onNext = () => place(splide.Components.Move.getPosition() - step(), true);
+    prev?.addEventListener('click', onPrev);
+    next?.addEventListener('click', onNext);
+
+    splide.on('mounted resized', center);
+    splide.on('drag', () => {
+      const list = splide.Components.Elements.list;
+      list.style.transition = '';
+    });
+    splide.on('dragged', syncEnds);
+    splide.mount();
+    center();
+    window.addEventListener('resize', center);
 
     return () => {
+      window.removeEventListener('resize', center);
+      prev?.removeEventListener('click', onPrev);
+      next?.removeEventListener('click', onNext);
       splide.destroy();
     };
   }, []);
@@ -163,54 +218,67 @@ export function TeamGallerySection() {
       className="relative overflow-hidden py-[var(--space-section-sm)] text-white md:py-[var(--space-section)]"
       aria-labelledby="gallery-heading"
     >
-      <Container className="mb-12 md:mb-16">
+      <Container className="mb-10 md:mb-14">
         <RevealOnScroll className="flex max-w-3xl flex-col gap-5">
           <Eyebrow>{TEAM_PAGE.gallery.eyebrow}</Eyebrow>
-          <SectionHeading id="gallery-heading" className="text-white">
+        </RevealOnScroll>
+        <div className="mt-5 flex items-end justify-between gap-6">
+          <SectionHeading id="gallery-heading" className="max-w-3xl text-white">
             {TEAM_PAGE.gallery.heading}
           </SectionHeading>
-          <BodyText className="max-w-xl text-base md:text-lg">
-            {TEAM_PAGE.gallery.body}
-          </BodyText>
-        </RevealOnScroll>
+          <div className="mb-1 flex shrink-0 gap-3">
+            <button
+              ref={prevRef}
+              type="button"
+              aria-label="Previous slide"
+              className="inline-flex size-11 items-center justify-center rounded-full border border-white/20 text-white transition-opacity hover:border-white/50 disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <ChevronLeft className="size-5" />
+            </button>
+            <button
+              ref={nextRef}
+              type="button"
+              aria-label="Next slide"
+              className="inline-flex size-11 items-center justify-center rounded-full border border-white/20 text-white transition-opacity hover:border-white/50 disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <ChevronRight className="size-5" />
+            </button>
+          </div>
+        </div>
+        <BodyText className="mt-5 max-w-xl text-base md:text-lg">
+          {TEAM_PAGE.gallery.body}
+        </BodyText>
       </Container>
 
-      <div className="w-full overflow-hidden px-[var(--page-gutter)]">
+      <div className="w-full overflow-hidden">
         <div ref={splideRef} className="splide">
           <div className="splide__track">
-            <ul className="splide__list items-stretch py-2">
+            <ul className="splide__list items-stretch">
               {GALLERY_ITEMS.map((item, index) => (
-                <li key={item.id} className="splide__slide flex flex-col p-1">
+                <li key={item.id} className="splide__slide">
                   <button
                     type="button"
                     onClick={() => handleOpen(index)}
                     className={cn(
-                      'group relative flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-3xl',
-                      'glass-panel glass-panel-hover bg-white/[0.02] text-left transition-colors duration-500 hover:border-white/20',
+                      'group relative block h-[25rem] w-full cursor-pointer overflow-hidden rounded-2xl bg-neutral-900 text-left',
                       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
                     )}
                   >
-                    <div className="relative aspect-[4/3] w-full overflow-hidden">
-                      <img
-                        src={item.image}
-                        alt=""
-                        loading="lazy"
-                        decoding="async"
-                        className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                      />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
-                      <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-3 py-1 text-[11px] font-mono uppercase tracking-wider text-white/80 opacity-100 backdrop-blur-md transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100">
-                        <ZoomIn className="size-3.5" />
-                        <span>Expand</span>
-                      </div>
-                      <div className="absolute inset-x-0 bottom-0 z-10 p-5 sm:p-6">
-                        <h3 className="text-lg font-medium tracking-tight text-white sm:text-xl">
-                          {item.title}
-                        </h3>
-                        <p className="mt-1.5 text-sm font-light leading-relaxed text-white/75">
-                          {item.caption}
-                        </p>
-                      </div>
+                    <img
+                      src={item.image}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10" />
+                    <div className="absolute inset-x-0 bottom-0 z-10 p-5">
+                      <h3 className="font-sans text-xl font-medium tracking-tight text-white">
+                        {item.title}
+                      </h3>
+                      <p className="mt-3 font-sans text-sm leading-5 text-white/80">
+                        {item.caption}
+                      </p>
                     </div>
                   </button>
                 </li>

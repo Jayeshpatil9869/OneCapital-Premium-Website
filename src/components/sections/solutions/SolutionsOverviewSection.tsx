@@ -20,7 +20,7 @@ const SILVER_GLOW_COLOR = '240, 245, 255'; // Pure White & Silver RGB
 
 function PillarHighlights({ highlights }: Pick<HomePillarPreview, 'highlights'>) {
   return (
-    <ul className="flex flex-wrap gap-2 mt-6">
+    <ul className="mt-4 flex flex-wrap gap-1.5">
       {highlights.map((item) => (
         <li
           key={item}
@@ -77,21 +77,21 @@ function PillarCard({ pillar, isMobile }: { pillar: HomePillarPreview; isMobile:
         onFocus={handleMouseEnter}
         onBlur={handleMouseLeave}
         className={cn(
-          'flex h-full min-h-0 md:min-h-[340px] flex-col justify-between p-8 md:p-10 relative z-10',
+          'flex h-full min-h-0 flex-col justify-between p-5 md:p-6 relative z-10',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black'
         )}
       >
         <div className="[transform:translateZ(18px)] transition-transform duration-300">
-          <h3 className="text-2xl sm:text-3xl font-medium tracking-tight text-white group-hover:text-white transition-colors">
+          <h3 className="text-xl font-medium tracking-tight text-white group-hover:text-white transition-colors md:text-2xl">
             {pillar.title}
           </h3>
-          <p className="mt-3 text-base text-text-muted leading-relaxed font-light">
+          <p className="mt-2 text-sm text-text-muted leading-relaxed font-light">
             {pillar.summary}
           </p>
           <PillarHighlights highlights={pillar.highlights} />
         </div>
 
-        <div className="mt-8 inline-flex items-center gap-2 text-sm uppercase tracking-wide text-white/50 group-hover:text-white transition-colors duration-500 [transform:translateZ(12px)]">
+        <div className="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-wide text-white/50 group-hover:text-white transition-colors duration-500 [transform:translateZ(12px)]">
           <span className="relative inline-block pb-1">
             Explore pillar
             <span
@@ -126,10 +126,10 @@ export function SolutionsOverviewSection() {
           <div className="lg:col-span-8 flex flex-col gap-6">
             <Eyebrow>Our Solutions</Eyebrow>
             <SectionHeading id="solutions-overview-heading">
-              Capital stewardship, structured in four disciplines.
+              Capital stewardship, structured in three disciplines.
             </SectionHeading>
             <BodyText className="text-base md:text-lg max-w-2xl">
-              Strategy, portfolio management, risk architecture, and oversight — integrated as one
+              Strategy, portfolio management, and wealth management — integrated as one
               mandate so every decision serves long-term capital preservation and deliberate growth.
             </BodyText>
           </div>
@@ -141,7 +141,7 @@ export function SolutionsOverviewSection() {
         </RevealOnScroll>
 
         <div ref={gridRef}>
-          <RevealOnScroll stagger={0.06} className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          <RevealOnScroll stagger={0.06} className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-5">
             {HOME_PILLAR_PREVIEWS.map((pillar) => (
               <PillarCard key={pillar.id} pillar={pillar} isMobile={isMobile} />
             ))}

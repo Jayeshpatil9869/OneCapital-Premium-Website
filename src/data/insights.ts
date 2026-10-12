@@ -76,15 +76,6 @@ export const BLOG_PAGE = {
     primaryId: 'drawdown-decisions',
     secondaryId: 'multi-asset-higher-for-longer',
   },
-  cta: {
-    line1: 'Ready to turn',
-    line2: 'insight into',
-    line3Outlined: 'action',
-    italicQuote:
-      'Schedule a consultation and translate these themes into a mandate that fits your liquidity, risk budget, and long-term objectives.',
-    buttonText: 'Request Strategy Session',
-    buttonLink: '/contact',
-  },
 } as const;
 
 export const INSIGHT_THEMES: InsightTheme[] = [

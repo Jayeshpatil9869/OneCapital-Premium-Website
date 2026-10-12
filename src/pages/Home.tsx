@@ -10,11 +10,6 @@ import { COMPANY } from '@/src/data/company';
 const METRICS = [
   { label: 'Founded', value: String(COMPANY.foundedYear), suffix: '' },
   {
-    label: 'Core Mandates',
-    value: String(COMPANY.focusAreas.length),
-    suffix: '',
-  },
-  {
     label: 'Service Lines',
     value: String(COMPANY.serviceLines.length),
     suffix: '+',

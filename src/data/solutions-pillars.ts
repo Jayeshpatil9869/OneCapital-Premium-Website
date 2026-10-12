@@ -18,7 +18,7 @@ export type SolutionPillar = {
 /**
  * Our Products pillars — aligned with About / 1capital.in offerings:
  * mutual funds, portfolio management, wealth planning, tax strategy,
- * AIFs, equity, baskets, and broking.
+ * AIFs, equity, and baskets.
  * No invented returns, AUM, or unconfirmed SEBI license numbers.
  */
 export const SOLUTION_PILLARS: SolutionPillar[] = [
@@ -92,14 +92,14 @@ export const SOLUTION_PILLARS: SolutionPillar[] = [
         title: 'AIFs and other alternatives',
         tagline: 'Private markets only after suitability and lock-in are clear.',
         description:
-          'Category I, II, and III AIFs are reviewed for manager, structure, and liquidity. They are a satellite, not a substitute for the mutual fund core. Equity, baskets, and broking are separate products.',
+          'Category I, II, and III AIFs are reviewed for manager, structure, and liquidity. They are a satellite, not a substitute for the mutual fund core. Direct equity, including equity baskets, is a separate product.',
       },
     ],
   },
   {
-    id: 'risk-wealth-architecture',
+    id: 'wealth-management',
     index: '03',
-    title: 'Risk & Wealth Architecture',
+    title: 'Wealth Management',
     summary:
       'Risk profiling, emergency liquidity, tax-aware investing, and nominations so the portfolio can survive a bad year and a family transition.',
     services: [
@@ -130,43 +130,6 @@ export const SOLUTION_PILLARS: SolutionPillar[] = [
         tagline: 'Accounts, wills, and family intent, kept current.',
         description:
           'We review nominations on folios and demat accounts and coordinate with your lawyer or CA on wills and succession. We do not draft legal documents.',
-      },
-    ],
-  },
-  {
-    id: 'intelligence-oversight',
-    index: '04',
-    title: 'Intelligence & Oversight',
-    summary:
-      'A portfolio review you can act on: fund quality, overlap, costs, consolidated holdings, and a clear reason to stay or switch.',
-    services: [
-      {
-        id: 'portfolio-review',
-        title: 'Portfolio review',
-        tagline: 'Allocation, overlap, and risk against the plan you agreed.',
-        description:
-          'We check whether the portfolio still matches the target mix, whether too many funds do the same job, and whether a recent fall is noise or a broken holding.',
-      },
-      {
-        id: 'manager-due-diligence',
-        title: 'Fund and manager diligence',
-        tagline: 'Process, people, cost, and behaviour in a down market.',
-        description:
-          'A fund is kept when the process is intact. A change of manager, a style drift, or a cost that no longer earns its place is a reason to look again.',
-      },
-      {
-        id: 'consolidated-wealth-reporting',
-        title: 'Consolidated reporting',
-        tagline: 'Folios, brokers, and products in one conversation.',
-        description:
-          'Holdings spread across apps and advisors are pulled into one allocation view so you can see equity, debt, and alternatives together.',
-      },
-      {
-        id: 'review-cadence',
-        title: 'Review cadence',
-        tagline: 'A scheduled review, plus a call when life changes.',
-        description:
-          'We review on a set calendar and when income, a goal date, or a large cash event changes the plan. We do not reshuffle the portfolio after every headline.',
       },
     ],
   },

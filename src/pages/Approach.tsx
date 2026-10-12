@@ -35,7 +35,7 @@ const STEPS = [
   {
     num: '04',
     title: 'BUILD',
-    desc: 'We build investment strategies around those opportunities. The same research supports Mutual Funds, PMS, AIF, Equity, Equity Baskets and Options Baskets.',
+    desc: 'We build investment strategies around those opportunities. The same research supports Mutual Funds, PMS, AIF, Equity (including Equity Baskets), and Options Baskets.',
   },
   {
     num: '05',
@@ -55,7 +55,7 @@ const DIFFERENCES = [
   },
   {
     title: 'One research engine across products',
-    body: 'Our research supports Mutual Funds, PMS, AIF, Equity, Equity Baskets and Options Baskets, so an opportunity can be seen across solutions rather than inside one product alone.',
+    body: 'Our research supports Mutual Funds, PMS, AIF, Equity (including Equity Baskets), and Options Baskets, so an opportunity can be seen across solutions rather than inside one product alone.',
   },
   {
     title: 'Strategy over short-term noise',

@@ -22,21 +22,27 @@ type TooltipConfig = {
 /** West-coast markers center the card off the left edge of the phone. */
 const MOBILE_TOOLTIP_NUDGE = '5rem';
 const MOBILE_MAP_QUERY = '(max-width: 639px)';
+const FINE_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
 /** Long enough to read the quote, then the active dot steps south. */
-const MOBILE_CYCLE_MS = 4500;
+const CYCLE_MS = 4500;
 
-function isMobileMap() {
-  return window.matchMedia(MOBILE_MAP_QUERY).matches;
+type CycleMode = 'pin' | 'release' | 'jump';
+
+function isFinePointer() {
+  return window.matchMedia(FINE_POINTER_QUERY).matches;
 }
 
-/** North to south matches the phone sequence: Nashik, Mumbai, Pune, Kolhapur. */
+function tooltipShift(smSide: boolean) {
+  const mobile = window.matchMedia(MOBILE_MAP_QUERY).matches;
+  return {
+    x: mobile ? MOBILE_TOOLTIP_NUDGE : 0,
+    xPercent: !mobile && smSide ? 0 : -50,
+  };
+}
+
+/** North to south: Nashik, Mumbai, Pune, Kolhapur. */
 function northToSouth(offices: OfficeLocation[]) {
   return [...offices].sort((a, b) => a.mapY - b.mapY || a.mapX - b.mapX);
-}
-
-function initialMobileOffice(offices: OfficeLocation[]): string | null {
-  if (typeof window === 'undefined' || !isMobileMap()) return null;
-  return northToSouth(offices)[0]?.id ?? null;
 }
 
 const ABOVE_MARKER =
@@ -74,6 +80,7 @@ function OfficeMarkerItem({
   const tooltipRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLSpanElement>(null);
   const dotRef = useRef<HTMLSpanElement>(null);
+  const pointerFocus = useRef(false);
 
   const config = TOOLTIP_CONFIGS[office.id] ?? {
     className: ABOVE_MARKER,
@@ -82,11 +89,19 @@ function OfficeMarkerItem({
     toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
   };
 
+  useEffect(() => {
+    const query = window.matchMedia(MOBILE_MAP_QUERY);
+    const apply = () => {
+      if (!isHovered || !tooltipRef.current) return;
+      gsap.set(tooltipRef.current, tooltipShift(config.smSide));
+    };
+    query.addEventListener('change', apply);
+    return () => query.removeEventListener('change', apply);
+  }, [isHovered, config.smSide]);
+
   useGSAP(
     () => {
-      const mobile = window.matchMedia('(max-width: 639px)').matches;
-      const x = mobile ? MOBILE_TOOLTIP_NUDGE : 0;
-      const xPercent = !mobile && config.smSide ? 0 : -50;
+      const { x, xPercent } = tooltipShift(config.smSide);
 
       if (isHovered) {
         if (tooltipRef.current) {
@@ -180,12 +195,28 @@ function OfficeMarkerItem({
         aria-label={`${office.city} office`}
         aria-describedby={isHovered ? `${office.id}-tooltip` : undefined}
         className="relative flex h-10 w-10 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black group"
-        onMouseEnter={onHover}
-        onMouseLeave={onLeave}
-        onFocus={onHover}
-        onBlur={onLeave}
+        onPointerDown={() => {
+          pointerFocus.current = true;
+        }}
+        onMouseEnter={() => {
+          if (!isFinePointer()) return;
+          onHover();
+        }}
+        onMouseLeave={() => {
+          if (!isFinePointer()) return;
+          onLeave();
+        }}
+        onFocus={() => {
+          if (pointerFocus.current || !isFinePointer()) return;
+          onHover();
+        }}
+        onBlur={() => {
+          pointerFocus.current = false;
+          if (!isFinePointer()) return;
+          onLeave();
+        }}
         onClick={(e) => {
-          if (!isMobileMap()) return;
+          if (isFinePointer()) return;
           e.stopPropagation();
           onSelect();
         }}
@@ -210,15 +241,15 @@ function OfficeMarkerItem({
 
 export function IndiaDotMap({ offices, className }: IndiaDotMapProps) {
   const cycle = useMemo(() => northToSouth(offices), [offices]);
-  const [hoveredId, setHoveredId] = useState<string | null>(() => initialMobileOffice(offices));
+  const [hoveredId, setHoveredId] = useState<string | null>(() => northToSouth(offices)[0]?.id ?? null);
   const hoveredIdRef = useRef(hoveredId);
-  const pickRef = useRef<(id: string) => void>(() => {});
+  const pickRef = useRef<(id: string, mode: CycleMode) => void>(() => {});
   hoveredIdRef.current = hoveredId;
 
   useEffect(() => {
-    const mobileQuery = window.matchMedia(MOBILE_MAP_QUERY);
     const reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     let timer = 0;
+    let paused = false;
     let index = Math.max(
       0,
       cycle.findIndex((office) => office.id === hoveredIdRef.current),
@@ -232,48 +263,52 @@ export function IndiaDotMap({ offices, className }: IndiaDotMapProps) {
       setHoveredId(cycle[index].id);
     };
 
-    const arm = (next: number) => {
+    const startTimer = () => {
       clear();
-      if (!mobileQuery.matches || cycle.length === 0) return;
-      publish(next);
-      if (reduceQuery.matches || cycle.length < 2 || document.hidden) return;
-      timer = window.setInterval(() => publish(index + 1), MOBILE_CYCLE_MS);
+      if (paused || reduceQuery.matches || cycle.length < 2 || document.hidden) return;
+      timer = window.setInterval(() => publish(index + 1), CYCLE_MS);
     };
 
-    pickRef.current = (id: string) => {
+    const arm = (next: number) => {
+      paused = false;
+      if (cycle.length === 0) return;
+      publish(next);
+      startTimer();
+    };
+
+    pickRef.current = (id: string, mode: CycleMode) => {
       const found = cycle.findIndex((office) => office.id === id);
+      if (mode === 'pin') {
+        paused = true;
+        clear();
+        if (found !== -1) publish(found);
+        return;
+      }
+      if (mode === 'release') {
+        paused = false;
+        startTimer();
+        return;
+      }
       arm(found === -1 ? index : found);
     };
 
-    const sync = () => {
-      if (!mobileQuery.matches) {
-        clear();
-        setHoveredId(null);
-        return;
-      }
-      arm(index);
-    };
-
-    const onVisibility = () => {
-      if (!mobileQuery.matches) return;
+    const onReduceOrVisibility = () => {
       if (document.hidden) {
         clear();
         return;
       }
-      arm(index);
+      startTimer();
     };
 
-    if (mobileQuery.matches) arm(index);
-    mobileQuery.addEventListener('change', sync);
-    reduceQuery.addEventListener('change', sync);
-    document.addEventListener('visibilitychange', onVisibility);
+    arm(index);
+    reduceQuery.addEventListener('change', onReduceOrVisibility);
+    document.addEventListener('visibilitychange', onReduceOrVisibility);
 
     return () => {
       clear();
       pickRef.current = () => {};
-      mobileQuery.removeEventListener('change', sync);
-      reduceQuery.removeEventListener('change', sync);
-      document.removeEventListener('visibilitychange', onVisibility);
+      reduceQuery.removeEventListener('change', onReduceOrVisibility);
+      document.removeEventListener('visibilitychange', onReduceOrVisibility);
     };
   }, [cycle]);
 
@@ -296,15 +331,9 @@ export function IndiaDotMap({ offices, className }: IndiaDotMapProps) {
           key={office.id}
           office={office}
           isHovered={hoveredId === office.id}
-          onHover={() => {
-            if (isMobileMap()) return;
-            setHoveredId(office.id);
-          }}
-          onLeave={() => {
-            if (isMobileMap()) return;
-            setHoveredId(null);
-          }}
-          onSelect={() => pickRef.current(office.id)}
+          onHover={() => pickRef.current(office.id, 'pin')}
+          onLeave={() => pickRef.current(office.id, 'release')}
+          onSelect={() => pickRef.current(office.id, 'jump')}
         />
       ))}
     </div>

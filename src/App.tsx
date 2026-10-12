@@ -19,7 +19,6 @@ import GoalPlanningCalculatorPage from './pages/calculators/GoalPlanningCalculat
 import CapitalStrategyPage from './pages/solutions/CapitalStrategyPage';
 import PortfolioManagementPage from './pages/solutions/PortfolioManagementPage';
 import RiskWealthArchitecturePage from './pages/solutions/RiskWealthArchitecturePage';
-import IntelligenceOversightPage from './pages/solutions/IntelligenceOversightPage';
 import ProductPage from './pages/solutions/ProductPage';
 import NotFound from './pages/NotFound';
 
@@ -33,16 +32,19 @@ const router = createBrowserRouter([
       { path: 'solutions', element: <Solutions /> },
       { path: 'solutions/capital-strategy', element: <CapitalStrategyPage /> },
       { path: 'solutions/portfolio-management', element: <PortfolioManagementPage /> },
-      { path: 'solutions/risk-wealth-architecture', element: <RiskWealthArchitecturePage /> },
-      { path: 'solutions/intelligence-oversight', element: <IntelligenceOversightPage /> },
+      { path: 'solutions/wealth-management', element: <RiskWealthArchitecturePage /> },
+      { path: 'solutions/risk-wealth-architecture', element: <Navigate to="/solutions/wealth-management" replace /> },
+      { path: 'solutions/intelligence-oversight', element: <Navigate to="/solutions/investment-advisory" replace /> },
       { path: 'solutions/mutual-funds', element: <ProductPage productId="mutual-funds" /> },
       { path: 'solutions/pms', element: <ProductPage productId="pms" /> },
       { path: 'solutions/aif', element: <ProductPage productId="aif" /> },
       { path: 'solutions/equity', element: <ProductPage productId="equity" /> },
       { path: 'solutions/equity-baskets', element: <ProductPage productId="equity-baskets" /> },
       { path: 'solutions/options-baskets', element: <ProductPage productId="options-baskets" /> },
-      { path: 'solutions/equity-broking', element: <ProductPage productId="equity-broking" /> },
-      { path: 'solutions/retail-broking', element: <ProductPage productId="retail-broking" /> },
+      { path: 'solutions/passive-income-strategy', element: <ProductPage productId="passive-income-strategy" /> },
+      { path: 'solutions/nifty-50-hedging', element: <ProductPage productId="nifty-50-hedging" /> },
+      { path: 'solutions/equity-broking', element: <Navigate to="/solutions" replace /> },
+      { path: 'solutions/retail-broking', element: <Navigate to="/solutions" replace /> },
       { path: 'solutions/investment-advisory', element: <ProductPage productId="investment-advisory" /> },
       { path: 'approach', element: <Approach /> },
       { path: 'team', element: <Team /> },

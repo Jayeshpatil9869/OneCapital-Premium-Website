@@ -6,8 +6,9 @@ import { Button } from "@/src/components/ui";
 import { AppDownloadCard } from "./AppDownloadCard";
 import { SocialLinks } from "./SocialLinks";
 import { LightSweepText } from "./motion/LightSweepText";
-import { LetterSwap } from "./motion/LetterSwap";
+import { NavTextSlide } from "./motion/NavTextSlide";
 import { COMPANY } from "@/src/data/company";
+import { getOfferTree } from "@/src/data/products";
 
 export default function Footer() {
   return (
@@ -37,22 +38,38 @@ export default function Footer() {
             <h4 className="text-xs uppercase tracking-wider font-mono text-text-muted mb-2">
               Strategies
             </h4>
-            {[
-              { name: "Capital Strategy", path: "/solutions/capital-strategy" },
-              { name: "Portfolio Management", path: "/solutions/portfolio-management" },
-              { name: "Risk & Wealth Architecture", path: "/solutions/risk-wealth-architecture" },
-              { name: "Intelligence & Oversight", path: "/solutions/intelligence-oversight" },
-              { name: "Calculators", path: "/calculators" },
-            ].map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className="text-sm text-white/80 hover:text-white transition-colors inline-flex items-center group w-fit"
-              >
-                <LetterSwap label={item.name} />
-                <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
-              </Link>
-            ))}
+            {getOfferTree()
+              .filter((node) => node.children.length > 0)
+              .map((node) => (
+                <div key={node.product.id} className="flex flex-col gap-2">
+                  <Link
+                    to={node.product.path}
+                    className="text-sm text-white/80 hover:text-white transition-colors inline-flex items-center group w-fit"
+                  >
+                    <NavTextSlide label={node.product.navLabel} />
+                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                  </Link>
+                  <ul className="flex flex-col gap-2 border-l border-white/10 pl-3">
+                    {node.children.map((child) => (
+                      <li key={child.path}>
+                        <Link
+                          to={child.path}
+                          className="text-sm text-white/60 hover:text-white transition-colors inline-flex items-center group w-fit"
+                        >
+                          <NavTextSlide label={child.name} />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            <Link
+              to="/calculators"
+              className="text-sm text-white/80 hover:text-white transition-colors inline-flex items-center group w-fit"
+            >
+              <NavTextSlide label="Calculators" />
+              <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+            </Link>
           </div>
 
           {/* Company */}
@@ -73,7 +90,7 @@ export default function Footer() {
                 to={item.path}
                 className="text-sm text-white/80 hover:text-white transition-colors inline-flex items-center group w-fit"
               >
-                <LetterSwap label={item.name} />
+                <NavTextSlide label={item.name} />
                 <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
               </Link>
             ))}
@@ -145,7 +162,7 @@ export default function Footer() {
               key={item}
               className="relative group text-xs text-text-muted hover:text-white transition-colors inline-flex items-center cursor-default"
             >
-              <LetterSwap label={item} />
+              <NavTextSlide label={item} />
               <span className="absolute -bottom-1.5 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-50" />
             </span>
           ))}

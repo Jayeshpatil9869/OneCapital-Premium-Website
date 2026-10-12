@@ -16,7 +16,7 @@ export function TeamHero() {
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.5)_0%,rgba(0,0,0,0.22)_32%,rgba(0,0,0,0.5)_58%,rgba(0,0,0,0.88)_82%,#000000_100%)]" />
       </div>
 
-      <Container className="relative z-10 max-w-[1400px] w-full mx-auto px-6 sm:px-8 lg:px-12 pt-[max(7.5rem,env(safe-area-inset-top))] pb-14 sm:pb-16 lg:pb-20">
+      <Container className="relative z-10 w-full pt-[max(7.5rem,env(safe-area-inset-top))] pb-14 sm:pb-16 lg:pb-20">
         <div className="flex flex-col gap-8 sm:gap-10 lg:gap-12 max-w-[1100px]">
           <RevealOnScroll trigger="load" direction="up" distance={32} duration={1.1} delay={0.1} ease="power3.out">
             <h1 className="font-sans text-[2.5rem] font-bold leading-[1.02] tracking-[-0.03em] text-white sm:text-6xl md:text-7xl lg:text-[4.2rem] xl:text-[4.2rem]">

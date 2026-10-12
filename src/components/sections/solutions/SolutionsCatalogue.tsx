@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import { ScrollFade } from '@/src/components/motion/ScrollFade';
@@ -6,7 +6,7 @@ import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { Button, Container } from '@/src/components/ui';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { gsap, prefersReducedMotion } from '@/src/lib/motion';
-import { PRODUCT_GROUPS, getProductsInGroup } from '@/src/data/products';
+import { PRODUCT_GROUPS, getProductChildren, getProductsInGroup, getTopLevelProducts } from '@/src/data/products';
 import { SOLUTIONS_HUB } from '@/src/data/solutions-pages';
 import {
   PORTFOLIO_MANAGEMENT_FOOTNOTE,
@@ -23,30 +23,15 @@ const ink = {
   light: 'light-section bg-white text-black',
 } as const;
 
+function navPinOffset() {
+  const bar = document.querySelector<HTMLElement>('[data-site-nav]');
+  const bottom = bar?.getBoundingClientRect().bottom ?? 96;
+  return Math.ceil(bottom + 20);
+}
+
 export function SolutionsCatalogue() {
   const { hero, intro, trust } = SOLUTIONS_HUB;
-  const [activeId, setActiveId] = useState(SOLUTION_PILLARS[0]?.id ?? '');
-
-  useEffect(() => {
-    const sections = SOLUTION_PILLARS.map((pillar) =>
-      document.getElementById(pillar.id),
-    ).filter((node): node is HTMLElement => node !== null);
-
-    if (sections.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target.id) setActiveId(visible.target.id);
-      },
-      { rootMargin: '-30% 0px -45% 0px', threshold: [0.15, 0.4] },
-    );
-
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
+  const products = getTopLevelProducts();
 
   return (
     <div className="w-full bg-black text-white">
@@ -75,25 +60,19 @@ export function SolutionsCatalogue() {
             </p>
             <nav aria-label="Product index" className="lg:col-span-7 lg:col-start-6">
               <ol className="divide-y divide-white/15 border-y border-white/15">
-                {SOLUTION_PILLARS.map((pillar) => (
-                  <li key={pillar.id}>
-                    <a
-                      href={`#${pillar.id}`}
-                      aria-label={`${pillar.title}, ${pillar.services.length} services`}
-                      className={cn(
-                        'flex items-baseline justify-between gap-6 py-3.5 font-sans text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:text-base',
-                        activeId === pillar.id ? 'text-white' : 'text-white/60 hover:text-white',
-                      )}
+                {products.map((product, index) => (
+                  <li key={product.id}>
+                    <Link
+                      to={product.path}
+                      className="flex items-baseline justify-between gap-6 py-3.5 font-sans text-sm text-white/60 transition-[color,translate] duration-200 ease-[var(--ease-smooth)] hover:text-white motion-reduce:transition-none motion-reduce:hover:translate-x-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:text-base [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-x-3"
                     >
                       <span className="flex items-baseline gap-4">
-                        <span className="font-mono text-[11px] tracking-[0.16em]">{pillar.index}</span>
-                        <span>{pillar.title}</span>
+                        <span className="font-mono text-[11px] tracking-[0.16em]">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <span>{product.navLabel}</span>
                       </span>
-                      <span className="font-mono text-[11px] tracking-[0.14em]">
-                        {String(pillar.services.length).padStart(2, '0')}
-                        <span className="sr-only"> services</span>
-                      </span>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ol>
@@ -102,12 +81,34 @@ export function SolutionsCatalogue() {
         </Container>
       </section>
 
+      <section id="what-we-offer" className="scroll-mt-28 border-b border-white/10 bg-black text-white">
+        <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-text-muted">What we offer</p>
+          <h2 className="mt-4 max-w-3xl font-sans text-[clamp(1.5rem,1rem+2vw,3rem)] font-medium leading-tight tracking-tight">
+            Six products. One research view.
+          </h2>
+          <p className="mt-5 max-w-2xl text-lg font-light leading-relaxed text-text-muted md:text-xl">
+            Mutual funds, PMS, AIFs, equity, options baskets, and investment advisory. Research comes first. The product is chosen after the strategy.
+          </p>
+          <div className="mt-16">
+            {PRODUCT_GROUPS.map((group) => (
+              <OfferGroup key={group.id} group={group} />
+            ))}
+          </div>
+        </Container>
+      </section>
+
       <section className={cn(ink.light, 'border-b border-black/10')}>
         <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-28">
           <RevealOnScroll className="grid items-start gap-8 lg:grid-cols-12 lg:gap-16">
-            <p className="font-sans text-2xl font-medium leading-[1.25] tracking-[-0.03em] text-balance sm:text-3xl lg:col-span-7 lg:text-[2.35rem]">
-              {intro.statement}
-            </p>
+            <div className="lg:col-span-7">
+              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-black/55">
+                Investment Advisory
+              </p>
+              <p className="mt-4 font-sans text-2xl font-medium leading-[1.25] tracking-[-0.03em] text-balance sm:text-3xl lg:text-[2.35rem]">
+                {intro.statement}
+              </p>
+            </div>
             <p className="max-w-md font-sans text-base font-light leading-relaxed text-black/65 lg:col-span-4 lg:col-start-9 lg:text-lg">
               {intro.body}
             </p>
@@ -122,51 +123,6 @@ export function SolutionsCatalogue() {
           tone={index % 2 === 0 ? 'dark' : 'light'}
         />
       ))}
-
-      <section id="what-we-offer" className="scroll-mt-28 border-b border-white/10 bg-black text-white">
-        <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-text-muted">What we offer</p>
-          <h2 className="mt-4 max-w-3xl font-sans text-[clamp(1.5rem,1rem+2vw,3rem)] font-medium leading-tight tracking-tight">
-            Nine products. One research view.
-          </h2>
-          <p className="mt-5 max-w-2xl text-lg font-light leading-relaxed text-text-muted md:text-xl">
-            Mutual funds, PMS, AIFs, equity, baskets, broking, and investment advisory. Research comes first. The product is chosen after the strategy.
-          </p>
-          <div className="mt-16">
-            {PRODUCT_GROUPS.map((group, groupIndex) => (
-              <ScrollFade
-                key={group.id}
-                delay={groupIndex * 0.06}
-                className="grid gap-8 border-t border-white/15 py-10 lg:grid-cols-12 lg:gap-16 lg:py-12"
-              >
-                <h3 className="font-sans text-2xl font-medium tracking-tight text-white lg:col-span-4 lg:text-3xl">
-                  {group.title}
-                </h3>
-                <ul className="border-t border-white/15 lg:col-span-8">
-                  {getProductsInGroup(group.id).map((product) => (
-                    <li key={product.id} className="border-b border-white/15">
-                      <Link
-                        to={product.path}
-                        className="grid gap-2 py-7 transition-colors hover:text-white/80 sm:grid-cols-12 sm:gap-6 sm:py-8"
-                      >
-                        <span className="font-sans text-lg font-medium tracking-tight text-white sm:col-span-4 sm:text-xl">
-                          {product.title}
-                        </span>
-                        <span className="font-sans text-sm font-light leading-relaxed text-white/60 sm:col-span-5 sm:text-base">
-                          {product.audience}
-                        </span>
-                        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/45 sm:col-span-3">
-                          {product.eligibility}
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </ScrollFade>
-            ))}
-          </div>
-        </Container>
-      </section>
 
       <section className={cn(ink.light, 'border-t border-black/10')}>
         <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
@@ -207,6 +163,88 @@ export function SolutionsCatalogue() {
   );
 }
 
+function OfferGroup({ group }: { group: (typeof PRODUCT_GROUPS)[number] }) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  useGSAP(
+    () => {
+      if (prefersReducedMotion()) return;
+
+      const mm = gsap.matchMedia();
+      mm.add('(min-width: 1024px)', () => {
+        const title = titleRef.current;
+        const list = listRef.current;
+        if (!title || !list) return;
+
+        ScrollTrigger.create({
+          trigger: title,
+          start: () => `top ${navPinOffset()}px`,
+          end: () => `+=${Math.max(0, list.offsetHeight - title.offsetHeight)}`,
+          pin: title,
+          pinSpacing: false,
+          pinType: 'fixed',
+          invalidateOnRefresh: true,
+        });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: rootRef },
+  );
+
+  return (
+    <div
+      ref={rootRef}
+      className="grid gap-8 border-t border-white/15 py-10 lg:grid-cols-12 lg:items-start lg:gap-16 lg:py-12"
+    >
+      <div ref={titleRef} className="lg:col-span-4 lg:self-start">
+        <h3 className="font-sans text-2xl font-medium tracking-tight text-white lg:text-3xl">
+          {group.title}
+        </h3>
+      </div>
+      <ul ref={listRef} className="border-t border-white/15 lg:col-span-8">
+        {getProductsInGroup(group.id).map((product) => {
+          const children = getProductChildren(product.id);
+          return (
+            <li key={product.id} className="border-b border-white/15">
+              <Link
+                to={product.path}
+                className="grid gap-2 py-7 transition-colors hover:text-white/80 sm:grid-cols-12 sm:gap-6 sm:py-8"
+              >
+                <span className="font-sans text-lg font-medium tracking-tight text-white sm:col-span-4 sm:text-xl">
+                  {product.title}
+                </span>
+                <span className="font-sans text-sm font-light leading-relaxed text-white/60 sm:col-span-5 sm:text-base">
+                  {product.audience}
+                </span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/45 sm:col-span-3">
+                  {product.eligibility}
+                </span>
+              </Link>
+              {children.length > 0 ? (
+                <ul className="mb-6 border-t border-white/10">
+                  {children.map((child) => (
+                    <li key={child.path}>
+                      <Link
+                        to={child.path}
+                        className="block py-3 pl-4 font-sans text-sm text-white/70 transition-colors hover:text-white sm:pl-6 sm:text-base"
+                      >
+                        {child.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
 function Mandate({
   pillar,
   tone,
@@ -229,15 +267,9 @@ function Mandate({
         const list = listRef.current;
         if (!aside || !list) return;
 
-        const pinOffset = () => {
-          const bar = document.querySelector<HTMLElement>('[data-site-nav]');
-          const bottom = bar?.getBoundingClientRect().bottom ?? 96;
-          return Math.ceil(bottom + 20);
-        };
-
         ScrollTrigger.create({
           trigger: aside,
-          start: () => `top ${pinOffset()}px`,
+          start: () => `top ${navPinOffset()}px`,
           end: () => `+=${Math.max(0, list.offsetHeight - aside.offsetHeight)}`,
           pin: aside,
           pinSpacing: false,

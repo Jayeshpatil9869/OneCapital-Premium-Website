@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 import { useGSAP } from "@gsap/react";
 import { cn } from "../lib/utils";
 import {
@@ -10,10 +10,10 @@ import {
   prefersReducedMotion,
 } from "../lib/motion";
 import BrandLogo from "./BrandLogo";
-import { LetterSwap } from "./motion/LetterSwap";
+import { NavTextSlide } from "./motion/NavTextSlide";
 import { subscribeRafScroll } from "../lib/raf-scroll";
 import { Button } from "@/src/components/ui";
-import { PRODUCT_OFFERS } from "../data/products";
+import { getOfferTree } from "../data/products";
 
 const CLIENT_LOGIN_URL = "https://onecapitalinvestment.investwell.app/app/#/login";
 
@@ -23,6 +23,7 @@ type NavChild = {
   name: string;
   path: string;
   group?: string;
+  children?: { name: string; path: string }[];
 };
 
 type NavItem =
@@ -47,17 +48,11 @@ const NAV_ITEMS: NavItem[] = [
     name: "Our Products",
     label: "Our Products",
     path: "/solutions",
-    children: [
-      { name: "Capital Strategy", path: "/solutions/capital-strategy", group: "How we work" },
-      { name: "Portfolio Management", path: "/solutions/portfolio-management", group: "How we work" },
-      { name: "Risk & Wealth Architecture", path: "/solutions/risk-wealth-architecture", group: "How we work" },
-      { name: "Intelligence & Oversight", path: "/solutions/intelligence-oversight", group: "How we work" },
-      ...PRODUCT_OFFERS.map((product) => ({
-        name: product.navLabel,
-        path: product.path,
-        group: "What we offer",
-      })),
-    ],
+    children: getOfferTree().map(({ product, children }) => ({
+      name: product.navLabel,
+      path: product.path,
+      ...(children.length > 0 ? { children } : {}),
+    })),
   },
   {
     kind: "dropdown",
@@ -123,6 +118,17 @@ function surfaceVars(
   return { ...SURFACE_DROPDOWN };
 }
 
+function pathMatchesChild(pathname: string, child: NavChild): boolean {
+  const basePath = child.path.split("#")[0];
+  if (pathname === child.path || (basePath.length > 1 && pathname === basePath)) return true;
+  return (
+    child.children?.some((nested) => {
+      const nestedBase = nested.path.split("#")[0];
+      return pathname === nested.path || (nestedBase.length > 1 && pathname === nestedBase);
+    }) ?? false
+  );
+}
+
 function pathMatchesItem(pathname: string, item: NavItem): boolean {
   if (item.kind === "link") {
     if (pathname === item.path) return true;
@@ -130,10 +136,7 @@ function pathMatchesItem(pathname: string, item: NavItem): boolean {
     if (item.path !== "/" && pathname.startsWith(`${item.path}/`)) return true;
     return false;
   }
-  return item.children.some((child) => {
-    const basePath = child.path.split("#")[0];
-    return pathname === child.path || (basePath.length > 1 && pathname === basePath);
-  });
+  return item.children.some((child) => pathMatchesChild(pathname, child));
 }
 
 function groupNavChildren(children: NavChild[]) {
@@ -159,6 +162,72 @@ function NavLinkStyles(active: boolean, overLight: boolean) {
   return active ? "text-white" : "text-text-muted hover:text-white";
 }
 
+function NestedNavLinks({
+  open,
+  items,
+  pathname,
+  onNavigate,
+  tone,
+}: {
+  open: boolean;
+  items: { name: string; path: string }[];
+  pathname: string;
+  onNavigate?: () => void;
+  tone: "desktop" | "mobile";
+}) {
+  return (
+    <div
+      className={cn(
+        "grid transition-[grid-template-rows] ease-[var(--ease-premium)] motion-reduce:transition-none",
+        open ? "grid-rows-[1fr] duration-500" : "grid-rows-[0fr] duration-200",
+      )}
+      inert={!open}
+      aria-hidden={!open}
+    >
+      <ul
+        className={cn(
+          "flex min-h-0 flex-col overflow-hidden border-l",
+          tone === "desktop" ? "ml-3 border-white/15" : "ml-1 border-white/10",
+        )}
+      >
+        {items.map((item, index) => {
+          const itemActive = pathname === item.path;
+          return (
+            <li key={item.path} className="overflow-hidden">
+              <Link
+                to={item.path}
+                role={tone === "desktop" ? "menuitem" : undefined}
+                onClick={onNavigate}
+                tabIndex={open ? undefined : -1}
+                className={cn(
+                  "group block w-fit py-1.5 pl-3 text-sm transition-colors",
+                  tone === "desktop"
+                    ? itemActive
+                      ? "text-white"
+                      : "text-white/65 hover:text-white"
+                    : itemActive
+                      ? "text-white"
+                      : "text-text-muted hover:text-white",
+                )}
+              >
+                <span
+                  className={cn(
+                    "block transition-transform ease-[var(--ease-premium)] motion-reduce:translate-none motion-reduce:transition-none",
+                    open ? "translate-y-0 duration-500" : "translate-y-full duration-200",
+                  )}
+                  style={{ transitionDelay: open ? `${index * 45}ms` : "0ms" }}
+                >
+                  <NavTextSlide label={item.name} />
+                </span>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
 function DesktopDropdown({
   item,
   overLight,
@@ -180,6 +249,11 @@ function DesktopDropdown({
 }) {
   const active = pathMatchesItem(pathname, item);
   const open = openId === item.name;
+  const [openChildPath, setOpenChildPath] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!open) setOpenChildPath(null);
+  }, [open]);
 
   const openMenu = () => onOpen(item.name);
 
@@ -206,11 +280,11 @@ function DesktopDropdown({
           aria-haspopup="true"
           onClick={handleLinkClick}
           className={cn(
-            "text-sm tracking-wide transition-colors relative min-h-11 inline-flex items-center gap-1",
+            "text-sm tracking-wide transition-colors relative group min-h-11 inline-flex items-center gap-1",
             NavLinkStyles(active, overLight),
           )}
         >
-          <LetterSwap label={item.label} />
+          <NavTextSlide label={item.label} />
           <ChevronDown
             className={cn(
               "w-3.5 h-3.5 transition-transform duration-300",
@@ -229,11 +303,11 @@ function DesktopDropdown({
           aria-haspopup="true"
           onClick={() => (open ? handleLinkClick() : openMenu())}
           className={cn(
-            "text-sm tracking-wide transition-colors relative min-h-11 inline-flex items-center gap-1",
+            "text-sm tracking-wide transition-colors relative group min-h-11 inline-flex items-center gap-1",
             NavLinkStyles(active, overLight),
           )}
         >
-          <LetterSwap label={item.label} />
+          <NavTextSlide label={item.label} />
           <ChevronDown
             className={cn(
               "w-3.5 h-3.5 transition-transform duration-300",
@@ -261,6 +335,7 @@ function DesktopDropdown({
           data-nav-surface="dropdown"
           className={cn(
             "min-w-[17rem] rounded-2xl border p-3",
+            item.children.some((child) => (child.children?.length ?? 0) > 0) && "min-w-[22rem]",
             groupNavChildren(item.children).some((group) => group.label) && "min-w-[34rem]",
             // Blur only while open — closed panels must not keep a GPU blur layer.
             open &&
@@ -298,14 +373,34 @@ function DesktopDropdown({
                 <ul className="flex flex-col gap-0.5">
                   {group.items.map((child, index) => {
                     const childActive = pathname === child.path;
+                    const nested = child.children ?? [];
+                    const nestedActive = nested.some((item) => pathname === item.path);
+                    const nestedOpen = nestedActive || openChildPath === child.path;
                     const reveal = open && !prefersReducedMotion();
                     return (
-                      <li key={child.path}>
+                      <li
+                        key={child.path}
+                        onMouseEnter={() => {
+                          if (nested.length > 0) setOpenChildPath(child.path);
+                        }}
+                        onMouseLeave={() => {
+                          if (openChildPath === child.path) setOpenChildPath(null);
+                        }}
+                        onFocus={() => {
+                          if (nested.length > 0) setOpenChildPath(child.path);
+                        }}
+                        onBlur={(event) => {
+                          if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+                            setOpenChildPath(null);
+                          }
+                        }}
+                      >
                         <Link
                           to={child.path}
                           role="menuitem"
+                          aria-expanded={nested.length > 0 ? nestedOpen : undefined}
                           onClick={handleLinkClick}
-                          className="group/item block px-3 py-2.5 transition-colors"
+                          className="group group/item flex items-center gap-2 px-3 py-2.5 transition-colors"
                         >
                           <span
                             className={cn(
@@ -328,7 +423,7 @@ function DesktopDropdown({
                                   : undefined
                               }
                             >
-                                <LetterSwap label={child.name} />
+                                <NavTextSlide label={child.name} />
                               </span>
                             </span>
                             {childActive && (
@@ -336,7 +431,25 @@ function DesktopDropdown({
                             )}
                             <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 opacity-0 group-hover/item:w-full group-hover/item:opacity-50" />
                           </span>
+                          {nested.length > 0 ? (
+                            <ChevronRight
+                              className={cn(
+                                "h-3.5 w-3.5 shrink-0 text-white/80 transition-transform duration-200",
+                                nestedOpen && "rotate-90 text-white",
+                              )}
+                              aria-hidden
+                            />
+                          ) : null}
                         </Link>
+                        {nested.length > 0 ? (
+                          <NestedNavLinks
+                            open={nestedOpen}
+                            items={nested}
+                            pathname={pathname}
+                            onNavigate={handleLinkClick}
+                            tone="desktop"
+                          />
+                        ) : null}
                       </li>
                     );
                   })}
@@ -356,6 +469,7 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [desktopOpenId, setDesktopOpenId] = useState<string | null>(null);
   const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
+  const [mobileNestedPath, setMobileNestedPath] = useState<string | null>(null);
   const location = useLocation();
   const desktopCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -411,6 +525,7 @@ export default function Navbar() {
     setMobileMenuOpen(false);
     closeDesktopMenu();
     setMobileAccordion(null);
+    setMobileNestedPath(null);
   }, [location.pathname]);
 
   useEffect(() => () => clearDesktopClose(), []);
@@ -562,7 +677,7 @@ export default function Navbar() {
                     NavLinkStyles(active, overLight),
                   )}
                 >
-                  <LetterSwap label={item.name} />
+                  <NavTextSlide label={item.name} />
                   {active && (
                     <span className="absolute -bottom-1.5 left-0 w-full h-[1px] bg-white opacity-50" />
                   )}
@@ -640,13 +755,13 @@ export default function Navbar() {
                   to={item.path}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    "min-h-12 inline-flex items-center transition-colors",
+                    "group min-h-12 inline-flex w-fit items-center transition-colors",
                     location.pathname === item.path
                       ? "text-white"
                       : "text-text-muted hover:text-white",
                   )}
                 >
-                  {item.name}
+                  <NavTextSlide label={item.name} />
                 </Link>
               );
             }
@@ -660,13 +775,13 @@ export default function Navbar() {
                       to={item.path}
                       onClick={() => setMobileMenuOpen(false)}
                       className={cn(
-                        "grow py-3 transition-colors text-left",
+                        "group w-fit grow py-3 transition-colors text-left",
                         pathMatchesItem(location.pathname, item)
                           ? "text-white"
                           : "text-text-muted hover:text-white",
                       )}
                     >
-                      {item.label}
+                      <NavTextSlide label={item.label} />
                     </Link>
                   ) : (
                     <button
@@ -676,13 +791,13 @@ export default function Navbar() {
                         setMobileAccordion(expanded ? null : item.name)
                       }
                       className={cn(
-                        "grow py-3 transition-colors text-left",
+                        "group w-fit grow py-3 transition-colors text-left",
                         pathMatchesItem(location.pathname, item)
                           ? "text-white"
                           : "text-text-muted hover:text-white",
                       )}
                     >
-                      {item.label}
+                      <NavTextSlide label={item.label} />
                     </button>
                   )}
                   <button
@@ -715,21 +830,60 @@ export default function Navbar() {
                     {groupNavChildren(item.children).map((group) => (
                       <div key={group.label || item.name}>
                         <ul className="flex flex-col gap-1">
-                          {group.items.map((child) => (
+                          {group.items.map((child) => {
+                            const nested = child.children ?? [];
+                            const nestedActive = nested.some(
+                              (item) => location.pathname === item.path,
+                            );
+                            const nestedOpen =
+                              nestedActive || mobileNestedPath === child.path;
+                            return (
                             <li key={child.path}>
-                              <Link
-                                to={child.path}
-                                className={cn(
-                                  "block py-2 text-base transition-colors",
-                                  location.pathname === child.path
-                                    ? "text-white"
-                                    : "text-text-muted hover:text-white",
-                                )}
-                              >
-                                {child.name}
-                              </Link>
+                              <div className="flex items-center justify-between gap-2">
+                                <Link
+                                  to={child.path}
+                                  className={cn(
+                                    "group block w-fit grow py-2 text-base transition-colors",
+                                    location.pathname === child.path
+                                      ? "text-white"
+                                      : "text-text-muted hover:text-white",
+                                  )}
+                                >
+                                  <NavTextSlide label={child.name} />
+                                </Link>
+                                {nested.length > 0 ? (
+                                  <button
+                                    type="button"
+                                    aria-expanded={nestedOpen}
+                                    aria-label={`${nestedOpen ? "Hide" : "Show"} ${child.name}`}
+                                    onClick={() =>
+                                      setMobileNestedPath((current) =>
+                                        current === child.path ? null : child.path,
+                                      )
+                                    }
+                                    className="p-2 text-text-muted hover:text-white transition-colors"
+                                  >
+                                    <ChevronRight
+                                      className={cn(
+                                        "h-4 w-4 transition-transform duration-200",
+                                        nestedOpen && "rotate-90",
+                                      )}
+                                      aria-hidden
+                                    />
+                                  </button>
+                                ) : null}
+                              </div>
+                              {nested.length > 0 ? (
+                                <NestedNavLinks
+                                  open={nestedOpen}
+                                  items={nested}
+                                  pathname={location.pathname}
+                                  tone="mobile"
+                                />
+                              ) : null}
                             </li>
-                          ))}
+                            );
+                          })}
                         </ul>
                       </div>
                     ))}

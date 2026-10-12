@@ -21,7 +21,7 @@ export const HOME_FAQ_CATEGORIES: FAQCategory[] = [
         id: 'wm-includes',
         question: "What does One Capital's capital stewardship mandate include?",
         answer:
-          'Our mandate spans capital strategy, portfolio management, risk architecture, and oversight — integrated as one discipline. Scope is shaped around your objectives, liquidity requirements, and long-term vision, not a generic allocation template.',
+          'Our mandate spans capital strategy, portfolio management, and wealth management — integrated as one discipline. Scope is shaped around your objectives, liquidity requirements, and long-term vision, not a generic allocation template.',
       },
       {
         id: 'wm-strategy',
