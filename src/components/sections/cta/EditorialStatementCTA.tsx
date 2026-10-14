@@ -19,7 +19,7 @@ export function EditorialStatementCTA({
   line3Prefix = '',
   line3Outlined = 'journey',
   line3Suffix = '?',
-  italicQuote = 'Schedule a consultation with one of our expert advisors and discover how OneCapital can transform your financial future.',
+  italicQuote = 'Schedule a consultation with one of our expert advisors and discover how One Capital can transform your financial future.',
   buttonText = 'Book Consultation',
   buttonLink = '/contact',
   className = '',

@@ -71,12 +71,12 @@ export default function Approach() {
   usePageSeo({
     title: `Investment Research Approach | ${COMPANY.brandName}`,
     description:
-      'Research first. Strategy next. Investment last. OneCapital studies the economy, markets, sectors, businesses, valuations and market trends before a recommendation.',
+      `Research first. Strategy next. Investment last. ${COMPANY.brandName} studies the economy, markets, sectors, businesses, valuations and market trends before a recommendation.`,
     path: '/approach',
     keywords: [
       'investment research process',
       'wealth management approach Pune',
-      'OneCapital advisory process',
+      `${COMPANY.brandName} advisory process`,
     ],
     type: 'website',
   });

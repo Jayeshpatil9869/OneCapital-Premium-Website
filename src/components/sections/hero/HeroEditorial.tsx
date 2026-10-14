@@ -38,6 +38,103 @@ type HeroEditorialProps = {
   className?: string;
 };
 
+export type HeroMetricCard = {
+  value: number;
+  suffix?: string;
+  label: string;
+};
+
+const DEFAULT_METRIC_CARDS: HeroMetricCard[] = [
+  {
+    value: 400,
+    suffix: '+',
+    label: 'Cities with customer presence',
+  },
+  {
+    value: 1300,
+    suffix: '+',
+    label: 'Family offices and UHNI families',
+  },
+  {
+    value: 1500,
+    suffix: '+',
+    label: 'Brokers and funds integrated',
+  },
+];
+
+export function HeroMetricsMatrix({
+  cards = DEFAULT_METRIC_CARDS,
+}: {
+  cards?: HeroMetricCard[];
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (!containerRef.current) return;
+
+      const numberEls =
+        containerRef.current.querySelectorAll<HTMLElement>('[data-count]');
+
+      numberEls.forEach((el) => {
+        const target = Number(el.dataset.count);
+        el.textContent = prefersReducedMotion()
+          ? target.toLocaleString('en-IN')
+          : '0';
+      });
+
+      if (prefersReducedMotion()) return;
+
+      return whenPreloaderDone(() => {
+        numberEls.forEach((el, index) => {
+          const target = Number(el.dataset.count);
+          if (Number.isNaN(target)) return;
+
+          const state = { val: 0 };
+          el.textContent = '0';
+
+          gsap.to(state, {
+            val: target,
+            duration: motionTokens.duration.cinematic,
+            ease: motionTokens.ease.expo,
+            delay: 0.15 + index * motionTokens.stagger.normal,
+            onUpdate: () => {
+              el.textContent = Math.round(state.val).toLocaleString('en-IN');
+            },
+          });
+        });
+      });
+    },
+    { scope: containerRef, dependencies: [cards] },
+  );
+
+  return (
+    <div ref={containerRef} className="w-full">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-6 lg:gap-8 max-w-[1300px] mx-auto">
+        {cards.map((card) => (
+          <div
+            key={card.label}
+            className="group relative flex flex-col justify-between rounded-3xl p-7 sm:p-8 lg:p-9 bg-white/[0.07] backdrop-blur-xl sm:backdrop-blur-2xl border border-white/15 text-left transition-all duration-300 hover:-translate-y-1.5 hover:bg-white/[0.12] hover:border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.36),inset_0_1px_1px_rgba(255,255,255,0.15)] overflow-hidden"
+          >
+            {/* Subtle top specular sheen reflection */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+
+            <div>
+              <span className="font-sans text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-tight text-white block leading-none">
+                <span data-count={card.value}>{card.value.toLocaleString('en-IN')}</span>
+                {card.suffix}
+              </span>
+              <p className="font-sans text-sm sm:text-base font-normal text-white/70 leading-snug mt-4 sm:mt-5 max-w-[22ch]">
+                {card.label}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function HeroMetrics({ metrics }: { metrics: HeroMetric[] }) {
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -49,15 +146,17 @@ function HeroMetrics({ metrics }: { metrics: HeroMetric[] }) {
         gridRef.current.querySelectorAll<HTMLElement>("[data-count]");
 
       numbers.forEach((el) => {
+        const val = Number(el.dataset.count);
         el.textContent = prefersReducedMotion()
-          ? (el.dataset.count ?? "0")
+          ? (Number.isNaN(val) ? (el.dataset.count ?? "0") : val.toLocaleString("en-IN"))
           : "0";
       });
 
       if (prefersReducedMotion()) {
         return whenPreloaderDone(() => {
           numbers.forEach((el) => {
-            el.textContent = el.dataset.count ?? "0";
+            const val = Number(el.dataset.count);
+            el.textContent = Number.isNaN(val) ? (el.dataset.count ?? "0") : val.toLocaleString("en-IN");
           });
         });
       }
@@ -76,7 +175,7 @@ function HeroMetrics({ metrics }: { metrics: HeroMetric[] }) {
             ease: motionTokens.ease.expo,
             delay: 0.35 + index * motionTokens.stagger.normal,
             onUpdate: () => {
-              el.textContent = String(Math.round(state.val));
+              el.textContent = Math.round(state.val).toLocaleString("en-IN");
             },
           });
         });
@@ -89,22 +188,22 @@ function HeroMetrics({ metrics }: { metrics: HeroMetric[] }) {
     <div
       ref={gridRef}
       className={cn(
-        "grid gap-y-8 gap-x-4 justify-items-center text-center sm:gap-8 md:gap-12",
+        "grid gap-y-8 gap-x-4 justify-items-center text-center sm:gap-8 md:gap-14 max-w-[1050px] mx-auto",
         metrics.length === 3 ? "grid-cols-3" : "grid-cols-2 sm:grid-cols-4",
       )}
     >
       {metrics.map((metric) => (
         <div
           key={metric.label}
-          className="flex flex-col items-center gap-1.5 md:gap-2 min-w-0"
+          className="flex flex-col items-center min-w-0"
         >
-          <span className="text-[1.75rem] sm:text-3xl md:text-[2.75rem] font-medium tracking-tighter tabular-nums text-white">
+          <span className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-sans font-medium tracking-tight text-white leading-none">
             <span data-count={metric.value}>0</span>
             {metric.suffix != null && metric.suffix}
           </span>
-          <Label className="text-[10px] sm:text-[11px] md:text-xs leading-snug text-white/50 text-center max-w-[9rem] sm:max-w-none line-clamp-2">
+          <span className="text-xs sm:text-sm font-sans font-normal text-white/70 text-center max-w-[18ch] sm:max-w-[20ch] leading-snug mt-3">
             {metric.label}
-          </Label>
+          </span>
         </div>
       ))}
     </div>
@@ -202,13 +301,13 @@ export function HeroEditorial({
         </Container>
 
         {metrics && metrics.length > 0 && (
-          <div className="relative z-10">
+          <div className="relative z-10 w-full mt-6 pb-12 sm:pb-16 lg:pb-20">
             <div
-              className="mx-auto w-[70%] border-t border-white/20"
+              className="mx-auto w-[75%] max-w-5xl border-t border-white/20 mb-8 sm:mb-10"
               aria-hidden
             />
             <RevealOnScroll trigger="load" delay={0.35}>
-              <Container className="px-6 py-8 md:px-8 md:py-10 lg:py-12">
+              <Container className="px-6 md:px-8 max-w-[1100px]">
                 <HeroMetrics metrics={metrics} />
               </Container>
             </RevealOnScroll>

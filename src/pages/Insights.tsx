@@ -3,6 +3,7 @@ import { InsightsBridgeStrip } from '@/src/components/sections/insights/Insights
 import { InsightsFeaturedNote } from '@/src/components/sections/insights/InsightsFeaturedNote';
 import { InsightsMasthead } from '@/src/components/sections/insights/InsightsMasthead';
 import { InsightsThemeIndex } from '@/src/components/sections/insights/InsightsThemeIndex';
+import { COMPANY } from '@/src/data/company';
 import { INSIGHTS_PAGE } from '@/src/data/insights';
 import { usePageSeo } from '@/src/hooks/usePageSeo';
 
@@ -13,7 +14,7 @@ export default function Insights() {
     title: INSIGHTS_PAGE.documentTitle,
     description: INSIGHTS_PAGE.hero.description,
     path: '/insights',
-    keywords: ['investment insights', 'market outlook', 'wealth planning notes', 'OneCapital'],
+    keywords: ['investment insights', 'market outlook', 'wealth planning notes', COMPANY.brandName],
     image: INSIGHTS_PAGE.hero.image,
     type: 'website',
   });

@@ -20,6 +20,8 @@ import CapitalStrategyPage from './pages/solutions/CapitalStrategyPage';
 import PortfolioManagementPage from './pages/solutions/PortfolioManagementPage';
 import RiskWealthArchitecturePage from './pages/solutions/RiskWealthArchitecturePage';
 import ProductPage from './pages/solutions/ProductPage';
+import MutualFundsPage from './pages/solutions/MutualFundsPage';
+import PmsAifPage from './pages/solutions/PmsAifPage';
 import NotFound from './pages/NotFound';
 
 const router = createBrowserRouter([
@@ -35,9 +37,11 @@ const router = createBrowserRouter([
       { path: 'solutions/wealth-management', element: <RiskWealthArchitecturePage /> },
       { path: 'solutions/risk-wealth-architecture', element: <Navigate to="/solutions/wealth-management" replace /> },
       { path: 'solutions/intelligence-oversight', element: <Navigate to="/solutions/investment-advisory" replace /> },
-      { path: 'solutions/mutual-funds', element: <ProductPage productId="mutual-funds" /> },
-      { path: 'solutions/pms', element: <ProductPage productId="pms" /> },
-      { path: 'solutions/aif', element: <ProductPage productId="aif" /> },
+      { path: 'solutions/mutual-funds', element: <MutualFundsPage /> },
+      { path: 'mutual-funds', element: <Navigate to="/solutions/mutual-funds" replace /> },
+      { path: 'solutions/pms-aif', element: <PmsAifPage /> },
+      { path: 'solutions/pms', element: <Navigate to="/solutions/pms-aif" replace /> },
+      { path: 'solutions/aif', element: <Navigate to="/solutions/pms-aif" replace /> },
       { path: 'solutions/equity', element: <ProductPage productId="equity" /> },
       { path: 'solutions/equity-baskets', element: <ProductPage productId="equity-baskets" /> },
       { path: 'solutions/options-baskets', element: <ProductPage productId="options-baskets" /> },

@@ -341,7 +341,7 @@ function PrecisionShelf({ config }: { config: SolutionDedicatedConfig }) {
                     </li>
                   ))}
                 </ul>
-                <TextLink to="/solutions/pms">Open the PMS page</TextLink>
+                <TextLink to="/solutions/pms-aif#pms">Open the PMS and AIF page</TextLink>
               </ScrollFade>
             </article>
           ) : null}
@@ -363,7 +363,7 @@ function PrecisionShelf({ config }: { config: SolutionDedicatedConfig }) {
                     </li>
                   ))}
                 </ul>
-                <TextLink to="/solutions/aif">Open the AIF page</TextLink>
+                <TextLink to="/solutions/pms-aif#aif">Open the PMS and AIF page</TextLink>
               </ScrollFade>
             </article>
           ) : null}

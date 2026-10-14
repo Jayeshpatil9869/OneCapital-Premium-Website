@@ -122,7 +122,7 @@ export const CALCULATOR_HUB = {
   eyebrow: 'Tools',
   title: 'Calculators',
   subtitle:
-    'Plan SIPs, lumpsum investments, withdrawals, and goals with clear, research-friendly estimates — built for OneCapital clients across Maharashtra.',
+    'Plan SIPs, lumpsum investments, withdrawals, and goals with clear, research-friendly estimates — built for One Capital clients across Maharashtra.',
 } as const;
 
 export function getCalculatorCard(slug: string): CalculatorCard | undefined {

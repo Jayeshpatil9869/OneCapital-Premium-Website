@@ -16,7 +16,7 @@ export const CONTACT_PAGE_COPY = {
   watermark: 'CONTACT',
   headline: 'Get in touch',
   subtext:
-    'Questions about advisory, mutual funds, or portfolio management? Start a conversation with the OneCapital team in Pune.',
+    `Questions about advisory, mutual funds, or portfolio management? Start a conversation with the ${COMPANY.brandName} team in Pune.`,
   formTitle: 'Request a Consultation',
   confidentialityNote: 'All communications are treated with discretion.',
   successTitle: 'Request received',

@@ -8,7 +8,7 @@ export const TEAM_PAGE = {
     line1: 'Our team,',
     line2: 'our leadership.',
     description:
-      'Meet the people guiding OneCapital’s advisory work — practical guidance, clear communication, and a long-term view of wealth for clients across Maharashtra.',
+      `Meet the people guiding ${COMPANY.brandName}’s advisory work — practical guidance, clear communication, and a long-term view of wealth for clients across Maharashtra.`,
   },
 
   desks: {

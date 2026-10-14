@@ -33,7 +33,7 @@ export default function BrandLogo({
         decoding="async"
       />
       {showWordmark && (
-        <span className="text-[0.95rem] tracking-[0.14em] font-medium uppercase leading-none">
+        <span className="text-[0.95rem] tracking-[0.08em] font-medium leading-none">
           One Capital
         </span>
       )}

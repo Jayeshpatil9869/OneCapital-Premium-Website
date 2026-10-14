@@ -40,7 +40,7 @@ export default function DesignSystem() {
         <Container className="relative z-10 pt-16">
           <Eyebrow className="mb-6">Internal · Design System</Eyebrow>
           <DisplayHeading className="mb-6 max-w-4xl">
-            OneCapital <span className="text-white/40">component lab.</span>
+            ONE CAPITAL <span className="text-white/40">component lab.</span>
           </DisplayHeading>
           <BodyText className="max-w-2xl mb-10">
             Motion-aware primitives for building premium pages without copying

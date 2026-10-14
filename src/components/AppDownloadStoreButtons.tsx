@@ -9,10 +9,19 @@ function PlayStoreIcon({ className }: { className?: string }) {
   );
 }
 
-const storeButtonClass =
-  'inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-text-muted transition-colors duration-500 hover:border-white/30 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black';
+const storeButtonClass = {
+  dark: 'inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-text-muted transition-colors duration-500 hover:border-white/30 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
+  light:
+    'inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/15 bg-black/[0.04] text-black/70 transition-colors duration-500 hover:border-black/40 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/30 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+} as const;
 
-export function AppDownloadStoreButtons({ className }: { className?: string }) {
+export function AppDownloadStoreButtons({
+  className,
+  tone = 'dark',
+}: {
+  className?: string;
+  tone?: keyof typeof storeButtonClass;
+}) {
   const playStore = SITE_APP_STORE_LINKS.find((link) => link.id === 'play-store');
 
   return (
@@ -23,7 +32,7 @@ export function AppDownloadStoreButtons({ className }: { className?: string }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={playStore.label}
-          className={storeButtonClass}
+          className={storeButtonClass[tone]}
         >
           <PlayStoreIcon className="h-3.5 w-3.5" />
         </a>

@@ -29,7 +29,7 @@ export function AboutResponsibleVision() {
                 As capital allocators, we hold a solemn duty to structure portfolios that transition into sustainable finance. We are committed to integrating <span className="text-white font-medium">Environmental, Social, and Governance (ESG)</span> diligence and stewardship principles into asset allocation decisions.
               </p>
               <p>
-                OneCapital aspires to serve as a benchmark for wealth governance in India, championing responsible stewardship, clean energy transition, and expanding the adoption of value-accretive sustainable investing practices for generations to come.
+                ONE CAPITAL aspires to serve as a benchmark for wealth governance in India, championing responsible stewardship, clean energy transition, and expanding the adoption of value-accretive sustainable investing practices for generations to come.
               </p>
             </div>
 

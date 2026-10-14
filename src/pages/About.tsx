@@ -2,6 +2,7 @@ import { AboutHero } from '@/src/components/sections/about/AboutHero';
 import { AboutStorySection } from '@/src/components/sections/about/AboutStorySection';
 import { AboutMissionVision } from '@/src/components/sections/about/AboutMissionVision';
 import { AboutCoreValues } from '@/src/components/sections/about/AboutCoreValues';
+import { TeamGallerySection } from '@/src/components/sections/team/TeamGallerySection';
 import { ABOUT_PAGE } from '@/src/data/about';
 import { usePageSeo } from '@/src/hooks/usePageSeo';
 import { buildOrganizationJsonLd } from '@/src/lib/seo';
@@ -23,6 +24,7 @@ export default function About() {
       <AboutStorySection />
       <AboutMissionVision />
       <AboutCoreValues />
+      <TeamGallerySection />
     </div>
   );
 }

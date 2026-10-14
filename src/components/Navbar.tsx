@@ -30,6 +30,20 @@ type NavItem =
   | { kind: "link"; name: string; path: string }
   | { kind: "dropdown"; name: string; label: string; path?: string; children: NavChild[] };
 
+const PRODUCT_NAV = getOfferTree();
+
+function productNavChild(id: string): NavChild {
+  const node = PRODUCT_NAV.find(({ product }) => product.id === id);
+  if (!node) {
+    throw new Error(`Missing nav product: ${id}`);
+  }
+  return {
+    name: node.product.navLabel,
+    path: node.product.path,
+    ...(node.children.length > 0 ? { children: node.children } : {}),
+  };
+}
+
 const NAV_ITEMS: NavItem[] = [
   { kind: "link", name: "Home", path: "/" },
   {
@@ -43,16 +57,18 @@ const NAV_ITEMS: NavItem[] = [
       { name: "Our Approach", path: "/approach" },
     ],
   },
+  ...(["mutual-funds", "pms-aif"] as const).map((id) => {
+    const product = productNavChild(id);
+    return { kind: "link" as const, name: product.name, path: product.path };
+  }),
   {
     kind: "dropdown",
-    name: "Our Products",
-    label: "Our Products",
+    name: "Service",
+    label: "Service",
     path: "/solutions",
-    children: getOfferTree().map(({ product, children }) => ({
-      name: product.navLabel,
-      path: product.path,
-      ...(children.length > 0 ? { children } : {}),
-    })),
+    children: (["equity", "options-baskets", "investment-advisory"] as const).map(
+      productNavChild,
+    ),
   },
   {
     kind: "dropdown",
@@ -531,9 +547,9 @@ export default function Navbar() {
   useEffect(() => () => clearDesktopClose(), []);
 
   // Close mobile menu when viewport crosses to desktop — avoids stuck
-  // overflow:hidden while the panel is lg:hidden and the hamburger is gone.
+  // overflow:hidden while the panel is xl:hidden and the hamburger is gone.
   useEffect(() => {
-    const desktopMq = window.matchMedia("(min-width: 1024px)");
+    const desktopMq = window.matchMedia("(min-width: 1280px)");
     const onBreakpoint = () => {
       if (desktopMq.matches) {
         setMobileMenuOpen(false);
@@ -625,7 +641,7 @@ export default function Navbar() {
         scrolled || overLight ? "py-4" : "py-6",
       )}
     >
-      <div className="relative z-[var(--z-modal)] mx-auto max-w-[var(--container-max)] px-[var(--page-gutter)]">
+      <div className="relative z-[var(--z-modal)] mx-auto w-full max-w-[var(--container-max)] px-[var(--page-gutter)] xl:max-w-[min(79.2rem,calc(100vw-4.5rem))]">
         <div
           className={cn(
             "relative flex items-center justify-between transition-all duration-500",
@@ -647,7 +663,7 @@ export default function Navbar() {
           />
 
           <nav
-            className="relative z-[1] hidden lg:flex items-center gap-8"
+            className="relative z-[1] hidden xl:flex items-center gap-4 2xl:gap-6"
             aria-label="Primary"
           >
             {NAV_ITEMS.map((item) => {
@@ -693,7 +709,7 @@ export default function Navbar() {
               variant="secondary"
               size="sm"
               arrow="up-right"
-              className="hidden lg:inline-flex text-xs tracking-wider font-medium"
+              className="hidden xl:inline-flex text-xs tracking-wider font-medium"
             >
               Book Consultation
             </Button>
@@ -704,7 +720,7 @@ export default function Navbar() {
               variant="outline"
               size="sm"
               className={cn(
-                "hidden lg:inline-flex text-xs tracking-wider font-medium",
+                "hidden xl:inline-flex text-xs tracking-wider font-medium",
                 overLight ? "text-white" : "text-white/80",
               )}
             >
@@ -717,7 +733,7 @@ export default function Navbar() {
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-nav"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden relative inline-flex items-center justify-center min-h-11 min-w-11 text-white transition-colors hover:text-white/80"
+              className="xl:hidden relative inline-flex items-center justify-center min-h-11 min-w-11 text-white transition-colors hover:text-white/80"
             >
               {mobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -736,7 +752,7 @@ export default function Navbar() {
         aria-hidden={!mobileMenuOpen}
         aria-label="Mobile navigation"
         className={cn(
-          "fixed inset-0 z-[var(--z-overlay)] bg-canvas transition-all duration-500 lg:hidden flex flex-col overflow-y-auto overscroll-contain px-[var(--page-gutter)] pt-[calc(env(safe-area-inset-top)+4.25rem)] pb-[max(1.5rem,env(safe-area-inset-bottom))]",
+          "fixed inset-0 z-[var(--z-overlay)] bg-canvas transition-all duration-500 xl:hidden flex flex-col overflow-y-auto overscroll-contain px-[var(--page-gutter)] pt-[calc(env(safe-area-inset-top)+4.25rem)] pb-[max(1.5rem,env(safe-area-inset-bottom))]",
           mobileMenuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none",

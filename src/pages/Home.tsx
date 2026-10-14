@@ -8,16 +8,20 @@ import { FAQSection } from '@/src/components/sections/faq/FAQSection';
 import { COMPANY } from '@/src/data/company';
 
 const METRICS = [
-  { label: 'Founded', value: String(COMPANY.foundedYear), suffix: '' },
   {
-    label: 'Service Lines',
-    value: String(COMPANY.serviceLines.length),
+    value: '400',
     suffix: '+',
+    label: 'Cities with customer presence',
   },
   {
-    label: 'Regional Offices',
-    value: String(COMPANY.officeCount),
-    suffix: '',
+    value: '1300',
+    suffix: '+',
+    label: 'Family offices and UHNI families',
+  },
+  {
+    value: '1500',
+    suffix: '+',
+    label: 'Brokers and funds integrated',
   },
 ];
 

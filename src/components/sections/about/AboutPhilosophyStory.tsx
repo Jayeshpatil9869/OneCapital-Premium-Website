@@ -83,8 +83,8 @@ export function AboutPhilosophyStory() {
 
             <div className="space-y-5 text-base sm:text-lg text-text-muted font-light leading-relaxed">
               <p>
-                <strong className="text-white font-medium">OneCapital</strong> (
-                ONE CAPITAL INVESTMENT PRIVATE LIMITED) is a Pune-based financial services firm
+                <strong className="text-white font-medium">One Capital</strong> (
+                One Capital Investment Private Limited) is a Pune-based financial services firm
                 focused on helping individuals and businesses grow wealth through strategic,
                 disciplined investment solutions.
               </p>

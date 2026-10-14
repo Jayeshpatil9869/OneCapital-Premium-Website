@@ -214,7 +214,7 @@ function AppShell({ children }: { children?: ReactNode }) {
       <RouteScrollReset />
       <Preloader />
       <div
-        className={`oc-shell flex flex-col min-h-dvh w-full max-w-full overflow-x-hidden bg-canvas${isHome ? " is-home" : ""}${isTeam ? " is-team" : ""}`}
+        className={`oc-shell flex flex-col min-h-dvh w-full max-w-full overflow-x-clip bg-canvas${isHome ? " is-home" : ""}${isTeam ? " is-team" : ""}`}
       >
         <Navbar />
         <main className="grow min-w-0">

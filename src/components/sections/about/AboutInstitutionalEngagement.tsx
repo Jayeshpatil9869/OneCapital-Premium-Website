@@ -26,7 +26,7 @@ export function AboutInstitutionalEngagement() {
 
               <p className="text-base sm:text-lg text-white/70 font-light max-w-2xl leading-relaxed">
                 Whether you are starting an advisory conversation, reviewing a portfolio, or planning
-                longer-term wealth goals, the OneCapital team in Pune is available for a discreet discussion.
+                longer-term wealth goals, the One Capital team in Pune is available for a discreet discussion.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-6 text-xs font-mono text-white/40 uppercase tracking-wider">

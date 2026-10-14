@@ -265,9 +265,9 @@ export function TestimonialsSection() {
       <Container>
         <div
           ref={contentRef}
-          className="mx-auto grid max-w-5xl grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:items-center lg:gap-10 xl:max-w-[70.4rem]"
+          className="mx-auto grid max-w-5xl grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:items-center lg:gap-12 xl:max-w-[72rem]"
         >
-          <div className="flex flex-col gap-4 lg:col-span-4">
+          <div className="flex flex-col gap-5 lg:col-span-5">
             <Eyebrow
               className="text-white/55 group-[.light-section]:text-black/55 [&_span:last-child]:text-white/55 group-[.light-section]:[&_span:last-child]:text-black/55 [&_span:first-child]:bg-white/30 group-[.light-section]:[&_span:first-child]:bg-black/30"
             >
@@ -276,19 +276,14 @@ export function TestimonialsSection() {
 
             <SectionHeading
               id="client-perspectives-heading"
-              className="max-w-[12ch] text-[clamp(1.35rem,1rem+1.2vw,2rem)] text-white group-[.light-section]:text-black"
+              className="max-w-[10ch] text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.65rem] font-semibold tracking-tight leading-[1.08] text-white group-[.light-section]:text-black"
             >
               Trusted for the long term.
             </SectionHeading>
-
-            <p className="oc-text-smooth max-w-sm text-balance text-sm font-light leading-relaxed text-white/70 md:text-base group-[.light-section]:text-black/70">
-              Capital stewardship is ultimately about confidence — in the
-              decisions, the discipline, and the people guiding them.
-            </p>
           </div>
 
           <div
-            className="min-w-0 lg:col-span-8"
+            className="min-w-0 lg:col-span-7"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             onFocusCapture={() => setIsPaused(true)}

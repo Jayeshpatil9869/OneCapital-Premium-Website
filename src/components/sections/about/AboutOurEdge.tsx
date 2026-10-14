@@ -40,7 +40,7 @@ const TOP_FEATURES: EdgeFeature[] = [
     title: 'Technology Enabled',
     subtitle: 'Modern Access',
     description:
-      'Digital access through 1capital.in and the OneCapital app to stay closer to portfolio activity and advisory conversations.',
+      'Digital access through 1capital.in and the One Capital app to stay closer to portfolio activity and advisory conversations.',
     icon: Cpu,
   },
 ];

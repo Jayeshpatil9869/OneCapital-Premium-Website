@@ -16,9 +16,10 @@ export type SolutionPillar = {
 };
 
 /**
- * Our Products pillars — aligned with About / 1capital.in offerings:
- * mutual funds, portfolio management, wealth planning, tax strategy,
- * AIFs, equity, and baskets.
+ * Advisory disciplines, in working order: capital strategy (the plan),
+ * portfolio management (the investments), wealth management (liquidity,
+ * concentration, tax, and nominations around that capital).
+ * Mutual funds, PMS, and AIFs belong inside portfolio management.
  * No invented returns, AUM, or unconfirmed SEBI license numbers.
  */
 export const SOLUTION_PILLARS: SolutionPillar[] = [
@@ -27,7 +28,7 @@ export const SOLUTION_PILLARS: SolutionPillar[] = [
     index: '01',
     title: 'Capital Strategy',
     summary:
-      'Goal-based financial planning: retirement, education, a home, and business liquidity, written into an asset allocation before any fund is chosen.',
+      'Goals, risk, and the asset mix are written down before a mutual fund, PMS, or AIF is chosen.',
     services: [
       {
         id: 'investment-policy',
@@ -64,7 +65,7 @@ export const SOLUTION_PILLARS: SolutionPillar[] = [
     index: '02',
     title: 'Portfolio Management',
     summary:
-      'Mutual funds through SIPs and lumpsums, Portfolio Management Services, and alternatives such as AIFs, with reviews and rebalancing built in.',
+      'The asset mix is invested through mutual funds, PMS, and AIFs where each one fits, then reviewed and rebalanced.',
     services: [
       {
         id: 'mutual-funds',
@@ -101,7 +102,7 @@ export const SOLUTION_PILLARS: SolutionPillar[] = [
     index: '03',
     title: 'Wealth Management',
     summary:
-      'Risk profiling, emergency liquidity, tax-aware investing, and nominations so the portfolio can survive a bad year and a family transition.',
+      'Concentration, emergency cash, tax-aware choices, and nominations sit around the portfolio so a bad year or a family change does not force a sale.',
     services: [
       {
         id: 'risk-management',

@@ -33,7 +33,7 @@ export function OfficesPresenceSection() {
                   Advisory rooted in Maharashtra.
                 </SectionHeading>
                 <BodyText className="text-base md:text-lg max-w-xl">
-                  OneCapital serves clients from four regional offices — Pune headquarters plus
+                  One Capital serves clients from four regional offices — Pune headquarters plus
                   Mumbai, Kolhapur, and Nashik — combining local access with disciplined advisory.
                   Each office opens in turn. Select a location on the map to look closer.
                 </BodyText>

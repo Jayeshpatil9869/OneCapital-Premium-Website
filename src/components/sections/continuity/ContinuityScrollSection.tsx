@@ -29,7 +29,7 @@ export function ContinuityScrollSection() {
 
           <div className="w-full md:w-2/3 flex flex-col gap-6 text-lg md:text-xl leading-relaxed font-light text-balance text-white/55">
             <p>
-              ONE CAPITAL INVESTMENT PRIVATE LIMITED is a Pune-based firm focused on helping
+              One Capital Investment Private Limited is a Pune-based firm focused on helping
               individuals and businesses grow wealth through strategic investment advisory,
               portfolio management, and long-term wealth planning.
             </p>

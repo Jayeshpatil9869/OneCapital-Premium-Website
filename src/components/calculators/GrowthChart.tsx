@@ -8,6 +8,7 @@ type GrowthChartProps = {
   returnsLabel?: string;
   mode?: 'growth' | 'swp' | 'line';
   className?: string;
+  theme?: 'dark' | 'light';
 };
 
 function buildLinePath(
@@ -39,10 +40,13 @@ export function GrowthChart({
   returnsLabel = 'Est. returns',
   mode = 'line',
   className,
+  theme = 'dark',
 }: GrowthChartProps) {
   if (points.length === 0) {
     return null;
   }
+
+  const isLight = theme === 'light';
 
   const maxValue = Math.max(
     ...points.map((p) =>
@@ -73,21 +77,44 @@ export function GrowthChart({
   return (
     <div
       className={cn(
-        'rounded-3xl border border-white/12 bg-white/[0.03] p-6 sm:p-8',
+        'rounded-3xl border p-6 sm:p-8 transition-colors',
+        isLight
+          ? 'border-zinc-200/90 bg-zinc-50/70 shadow-sm'
+          : 'border-white/12 bg-white/[0.03]',
         className,
       )}
     >
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/45">
+        <p
+          className={cn(
+            'text-xs font-mono uppercase tracking-[0.2em]',
+            isLight ? 'text-zinc-500 font-medium' : 'text-white/45',
+          )}
+        >
           Projection
         </p>
-        <div className="flex flex-wrap gap-4 text-xs text-white/55">
+        <div
+          className={cn(
+            'flex flex-wrap gap-4 text-xs font-medium',
+            isLight ? 'text-zinc-600' : 'text-white/55',
+          )}
+        >
           <span className="inline-flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-sm bg-white/35" />
+            <span
+              className={cn(
+                'h-2.5 w-2.5 rounded-sm',
+                isLight ? 'bg-zinc-400' : 'bg-white/35',
+              )}
+            />
             {investedLabel}
           </span>
           <span className="inline-flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-sm bg-white" />
+            <span
+              className={cn(
+                'h-2.5 w-2.5 rounded-sm',
+                isLight ? 'bg-zinc-900' : 'bg-white',
+              )}
+            />
             {mode === 'swp' ? returnsLabel : 'Projected value'}
           </span>
         </div>
@@ -111,7 +138,7 @@ export function GrowthChart({
                   x2={lineWidth - padX}
                   y1={y}
                   y2={y}
-                  stroke="rgba(255,255,255,0.06)"
+                  stroke={isLight ? 'rgba(0,0,0,0.07)' : 'rgba(255,255,255,0.06)'}
                   strokeWidth={1}
                 />
               );
@@ -119,7 +146,7 @@ export function GrowthChart({
             <path
               d={investedPath}
               fill="none"
-              stroke="rgba(255,255,255,0.35)"
+              stroke={isLight ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.35)'}
               strokeWidth={2}
               strokeLinejoin="round"
               strokeLinecap="round"
@@ -127,7 +154,7 @@ export function GrowthChart({
             <path
               d={valuePath}
               fill="none"
-              stroke="rgba(255,255,255,0.95)"
+              stroke={isLight ? '#18181b' : 'rgba(255,255,255,0.95)'}
               strokeWidth={2.5}
               strokeLinejoin="round"
               strokeLinecap="round"
@@ -149,13 +176,16 @@ export function GrowthChart({
                       (point.value / maxValue) * (lineHeight - padY * 2)
                     }
                     r={3.5}
-                    className="fill-white"
+                    className={isLight ? 'fill-zinc-900' : 'fill-white'}
                   />
                   <text
                     x={x}
                     y={lineHeight + 14}
                     textAnchor="middle"
-                    className="fill-white/40 text-[10px]"
+                    className={cn(
+                      'text-[10px] font-medium',
+                      isLight ? 'fill-zinc-500' : 'fill-white/40',
+                    )}
                   >
                     {point.year}
                   </text>
@@ -187,7 +217,7 @@ export function GrowthChart({
                       width={barWidth}
                       height={Math.max(corpusH, 0)}
                       rx={3}
-                      className="fill-white/35"
+                      className={isLight ? 'fill-zinc-300' : 'fill-white/35'}
                     />
                     <rect
                       x={x}
@@ -195,14 +225,17 @@ export function GrowthChart({
                       width={barWidth}
                       height={Math.max(withdrawnH, 0)}
                       rx={3}
-                      className="fill-white"
-                      opacity={0.85}
+                      className={isLight ? 'fill-zinc-900' : 'fill-white'}
+                      opacity={isLight ? 1 : 0.85}
                     />
                     <text
                       x={x + barWidth / 2}
                       y={chartHeight + 18}
                       textAnchor="middle"
-                      className="fill-white/40 text-[10px]"
+                      className={cn(
+                        'text-[10px] font-medium',
+                        isLight ? 'fill-zinc-500' : 'fill-white/40',
+                      )}
                     >
                       {point.year}
                     </text>
@@ -224,7 +257,7 @@ export function GrowthChart({
                     width={barWidth}
                     height={Math.max(investedH, 0)}
                     rx={3}
-                    className="fill-white/35"
+                    className={isLight ? 'fill-zinc-300' : 'fill-white/35'}
                   />
                   <rect
                     x={x}
@@ -232,14 +265,17 @@ export function GrowthChart({
                     width={barWidth}
                     height={Math.max(returnsH, 0)}
                     rx={3}
-                    className="fill-white"
-                    opacity={0.9}
+                    className={isLight ? 'fill-zinc-900' : 'fill-white'}
+                    opacity={isLight ? 1 : 0.9}
                   />
                   <text
                     x={x + barWidth / 2}
                     y={chartHeight + 18}
                     textAnchor="middle"
-                    className="fill-white/40 text-[10px]"
+                    className={cn(
+                      'text-[10px] font-medium',
+                      isLight ? 'fill-zinc-500' : 'fill-white/40',
+                    )}
                   >
                     {point.year}
                   </text>

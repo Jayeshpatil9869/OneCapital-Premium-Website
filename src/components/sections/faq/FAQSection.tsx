@@ -226,11 +226,13 @@ export function FAQSection() {
         </RevealOnScroll>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-          <RevealOnScroll className="hidden lg:block lg:col-span-4">
-            <div className="glass-panel rounded-3xl p-3">
-              <FAQCategoryNav activeId={activeCategoryId} onSelect={handleCategoryChange} />
+          <div className="hidden lg:block lg:col-span-4">
+            <div className="sticky top-28 z-10">
+              <div className="glass-panel rounded-3xl p-3">
+                <FAQCategoryNav activeId={activeCategoryId} onSelect={handleCategoryChange} />
+              </div>
             </div>
-          </RevealOnScroll>
+          </div>
 
           <div className="lg:hidden">
             <label htmlFor={selectId} className="sr-only">

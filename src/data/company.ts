@@ -7,11 +7,11 @@
  * claims without an approved fact pack.
  */
 export const COMPANY = {
-  brandName: 'OneCapital',
+  brandName: 'One Capital',
   /** Full legal form (CIN PTC = Private Limited). */
-  legalName: 'ONE CAPITAL INVESTMENT PRIVATE LIMITED',
+  legalName: 'One Capital Investment Private Limited',
   /** As printed on the registered-office plaque. */
-  legalNameShort: 'ONE CAPITAL INVESTMENT PVT. LTD.',
+  legalNameShort: 'One Capital Investment Pvt. Ltd.',
   domain: '1capital.in',
   foundedYear: 2025,
   hqCity: 'Pune',

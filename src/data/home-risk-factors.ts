@@ -13,7 +13,7 @@ export const HOME_RISK_FACTORS = {
     'All investments in securities and mutual funds are associated with market risks. Please read all scheme-related documents carefully before investing. Past performance does not guarantee future results. Exit loads, expense ratios, and other product charges may apply. Website content is general information only and does not constitute personalized investment advice.',
 
   advisoryNote:
-    'OneCapital provides investment advisory and wealth-planning services under agreed terms. We do not guarantee returns or capital protection.',
+    `${COMPANY.brandName} provides investment advisory and wealth-planning services under agreed terms. We do not guarantee returns or capital protection.`,
 
   statutoryLine:
     'Investments in securities markets are subject to market risks. Read all related documents carefully before investing.',

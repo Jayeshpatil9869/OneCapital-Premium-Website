@@ -39,6 +39,8 @@ export type ProductOffer = {
   group: ProductGroupId;
   /** When set, this offer is listed under that parent instead of as its own row. */
   parentId?: string;
+  /** Copy source only. Omitted from menus, the catalogue, and related links. */
+  unlisted?: boolean;
   /** Short eligibility or risk line shared by the hub and the product page. */
   eligibility: string;
   note?: string;
@@ -93,9 +95,36 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     note: `Mutual fund investments are subject to market risk. Read all scheme-related documents carefully. ${brand} distributes Regular plans as an AMFI-registered Mutual Fund Distributor (ARN-${COMPANY.amfiArn}). Direct plans have a lower expense ratio and are available from the AMC; we do not earn commission on Direct plans.`,
   },
   {
+    id: 'pms-aif',
+    path: '/solutions/pms-aif',
+    navLabel: 'PMS/AIF',
+    title: 'PMS and AIF',
+    seoTitle: `Portfolio Management Services and Alternative Investment Funds | ${brand}`,
+    seoDescription: `Two separate products. PMS is a more personalised portfolio for larger capital. An AIF is access to strategies beyond traditional mutual funds, for eligible investors.`,
+    keywords: [
+      'portfolio management services',
+      'PMS India',
+      'alternative investment funds',
+      'AIF India',
+      'PMS Pune',
+      brand,
+    ],
+    opening:
+      'Portfolio Management Services and Alternative Investment Funds are separate products. PMS is a professionally managed, more personalised portfolio. An AIF is access to professionally managed strategies beyond traditional mutual funds.',
+    audience:
+      'Investors with larger investible capital. PMS and AIF each have their own eligibility.',
+    features: [],
+    difference:
+      'Each product is considered on its own research view. Eligibility for one does not qualify an investor for the other.',
+    journeyId: 'portfolio-management',
+    group: 'portfolios',
+    eligibility: 'PMS generally ₹50 lakh. AIF generally ₹1 crore.',
+  },
+  {
     id: 'pms',
     path: '/solutions/pms',
     navLabel: 'PMS',
+    unlisted: true,
     title: 'Portfolio Management Services',
     seoTitle: `Portfolio Management Services | ${brand}`,
     seoDescription: `A professionally managed, more personalised portfolio for investors with larger capital. ${brand} builds it from research and a market outlook, not from popular stocks.`,
@@ -129,6 +158,7 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     id: 'aif',
     path: '/solutions/aif',
     navLabel: 'AIF',
+    unlisted: true,
     title: 'Alternative Investment Funds',
     seoTitle: `Alternative Investment Funds | ${brand}`,
     seoDescription: `Access to professionally managed strategies beyond traditional mutual funds, for eligible investors with higher capital and a longer horizon.`,
@@ -384,11 +414,13 @@ export function getProductsForJourney(journeyId: ProductJourneyId): ProductOffer
 }
 
 export function getProductsInGroup(groupId: ProductGroupId): ProductOffer[] {
-  return PRODUCT_OFFERS.filter((product) => product.group === groupId && !product.parentId);
+  return PRODUCT_OFFERS.filter(
+    (product) => product.group === groupId && !product.parentId && !product.unlisted,
+  );
 }
 
 export function getTopLevelProducts(): ProductOffer[] {
-  return PRODUCT_OFFERS.filter((product) => !product.parentId);
+  return PRODUCT_OFFERS.filter((product) => !product.parentId && !product.unlisted);
 }
 
 export function getProductChildren(id: string): ProductChild[] {
@@ -398,7 +430,7 @@ export function getProductChildren(id: string): ProductChild[] {
       path: getPillarPageHref(pillar.id),
     }));
   }
-  return PRODUCT_OFFERS.filter((product) => product.parentId === id).map((product) => ({
+  return PRODUCT_OFFERS.filter((product) => product.parentId === id && !product.unlisted).map((product) => ({
     name: product.navLabel,
     path: product.path,
   }));

@@ -1,4 +1,4 @@
-import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import { useLocation } from 'react-router-dom';
 import {
@@ -10,24 +10,17 @@ import {
 
 gsap.registerPlugin(useGSAP);
 
-const COPY = 'Welcome to One Capital';
+const INITIAL_PATH = 'M0,1005S175,995,500,995s500,5,500,5V0H0Z';
+const CURVE_PATH = 'M0 502S175 272 500 272s500 230 500 230V0H0Z';
+const FLAT_PATH = 'M0 2S175 1 500 1s500 1 500 1V0H0Z';
 
-/** Hard unlock if GSAP/timeline never completes (throttled mobile WebViews). */
-const PRELOADER_SAFETY_MS = 8_000;
+/** Hard unlock failsafe if GSAP/timeline never completes */
+const PRELOADER_SAFETY_MS = 6_000;
 
 type PreloaderProps = {
-  /**
-   * Run on initial Layout mount (any route / hard refresh).
-   * SPA navigations do not replay once the intro has finished.
-   */
   enabled?: boolean;
 };
 
-/**
- * Unlock page scroll without Lenis.stop().
- * Lenis.stop() calls preventDefault on every touch/wheel — that permanently
- * kills scrolling on some devices if start() never runs cleanly.
- */
 function lockPageScroll() {
   document.documentElement.classList.add('oc-preloader-lock');
 }
@@ -39,9 +32,6 @@ function unlockPageScroll() {
 }
 
 export function Preloader({ enabled = true }: PreloaderProps) {
-  const reactId = useId().replace(/:/g, '');
-  const maskGradId = `oc-preloader-mask-grad-${reactId}`;
-  const maskId = `oc-preloader-mask-${reactId}`;
   const { pathname } = useLocation();
 
   const [active, setActive] = useState(() => {
@@ -52,14 +42,14 @@ export function Preloader({ enabled = true }: PreloaderProps) {
   });
 
   const rootRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<SVGTextElement>(null);
-  const gradRef = useRef<SVGLinearGradientElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const headingWrapRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const finishedRef = useRef(false);
   const handedOffRef = useRef(false);
   const pathnameAtStartRef = useRef(pathname);
 
-  /** Ensure shell is visible + scroll unblocked if we abort mid-intro. */
   const forceHandoff = () => {
     if (handedOffRef.current) return;
     handedOffRef.current = true;
@@ -83,17 +73,13 @@ export function Preloader({ enabled = true }: PreloaderProps) {
     setActive(false);
   };
 
-  // SPA nav mid-intro: kill overlay so the next route is not stuck behind it.
+  // SPA nav mid-intro: clean up immediately
   useLayoutEffect(() => {
     if (!active) return;
     if (pathname === pathnameAtStartRef.current) return;
 
     timelineRef.current?.kill();
     timelineRef.current = null;
-    const root = rootRef.current;
-    if (root) gsap.killTweensOf(root);
-    if (gradRef.current) gsap.killTweensOf(gradRef.current);
-
     finish();
   }, [pathname, active]);
 
@@ -105,7 +91,7 @@ export function Preloader({ enabled = true }: PreloaderProps) {
     };
   }, [active]);
 
-  // Failsafe: never leave the site permanently scroll-locked.
+  // Failsafe
   useEffect(() => {
     if (!active) return;
     const timer = window.setTimeout(() => {
@@ -121,10 +107,10 @@ export function Preloader({ enabled = true }: PreloaderProps) {
       if (!active) return;
 
       const root = rootRef.current;
-      const text = textRef.current;
-      const grad = gradRef.current;
-      // Missing refs: safety timeout will unlock scroll.
-      if (!root || !text || !grad) return;
+      const path = pathRef.current;
+      const headingWrap = headingWrapRef.current;
+      const heading = headingRef.current;
+      if (!root || !path || !heading || !headingWrap) return;
 
       const shell = document.querySelector<HTMLElement>('.oc-shell');
       if (shell) gsap.set(shell, { opacity: 0 });
@@ -139,13 +125,11 @@ export function Preloader({ enabled = true }: PreloaderProps) {
         if (shell) {
           gsap.to(shell, {
             opacity: 1,
-            duration: 1.05,
+            duration: 0.85,
             ease: 'power2.out',
             overwrite: 'auto',
           });
         }
-
-        requestAnimationFrame(() => ScrollTrigger.refresh());
       };
 
       const teardown = () => {
@@ -153,56 +137,68 @@ export function Preloader({ enabled = true }: PreloaderProps) {
         finishedRef.current = true;
         setActive(false);
         unlockPageScroll();
-        gsap.delayedCall(0.05, () => ScrollTrigger.refresh());
-      };
-
-      const lockSolidWhite = () => {
-        text.removeAttribute('mask');
-        text.setAttribute('fill', '#ffffff');
+        requestAnimationFrame(() => ScrollTrigger.refresh());
       };
 
       if (prefersReducedMotion()) {
-        lockSolidWhite();
-        const tl = gsap.timeline();
-        timelineRef.current = tl;
-        tl.to({}, { duration: 0.35 })
-          .add(handoff)
-          .to(root, {
-            opacity: 0,
-            duration: 0.4,
-            ease: 'power2.out',
-            onStart: () => {
-              root.style.pointerEvents = 'none';
-            },
-            onComplete: teardown,
-          });
-        return () => {
-          tl.kill();
-          if (timelineRef.current === tl) timelineRef.current = null;
-        };
+        handoff();
+        teardown();
+        return;
       }
-
-      gsap.set(root, { opacity: 1 });
-      gsap.set(grad, { attr: { x1: -900, x2: -200 } });
 
       const tl = gsap.timeline();
       timelineRef.current = tl;
 
-      tl.to(grad, {
-        attr: { x1: 700, x2: 1400 },
-        duration: 3.0,
-        ease: 'power2.inOut',
-      })
-        .add(lockSolidWhite)
-        .to({}, { duration: 0.35 })
-        .add(handoff)
-        .to(root, {
+      // 1. Medium size heading smoothly fades & slides in with subtle skew, dwells, then fully fades & slides out
+      tl.fromTo(
+        heading,
+        {
+          y: 70,
           opacity: 0,
-          duration: 0.85,
-          ease: 'power2.inOut',
+          skewY: 4,
+        },
+        {
+          delay: 0.25,
+          y: 0,
+          opacity: 1,
+          skewY: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+        },
+      )
+        .to(heading, {
+          delay: 0.4,
+          y: -70,
+          opacity: 0,
+          skewY: -4,
+          duration: 0.55,
+          ease: 'power3.in',
+        })
+        // Immediately eliminate heading container from DOM painting so no clipped letter fragments can linger
+        .set(headingWrap, { display: 'none' })
+        // 2. SVG path morphs into smooth upward curve and then flat drape, smoothly unveiling the site
+        .to(path, {
+          duration: 0.75,
+          attr: { d: CURVE_PATH },
+          ease: 'power2.in',
           onStart: () => {
-            root.style.pointerEvents = 'none';
+            handoff();
           },
+        })
+        .to(path, {
+          duration: 0.75,
+          attr: { d: FLAT_PATH },
+          ease: 'power2.out',
+        })
+        // 3. Complete slide-out and teardown cleanly
+        .to(root, {
+          yPercent: -100,
+          duration: 0.4,
+          ease: 'power2.inOut',
+        })
+        .set(root, {
+          display: 'none',
+          zIndex: -1,
           onComplete: teardown,
         });
 
@@ -224,60 +220,38 @@ export function Preloader({ enabled = true }: PreloaderProps) {
   return (
     <div
       ref={rootRef}
-      className="oc-preloader"
+      className="loader-wrap fixed inset-0 z-[var(--z-preloader,9999)] h-screen w-full flex items-center justify-center overflow-hidden bg-transparent pointer-events-auto"
       role="status"
       aria-live="polite"
       aria-busy="true"
-      aria-label={COPY}
+      aria-label="ONE CAPITAL"
     >
       <svg
-        className="oc-preloader__svg"
         viewBox="0 0 1000 1000"
-        preserveAspectRatio="xMidYMid meet"
+        preserveAspectRatio="none"
+        className="absolute top-0 left-0 w-full h-[110vh] pointer-events-none"
         aria-hidden="true"
       >
-        <defs>
-          <linearGradient
-            ref={gradRef}
-            id={maskGradId}
-            gradientUnits="userSpaceOnUse"
-            x1="-900"
-            y1="0"
-            x2="-200"
-            y2="0"
-          >
-            <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="38%" stopColor="#ffffff" />
-            <stop offset="52%" stopColor="#c8c8c8" />
-            <stop offset="64%" stopColor="#555555" />
-            <stop offset="76%" stopColor="#000000" />
-            <stop offset="100%" stopColor="#000000" />
-          </linearGradient>
-          <mask
-            id={maskId}
-            maskUnits="userSpaceOnUse"
-            x="0"
-            y="0"
-            width="1000"
-            height="1000"
-          >
-            <rect x="0" y="0" width="1000" height="1000" fill={`url(#${maskGradId})`} />
-          </mask>
-        </defs>
-
-        <text
-          ref={textRef}
-          className="oc-preloader__svg-text"
-          x="500"
-          y="500"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fill="#ffffff"
-          mask={`url(#${maskId})`}
-        >
-          {COPY}
-        </text>
+        <path
+          ref={pathRef}
+          fill="#000000"
+          d={INITIAL_PATH}
+        />
       </svg>
+
+      <div
+        ref={headingWrapRef}
+        className="loader-wrap-heading relative z-20 pointer-events-none px-4"
+      >
+        <span className="block overflow-hidden py-3">
+          <h1
+            ref={headingRef}
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium tracking-[0.25em] sm:tracking-[0.32em] uppercase text-white font-sans text-center"
+          >
+            ONE CAPITAL
+          </h1>
+        </span>
+      </div>
     </div>
   );
 }

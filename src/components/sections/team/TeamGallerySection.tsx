@@ -1,48 +1,55 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import Splide from '@splidejs/splide';
-import '@splidejs/splide/css/core';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
-import {
-  Container,
-  Section,
-  Eyebrow,
-  SectionHeading,
-  BodyText,
-} from '@/src/components/ui';
-import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
+import { X, ChevronLeft, ChevronRight, ArrowUpRight, Sparkles } from 'lucide-react';
+import { useGSAP } from '@gsap/react';
+import { gsap, ScrollTrigger, prefersReducedMotion } from '@/src/lib/motion';
 import { cn } from '@/src/lib/utils';
 import { TEAM_PAGE } from '@/src/data/team-page';
 import { COMPANY } from '@/src/data/company';
 
-const GALLERY_ITEMS = [
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+interface GalleryItem {
+  id: string;
+  image: string;
+  tag: string;
+  title: string;
+  caption: string;
+}
+
+const GALLERY_ITEMS: GalleryItem[] = [
   {
     id: 'office-celebration',
     image: '/images/gallery/office-celebration.jpg',
+    tag: 'Headquarters',
     title: 'Pune Headquarters',
     caption: `Collaborative moments from ${COMPANY.brandName}'s Pune headquarters — where advisory, research, and client conversations come together.`,
   },
   {
     id: 'investor-session',
     image: '/images/gallery/investor-session.jpeg',
+    tag: 'Investor Session',
     title: 'Investor Session',
     caption: 'A stage conversation on a new beginning, with the same focus on long-term wealth.',
   },
   {
     id: 'research-strategy-desk',
     image: '/images/gallery/research-strategy-desk.jpg',
+    tag: 'Strategy Desk',
     title: 'Research & Strategy',
     caption: 'Market insight and portfolio construction work that informs investment advisory and allocation decisions.',
   },
   {
     id: 'executive-client-meeting',
     image: '/images/gallery/inside-team-gathering.jpeg',
+    tag: 'Advisory Meet',
     title: 'Private Advisory Sessions',
     caption: 'Discreet conversations with individuals and businesses about goals, risk, and long-term wealth planning.',
   },
   {
     id: 'wealth-headquarters',
     image: '/images/gallery/wealth-headquarters.jpg',
+    tag: 'Regional Reach',
     title: 'Regional Presence',
     caption: `Serving clients across Maharashtra from ${COMPANY.hqCity} headquarters and offices in Mumbai, Kolhapur, and Nashik.`,
   },
@@ -71,9 +78,11 @@ const slideVariants = {
 const SWIPE_THRESHOLD = 40;
 
 export function TeamGallerySection() {
-  const splideRef = useRef<HTMLDivElement>(null);
-  const prevRef = useRef<HTMLButtonElement>(null);
-  const nextRef = useRef<HTMLButtonElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const pinContainerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  const [activeIndex, setActiveIndex] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState(0);
 
@@ -122,172 +131,220 @@ export function TeamGallerySection() {
     };
   }, [selectedIndex, handleClose, paginate]);
 
-  useEffect(() => {
-    if (!splideRef.current) return;
+  // GSAP Horizontal Scroll Pinning & Scrubbing
+  useGSAP(
+    () => {
+      if (prefersReducedMotion()) return;
 
-    const frameWidth = () => splideRef.current?.parentElement?.clientWidth ?? window.innerWidth;
+      const section = sectionRef.current;
+      const pinContainer = pinContainerRef.current;
+      const track = trackRef.current;
+      if (!section || !pinContainer || !track) return;
 
-    const splide = new Splide(splideRef.current, {
-      type: 'slide',
-      drag: true,
-      snap: false,
-      arrows: false,
-      pagination: false,
-      fixedWidth: '18rem',
-      gap: '1.25rem',
-      padding: { left: 16, right: 16 },
-      speed: 800,
-      easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-      omitEnd: true,
-    });
+      const mm = gsap.matchMedia();
 
-    const prev = prevRef.current;
-    const next = nextRef.current;
+      // Desktop & Tablet (>= 768px): Pinned scroll-driven horizontal glide
+      mm.add('(min-width: 768px)', () => {
+        const getDistance = () => {
+          const scrollWidth = track.scrollWidth;
+          const viewportWidth = window.innerWidth;
+          return Math.max(0, scrollWidth - viewportWidth + 96);
+        };
 
-    const limits = () => {
-      const { Move } = splide.Components;
-      return { min: Move.getLimit(false), max: Move.getLimit(true) };
-    };
+        const tween = gsap.to(track, {
+          x: () => -getDistance(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            pin: pinContainer,
+            start: 'top top',
+            end: () => `+=${getDistance() * 1.15 + 400}`,
+            scrub: 1.1,
+            invalidateOnRefresh: true,
+            anticipatePin: 1,
+            onUpdate: (self) => {
+              const count = GALLERY_ITEMS.length;
+              const idx = Math.min(count - 1, Math.floor(self.progress * count));
+              setActiveIndex(idx);
+            },
+          },
+        });
 
-    const syncEnds = () => {
-      const { min, max } = limits();
-      const position = splide.Components.Move.getPosition();
-      if (prev) prev.disabled = position >= min - 1;
-      if (next) next.disabled = position <= max + 1;
-    };
+        return () => {
+          tween.scrollTrigger?.kill();
+          tween.kill();
+        };
+      });
 
-    const place = (position: number, animate: boolean) => {
-      const { min, max } = limits();
-      const nextPosition = Math.min(min, Math.max(max, position));
-      const list = splide.Components.Elements.list;
-      list.style.transition = animate
-        ? 'transform 800ms cubic-bezier(0.22, 1, 0.36, 1)'
-        : '';
-      splide.Components.Move.translate(nextPosition, true);
-      syncEnds();
-    };
+      // Mobile (< 768px): Smooth scroll tracking
+      mm.add('(max-width: 767px)', () => {
+        const handleScroll = () => {
+          if (!track) return;
+          const scrollLeft = track.scrollLeft;
+          const cardWidth = track.firstElementChild ? (track.firstElementChild as HTMLElement).offsetWidth : 280;
+          const idx = Math.min(GALLERY_ITEMS.length - 1, Math.round(scrollLeft / cardWidth));
+          setActiveIndex(idx);
+        };
 
-    let pad = -1;
-    const center = () => {
-      const root = splideRef.current;
-      if (root) root.style.transform = '';
-      const nextPad = frameWidth() < 768 ? 16 : 0;
-      if (nextPad !== pad) {
-        pad = nextPad;
-        splide.options = { padding: { left: nextPad, right: nextPad } };
+        track.addEventListener('scroll', handleScroll, { passive: true });
+        return () => track.removeEventListener('scroll', handleScroll);
+      });
+
+      return () => mm.revert();
+    },
+    { scope: sectionRef },
+  );
+
+  const scrollToCard = (index: number) => {
+    setActiveIndex(index);
+    if (window.innerWidth >= 768 && sectionRef.current) {
+      const allTriggers = ScrollTrigger.getAll();
+      const st = allTriggers.find((t) => t.trigger === sectionRef.current);
+      if (st) {
+        const targetScroll = st.start + (index / (GALLERY_ITEMS.length - 1)) * (st.end - st.start);
+        window.scrollTo({ top: targetScroll, behavior: 'smooth' });
         return;
       }
-      const { min, max } = limits();
-      place(nextPad > 0 ? min : (min + max) / 2, false);
-    };
-
-    const step = () => {
-      const slide = splide.Components.Elements.slides[0];
-      const styles = getComputedStyle(splide.Components.Elements.list);
-      const gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
-      return (slide?.offsetWidth ?? 0) + gap;
-    };
-
-    const onPrev = () => place(splide.Components.Move.getPosition() + step(), true);
-    const onNext = () => place(splide.Components.Move.getPosition() - step(), true);
-    prev?.addEventListener('click', onPrev);
-    next?.addEventListener('click', onNext);
-
-    splide.on('mounted resized', center);
-    splide.on('drag', () => {
-      const list = splide.Components.Elements.list;
-      list.style.transition = '';
-    });
-    splide.on('dragged', syncEnds);
-    splide.mount();
-    center();
-    window.addEventListener('resize', center);
-
-    return () => {
-      window.removeEventListener('resize', center);
-      prev?.removeEventListener('click', onPrev);
-      next?.removeEventListener('click', onNext);
-      splide.destroy();
-    };
-  }, []);
+    }
+    if (trackRef.current) {
+      const cards = trackRef.current.querySelectorAll('.impactCard');
+      if (cards[index]) {
+        (cards[index] as HTMLElement).scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center',
+        });
+      }
+    }
+  };
 
   return (
-    <Section
-      tone="panel"
-      pad="none"
-      className="relative overflow-hidden py-[var(--space-section-sm)] text-white md:py-[var(--space-section)]"
+    <section
+      ref={sectionRef}
+      className="relative w-full bg-black text-white"
       aria-labelledby="gallery-heading"
     >
-      <Container className="mb-10 md:mb-14">
-        <RevealOnScroll className="flex max-w-3xl flex-col gap-5">
-          <Eyebrow>{TEAM_PAGE.gallery.eyebrow}</Eyebrow>
-        </RevealOnScroll>
-        <div className="mt-5 flex items-end justify-between gap-6">
-          <SectionHeading id="gallery-heading" className="max-w-3xl text-white">
-            {TEAM_PAGE.gallery.heading}
-          </SectionHeading>
-          <div className="mb-1 flex shrink-0 gap-3">
-            <button
-              ref={prevRef}
-              type="button"
-              aria-label="Previous slide"
-              className="inline-flex size-11 items-center justify-center rounded-full border border-white/20 text-white transition-opacity hover:border-white/50 disabled:cursor-not-allowed disabled:opacity-30"
-            >
-              <ChevronLeft className="size-5" />
-            </button>
-            <button
-              ref={nextRef}
-              type="button"
-              aria-label="Next slide"
-              className="inline-flex size-11 items-center justify-center rounded-full border border-white/20 text-white transition-opacity hover:border-white/50 disabled:cursor-not-allowed disabled:opacity-30"
-            >
-              <ChevronRight className="size-5" />
-            </button>
-          </div>
+      <div
+        ref={pinContainerRef}
+        className="w-full min-h-screen flex flex-col justify-center items-center py-12 md:py-16 overflow-hidden"
+      >
+        {/* Corner-Dot Eyebrow Badge */}
+        <div className="relative w-fit px-4 mx-auto bg-white/[0.04] border text-[#9B9999] border-white/15 text-xs sm:text-sm font-mono tracking-widest leading-[1] pt-2 pb-2 inline-block">
+          {TEAM_PAGE.gallery.eyebrow}
+          <span className="absolute w-[3px] h-[3px] bg-white z-10 top-0 left-0 -translate-x-1/2 -translate-y-1/2" />
+          <span className="absolute w-[3px] h-[3px] bg-white z-10 top-0 right-0 translate-x-1/2 -translate-y-1/2" />
+          <span className="corner-dot-bl absolute w-[3px] h-[3px] bg-white z-10 bottom-0 left-0 -translate-x-1/2 translate-y-1/2" />
+          <span className="corner-dot-br absolute w-[3px] h-[3px] bg-white z-10 bottom-0 right-0 translate-x-1/2 translate-y-1/2" />
         </div>
-        <BodyText className="mt-5 max-w-xl text-base md:text-lg">
-          {TEAM_PAGE.gallery.body}
-        </BodyText>
-      </Container>
 
-      <div className="w-full overflow-hidden">
-        <div ref={splideRef} className="splide">
-          <div className="splide__track">
-            <ul className="splide__list items-stretch">
-              {GALLERY_ITEMS.map((item, index) => (
-                <li key={item.id} className="splide__slide">
-                  <button
-                    type="button"
-                    onClick={() => handleOpen(index)}
-                    className={cn(
-                      'group relative block h-[25rem] w-full cursor-pointer overflow-hidden rounded-2xl bg-neutral-900 text-left',
-                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
-                    )}
+        {/* Section Heading */}
+        <div className="flex justify-center px-5">
+          <h2
+            id="gallery-heading"
+            className="text-center shrink-0 mt-5 sm:mb-4 mb-3 text-[2.2rem] md:text-[3.5rem] capitalize leading-[1.2] w-[90%] md:w-[95%] lg:w-[75%] font-sans font-medium text-white tracking-tight"
+          >
+            {TEAM_PAGE.gallery.heading}
+          </h2>
+        </div>
+
+        {/* Subtitle */}
+        <p className="text-center text-white/65 max-w-2xl mx-auto text-sm sm:text-base md:text-lg font-light leading-relaxed mb-6 sm:mb-10 px-6">
+          {TEAM_PAGE.gallery.body}
+        </p>
+
+        {/* Card Track */}
+        <div className="w-full overflow-hidden">
+          <div
+            ref={trackRef}
+            className="flex gap-8 items-start px-6 md:px-16 lg:px-24 will-change-transform ImpactCardWrapper max-md:overflow-x-auto max-md:snap-x max-md:snap-mandatory max-md:scrollbar-none"
+          >
+            {/* Initial lead spacer for desktop composition */}
+            <div className="w-[10%] sm:w-[5%] shrink-0 max-md:hidden" />
+
+            {GALLERY_ITEMS.map((item, index) => {
+              const isStaggered = index % 2 === 1;
+
+              return (
+                <div
+                  key={item.id}
+                  onClick={() => handleOpen(index)}
+                  className={cn(
+                    'w-[92%] xs:w-[68%] sm:w-[42%] lg:w-[26%] shrink-0',
+                    'impactCard snap-center rounded-2xl group overflow-hidden relative aspect-[7/9] cursor-pointer',
+                    'border border-white/10 bg-neutral-950 shadow-2xl transition-all duration-300',
+                    isStaggered && 'sm:mt-20',
+                  )}
+                  style={{ aspectRatio: '7/9' }}
+                >
+                  {/* Top-Left Pill Badge with Sparkles */}
+                  <div className="absolute flex top-0 left-0 w-full z-20 transition-all duration-500 max-md:opacity-100 md:opacity-0 md:group-hover:opacity-100 pointer-events-none">
+                    <div className="p-5 h-max mt-auto pt-6">
+                      <div className="bg-black/60 backdrop-blur-md border border-white/20 rounded-full font-sans font-medium overflow-hidden shadow-lg">
+                        <div className="flex items-center gap-2 px-3.5 py-1.5 text-xs text-white/90">
+                          <Sparkles className="size-3.5 text-white stroke-[2]" aria-hidden="true" />
+                          <span>{item.tag}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Top-Right Circular Arrow Button */}
+                  <div
+                    aria-label={`View ${item.title}`}
+                    className="absolute z-20 border ease-out border-white/30 top-5 right-5 bg-[#010101]/80 backdrop-blur-md p-3 md:p-3.5 rounded-full text-white transition-all duration-300 group-hover:rotate-45 group-hover:bg-white group-hover:text-black group-hover:border-white shadow-xl"
                   >
+                    <ArrowUpRight className="size-5 md:size-6 stroke-[2] transition-colors duration-300" aria-hidden="true" />
+                  </div>
+
+                  {/* Background Image with grayscale & scale hover */}
+                  <div className="w-full h-full overflow-hidden bg-neutral-900">
                     <img
                       src={item.image}
-                      alt=""
+                      alt={item.title}
                       loading="lazy"
                       decoding="async"
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      className="w-full h-full object-cover transition-all duration-500 ease-in-out max-md:grayscale-0 md:grayscale-0 md:group-hover:grayscale md:group-hover:scale-105 will-change-transform"
                     />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10" />
-                    <div className="absolute inset-x-0 bottom-0 z-10 p-5">
-                      <h3 className="font-sans text-xl font-medium tracking-tight text-white">
+                  </div>
+
+                  {/* Bottom Gradient Scrim & Titles */}
+                  <div className="absolute flex bottom-0 left-0 transition-all duration-500 bg-gradient-to-t from-black via-black/80 to-transparent pt-12 min-h-[48%] w-full z-10 pointer-events-none">
+                    <div className="p-6 md:p-8 h-max mt-auto w-full">
+                      <h3 className="text-2xl font-medium max-md:mb-2 md:text-3xl text-white font-sans tracking-tight">
                         {item.title}
                       </h3>
-                      <p className="mt-3 font-sans text-sm leading-5 text-white/80">
+                      <p className="text-white/80 text-sm md:text-base mt-2 font-light leading-relaxed line-clamp-2 md:line-clamp-3">
                         {item.caption}
                       </p>
                     </div>
-                  </button>
-                </li>
-              ))}
-            </ul>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Trailing spacer */}
+            <div className="w-16 sm:w-28 lg:w-40 shrink-0 max-md:hidden" />
           </div>
+        </div>
+
+        {/* Progress Dots Indicator */}
+        <div className="flex gap-2.5 mt-8 sm:mt-10 py-3 items-center justify-center">
+          {GALLERY_ITEMS.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => scrollToCard(i)}
+              aria-label={`Navigate to slide ${i + 1}`}
+              className={cn(
+                'h-2 rounded-full transition-all duration-400 cursor-pointer',
+                activeIndex === i ? 'w-7 bg-white' : 'w-2 bg-white/30 hover:bg-white/60',
+              )}
+            />
+          ))}
         </div>
       </div>
 
+      {/* Lightbox Modal Popup for Expanded Preview */}
       <AnimatePresence>
         {selectedIndex !== null && activeItem && (
           <motion.div
@@ -323,7 +380,7 @@ export function TeamGallerySection() {
                 paginate(-1);
               }}
               aria-label="Previous image"
-              className="absolute top-1/2 left-1 z-30 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/50 text-white/50 transition-colors duration-500 hover:border-white/40 hover:text-white sm:left-6 sm:size-12 sm:bg-transparent md:left-8"
+              className="absolute top-1/2 left-2 z-30 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/50 text-white/50 transition-colors duration-500 hover:border-white/40 hover:text-white sm:left-6 sm:size-12 sm:bg-transparent md:left-8"
             >
               <ChevronLeft className="size-6 -translate-x-0.5" />
             </button>
@@ -335,13 +392,13 @@ export function TeamGallerySection() {
                 paginate(1);
               }}
               aria-label="Next image"
-              className="absolute top-1/2 right-1 z-30 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/50 text-white/50 transition-colors duration-500 hover:border-white/40 hover:text-white sm:right-6 sm:size-12 sm:bg-transparent md:right-8"
+              className="absolute top-1/2 right-2 z-30 inline-flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/50 text-white/50 transition-colors duration-500 hover:border-white/40 hover:text-white sm:right-6 sm:size-12 sm:bg-transparent md:right-8"
             >
               <ChevronRight className="size-6 translate-x-0.5" />
             </button>
 
             <div
-              className="relative flex max-h-[82vh] w-auto max-w-[92vw] cursor-default flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-[#080808]"
+              className="relative flex max-h-[84vh] w-auto max-w-[92vw] cursor-default flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-[#080808]"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative flex h-full w-full items-center justify-center overflow-hidden">
@@ -387,7 +444,7 @@ export function TeamGallerySection() {
                   <h4 className="text-sm font-medium text-white text-balance sm:truncate sm:text-base">
                     {activeItem.title}
                   </h4>
-                  <p className="max-w-xl text-xs font-light text-text-muted text-pretty whitespace-normal sm:truncate">
+                  <p className="max-w-xl text-xs font-light text-white/70 text-pretty whitespace-normal sm:truncate">
                     {activeItem.caption}
                   </p>
                 </div>
@@ -416,6 +473,6 @@ export function TeamGallerySection() {
           </motion.div>
         )}
       </AnimatePresence>
-    </Section>
+    </section>
   );
 }

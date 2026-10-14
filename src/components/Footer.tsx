@@ -18,7 +18,7 @@ export default function Footer() {
         aria-hidden
         className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] font-bold text-white/[0.02] pointer-events-none whitespace-nowrap tracking-tighter mix-blend-screen z-0"
       >
-        ONECAPITAL
+        One Capital
       </div>
 
       <RevealOnScroll className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-8 md:mb-20 relative z-10">
@@ -142,7 +142,7 @@ export default function Footer() {
           className="w-full max-w-md mx-auto px-1"
           duration={5}
         >
-          ONECAPITAL
+          One Capital
         </LightSweepText>
       </div>
 

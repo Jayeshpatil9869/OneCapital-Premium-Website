@@ -31,7 +31,7 @@ export default function Solutions() {
             name: overview.headline,
             url: absoluteUrl(`/solutions/${overview.id}`),
           })),
-          ...PRODUCT_OFFERS.map((product, index) => ({
+          ...PRODUCT_OFFERS.filter((product) => !product.unlisted).map((product, index) => ({
             '@type': 'ListItem',
             position: SOLUTION_OVERVIEWS.length + index + 1,
             name: product.title,

@@ -19,7 +19,7 @@
 
   body {
     @apply bg-canvas text-text-main font-sans antialiased selection:bg-white selection:text-black;
-    overflow-x: hidden;
+    overflow-x: clip;
     overflow-wrap: anywhere;
     overscroll-behavior-y: none;
   }
@@ -135,3 +135,26 @@ select option {
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35);
   cursor: pointer;
 }
+
+.oc-calc-range--light::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #18181b;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.oc-calc-range--light::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #18181b;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+

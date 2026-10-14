@@ -41,7 +41,7 @@ const OFFICE_SEEDS: OfficeSeed[] = [
     mapY: 60,
     order: 2,
     quote:
-      'Our Mumbai desk connects clients to OneCapital’s advisory network — mutual funds, portfolio management, and wealth planning with a clear local cadence.',
+      `Our Mumbai desk connects clients to ${COMPANY.brandName}’s advisory network — mutual funds, portfolio management, and wealth planning with a clear local cadence.`,
     headline: 'Mumbai Advisory Office',
   },
   {
@@ -80,7 +80,7 @@ const OFFICE_SEEDS: OfficeSeed[] = [
     mapY: 55,
     order: 4,
     quote:
-      'Our Nashik office extends OneCapital’s advisory reach to clients who value clarity, cadence, and considered counsel.',
+      `Our Nashik office extends ${COMPANY.brandName}’s advisory reach to clients who value clarity, cadence, and considered counsel.`,
     headline: 'Nashik Advisory Office',
   },
 ];
