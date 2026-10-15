@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
+import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import {
   Container,
   Section,
@@ -83,7 +84,7 @@ export function CalculatorShell({
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6 xl:gap-8">
             {/* Left — inputs (reference control panel) */}
             <RevealOnScroll className="lg:col-span-5 xl:col-span-4">
-              <div className="flex h-full flex-col gap-7 rounded-3xl border border-white/12 bg-gradient-to-br from-white/[0.08] via-white/[0.03] to-black/40 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-xl sm:p-8">
+              <div className="flex h-full flex-col gap-7 rounded-3xl border border-white/10 bg-[#1D1D1D] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl sm:p-8">
                 <div className="flex flex-col gap-4">
                   <h2 className="font-sans text-xl font-semibold tracking-tight text-white sm:text-2xl">
                     Adjust inputs
@@ -99,7 +100,7 @@ export function CalculatorShell({
 
             {/* Right — summary + charts */}
             <RevealOnScroll delay={0.06} className="lg:col-span-7 xl:col-span-8">
-              <div className="flex flex-col gap-5 rounded-3xl border border-white/12 bg-white/[0.025] p-5 sm:p-7 lg:p-8">
+              <div className="flex flex-col gap-5 rounded-3xl border border-white/10 bg-[#1D1D1D] p-5 sm:p-7 lg:p-8">
                 {results}
 
                 <div className="grid grid-cols-1 gap-5 xl:grid-cols-12">
@@ -125,43 +126,49 @@ export function CalculatorShell({
         <Container className="max-w-3xl">
           <div className="flex flex-col gap-12">
             {infoSections.map((section) => (
-              <article key={section.id} className="flex flex-col gap-4">
-                <h2 className="text-2xl font-medium tracking-tight text-white sm:text-3xl">
-                  {section.title}
-                </h2>
-                {section.paragraphs.map((p) => (
-                  <p key={p.slice(0, 32)} className="text-base leading-relaxed text-white/60">
-                    {p}
-                  </p>
-                ))}
-                {section.bullets ? (
-                  <ul className="list-disc space-y-2 pl-5 text-base text-white/60">
-                    {section.bullets.map((b) => (
-                      <li key={b}>{b}</li>
-                    ))}
-                  </ul>
-                ) : null}
-              </article>
+              <ScrollFade key={section.id} className="w-full">
+                <article className="flex flex-col gap-4">
+                  <h2 className="text-2xl font-medium tracking-tight text-white sm:text-3xl">
+                    {section.title}
+                  </h2>
+                  {section.paragraphs.map((p) => (
+                    <p key={p.slice(0, 32)} className="text-base leading-relaxed text-[#B3B3B3]">
+                      {p}
+                    </p>
+                  ))}
+                  {section.bullets ? (
+                    <ul className="list-disc space-y-2 pl-5 text-base text-[#B3B3B3]">
+                      {section.bullets.map((b) => (
+                        <li key={b}>{b}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </article>
+              </ScrollFade>
             ))}
 
             {faqs.length > 0 ? (
-              <div className="flex flex-col gap-6">
-                <h2 className="text-2xl font-medium tracking-tight text-white sm:text-3xl">
-                  Frequently asked questions
-                </h2>
-                <Accordion
-                  items={faqs.map((faq) => ({
-                    id: faq.id,
-                    title: faq.question,
-                    content: faq.answer,
-                  }))}
-                />
-              </div>
+              <ScrollFade className="w-full">
+                <div className="flex flex-col gap-6">
+                  <h2 className="text-2xl font-medium tracking-tight text-white sm:text-3xl">
+                    Frequently asked questions
+                  </h2>
+                  <Accordion
+                    items={faqs.map((faq) => ({
+                      id: faq.id,
+                      title: faq.question,
+                      content: faq.answer,
+                    }))}
+                  />
+                </div>
+              </ScrollFade>
             ) : null}
 
-            <p className="rounded-2xl border border-white/10 bg-black/40 p-5 text-sm leading-relaxed text-white/45">
-              {CALCULATOR_DISCLAIMER}
-            </p>
+            <ScrollFade className="w-full">
+              <p className="rounded-2xl border border-white/10 bg-[#262626] p-5 text-sm leading-relaxed text-[#B3B3B3]">
+                {CALCULATOR_DISCLAIMER}
+              </p>
+            </ScrollFade>
           </div>
         </Container>
       </Section>

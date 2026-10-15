@@ -20,7 +20,7 @@ gsap.registerPlugin(useGSAP);
 
 const ink = {
   dark: 'bg-black text-white',
-  light: 'light-section bg-white text-black',
+  light: 'bg-[#1D1D1D] text-white',
 } as const;
 
 function navPinOffset() {
@@ -38,7 +38,7 @@ export function SolutionsCatalogue() {
       <section className="border-b border-white/15 pt-[max(7.5rem,env(safe-area-inset-top))]">
         <Container className="mx-auto max-w-[1400px] px-6 pb-14 sm:px-8 lg:px-12 lg:pb-20">
           <RevealOnScroll trigger="load" direction="up" distance={24} duration={1}>
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/60">
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#757575]">
               Products
             </p>
             <h1 className="mt-6 max-w-[12ch] font-sans text-[2.75rem] font-semibold leading-[0.98] tracking-[-0.04em] sm:text-6xl lg:text-[4.5rem]">
@@ -55,7 +55,7 @@ export function SolutionsCatalogue() {
             duration={0.9}
             className="mt-10 grid gap-10 border-t border-white/15 pt-8 lg:grid-cols-12 lg:gap-12"
           >
-            <p className="max-w-md font-sans text-base font-light leading-relaxed text-white/75 lg:col-span-5 lg:text-lg">
+            <p className="max-w-md font-sans text-base font-light leading-relaxed text-[#B3B3B3] lg:col-span-5 lg:text-lg">
               {hero.description}
             </p>
             <nav aria-label="Product index" className="lg:col-span-7 lg:col-start-6">
@@ -83,13 +83,15 @@ export function SolutionsCatalogue() {
 
       <section id="what-we-offer" className="scroll-mt-28 border-b border-white/10 bg-black text-white">
         <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-text-muted">What we offer</p>
-          <h2 className="mt-4 max-w-3xl font-sans text-[clamp(1.5rem,1rem+2vw,3rem)] font-medium leading-tight tracking-tight">
-            Six products. One research view.
-          </h2>
-          <p className="mt-5 max-w-2xl text-lg font-light leading-relaxed text-text-muted md:text-xl">
-            Mutual funds, PMS, AIFs, equity, options baskets, and investment advisory. Research comes first. The product is chosen after the strategy.
-          </p>
+          <ScrollFade className="w-full">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#757575]">What we offer</p>
+            <h2 className="mt-4 max-w-3xl font-sans text-[clamp(1.5rem,1rem+2vw,3rem)] font-medium leading-tight tracking-tight">
+              Six products. One research view.
+            </h2>
+            <p className="mt-5 max-w-2xl text-lg font-light leading-relaxed text-[#B3B3B3] md:text-xl">
+              Mutual funds, PMS, AIFs, equity, options baskets, and investment advisory. Research comes first. The product is chosen after the strategy.
+            </p>
+          </ScrollFade>
           <div className="mt-16">
             {PRODUCT_GROUPS.map((group) => (
               <OfferGroup key={group.id} group={group} />
@@ -98,18 +100,18 @@ export function SolutionsCatalogue() {
         </Container>
       </section>
 
-      <section className={cn(ink.light, 'border-b border-black/10')}>
+      <section className={cn(ink.light, 'border-b border-white/10')}>
         <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-28">
           <RevealOnScroll className="grid items-start gap-8 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-7">
-              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-black/55">
+              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#757575]">
                 Investment Advisory
               </p>
-              <p className="mt-4 font-sans text-2xl font-medium leading-[1.25] tracking-[-0.03em] text-balance sm:text-3xl lg:text-[2.35rem]">
+              <p className="mt-4 font-sans text-2xl font-medium leading-[1.25] tracking-[-0.03em] text-balance text-white sm:text-3xl lg:text-[2.35rem]">
                 {intro.statement}
               </p>
             </div>
-            <p className="max-w-md font-sans text-base font-light leading-relaxed text-black/65 lg:col-span-4 lg:col-start-9 lg:text-lg">
+            <p className="max-w-md font-sans text-base font-light leading-relaxed text-[#B3B3B3] lg:col-span-4 lg:col-start-9 lg:text-lg">
               {intro.body}
             </p>
           </RevealOnScroll>
@@ -124,39 +126,39 @@ export function SolutionsCatalogue() {
         />
       ))}
 
-      <section className={cn(ink.light, 'border-t border-black/10')}>
+      <section className={cn(ink.light, 'border-t border-white/10')}>
         <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
-          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+          <ScrollFade className="grid gap-10 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
-              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-black/60">
+              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#757575]">
                 {trust.eyebrow}
               </p>
-              <h2 className="mt-4 max-w-[16ch] font-sans text-3xl font-semibold leading-[1.1] tracking-[-0.03em] sm:text-4xl">
+              <h2 className="mt-4 max-w-[16ch] font-sans text-3xl font-semibold leading-[1.1] tracking-[-0.03em] text-white sm:text-4xl">
                 {trust.headline}
               </h2>
               <Button
                 to="/contact"
-                variant="outline"
+                variant="primary"
                 size="sm"
-                className="mt-8 rounded-none normal-case tracking-normal font-sans text-sm font-medium text-black"
+                className="mt-8"
               >
                 Discuss a mandate
               </Button>
             </div>
-            <ol className="border-t border-black/15 lg:col-span-6 lg:col-start-7">
+            <ol className="border-t border-white/10 lg:col-span-6 lg:col-start-7">
               {trust.points.map((point, index) => (
                 <li
                   key={point}
-                  className="grid grid-cols-[3rem_1fr] gap-4 border-b border-black/15 py-5 font-sans text-base leading-relaxed text-black/80 sm:text-lg"
+                  className="grid grid-cols-[3rem_1fr] gap-4 border-b border-white/10 py-5 font-sans text-base leading-relaxed text-[#B3B3B3] sm:text-lg"
                 >
-                  <span className="font-mono text-[11px] tracking-[0.14em] text-black/40">
+                  <span className="font-mono text-[11px] tracking-[0.14em] text-white/40">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <span>{point}</span>
                 </li>
               ))}
             </ol>
-          </div>
+          </ScrollFade>
         </Container>
       </section>
     </div>
@@ -252,7 +254,6 @@ function Mandate({
   pillar: SolutionPillar;
   tone: keyof typeof ink;
 }) {
-  const light = tone === 'light';
   const rootRef = useRef<HTMLElement>(null);
   const asideRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -287,50 +288,47 @@ function Mandate({
     <section
       ref={rootRef}
       id={pillar.id}
-      className={cn(ink[tone], 'scroll-mt-28 border-b border-current/10')}
+      className={cn(ink[tone], 'scroll-mt-28 border-b border-white/10')}
       aria-labelledby={`${pillar.id}-heading`}
     >
       <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
           <div ref={asideRef} className="lg:col-span-4 lg:self-start">
-            <p className={cn('font-mono text-[11px] tracking-[0.2em]', light ? 'text-black/55' : 'text-white/60')}>
+            <p className="font-mono text-[11px] tracking-[0.2em] text-[#757575]">
               {pillar.index}
             </p>
             <h2
               id={`${pillar.id}-heading`}
-              className="mt-3 font-sans text-3xl font-semibold leading-[1.08] tracking-[-0.03em] sm:text-4xl"
+              className="mt-3 font-sans text-3xl font-semibold leading-[1.08] tracking-[-0.03em] text-white sm:text-4xl"
             >
               {pillar.title}
             </h2>
-            <p className={cn('mt-4 max-w-sm font-sans text-base leading-relaxed', light ? 'text-black/65' : 'text-white/65')}>
+            <p className="mt-4 max-w-sm font-sans text-base leading-relaxed text-[#B3B3B3]">
               {pillar.summary}
             </p>
             <Link
               to={getPillarPageHref(pillar.id)}
-              className={cn(
-                'mt-6 inline-flex font-mono text-[11px] uppercase tracking-[0.16em] underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4',
-                light ? 'focus-visible:outline-black' : 'focus-visible:outline-white',
-              )}
+              className="mt-6 inline-flex font-mono text-[11px] uppercase tracking-[0.16em] text-white underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             >
               View {pillar.title}
             </Link>
           </div>
 
           <div ref={listRef} className="lg:col-span-8">
-            <ul className="border-t border-current/15">
+            <ul className="border-t border-white/10">
               {pillar.services.map((service, serviceIndex) => (
                 <ScrollFade
                   as="li"
                   key={service.id}
                   delay={Math.min(serviceIndex * 0.05, 0.2)}
-                  className="border-b border-current/15 py-7 sm:py-8"
+                  className="border-b border-white/10 py-7 sm:py-8"
                 >
                   <div className="grid gap-2 sm:grid-cols-12 sm:gap-6">
-                    <h3 className="font-sans text-lg font-medium tracking-tight sm:col-span-5 sm:text-xl">
+                    <h3 className="font-sans text-lg font-medium tracking-tight text-white sm:col-span-5 sm:text-xl">
                       {service.title}
                     </h3>
-                    <p className={cn('font-sans text-sm leading-relaxed sm:col-span-7 sm:text-base', light ? 'text-black/60' : 'text-white/60')}>
-                      <span className={cn('mb-1 block', light ? 'text-black' : 'text-white')}>
+                    <p className="font-sans text-sm leading-relaxed text-[#B3B3B3] sm:col-span-7 sm:text-base">
+                      <span className="mb-1 block text-white font-medium">
                         {service.tagline}
                       </span>
                       {service.description}
@@ -340,7 +338,7 @@ function Mandate({
               ))}
             </ul>
             {pillar.id === 'portfolio-management' ? (
-              <p className={cn('mt-4 font-sans text-sm leading-relaxed', light ? 'text-black/50' : 'text-white/45')}>
+              <p className="mt-4 font-sans text-sm leading-relaxed text-[#757575]">
                 {PORTFOLIO_MANAGEMENT_FOOTNOTE}
               </p>
             ) : null}

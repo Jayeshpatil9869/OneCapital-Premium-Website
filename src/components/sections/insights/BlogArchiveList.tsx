@@ -130,14 +130,14 @@ export function BlogArchiveList({ articles }: BlogArchiveListProps) {
                 onFocus={() => showPreview(article)}
                 className={cn(
                   'group grid grid-cols-1 gap-3 border-t border-white/10 py-7 transition-colors duration-300 sm:grid-cols-12 sm:items-center sm:gap-6 sm:py-8',
-                  activeId === article.id && 'bg-white/[0.02]',
+                  activeId === article.id && 'bg-[#1D1D1D]',
                 )}
               >
                 <div className="flex flex-wrap items-center gap-3 sm:col-span-3">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#757575]">
                     {article.category}
                   </span>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/25">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#757575]">
                     {article.readTime}
                   </span>
                 </div>

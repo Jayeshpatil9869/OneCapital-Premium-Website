@@ -7,6 +7,7 @@ import {
   type MotionValue,
 } from 'motion/react';
 import { Button } from '@/src/components/ui';
+import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import { cn } from '@/src/lib/utils';
 
 // 3 Advisory Pillars
@@ -14,30 +15,30 @@ const PILLAR_CARDS = [
   {
     id: 'capital-strategy',
     href: '/solutions/capital-strategy',
-    title: 'Capital Strategy: Goals, Risk & Asset Mix',
+    title: 'Strategic Asset Allocation: Risk & Capital Blueprint',
     description:
-      'Goals, risk, and the asset mix are written down before a mutual fund, PMS, or AIF is chosen. We construct institutional frameworks that insulate your capital from market noise.',
-    buttonText: 'Explore Capital Strategy',
+      'Before picking a single fund, we map your capital across equities, debt, and liquid reserves. A disciplined mandate built to compound steadily while eliminating emotional portfolio churn.',
+    buttonText: 'Explore Strategic Allocation',
     image: '/images/solutions/capital-strategy-illustration.jpg',
-    imageAlt: 'Capital Strategy: Goals, Risk & Asset Mix Illustration',
+    imageAlt: 'Strategic Asset Allocation: Risk & Capital Blueprint Illustration',
   },
   {
     id: 'portfolio-management',
     href: '/solutions/portfolio-management',
-    title: 'Portfolio Management: Mutual Funds, PMS & AIFs',
+    title: 'Discretionary Portfolio Management: PMS & AIFs',
     description:
-      'The asset mix is invested through mutual funds, PMS, and AIFs where each one fits, then continuously monitored and dynamically rebalanced across changing macroeconomic cycles.',
-    buttonText: 'Explore Portfolio Management',
+      'Direct equity portfolios of 18–25 high-conviction businesses held in your Demat, combined with curated pre-IPO and long-short AIFs. Complete transparency, active alpha, and quarterly rebalancing.',
+    buttonText: 'Explore PMS & Alternative Funds',
     image: '/images/solutions/portfolio-management-illustration.jpg',
     imageAlt: 'Portfolio Management: Mutual Funds, PMS & AIFs Illustration',
   },
   {
     id: 'wealth-management',
     href: '/solutions/wealth-management',
-    title: 'Wealth Management: Liquidity, Tax & Succession',
+    title: 'Total Wealth Governance: Tax, Liquidity & Succession',
     description:
-      'Concentration, emergency cash, tax-aware harvesting, and nominations sit around the portfolio so market downturns, liquidity needs, or family transitions do not disrupt generational wealth.',
-    buttonText: 'Explore Wealth Management',
+      'Systematic tax-loss harvesting, emergency liquidity reserves, and multi-generational family estate structures ensure market volatility and lifecycle shifts never disrupt your legacy.',
+    buttonText: 'Explore Wealth Governance',
     image: '/images/solutions/wealth-management-illustration.jpg',
     imageAlt: 'Wealth Management: Liquidity, Tax & Succession Illustration',
   },
@@ -158,14 +159,18 @@ export function SolutionsOverviewSection() {
       className="relative flex w-full flex-col items-center bg-black pt-20 pb-0 md:pt-32 md:pb-0 text-white border-y border-white/10"
     >
       {/* ─── SECTION HEADER ─── */}
-      <div className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 text-center mb-8 sm:mb-14">
+      <ScrollFade className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 text-center mb-8 sm:mb-14">
         <h2
           id="solutions-overview-heading"
           className="text-[2.2rem] sm:text-[3.25rem] lg:text-[4rem] font-medium tracking-tight leading-[1.1] text-white"
         >
-          The Plan, Then The Portfolio, Then The Wealth Around It.
+          <span className="block">Stop Collecting Random Funds.</span>
+          <span className="block">Start Building Real Wealth.</span>
         </h2>
-      </div>
+        <p className="mt-4 text-base sm:text-lg text-white/70 font-light max-w-2xl mx-auto">
+          Most portfolios hold 20+ duplicate schemes with zero unified strategy. We bring asset allocation, direct equity, and downside protection under one disciplined plan.
+        </p>
+      </ScrollFade>
 
       {/* ─── STACKED CARDS CONTAINER ─── */}
       <div ref={containerRef} className="relative w-full pb-[23vh]">

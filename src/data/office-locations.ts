@@ -103,7 +103,7 @@ export const PRESENCE_STATS: PresenceStat[] = [
   {
     id: 'founded',
     value: String(COMPANY.foundedYear),
-    label: 'Year founded — Pune headquarters',
+    label: 'Year founded',
   },
   {
     id: 'focus',

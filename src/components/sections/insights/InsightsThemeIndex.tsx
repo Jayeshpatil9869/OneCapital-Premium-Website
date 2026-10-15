@@ -69,13 +69,13 @@ function ThemeRow({ theme }: { theme: InsightTheme }) {
       >
         <div className="md:col-span-2">
           <p className="text-sm font-medium text-white">{theme.theme}</p>
-          <p className="mt-1 text-sm text-white/55">{theme.period}</p>
+          <p className="mt-1 text-sm text-[#757575]">{theme.period}</p>
         </div>
         <div className="md:col-span-6">
           <h3 className="text-balance text-2xl font-medium leading-snug tracking-[-0.02em] text-white md:text-[1.75rem]">
             {theme.headline}
           </h3>
-          <p className="mt-3 max-w-[46ch] text-base leading-relaxed text-white/75 md:text-lg">
+          <p className="mt-3 max-w-[46ch] text-base leading-relaxed text-[#B3B3B3] md:text-lg">
             {theme.mandate}
           </p>
           <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-white">

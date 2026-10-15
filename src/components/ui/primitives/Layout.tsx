@@ -53,7 +53,7 @@ export function Section({
       className={cn(
         'w-full relative',
         tone === 'light' && 'light-section border-y border-black/10',
-        tone === 'panel' && 'bg-white/[0.02] border-y border-white/10',
+        tone === 'panel' && 'bg-[#1D1D1D] border-y border-white/10',
         padMap[pad],
         className
       )}
@@ -100,7 +100,7 @@ export function Surface({
       className={cn(
         'relative rounded-3xl',
         variant === 'glass' && 'glass-panel', 
-        variant === 'elevated' && 'bg-white/[0.04] border border-white/10',
+        variant === 'elevated' && 'bg-[#262626] border border-white/10',
         variant === 'plain' && 'bg-transparent',
         className
       )}

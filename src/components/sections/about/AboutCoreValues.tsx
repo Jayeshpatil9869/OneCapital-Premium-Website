@@ -40,7 +40,7 @@ export function AboutCoreValues() {
                 key={val.title}
                 className={cn(
                   'oc-mobile-glass-card group relative flex flex-col justify-start rounded-3xl p-8 sm:p-10',
-                  'glass-panel glass-panel-hover border border-white/10 bg-white/[0.02]',
+                  'glass-panel glass-panel-hover border border-white/10 bg-[#1D1D1D] hover:bg-[#262626]',
                   'transition-colors duration-500 hover:border-white/20',
                 )}
               >

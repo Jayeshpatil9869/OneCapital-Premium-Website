@@ -5,6 +5,7 @@ import { COMPANY } from '@/src/data/company';
 import { usePageSeo } from '@/src/hooks/usePageSeo';
 import { prefersReducedMotion } from '@/src/lib/motion';
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
+import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import {
   Container,
   Section,
@@ -158,7 +159,7 @@ export default function Approach() {
 
       <div
         ref={containerRef}
-        className="flex w-full min-w-0 items-center overflow-hidden border-y border-white/10 bg-white/[0.02] lg:h-dvh"
+        className="flex w-full min-w-0 items-center overflow-hidden border-y border-white/10 bg-[#1D1D1D] lg:h-dvh"
       >
         {/*
           Track must not flex-shrink (was collapsing 600% → 100vw, so all 6
@@ -191,19 +192,21 @@ export default function Approach() {
 
       <Section pad="lg" className="border-t border-white/10">
         <Container>
-          <Eyebrow>How One Capital is different</Eyebrow>
-          <SectionHeading className="mt-4 max-w-3xl text-white">
-            Research-led investing for what lies ahead.
-          </SectionHeading>
+          <ScrollFade>
+            <Eyebrow>How One Capital is different</Eyebrow>
+            <SectionHeading className="mt-4 max-w-3xl text-white">
+              Research-led investing for what lies ahead.
+            </SectionHeading>
+          </ScrollFade>
           <ol className="mt-12 grid gap-10 md:grid-cols-2">
             {DIFFERENCES.map((item, index) => (
-              <li key={item.title} className="border-t border-white/10 pt-6">
+              <ScrollFade key={item.title} delay={index * 0.08} as="li" className="border-t border-white/10 pt-6">
                 <p className="font-mono text-xs tracking-widest text-text-muted">
                   {String(index + 1).padStart(2, '0')}
                 </p>
                 <h3 className="mt-3 text-2xl font-medium tracking-tight text-white">{item.title}</h3>
                 <BodyText className="mt-3 text-base md:text-lg">{item.body}</BodyText>
-              </li>
+              </ScrollFade>
             ))}
           </ol>
         </Container>

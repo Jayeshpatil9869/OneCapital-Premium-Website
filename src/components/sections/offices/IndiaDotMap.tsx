@@ -168,10 +168,10 @@ function OfficeMarkerItem({
           className={config.className}
           role="tooltip"
         >
-          <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-black/85 p-5 shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-xl backdrop-saturate-150">
+          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#1D1D1D] p-5 shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-xl">
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
 
-            <p className="text-xs md:text-sm leading-relaxed text-white/80 italic font-light">
+            <p className="text-xs md:text-sm leading-relaxed text-[#B3B3B3] italic font-light">
               &ldquo;{office.quote}&rdquo;
             </p>
 
@@ -180,8 +180,8 @@ function OfficeMarkerItem({
                 {office.headline}
               </p>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <p className="text-xs font-medium text-white/50">
+                <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                <p className="text-xs font-medium text-[#757575]">
                   {office.city}, {office.region}
                 </p>
               </div>

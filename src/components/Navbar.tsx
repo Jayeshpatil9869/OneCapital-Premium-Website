@@ -173,9 +173,9 @@ function groupNavChildren(children: NavChild[]) {
 
 function NavLinkStyles(active: boolean, overLight: boolean) {
   if (overLight) {
-    return active ? "text-white" : "text-white/70 hover:text-white";
+    return active ? "text-white" : "text-white/85 hover:text-white";
   }
-  return active ? "text-white" : "text-text-muted hover:text-white";
+  return active ? "text-white" : "text-white/90 hover:text-white";
 }
 
 function NestedNavLinks({
@@ -220,10 +220,10 @@ function NestedNavLinks({
                   tone === "desktop"
                     ? itemActive
                       ? "text-white"
-                      : "text-white/65 hover:text-white"
+                      : "text-white/80 hover:text-white"
                     : itemActive
                       ? "text-white"
-                      : "text-text-muted hover:text-white",
+                      : "text-white/90 hover:text-white",
                 )}
               >
                 <span
@@ -355,24 +355,24 @@ function DesktopDropdown({
             groupNavChildren(item.children).some((group) => group.label) && "min-w-[34rem]",
             // Blur only while open — closed panels must not keep a GPU blur layer.
             open &&
-              (showPill || overLight
-                ? "backdrop-blur-2xl shadow-lg"
-                : "backdrop-blur-xl shadow-2xl"),
+            (showPill || overLight
+              ? "backdrop-blur-2xl shadow-lg"
+              : "backdrop-blur-xl shadow-2xl"),
           )}
           style={{
             ...surfaceVars("dropdown", showPill, overLight),
             ...(open
               ? {
-                  transform: "translateZ(0)",
-                  WebkitBackdropFilter:
-                    showPill || overLight ? "blur(40px)" : "blur(24px)",
-                  backdropFilter:
-                    showPill || overLight ? "blur(40px)" : "blur(24px)",
-                }
+                transform: "translateZ(0)",
+                WebkitBackdropFilter:
+                  showPill || overLight ? "blur(40px)" : "blur(24px)",
+                backdropFilter:
+                  showPill || overLight ? "blur(40px)" : "blur(24px)",
+              }
               : {
-                  WebkitBackdropFilter: "none",
-                  backdropFilter: "none",
-                }),
+                WebkitBackdropFilter: "none",
+                backdropFilter: "none",
+              }),
           }}
           role="menu"
           aria-label={item.label}
@@ -381,7 +381,7 @@ function DesktopDropdown({
             className={cn(
               "flex max-h-[70vh] flex-col gap-4 overflow-y-auto",
               groupNavChildren(item.children).filter((group) => group.label).length > 1 &&
-                "sm:grid sm:grid-cols-2 sm:gap-6",
+              "sm:grid sm:grid-cols-2 sm:gap-6",
             )}
           >
             {groupNavChildren(item.children).map((group) => (
@@ -428,17 +428,17 @@ function DesktopDropdown({
                           >
                             <span className="block overflow-hidden">
                               <span
-                              data-nav-reveal
-                              className="block"
-                              style={
-                                reveal
-                                  ? {
+                                data-nav-reveal
+                                className="block"
+                                style={
+                                  reveal
+                                    ? {
                                       animation: "nav-line-reveal 0.62s var(--ease-premium) both",
                                       animationDelay: `${index * 0.045}s`,
                                     }
-                                  : undefined
-                              }
-                            >
+                                    : undefined
+                                }
+                              >
                                 <NavTextSlide label={child.name} />
                               </span>
                             </span>
@@ -614,11 +614,11 @@ export default function Navbar() {
         const pillVars =
           isMobileViewport() && showPill
             ? {
-                ...vars,
-                backgroundColor: overLight
-                  ? SURFACE_OVER_LIGHT.backgroundColor
-                  : "rgba(0, 0, 0, 0.72)",
-              }
+              ...vars,
+              backgroundColor: overLight
+                ? SURFACE_OVER_LIGHT.backgroundColor
+                : "rgba(0, 0, 0, 0.72)",
+            }
             : vars;
         gsap.to(pill, {
           ...pillVars,
@@ -763,172 +763,172 @@ export default function Navbar() {
             className="flex flex-col gap-1 text-2xl font-medium tracking-tight"
             aria-label="Mobile"
           >
-          {NAV_ITEMS.map((item) => {
-            if (item.kind === "link") {
-              return (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={cn(
-                    "group min-h-12 inline-flex w-fit items-center transition-colors",
-                    location.pathname === item.path
-                      ? "text-white"
-                      : "text-text-muted hover:text-white",
-                  )}
-                >
-                  <NavTextSlide label={item.name} />
-                </Link>
-              );
-            }
+            {NAV_ITEMS.map((item) => {
+              if (item.kind === "link") {
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={cn(
+                      "group min-h-12 inline-flex w-fit items-center transition-colors",
+                      location.pathname === item.path
+                        ? "text-white"
+                        : "text-white/90 hover:text-white",
+                    )}
+                  >
+                    <NavTextSlide label={item.name} />
+                  </Link>
+                );
+              }
 
-            const expanded = mobileAccordion === item.name;
-            return (
-              <div key={item.name} className="flex flex-col">
-                <div className="min-h-12 flex items-center justify-between gap-3">
-                  {item.path ? (
-                    <Link
-                      to={item.path}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={cn(
-                        "group w-fit grow py-3 transition-colors text-left",
-                        pathMatchesItem(location.pathname, item)
-                          ? "text-white"
-                          : "text-text-muted hover:text-white",
-                      )}
-                    >
-                      <NavTextSlide label={item.label} />
-                    </Link>
-                  ) : (
+              const expanded = mobileAccordion === item.name;
+              return (
+                <div key={item.name} className="flex flex-col">
+                  <div className="min-h-12 flex items-center justify-between gap-3">
+                    {item.path ? (
+                      <Link
+                        to={item.path}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={cn(
+                          "group w-fit grow py-3 transition-colors text-left",
+                          pathMatchesItem(location.pathname, item)
+                            ? "text-white"
+                            : "text-white/90 hover:text-white",
+                        )}
+                      >
+                        <NavTextSlide label={item.label} />
+                      </Link>
+                    ) : (
+                      <button
+                        type="button"
+                        aria-expanded={expanded}
+                        onClick={() =>
+                          setMobileAccordion(expanded ? null : item.name)
+                        }
+                        className={cn(
+                          "group w-fit grow py-3 transition-colors text-left",
+                          pathMatchesItem(location.pathname, item)
+                            ? "text-white"
+                            : "text-white/90 hover:text-white",
+                        )}
+                      >
+                        <NavTextSlide label={item.label} />
+                      </button>
+                    )}
                     <button
                       type="button"
                       aria-expanded={expanded}
+                      aria-label={`Toggle ${item.label} menu`}
                       onClick={() =>
                         setMobileAccordion(expanded ? null : item.name)
                       }
-                      className={cn(
-                        "group w-fit grow py-3 transition-colors text-left",
-                        pathMatchesItem(location.pathname, item)
-                          ? "text-white"
-                          : "text-text-muted hover:text-white",
-                      )}
+                      className="p-3 -mr-2 text-white/80 hover:text-white transition-colors"
                     >
-                      <NavTextSlide label={item.label} />
+                      <ChevronDown
+                        className={cn(
+                          "w-5 h-5 shrink-0 transition-transform duration-300",
+                          expanded && "rotate-180",
+                        )}
+                        aria-hidden
+                      />
                     </button>
-                  )}
-                  <button
-                    type="button"
-                    aria-expanded={expanded}
-                    aria-label={`Toggle ${item.label} menu`}
-                    onClick={() =>
-                      setMobileAccordion(expanded ? null : item.name)
-                    }
-                    className="p-3 -mr-2 text-text-muted hover:text-white transition-colors"
+                  </div>
+                  <div
+                    className={cn(
+                      "overflow-hidden transition-all duration-300",
+                      expanded
+                        ? "max-h-[70vh] overflow-y-auto opacity-100 pb-2"
+                        : "max-h-0 opacity-0",
+                    )}
                   >
-                    <ChevronDown
-                      className={cn(
-                        "w-5 h-5 shrink-0 transition-transform duration-300",
-                        expanded && "rotate-180",
-                      )}
-                      aria-hidden
-                    />
-                  </button>
-                </div>
-                <div
-                  className={cn(
-                    "overflow-hidden transition-all duration-300",
-                    expanded
-                      ? "max-h-[70vh] overflow-y-auto opacity-100 pb-2"
-                      : "max-h-0 opacity-0",
-                  )}
-                >
-                  <div className="flex flex-col gap-4 pl-3 ml-1 border-l border-white/10">
-                    {groupNavChildren(item.children).map((group) => (
-                      <div key={group.label || item.name}>
-                        <ul className="flex flex-col gap-1">
-                          {group.items.map((child) => {
-                            const nested = child.children ?? [];
-                            const nestedActive = nested.some(
-                              (item) => location.pathname === item.path,
-                            );
-                            const nestedOpen =
-                              nestedActive || mobileNestedPath === child.path;
-                            return (
-                            <li key={child.path}>
-                              <div className="flex items-center justify-between gap-2">
-                                <Link
-                                  to={child.path}
-                                  className={cn(
-                                    "group block w-fit grow py-2 text-base transition-colors",
-                                    location.pathname === child.path
-                                      ? "text-white"
-                                      : "text-text-muted hover:text-white",
-                                  )}
-                                >
-                                  <NavTextSlide label={child.name} />
-                                </Link>
-                                {nested.length > 0 ? (
-                                  <button
-                                    type="button"
-                                    aria-expanded={nestedOpen}
-                                    aria-label={`${nestedOpen ? "Hide" : "Show"} ${child.name}`}
-                                    onClick={() =>
-                                      setMobileNestedPath((current) =>
-                                        current === child.path ? null : child.path,
-                                      )
-                                    }
-                                    className="p-2 text-text-muted hover:text-white transition-colors"
-                                  >
-                                    <ChevronRight
+                    <div className="flex flex-col gap-4 pl-3 ml-1 border-l border-white/10">
+                      {groupNavChildren(item.children).map((group) => (
+                        <div key={group.label || item.name}>
+                          <ul className="flex flex-col gap-1">
+                            {group.items.map((child) => {
+                              const nested = child.children ?? [];
+                              const nestedActive = nested.some(
+                                (item) => location.pathname === item.path,
+                              );
+                              const nestedOpen =
+                                nestedActive || mobileNestedPath === child.path;
+                              return (
+                                <li key={child.path}>
+                                  <div className="flex items-center justify-between gap-2">
+                                    <Link
+                                      to={child.path}
                                       className={cn(
-                                        "h-4 w-4 transition-transform duration-200",
-                                        nestedOpen && "rotate-90",
+                                        "group block w-fit grow py-2 text-base transition-colors",
+                                        location.pathname === child.path
+                                          ? "text-white"
+                                          : "text-white/90 hover:text-white",
                                       )}
-                                      aria-hidden
+                                    >
+                                      <NavTextSlide label={child.name} />
+                                    </Link>
+                                    {nested.length > 0 ? (
+                                      <button
+                                        type="button"
+                                        aria-expanded={nestedOpen}
+                                        aria-label={`${nestedOpen ? "Hide" : "Show"} ${child.name}`}
+                                        onClick={() =>
+                                          setMobileNestedPath((current) =>
+                                            current === child.path ? null : child.path,
+                                          )
+                                        }
+                                        className="p-2 text-white/80 hover:text-white transition-colors"
+                                      >
+                                        <ChevronRight
+                                          className={cn(
+                                            "h-4 w-4 transition-transform duration-200",
+                                            nestedOpen && "rotate-90",
+                                          )}
+                                          aria-hidden
+                                        />
+                                      </button>
+                                    ) : null}
+                                  </div>
+                                  {nested.length > 0 ? (
+                                    <NestedNavLinks
+                                      open={nestedOpen}
+                                      items={nested}
+                                      pathname={location.pathname}
+                                      tone="mobile"
                                     />
-                                  </button>
-                                ) : null}
-                              </div>
-                              {nested.length > 0 ? (
-                                <NestedNavLinks
-                                  open={nestedOpen}
-                                  items={nested}
-                                  pathname={location.pathname}
-                                  tone="mobile"
-                                />
-                              ) : null}
-                            </li>
-                            );
-                          })}
-                        </ul>
-                      </div>
-                    ))}
+                                  ) : null}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
 
-          <div className="mt-8 flex flex-col gap-3">
-            <Button
-              to="/contact"
-              variant="secondary"
-              arrow="up-right"
-              className="w-full rounded-xl justify-between px-6 py-4 min-h-14 [&_.oc-btn-label]:w-full [&_.oc-btn-label]:justify-between"
-            >
-              Book Consultation
-            </Button>
-            <Button
-              href={CLIENT_LOGIN_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="outline"
-              className="w-full rounded-xl px-6 py-4 min-h-14 text-white/80"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Login
-            </Button>
-          </div>
+            <div className="mt-8 flex flex-col gap-3">
+              <Button
+                to="/contact"
+                variant="secondary"
+                arrow="up-right"
+                className="w-full rounded-xl justify-between px-6 py-4 min-h-14 [&_.oc-btn-label]:w-full [&_.oc-btn-label]:justify-between"
+              >
+                Book Consultation
+              </Button>
+              <Button
+                href={CLIENT_LOGIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outline"
+                className="w-full rounded-xl px-6 py-4 min-h-14 text-white/80"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Login
+              </Button>
+            </div>
           </nav>
         </div>
       </div>

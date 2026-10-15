@@ -109,13 +109,13 @@ export function PmsAifComparisonSection() {
                       {item.features.map((feat) => (
                         <div
                           key={feat}
-                          className="relative flex items-center gap-3.5 rounded-2xl border border-white/10 bg-white/[0.025] p-4 pl-5 transition-all duration-300 hover:border-white/25 hover:bg-white/[0.05]"
+                          className="relative flex items-center gap-3.5 rounded-2xl border border-white/10 bg-[#1D1D1D] p-4 pl-5 transition-all duration-300 hover:border-white/25 hover:bg-[#262626]"
                         >
                           {/* Curved Left Bracket Accent Line */}
                           <span className="absolute left-0 top-3 bottom-3 w-1 rounded-r-full bg-white transition-all duration-300 group-hover:scale-y-105" />
 
-                          {/* Emerald checkmark badge matching One Capital trust signal pattern */}
-                          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+                          {/* Monochrome checkmark badge */}
+                          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/[0.08] text-white border border-white/20">
                             <Check className="h-3.5 w-3.5" />
                           </div>
 

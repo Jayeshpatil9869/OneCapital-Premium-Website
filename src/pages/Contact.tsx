@@ -1,6 +1,7 @@
 import { Container, Section } from '@/src/components/ui';
 import { ContactFormPanel } from '@/src/components/sections/contact/ContactFormPanel';
 import { ContactInfoPanel } from '@/src/components/sections/contact/ContactInfoPanel';
+import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import { CONTACT_PAGE_COPY } from '@/src/data/contact';
 
 export default function Contact() {
@@ -37,12 +38,12 @@ export default function Contact() {
         />
 
         <div className="grid grid-cols-1 items-start gap-8 sm:gap-10 md:gap-12 lg:grid-cols-2 lg:gap-12 xl:gap-16">
-          <div className="min-w-0">
+          <ScrollFade delay={0.05} className="min-w-0">
             <ContactInfoPanel />
-          </div>
-          <div className="min-w-0">
+          </ScrollFade>
+          <ScrollFade delay={0.15} className="min-w-0">
             <ContactFormPanel />
-          </div>
+          </ScrollFade>
         </div>
       </Container>
     </Section>

@@ -79,7 +79,7 @@ export function TeamCard({
       onMouseLeave={onCardPointerLeave}
       className={cn(
         'team-card group relative flex flex-col justify-between rounded-[28px] p-3 select-none',
-        'glass-panel bg-white/[0.03] backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.37)] transition-all duration-500 hover:border-white/20 hover:bg-white/[0.05]',
+        'glass-panel bg-[#1D1D1D] backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.37)] transition-all duration-500 hover:border-white/20 hover:bg-[#262626]',
         'focus-within:ring-2 focus-within:ring-white/30 focus-within:ring-offset-2 focus-within:ring-offset-black',
         isMobile ? 'w-full aspect-auto min-h-[500px]' : 'w-full md:aspect-6/8',
         className

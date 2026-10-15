@@ -66,7 +66,7 @@ export function DirectorAboutSection() {
             <RevealOnScroll direction="up" distance={20} duration={0.9} ease="power3.out">
               <div className="flex items-center gap-3">
                 <span className="h-px w-8 shrink-0 bg-white/35" aria-hidden />
-                <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-zinc-400 sm:text-xs">
+                <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#757575] sm:text-xs">
                   {eyebrow}
                 </span>
               </div>
@@ -82,14 +82,14 @@ export function DirectorAboutSection() {
             >
               <p
                 id="director-about-heading"
-                className="font-sans text-base font-normal leading-relaxed text-white/80 text-pretty md:text-lg"
+                className="font-sans text-base font-normal leading-relaxed text-white/90 text-pretty md:text-lg"
               >
                 {lead}
               </p>
               {paragraphs.map((paragraph) => (
                 <p
                   key={paragraph.slice(0, 40)}
-                  className="font-sans text-base font-normal leading-relaxed text-zinc-400 text-pretty md:text-lg"
+                  className="font-sans text-base font-normal leading-relaxed text-[#B3B3B3] text-pretty md:text-lg"
                 >
                   {paragraph}
                 </p>

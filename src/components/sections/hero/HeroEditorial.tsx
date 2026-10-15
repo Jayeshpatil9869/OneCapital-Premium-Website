@@ -30,6 +30,7 @@ type HeroEditorialProps = {
   variant?: "editorial" | "cinematic";
   eyebrow?: string;
   title: ReactNode;
+  titleClassName?: string;
   description?: ReactNode;
   actions?: ReactNode;
   visual?: ReactNode;
@@ -46,19 +47,19 @@ export type HeroMetricCard = {
 
 const DEFAULT_METRIC_CARDS: HeroMetricCard[] = [
   {
-    value: 400,
+    value: 3000,
     suffix: '+',
-    label: 'Cities with customer presence',
+    label: 'Clients Serviced',
   },
   {
-    value: 1300,
+    value: 8,
     suffix: '+',
-    label: 'Family offices and UHNI families',
+    label: 'Services & Products',
   },
   {
-    value: 1500,
+    value: 33,
     suffix: '+',
-    label: 'Brokers and funds integrated',
+    label: 'Years Serving',
   },
 ];
 
@@ -173,7 +174,7 @@ function HeroMetrics({ metrics }: { metrics: HeroMetric[] }) {
             val: target,
             duration: motionTokens.duration.cinematic,
             ease: motionTokens.ease.expo,
-            delay: 0.35 + index * motionTokens.stagger.normal,
+            delay: 0.72 + index * motionTokens.stagger.normal,
             onUpdate: () => {
               el.textContent = Math.round(state.val).toLocaleString("en-IN");
             },
@@ -210,11 +211,59 @@ function HeroMetrics({ metrics }: { metrics: HeroMetric[] }) {
   );
 }
 
+/** Cinematic Hero Background: Fades in and executes a slow, luxurious cinematic zoom-in */
+function CinematicHeroBackground({ imageSrc }: { imageSrc: string }) {
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useGSAP(
+    () => {
+      if (!imgRef.current) return;
+      if (prefersReducedMotion()) {
+        gsap.set(imgRef.current, { opacity: 1, scale: 1 });
+        return;
+      }
+
+      // Initial state: hidden, unscaled
+      gsap.set(imgRef.current, { opacity: 0, scale: 1.0 });
+
+      return whenPreloaderDone(() => {
+        // Fade in smoothly as page transition finishes
+        gsap.to(imgRef.current, {
+          opacity: 1,
+          duration: 1.8,
+          ease: "power2.out",
+        });
+
+        // Slow, elegant continuous cinematic zoom-in
+        gsap.to(imgRef.current, {
+          scale: 1.08,
+          duration: 14,
+          ease: "power1.out",
+        });
+      });
+    },
+    { scope: imgRef, dependencies: [imageSrc] },
+  );
+
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      <img
+        ref={imgRef}
+        src={imageSrc}
+        alt=""
+        className="h-full w-full object-cover object-center will-change-transform transform-gpu"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.42)_36%,rgba(0,0,0,0.52)_58%,rgba(0,0,0,0.88)_80%,#000000_100%)]" />
+    </div>
+  );
+}
+
 /** Hero — editorial (asymmetric) or cinematic (full-bleed background + stats). */
 export function HeroEditorial({
   variant = "editorial",
   eyebrow,
   title,
+  titleClassName,
   description,
   actions,
   visual,
@@ -226,42 +275,31 @@ export function HeroEditorial({
     return (
       <section
         className={cn(
-          "relative flex min-h-[100svh] w-full flex-col overflow-hidden bg-black",
+          "relative flex min-h-[100svh] w-full flex-col justify-center items-center overflow-hidden bg-black pt-[max(6rem,env(safe-area-inset-top))] pb-10 sm:pb-14 lg:pb-16",
           className,
         )}
       >
-        <div className="pointer-events-none absolute inset-0" aria-hidden>
-          {backgroundImage && (
-            <img
-              src={backgroundImage}
-              alt=""
-              className="h-full w-full object-cover object-center"
-            />
-          )}
-          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.42)_36%,rgba(0,0,0,0.52)_58%,rgba(0,0,0,0.88)_80%,#000000_100%)]" />
-        </div>
+        {backgroundImage ? (
+          <CinematicHeroBackground imageSrc={backgroundImage} />
+        ) : (
+          <div className="pointer-events-none absolute inset-0 bg-black" aria-hidden />
+        )}
 
-        <Container
-          className={cn(
-            "relative z-10 flex flex-1 flex-col items-center justify-center px-6 md:px-8",
-            metrics && metrics.length > 0
-              ? "pt-[max(7rem,env(safe-area-inset-top))] pb-10 lg:pt-36"
-              : "py-24 lg:py-28",
-          )}
-        >
-          <div className="flex w-full max-w-4xl flex-col items-center text-center">
+        <Container className="relative z-10 flex flex-col items-center px-6 md:px-8 translate-y-3 sm:translate-y-5">
+          <div className="flex w-full max-w-5xl flex-col items-center text-center">
             {eyebrow && (
               <RevealOnScroll
                 trigger="load"
                 direction="up"
                 distance={24}
+                delay={0.16}
                 duration={1}
                 ease="power3.out"
                 className="w-full flex justify-center"
               >
                 <Eyebrow
                   centered
-                  className="mb-6 md:mb-8 text-white/60 [&>span:first-child]:bg-white/35 [&>span:last-child]:bg-white/35"
+                  className="mb-6 sm:mb-7 text-xs font-mono uppercase tracking-[0.24em] text-white/70 [&>span:first-child]:w-9 sm:[&>span:first-child]:w-12 [&>span:first-child]:bg-white/35 [&>span:last-child]:w-9 sm:[&>span:last-child]:w-12 [&>span:last-child]:bg-white/35"
                 >
                   {eyebrow}
                 </Eyebrow>
@@ -273,11 +311,17 @@ export function HeroEditorial({
               direction="up"
               distance={36}
               duration={1.15}
-              delay={0.1}
+              delay={0.32}
               ease="power3.out"
               className="w-full flex justify-center"
             >
-              <DisplayHeading className="mb-6 text-center text-white">
+              <DisplayHeading
+                className={cn(
+                  "mb-5 sm:mb-6 text-center text-white font-medium tracking-tight leading-[1.08] text-balance",
+                  "text-[clamp(2.25rem,1.4rem+3.2vw,4.5rem)] sm:text-5xl md:text-6xl lg:text-[3.85rem] xl:text-[4.35rem] max-w-5xl mx-auto",
+                  titleClassName
+                )}
+              >
                 {title}
               </DisplayHeading>
             </RevealOnScroll>
@@ -287,26 +331,42 @@ export function HeroEditorial({
                 trigger="load"
                 direction="up"
                 distance={24}
-                delay={0.24}
+                delay={0.5}
                 duration={1}
                 ease="power3.out"
                 className="w-full flex justify-center"
               >
-                <BodyText className="mx-auto mb-0 max-w-[40rem] text-center text-base text-white/80 md:text-lg lg:text-xl leading-relaxed">
+                <BodyText className="mx-auto mb-0 max-w-[44rem] text-center text-base sm:text-lg text-[#B3B3B3] leading-relaxed font-light">
                   {description}
                 </BodyText>
+              </RevealOnScroll>
+            )}
+
+            {actions && (
+              <RevealOnScroll
+                trigger="load"
+                direction="up"
+                distance={20}
+                delay={0.6}
+                duration={1.1}
+                ease="power3.out"
+                className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-4"
+              >
+                {actions}
               </RevealOnScroll>
             )}
           </div>
         </Container>
 
         {metrics && metrics.length > 0 && (
-          <div className="relative z-10 w-full mt-6 pb-12 sm:pb-16 lg:pb-20">
-            <div
-              className="mx-auto w-[75%] max-w-5xl border-t border-white/20 mb-8 sm:mb-10"
-              aria-hidden
-            />
-            <RevealOnScroll trigger="load" delay={0.35}>
+          <div className="relative z-10 w-full mt-12 sm:mt-16 lg:mt-20">
+            <RevealOnScroll trigger="load" delay={0.65} duration={0.9}>
+              <div
+                className="mx-auto w-[75%] max-w-5xl border-t border-white/20 mb-8 sm:mb-10"
+                aria-hidden
+              />
+            </RevealOnScroll>
+            <RevealOnScroll trigger="load" delay={0.72} duration={1.1}>
               <Container className="px-6 md:px-8 max-w-[1100px]">
                 <HeroMetrics metrics={metrics} />
               </Container>

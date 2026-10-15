@@ -62,7 +62,6 @@ function Workspace({
         <div className="grid grid-cols-1 gap-5 xl:grid-cols-12">
           <div className="xl:col-span-8">{chart}</div>
           <AllocationDonut
-            theme="light"
             className="xl:col-span-4"
             invested={invested}
             returns={returns}
@@ -92,7 +91,6 @@ function SipPanel() {
       controls={
         <>
           <CalculatorSlider
-            theme="light"
             id="mf-sip-monthly"
             label="Monthly investment"
             value={monthly}
@@ -103,7 +101,6 @@ function SipPanel() {
             onChange={setMonthly}
           />
           <CalculatorSlider
-            theme="light"
             id="mf-sip-years"
             label="Investment period"
             value={years}
@@ -114,7 +111,6 @@ function SipPanel() {
             onChange={setYears}
           />
           <CalculatorSlider
-            theme="light"
             id="mf-sip-rate"
             label="Expected rate of return"
             value={rate}
@@ -129,8 +125,8 @@ function SipPanel() {
               className={cn(
                 'rounded-full px-3 py-1 border transition-colors',
                 band === 'low'
-                  ? 'border-zinc-900 bg-zinc-900 text-white font-semibold'
-                  : 'border-zinc-200 bg-zinc-100 text-zinc-500',
+                  ? 'border-white bg-white text-black font-semibold'
+                  : 'border-white/15 bg-white/[0.04] text-white/60',
               )}
             >
               Low risk
@@ -139,8 +135,8 @@ function SipPanel() {
               className={cn(
                 'rounded-full px-3 py-1 border transition-colors',
                 band === 'balanced'
-                  ? 'border-zinc-900 bg-zinc-900 text-white font-semibold'
-                  : 'border-zinc-200 bg-zinc-100 text-zinc-500',
+                  ? 'border-white bg-white text-black font-semibold'
+                  : 'border-white/15 bg-white/[0.04] text-white/60',
               )}
             >
               Balanced
@@ -149,8 +145,8 @@ function SipPanel() {
               className={cn(
                 'rounded-full px-3 py-1 border transition-colors',
                 band === 'high'
-                  ? 'border-zinc-900 bg-zinc-900 text-white font-semibold'
-                  : 'border-zinc-200 bg-zinc-100 text-zinc-500',
+                  ? 'border-white bg-white text-black font-semibold'
+                  : 'border-white/15 bg-white/[0.04] text-white/60',
               )}
             >
               High risk
@@ -160,7 +156,6 @@ function SipPanel() {
       }
       results={
         <CalculatorResults
-          theme="light"
           rows={[
             { id: 'total', label: 'Projected value', value: result.futureValue, emphasize: true, tone: 'accent' },
             { id: 'invested', label: 'Total invested', value: result.invested, tone: 'muted' },
@@ -168,7 +163,7 @@ function SipPanel() {
           ]}
         />
       }
-      chart={<GrowthChart theme="light" points={series} mode="line" />}
+      chart={<GrowthChart points={series} mode="line" />}
     />
   );
 }
@@ -190,7 +185,6 @@ function LumpsumPanel() {
       controls={
         <>
           <CalculatorSlider
-            theme="light"
             id="mf-lump-principal"
             label="Investment amount"
             value={principal}
@@ -201,7 +195,6 @@ function LumpsumPanel() {
             onChange={setPrincipal}
           />
           <CalculatorSlider
-            theme="light"
             id="mf-lump-years"
             label="Investment period"
             value={years}
@@ -212,7 +205,6 @@ function LumpsumPanel() {
             onChange={setYears}
           />
           <CalculatorSlider
-            theme="light"
             id="mf-lump-rate"
             label="Expected rate of return"
             value={rate}
@@ -226,7 +218,6 @@ function LumpsumPanel() {
       }
       results={
         <CalculatorResults
-          theme="light"
           rows={[
             { id: 'total', label: 'Projected value', value: result.futureValue, emphasize: true, tone: 'accent' },
             { id: 'invested', label: 'Total invested', value: result.invested, tone: 'muted' },
@@ -234,7 +225,7 @@ function LumpsumPanel() {
           ]}
         />
       }
-      chart={<GrowthChart theme="light" points={series} investedLabel="Principal" mode="line" />}
+      chart={<GrowthChart points={series} investedLabel="Principal" mode="line" />}
     />
   );
 }
@@ -256,7 +247,6 @@ function StepUpPanel() {
       controls={
         <>
           <CalculatorSlider
-            theme="light"
             id="mf-step-monthly"
             label="Starting monthly investment"
             value={monthly}
@@ -267,7 +257,6 @@ function StepUpPanel() {
             onChange={setMonthly}
           />
           <CalculatorSlider
-            theme="light"
             id="mf-step-rate"
             label="Expected return rate (p.a.)"
             value={rate}
@@ -278,7 +267,6 @@ function StepUpPanel() {
             onChange={setRate}
           />
           <CalculatorSlider
-            theme="light"
             id="mf-step-up"
             label="Annual step-up"
             value={stepUp}
@@ -289,7 +277,6 @@ function StepUpPanel() {
             onChange={setStepUp}
           />
           <CalculatorSlider
-            theme="light"
             id="mf-step-years"
             label="Time period"
             value={years}
@@ -303,7 +290,6 @@ function StepUpPanel() {
       }
       results={
         <CalculatorResults
-          theme="light"
           rows={[
             { id: 'invested', label: 'Total investment', value: result.invested, tone: 'muted' },
             { id: 'returns', label: 'Estimated returns', value: result.returns },
@@ -311,7 +297,7 @@ function StepUpPanel() {
           ]}
         />
       }
-      chart={<GrowthChart theme="light" points={series} mode="line" />}
+      chart={<GrowthChart points={series} mode="line" />}
     />
   );
 }
@@ -335,7 +321,6 @@ function GoalPanel() {
       controls={
         <>
           <CalculatorSlider
-            theme="light"
             id="mf-goal-target"
             label="Target amount"
             value={target}
@@ -346,7 +331,6 @@ function GoalPanel() {
             onChange={setTarget}
           />
           <CalculatorSlider
-            theme="light"
             id="mf-goal-rate"
             label="Expected return rate (p.a.)"
             value={rate}
@@ -357,7 +341,6 @@ function GoalPanel() {
             onChange={setRate}
           />
           <CalculatorSlider
-            theme="light"
             id="mf-goal-years"
             label="Time to goal"
             value={years}
@@ -371,7 +354,6 @@ function GoalPanel() {
       }
       results={
         <CalculatorResults
-          theme="light"
           title="Required investment"
           rows={[
             { id: 'target', label: 'Goal amount', value: result.targetAmount, tone: 'muted' },
@@ -382,7 +364,6 @@ function GoalPanel() {
       }
       chart={
         <GrowthChart
-          theme="light"
           points={series}
           mode="line"
           investedLabel="SIP invested"
@@ -428,8 +409,8 @@ export function MutualFundCalculatorEmbed() {
               className={cn(
                 'rounded-2xl border px-5 py-4 text-center sm:text-left transition-all duration-200 shadow-sm',
                 selected
-                  ? 'border-white bg-white text-zinc-950 font-semibold shadow-md'
-                  : 'border-white/15 bg-white/[0.04] text-white/80 hover:border-white/35 hover:bg-white/[0.08] hover:text-white',
+                  ? 'border-white bg-white text-black font-semibold shadow-md'
+                  : 'border-white/15 bg-[#1D1D1D] text-white/80 hover:border-white/35 hover:bg-[#262626] hover:text-white',
               )}
             >
               <span className="block font-sans text-base sm:text-lg font-semibold">{option.title}</span>
@@ -440,7 +421,7 @@ export function MutualFundCalculatorEmbed() {
 
       <div
         role="tabpanel"
-        className="mt-6 rounded-3xl border border-zinc-200/90 bg-white p-6 sm:p-8 lg:p-10 text-zinc-900 shadow-[0_12px_40px_rgba(0,0,0,0.06)]"
+        className="mt-6 rounded-3xl border border-white/10 bg-[#1D1D1D] p-6 sm:p-8 lg:p-10 text-white shadow-[0_12px_40px_rgba(0,0,0,0.5)]"
       >
         <ActivePanel key={kind} kind={kind} />
       </div>

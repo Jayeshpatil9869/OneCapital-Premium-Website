@@ -3,6 +3,7 @@ import { InsightsBridgeStrip } from '@/src/components/sections/insights/Insights
 import { InsightsFeaturedNote } from '@/src/components/sections/insights/InsightsFeaturedNote';
 import { InsightsMasthead } from '@/src/components/sections/insights/InsightsMasthead';
 import { InsightsThemeIndex } from '@/src/components/sections/insights/InsightsThemeIndex';
+import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import { COMPANY } from '@/src/data/company';
 import { INSIGHTS_PAGE } from '@/src/data/insights';
 import { usePageSeo } from '@/src/hooks/usePageSeo';
@@ -22,19 +23,27 @@ export default function Insights() {
   return (
     <div className="is-insights flex w-full flex-col items-center bg-black">
       <InsightsMasthead />
-      <InsightsThemeIndex />
-      <InsightsFeaturedNote />
-      <InsightsBridgeStrip />
-      <EditorialStatementCTA
-        line1={cta.line1}
-        line2={cta.line2}
-        line3Prefix=""
-        line3Outlined={cta.line3Outlined}
-        line3Suffix="?"
-        italicQuote={cta.italicQuote}
-        buttonText={cta.buttonText}
-        buttonLink={cta.buttonLink}
-      />
+      <ScrollFade className="w-full">
+        <InsightsThemeIndex />
+      </ScrollFade>
+      <ScrollFade className="w-full">
+        <InsightsFeaturedNote />
+      </ScrollFade>
+      <ScrollFade className="w-full">
+        <InsightsBridgeStrip />
+      </ScrollFade>
+      <ScrollFade className="w-full">
+        <EditorialStatementCTA
+          line1={cta.line1}
+          line2={cta.line2}
+          line3Prefix=""
+          line3Outlined={cta.line3Outlined}
+          line3Suffix="?"
+          italicQuote={cta.italicQuote}
+          buttonText={cta.buttonText}
+          buttonLink={cta.buttonLink}
+        />
+      </ScrollFade>
     </div>
   );
 }

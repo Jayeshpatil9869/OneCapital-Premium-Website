@@ -426,7 +426,7 @@ function StructureBands({ config }: { config: SolutionDedicatedConfig }) {
             id={section.id}
             className={cn(
               'scroll-mt-28 border-b border-white/10',
-              index % 2 === 1 && 'bg-white/[0.03]',
+              index % 2 === 1 && 'bg-[#1D1D1D]',
             )}
           >
             <ScrollFade>

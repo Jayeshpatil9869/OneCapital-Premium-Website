@@ -43,7 +43,7 @@
 
 @layer utilities {
   .glass-panel {
-    @apply bg-white/[0.02] border border-white/[0.1] backdrop-blur-xl;
+    @apply bg-[#1D1D1D] border border-white/10 backdrop-blur-xl;
   }
   /* Frosted glass on the active navbar pill (desktop + tablet). */
   [data-nav-surface="pill"][data-nav-pill-active="true"] {
@@ -56,7 +56,7 @@
     .glass-panel {
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
-      background-color: rgba(255, 255, 255, 0.045);
+      background-color: #1D1D1D;
     }
 
     [data-nav-surface="pill"]:not([data-nav-pill-active="true"]) {
@@ -71,7 +71,7 @@
     }
   }
   .glass-panel-hover {
-    @apply transition-colors duration-500 hover:bg-white/[0.04];
+    @apply transition-colors duration-500 hover:bg-[#262626] hover:border-white/20;
   }
   .text-balance {
     text-wrap: balance;

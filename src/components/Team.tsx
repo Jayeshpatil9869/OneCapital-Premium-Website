@@ -703,7 +703,7 @@ function TeamCard({
       }}
       className={cn(
         "team-card group relative flex h-auto w-full min-w-full shrink-0 basis-full flex-col rounded-3xl p-3 select-none md:aspect-6/8 md:min-w-0 md:basis-auto md:w-full md:max-w-none md:shrink",
-        "glass-panel glass-panel-hover bg-white/[0.02] border border-white/10 transition-colors duration-500 hover:border-white/20",
+        "glass-panel glass-panel-hover bg-[#1D1D1D] border border-white/10 transition-colors duration-500 hover:border-white/20 hover:bg-[#262626]",
         "focus-within:ring-2 focus-within:ring-white/40 focus-within:ring-offset-2 focus-within:ring-offset-black",
       )}
     >

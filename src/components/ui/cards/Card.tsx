@@ -26,7 +26,7 @@ type CardProps = HTMLAttributes<HTMLDivElement> & {
 };
 
 const variantBase: Record<CardVariant, string> = {
-  default: 'bg-white/[0.02] border border-white/10',
+  default: 'bg-[#1D1D1D] border border-white/10',
   glass: 'glass-panel',
   spotlight: 'glass-panel',
   feature: 'glass-panel',

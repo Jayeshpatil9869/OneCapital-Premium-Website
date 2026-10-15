@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BlogArchiveList } from '@/src/components/sections/insights/BlogArchiveList';
 import { BlogMasthead } from '@/src/components/sections/insights/BlogMasthead';
 import { BlogReadingPath } from '@/src/components/sections/insights/BlogReadingPath';
+import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import {
   BLOG_PAGE,
   filterArticles,
@@ -19,8 +20,12 @@ export default function Blog() {
   return (
     <div className="flex w-full flex-col items-center bg-black">
       <BlogMasthead filter={filter} onFilterChange={setFilter} />
-      <BlogArchiveList articles={articles} />
-      <BlogReadingPath />
+      <ScrollFade className="w-full">
+        <BlogArchiveList articles={articles} />
+      </ScrollFade>
+      <ScrollFade className="w-full">
+        <BlogReadingPath />
+      </ScrollFade>
     </div>
   );
 }

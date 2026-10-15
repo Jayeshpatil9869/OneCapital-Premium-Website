@@ -1,27 +1,27 @@
 import { HeroEditorial } from '@/src/components/sections/hero/HeroEditorial';
 import { AppShowcaseSection } from '@/src/components/sections/app-download/AppShowcaseSection';
 import { SolutionsOverviewSection } from '@/src/components/sections/solutions/SolutionsOverviewSection';
-import { ContinuityScrollSection } from '@/src/components/sections/continuity/ContinuityScrollSection';
 import { TestimonialsSection } from '@/src/components/sections/testimonials/TestimonialsSection';
 import { OfficesPresenceSection } from '@/src/components/sections/offices/OfficesPresenceSection';
 import { FAQSection } from '@/src/components/sections/faq/FAQSection';
+import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import { COMPANY } from '@/src/data/company';
 
 const METRICS = [
   {
-    value: '400',
+    value: '3000',
     suffix: '+',
-    label: 'Cities with customer presence',
+    label: 'Clients Serviced',
   },
   {
-    value: '1300',
+    value: '8',
     suffix: '+',
-    label: 'Family offices and UHNI families',
+    label: 'Specialized Products',
   },
   {
-    value: '1500',
+    value: '33',
     suffix: '+',
-    label: 'Brokers and funds integrated',
+    label: 'Years Industry Experience',
   },
 ];
 
@@ -31,30 +31,37 @@ export default function Home() {
       <HeroEditorial
         variant="cinematic"
         backgroundImage="/images/hero-wealth.jpg"
-        eyebrow="Expert Financial Guidance"
+        eyebrow="EXPERT FINANCIAL GUIDANCE"
         title={
-          <>
-            <span className="block">Empower Your</span>
-            <span className="block">Financial Future.</span>
-          </>
+          <span className="block max-w-5xl mx-auto">
+            <span className="block">Wealth Isn't Built By Chance.</span>
+            <span className="block mt-1 sm:mt-2 text-white/95">It's Built By Strategy.</span>
+          </span>
         }
-        description={COMPANY.heroSupport}
+        titleClassName="text-3xl sm:text-5xl md:text-6xl lg:text-[3.85rem] xl:text-[4.35rem] leading-[1.08] font-medium tracking-tight"
+        description="Mutual Funds, PMS, AIF, Equity, Options Baskets, and Investment Advisory. Research first. Strategy next. Investment last."
         metrics={METRICS}
       />
 
-      <section className="w-full">
-        <ContinuityScrollSection />
-      </section>
+      <ScrollFade className="w-full">
+        <SolutionsOverviewSection />
+      </ScrollFade>
 
-      <SolutionsOverviewSection />
+      <ScrollFade className="w-full">
+        <TestimonialsSection />
+      </ScrollFade>
 
-      <TestimonialsSection />
+      <ScrollFade className="w-full">
+        <FAQSection />
+      </ScrollFade>
 
-      <FAQSection />
+      <ScrollFade className="w-full">
+        <OfficesPresenceSection />
+      </ScrollFade>
 
-      <OfficesPresenceSection />
-
-      <AppShowcaseSection />
+      <ScrollFade className="w-full">
+        <AppShowcaseSection />
+      </ScrollFade>
     </div>
   );
 }

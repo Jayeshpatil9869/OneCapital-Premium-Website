@@ -8,9 +8,8 @@ export function AboutMissionVision() {
 
   return (
     <Section
-      tone="panel"
-      pad="lg"
-      className="relative w-full overflow-hidden text-white py-20 md:py-28"
+      pad="none"
+      className="relative w-full overflow-hidden text-white py-20 md:py-28 bg-black border-b border-white/10"
       aria-labelledby="mission-vision-heading"
     >
       <Container className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8">
@@ -26,7 +25,7 @@ export function AboutMissionVision() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch">
           <RevealOnScroll delay={0.05}>
-            <div className="oc-mobile-glass-card group relative flex h-full min-w-0 flex-col justify-start rounded-3xl p-6 sm:p-8 md:p-12 bg-white/[0.03] backdrop-blur-xl border border-white/10 hover:border-white/25 hover:bg-white/[0.05] transition-all duration-500 shadow-2xl">
+            <div className="oc-mobile-glass-card group relative flex h-full min-w-0 flex-col justify-start rounded-3xl p-6 sm:p-8 md:p-12 bg-[#1D1D1D] backdrop-blur-xl border border-white/10 hover:border-white/20 hover:bg-[#262626] transition-all duration-500 shadow-2xl">
               <div className="flex items-center gap-3 sm:gap-4 mb-6 min-w-0">
                 <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-2xl bg-white/[0.08] border border-white/15 text-white shadow-lg group-hover:scale-105 group-hover:bg-white/15 transition-all duration-300">
                   <Rocket className="h-6 w-6 text-white" aria-hidden="true" />
@@ -36,14 +35,14 @@ export function AboutMissionVision() {
                 </h3>
               </div>
 
-              <p className="text-base sm:text-lg text-text-muted font-light leading-relaxed text-pretty">
+              <p className="text-base sm:text-lg text-[#B3B3B3] font-light leading-relaxed text-pretty">
                 {missionVision.mission.body}
               </p>
             </div>
           </RevealOnScroll>
 
           <RevealOnScroll delay={0.12}>
-            <div className="oc-mobile-glass-card group relative flex h-full min-w-0 flex-col justify-start rounded-3xl p-6 sm:p-8 md:p-12 bg-white/[0.03] backdrop-blur-xl border border-white/10 hover:border-white/25 hover:bg-white/[0.05] transition-all duration-500 shadow-2xl">
+            <div className="oc-mobile-glass-card group relative flex h-full min-w-0 flex-col justify-start rounded-3xl p-6 sm:p-8 md:p-12 bg-[#1D1D1D] backdrop-blur-xl border border-white/10 hover:border-white/20 hover:bg-[#262626] transition-all duration-500 shadow-2xl">
               <div className="flex items-center gap-3 sm:gap-4 mb-6 min-w-0">
                 <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-2xl bg-white/[0.08] border border-white/15 text-white shadow-lg group-hover:scale-105 group-hover:bg-white/15 transition-all duration-300">
                   <Eye className="h-6 w-6 text-white" aria-hidden="true" />
@@ -53,7 +52,7 @@ export function AboutMissionVision() {
                 </h3>
               </div>
 
-              <p className="text-base sm:text-lg text-text-muted font-light leading-relaxed text-pretty">
+              <p className="text-base sm:text-lg text-[#B3B3B3] font-light leading-relaxed text-pretty">
                 {missionVision.vision.body}
               </p>
             </div>

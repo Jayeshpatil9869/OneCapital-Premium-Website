@@ -39,7 +39,7 @@ function ContactDetailCard({
           </span>
           <span
             className={cn(
-              'mt-0.5 block break-words text-xs font-normal text-white/60 sm:text-sm',
+              'mt-0.5 block break-words text-xs font-normal text-[#B3B3B3] sm:text-sm',
               detail.id === 'phone' && 'tabular-nums',
               detail.id === 'email' && 'break-all',
             )}
@@ -47,7 +47,7 @@ function ContactDetailCard({
             {primaryLine}
           </span>
           {secondaryLines.length > 0 && (
-            <span className="mt-0.5 block break-words text-xs leading-relaxed text-white/40">
+            <span className="mt-0.5 block break-words text-xs leading-relaxed text-[#757575]">
               {secondaryLines.join(', ')}
             </span>
           )}
@@ -55,7 +55,7 @@ function ContactDetailCard({
       </div>
 
       {isLink && (
-        <div className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center self-center rounded-full border border-white/12 bg-gradient-to-br from-white/[0.08] to-white/[0.02] text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] transition-all duration-300 group-hover:border-white/30 group-hover:from-white/[0.18] group-hover:text-white">
+        <div className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center self-center rounded-full border border-white/10 bg-white/[0.06] text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] transition-all duration-300 group-hover:border-white/30 group-hover:bg-white/[0.12] group-hover:text-white">
           <ArrowUpRight
             className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             aria-hidden
@@ -66,8 +66,8 @@ function ContactDetailCard({
   );
 
   const cardClasses = cn(
-    'group relative flex w-full min-h-[3.25rem] items-center justify-between gap-3 overflow-hidden rounded-2xl border border-white/12 bg-gradient-to-br from-white/[0.07] via-white/[0.03] to-white/[0.01] px-4 py-4 backdrop-blur-2xl transition-all duration-300 sm:gap-4 sm:px-5 sm:py-[1.125rem]',
-    'hover:border-white/25 hover:from-white/[0.12] hover:via-white/[0.06] hover:to-white/[0.02] hover:shadow-[0_16px_36px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.2)]',
+    'group relative flex w-full min-h-[3.25rem] items-center justify-between gap-3 overflow-hidden rounded-2xl border border-white/10 bg-[#1D1D1D] px-4 py-4 backdrop-blur-2xl transition-all duration-300 sm:gap-4 sm:px-5 sm:py-[1.125rem]',
+    'hover:border-white/20 hover:bg-[#262626] hover:shadow-[0_16px_36px_rgba(0,0,0,0.6)]',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30',
   );
 
@@ -98,7 +98,7 @@ export function ContactInfoPanel() {
           {CONTACT_PAGE_COPY.headline}
         </h1>
 
-        <p className="max-w-md text-sm leading-relaxed text-white/60 sm:text-base">
+        <p className="max-w-md text-sm leading-relaxed text-[#B3B3B3] sm:text-base">
           {CONTACT_PAGE_COPY.subtext}
         </p>
       </RevealOnScroll>

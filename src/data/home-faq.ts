@@ -14,122 +14,80 @@ export const FAQ_ALL_ID = 'all';
 
 export const HOME_FAQ_CATEGORIES: FAQCategory[] = [
   {
-    id: 'capital-stewardship',
-    title: 'Capital Stewardship',
+    id: 'products-minimums',
+    title: 'Products & Minimums',
     questions: [
       {
-        id: 'wm-includes',
-        question: "What does One Capital's capital stewardship mandate include?",
+        id: 'faq-minimums',
+        question: 'What are the minimum ticket sizes for Mutual Funds, PMS, and AIFs?',
         answer:
-          'Our mandate spans capital strategy, portfolio management, and wealth management — integrated as one discipline. Scope is shaped around your objectives, liquidity requirements, and long-term vision, not a generic allocation template.',
+          'Mutual Fund advisory starts from ₹10,000/month (SIP) or ₹1 Lakh lumpsum. Discretionary Equity PMS requires ₹50 Lakhs, and Category II/III Alternative Investment Funds (AIF) require ₹1 Crore, strictly as mandated by SEBI guidelines.',
       },
       {
-        id: 'wm-strategy',
-        question: 'How is my wealth strategy developed?',
+        id: 'faq-custody',
+        question: 'Where is my money held? Can One Capital withdraw my funds?',
         answer:
-          'We begin with a structured discovery of your financial architecture, risk profile, and goals. From there we design a tailored mandate with clear allocation principles, review cadence, and decision frameworks aligned to your circumstances.',
+          'Never. Your securities and cash are held directly in your own Demat and bank account with SEBI-registered institutional custodians (such as ICICI and HDFC). One Capital operates strictly under power-of-attorney to manage trades on your behalf.',
       },
       {
-        id: 'wm-review',
-        question: 'How often is my portfolio reviewed?',
+        id: 'faq-transfer',
+        question: 'Can I transfer my existing mutual funds and stocks without selling them?',
         answer:
-          'Review frequency follows your mandate and market context. We maintain regular oversight and scheduled reviews, with additional engagement when material changes in markets, regulation, or your personal situation warrant it.',
+          'Yes. We perform a zero-downtime portfolio transition. We map your existing holdings, eliminate duplicate or underperforming funds, and rebalance your portfolio without triggering unnecessary short-term capital gains tax.',
       },
       {
-        id: 'wm-risk',
-        question: 'How does One Capital approach risk management?',
+        id: 'faq-hedging',
+        question: 'How does One Capital protect capital during market crashes?',
         answer:
-          'Risk is treated as a structural consideration — not a afterthought. We evaluate concentration, liquidity, correlation, and downside scenarios as part of ongoing portfolio oversight and strategic adjustments.',
+          'We use quantitative index options baskets and dynamic asset allocation to hedge equity downside during volatile quarters, ensuring drawdowns are buffered without liquidating long-term compounding compounders.',
       },
     ],
   },
   {
-    id: 'investing',
-    title: 'Investing',
+    id: 'advisory-fees',
+    title: 'Advisory & Fees',
     questions: [
       {
-        id: 'inv-evaluate',
-        question: 'How are investment opportunities evaluated?',
+        id: 'faq-bank-vs-onecapital',
+        question: 'How is One Capital different from my bank relationship manager?',
         answer:
-          'Opportunities pass through a disciplined evaluation process: research, fit within mandate, risk contribution, liquidity profile, and alignment with long-term objectives. We prioritize quality of process over short-term narratives.',
+          'Bank relationship managers operate under aggressive monthly sales quotas, frequently pushing high-commission insurance policies and NFOs. One Capital is an independent, fiduciary advisory firm with zero product sales quotas.',
       },
       {
-        id: 'inv-construct',
-        question: 'How do you construct portfolios?',
+        id: 'faq-fee-model',
+        question: 'How are advisory and management fees structured?',
         answer:
-          'Portfolios are built around strategic asset allocation, diversification principles, and the specific constraints of each client mandate. Implementation is deliberate — balancing growth, preservation, and tax-aware positioning where relevant.',
+          'We believe in absolute fee transparency. Our management fees are clearly documented upfront as a straightforward percentage of Assets Under Management (AUM), with zero hidden distribution kickbacks.',
       },
       {
-        id: 'inv-balance',
-        question: 'How do you balance growth and preservation?',
+        id: 'faq-tax-harvesting',
+        question: 'Do you provide tax-loss harvesting and capital gains reporting?',
         answer:
-          'The balance is defined by your objectives and risk tolerance, not market headlines. We articulate trade-offs clearly and adjust positioning as circumstances evolve — always within the framework agreed at the outset.',
-      },
-      {
-        id: 'inv-diversify',
-        question: 'How does diversification influence your approach?',
-        answer:
-          'Diversification is a core risk-management tool across asset classes, geographies, and instruments where appropriate. It supports resilience through cycles rather than concentrating exposure in a single thesis.',
+          'Yes. We actively identify tax-loss harvesting opportunities throughout the financial year and provide 1-click consolidated capital gains statements formatted for easy ITR filing.',
       },
     ],
   },
   {
-    id: 'process',
-    title: 'Process',
+    id: 'process-review',
+    title: 'Process & Reviews',
     questions: [
       {
-        id: 'proc-consult',
-        question: 'What happens during the initial consultation?',
+        id: 'faq-onboarding-steps',
+        question: 'What does the onboarding process look like?',
         answer:
-          'The first conversation focuses on understanding your financial picture, priorities, and expectations for advisory support. It is exploratory — designed to determine fit and outline how a structured engagement could begin.',
+          'We conduct a comprehensive diagnostic of your existing assets, build your customized asset allocation model, execute paperless KYC, and establish your dedicated portfolio review schedule within 3 to 5 business days.',
       },
       {
-        id: 'proc-onboard',
-        question: 'How does the onboarding process work?',
+        id: 'faq-review-cadence',
+        question: 'How often will I receive portfolio reviews and updates?',
         answer:
-          'Onboarding follows our structured framework: discover, diagnose, design, and implement. We document objectives, establish reporting rhythms, and transition holdings methodically where tax and timing considerations apply.',
+          'You receive real-time visibility via our mobile app, formal quarterly performance reports comparing your portfolio against the Nifty 50 benchmark, and direct one-on-one access to your portfolio manager whenever decisions arise.',
       },
       {
-        id: 'proc-communicate',
-        question: 'How frequently will I communicate with my advisor?',
+        id: 'faq-founder-family',
+        question: 'Do you support multi-generational family wealth and business founders?',
         answer:
-          'Communication cadence is agreed during onboarding — typically through scheduled reviews supplemented by direct access when material decisions or market developments require discussion.',
-      },
-      {
-        id: 'proc-evolve',
-        question: 'Can my strategy evolve as my circumstances change?',
-        answer:
-          'Yes. Wealth is dynamic. We revisit mandate assumptions, liquidity needs, and family priorities as life events, business transitions, or market shifts occur — adjusting strategy within a disciplined framework.',
-      },
-    ],
-  },
-  {
-    id: 'clients',
-    title: 'Clients',
-    questions: [
-      {
-        id: 'cli-who',
-        question: "Who is One Capital's capital stewardship designed for?",
-        answer:
-          'We work with individuals, families, and businesses who value discretion, clear process, and long-term planning — including clients navigating growing complexity across portfolios, business wealth, or multi-year goals.',
-      },
-      {
-        id: 'cli-entrepreneurs',
-        question: 'Do you work with entrepreneurs and business owners?',
-        answer:
-          'Yes. Many of our clients are founders and business owners navigating liquidity events, concentrated positions, and succession planning alongside personal wealth objectives.',
-      },
-      {
-        id: 'cli-advisors',
-        question: 'Can you coordinate with my existing professional advisors?',
-        answer:
-          'We regularly collaborate with tax advisors, legal counsel, and other specialists. Coordination helps ensure strategy, structure, and execution remain aligned across your professional ecosystem.',
-      },
-      {
-        id: 'cli-when',
-        question: 'When should I consider professional capital stewardship?',
-        answer:
-          'Consider it when complexity increases — through business success, inheritance, liquidity events, or multi-generational planning — and when you require structured oversight and institutional-quality thinking rather than ad hoc decision-making.',
+          'Yes. We regularly assist startup founders post-liquidity events and family business owners with liquidity planning, estate continuity, and multi-entity wealth management across our Pune, Mumbai, Kolhapur, and Nashik offices.',
       },
     ],
   },

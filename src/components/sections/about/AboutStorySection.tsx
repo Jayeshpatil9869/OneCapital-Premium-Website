@@ -30,7 +30,7 @@ export function AboutStorySection() {
                 </>
               ) : null}
             </h2>
-            <p className="text-base lg:text-[17px] xl:text-lg text-zinc-400 font-normal leading-relaxed">
+            <p className="text-base lg:text-[17px] xl:text-lg text-[#B3B3B3] font-normal leading-relaxed">
               {story.lead}
             </p>
           </RevealOnScroll>
@@ -39,7 +39,7 @@ export function AboutStorySection() {
             delay={0.1}
             className="lg:col-span-4 flex justify-center items-center self-center w-full"
           >
-            <div className="relative w-full max-w-[420px] aspect-[4/4.7] rounded-[24px] sm:rounded-[28px] overflow-hidden border border-white/15 bg-white/[0.02] shadow-[0_25px_60px_rgba(0,0,0,0.85)] group">
+            <div className="relative w-full max-w-[420px] aspect-[4/4.7] rounded-[24px] sm:rounded-[28px] overflow-hidden border border-white/15 bg-[#1D1D1D] shadow-[0_25px_60px_rgba(0,0,0,0.85)] group">
               <img
                 src={story.imageSrc}
                 alt={story.imageAlt}
@@ -55,13 +55,13 @@ export function AboutStorySection() {
             delay={0.18}
             className="lg:col-span-4 flex flex-col justify-end self-end lg:pb-3 space-y-6 sm:space-y-8"
           >
-            <p className="text-base lg:text-[17px] xl:text-lg text-zinc-400 font-normal leading-relaxed">
+            <p className="text-base lg:text-[17px] xl:text-lg text-[#B3B3B3] font-normal leading-relaxed">
               {story.approach}{' '}
               <Link to="/solutions" className="text-white underline-offset-4 hover:underline">
                 See how we work and what we offer.
               </Link>
             </p>
-            <p className="text-base lg:text-[17px] xl:text-lg text-zinc-400 font-normal leading-relaxed">
+            <p className="text-base lg:text-[17px] xl:text-lg text-[#B3B3B3] font-normal leading-relaxed">
               {story.bridge}
             </p>
           </RevealOnScroll>

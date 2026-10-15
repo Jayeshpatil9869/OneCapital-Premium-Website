@@ -75,7 +75,7 @@ export function BodyText({
   return (
     <Comp
       className={cn(
-        'text-lg md:text-xl text-text-muted leading-relaxed text-balance',
+        'text-lg md:text-xl text-[#B3B3B3] leading-relaxed text-balance',
         className
       )}
       {...props}

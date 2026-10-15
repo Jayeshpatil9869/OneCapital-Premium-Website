@@ -12,10 +12,9 @@ export function ContactSurface({ children, className }: ContactSurfaceProps) {
     <div
       className={cn(
         'relative min-w-0 overflow-hidden rounded-[1.25rem] sm:rounded-[1.75rem] md:rounded-[2.25rem]',
-        // Premium frosted glass surface with translucent depth and high backdrop blur
-        'bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-white/[0.01]',
-        'backdrop-blur-2xl backdrop-saturate-[1.8] md:backdrop-blur-3xl',
-        'border border-white/15',
+        'bg-[#1D1D1D] bg-gradient-to-b from-white/[0.04] to-transparent',
+        'backdrop-blur-2xl md:backdrop-blur-3xl',
+        'border border-white/10',
         'p-5 pt-7 sm:p-8 sm:pt-10 md:p-10 md:pt-12',
         'shadow-[0_30px_90px_-15px_rgba(0,0,0,0.85),inset_0_1px_0_0_rgba(255,255,255,0.25),inset_0_0_30px_rgba(255,255,255,0.02)]',
         'transition-all duration-300',

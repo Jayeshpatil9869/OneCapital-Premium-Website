@@ -104,9 +104,9 @@ export default function Calculators() {
             ))}
           </RevealOnScroll>
 
-          <p className="mx-auto mt-10 max-w-3xl text-center text-xs leading-relaxed text-white/40 md:text-sm">
+          <div className="mx-auto mt-10 max-w-3xl rounded-2xl border border-white/10 bg-[#262626] p-5 text-center text-xs leading-relaxed text-[#B3B3B3] md:text-sm">
             {CALCULATOR_DISCLAIMER}
-          </p>
+          </div>
         </Container>
       </Section>
     </div>
@@ -126,11 +126,11 @@ function CalculatorBentoCard({
     <Link
       to={card.path}
       className={cn(
-        'oc-mobile-glass-card group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/12 p-5 text-left sm:rounded-[1.25rem] sm:p-6',
-        'bg-gradient-to-br from-white/[0.1] via-white/[0.035] to-[#0a0a0a]',
-        'shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_8px_28px_rgba(0,0,0,0.35)]',
+        'oc-mobile-glass-card group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/10 p-5 text-left sm:rounded-[1.25rem] sm:p-6',
+        'bg-[#1D1D1D] hover:bg-[#262626]',
+        'shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_8px_28px_rgba(0,0,0,0.35)]',
         'backdrop-blur-xl transition-all duration-400',
-        'hover:-translate-y-0.5 hover:border-white/28 hover:from-white/[0.14]',
+        'hover:-translate-y-0.5 hover:border-white/20',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40',
         layout.className,
       )}

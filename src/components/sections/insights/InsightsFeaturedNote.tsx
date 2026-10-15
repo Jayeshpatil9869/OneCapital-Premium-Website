@@ -35,7 +35,7 @@ export function InsightsFeaturedNote() {
           >
             {featured.title}
           </h2>
-          <p className="mt-5 max-w-[36rem] text-base leading-relaxed text-white/85 sm:text-lg">
+          <p className="mt-5 max-w-[36rem] text-base leading-relaxed text-[#B3B3B3] sm:text-lg">
             {featured.excerpt}
           </p>
           <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-white">
@@ -59,11 +59,11 @@ export function InsightsFeaturedNote() {
                   to={article.href}
                   className="group grid grid-cols-1 gap-2 py-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:grid-cols-12 sm:items-baseline sm:gap-6 sm:py-7"
                 >
-                  <span className="text-sm text-white/60 sm:col-span-3">{article.category}</span>
+                  <span className="text-sm text-[#757575] sm:col-span-3">{article.category}</span>
                   <span className="text-lg font-medium leading-snug tracking-tight text-white sm:col-span-7">
                     {article.title}
                   </span>
-                  <span className="inline-flex items-center justify-between gap-3 text-sm text-white/60 sm:col-span-2 sm:justify-end">
+                  <span className="inline-flex items-center justify-between gap-3 text-sm text-[#757575] sm:col-span-2 sm:justify-end">
                     {article.readTime}
                     <ArrowUpRight
                       className="h-4 w-4 text-white transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

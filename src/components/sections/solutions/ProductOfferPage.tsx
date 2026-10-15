@@ -35,7 +35,7 @@ export function ProductOfferPage({ product }: ProductOfferPageProps) {
             <DisplayHeading className="mt-6 max-w-[16ch] text-white sm:mt-8">
               {product.title}
             </DisplayHeading>
-            <BodyText className="mt-8 max-w-[40rem] text-base text-white/80 md:text-lg lg:text-xl">
+            <BodyText className="mt-8 max-w-[40rem] text-base text-[#B3B3B3] md:text-lg lg:text-xl">
               {product.opening}
             </BodyText>
             <div className="mt-8 sm:mt-10">
@@ -53,23 +53,23 @@ export function ProductOfferPage({ product }: ProductOfferPageProps) {
         <Container className="mx-auto max-w-[1400px] px-6 py-12 sm:px-8 lg:px-12 lg:py-16">
           <dl className="grid gap-10 md:grid-cols-3 md:gap-12">
             <div>
-              <dt className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/60">
+              <dt className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#757575]">
                 Who it is for
               </dt>
-              <dd className="mt-4 font-sans text-base font-light leading-relaxed text-white/80">
+              <dd className="mt-4 font-sans text-base font-light leading-relaxed text-[#B3B3B3]">
                 {product.audience}
               </dd>
             </div>
             <div>
-              <dt className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/60">
+              <dt className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#757575]">
                 Eligibility
               </dt>
-              <dd className="mt-4 font-sans text-base font-light leading-relaxed text-white/80">
+              <dd className="mt-4 font-sans text-base font-light leading-relaxed text-[#B3B3B3]">
                 {product.eligibility}
               </dd>
             </div>
             <div>
-              <dt className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/60">
+              <dt className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#757575]">
                 How the work is done
               </dt>
               <dd className="mt-4 font-sans text-base font-light leading-relaxed text-white">
@@ -90,7 +90,7 @@ export function ProductOfferPage({ product }: ProductOfferPageProps) {
       <ScrollFade as="section" className="border-b border-white/15">
         <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/60 lg:col-span-4">
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#757575] lg:col-span-4">
               Key features
             </p>
             <ol className="border-t border-white/15 lg:col-span-8">
@@ -196,7 +196,7 @@ function StrategyDiagramView({ diagram }: { diagram: StrategyDiagram }) {
           {diagram.steps.map((step, index) => {
             const mark = stepMark(diagram.kind, index);
             return (
-              <li key={step.title} className="bg-black px-6 py-8 sm:px-8">
+              <li key={step.title} className="bg-[#1D1D1D] px-6 py-8 sm:px-8">
                 <div className="flex items-baseline gap-3">
                   <span className="font-mono text-[11px] tracking-[0.16em] text-white/40">
                     {String(index + 1).padStart(2, '0')}
@@ -287,7 +287,7 @@ function RelatedProductCopy({ item, tone }: { item: ProductOffer; tone: 'rest' |
       <span
         className={cn(
           'font-sans text-base font-light leading-relaxed sm:col-span-8',
-          cover ? 'text-black/60' : 'text-white/60',
+          cover ? 'text-black/70' : 'text-[#B3B3B3]',
         )}
       >
         {item.opening}

@@ -30,11 +30,10 @@ export const COMPANY = {
   officeCount: 4,
   email: 'onecapital0404@gmail.com',
   /** Live-site footer positioning — aspirational brand voice, not a performance claim. */
-  tagline:
-    'Redefining wealth management through precision advisory and institutional-grade technology.',
+  tagline: "Wealth isn't built by chance. It's built by strategy.",
   /** LinkedIn company about — shortened for UI. */
   shortAbout:
-    'A Pune-based financial services firm helping individuals and businesses grow wealth through strategic investment advisory, portfolio management, and long-term wealth planning.',
+    'A Pune-based wealth advisory firm helping high-net-worth investors, founders, and families protect and compound capital through bespoke PMS, AIFs, and strategic mutual fund advisory.',
   /** Live-site hero support line — product focus without invented returns. */
   heroSupport:
     'Mutual Funds, PMS, AIF, Equity, Options Baskets, and Investment Advisory. Research first. Strategy next. Investment last.',

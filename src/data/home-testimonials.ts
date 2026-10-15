@@ -16,25 +16,25 @@ export const HOME_TESTIMONIALS: Testimonial[] = [
   {
     id: 'trusted-advisory',
     quote:
-      'Working with One Capital has made investing much easier for me. The team takes the time to understand my financial goals and risk profile before suggesting any investment. Their advice is practical, transparent, and focused on long-term wealth creation. I especially appreciate the regular portfolio reviews and guidance whenever I need to make an important investment decision.',
-    client: 'Private Client',
-    role: 'Individual Investor',
-    category: 'Trusted Advisory',
+      'One Capital eliminated 22 overlapping mutual funds from my portfolio and consolidated everything into a focused equity PMS held directly in my Demat. Their quarterly reviews give me complete transparency on performance.',
+    client: 'Senior Tech Executive',
+    role: 'Pune (HNW Portfolio)',
+    category: 'PMS & Asset Consolidation',
   },
   {
     id: 'right-products',
     quote:
-      'I was looking for professional guidance to build a diversified investment portfolio. One Capital helped me understand different products and their suitability instead of simply recommending investments. Their team explained the risks, expected returns, and investment horizon clearly, which helped me make decisions with confidence. I value their continuous support and personalized approach.',
-    client: 'Private Client',
-    role: 'Portfolio Client',
-    category: 'Right Products & Portfolio',
+      'Unlike traditional banks that pushed high-commission NFOs and insurance, One Capital structured an asset allocation model strictly aligned with my family’s tax bracket and liquidity timeline. Genuine fiduciary advice.',
+    client: 'Family Business Owner',
+    role: 'Mumbai (Wealth Mandate)',
+    category: 'Tax & Asset Allocation',
   },
   {
     id: 'investment-confidence',
     quote:
-      'Before working with One Capital, I often found it difficult to decide where and when to invest. Their advisory approach helped me understand my options and make more informed investment decisions. From portfolio planning to selecting suitable investment products, the team has been supportive throughout. Their focus on understanding the client\'s needs rather than just selling a product is what I value most.',
-    client: 'Private Client',
-    role: 'Individual Investor',
-    category: 'Investment Decisions with Confidence',
+      'Their curated alternative funds and quantitative options hedging cushioned my portfolio during volatile quarters. It is institutional-grade wealth management with direct access to decision-makers.',
+    client: 'Corporate Director',
+    role: 'Kolhapur (AIF & Hedging)',
+    category: 'Capital Protection',
   },
 ];

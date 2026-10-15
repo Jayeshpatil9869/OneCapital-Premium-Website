@@ -4,6 +4,7 @@ import { DirectorAboutSection } from '@/src/components/sections/team/DirectorAbo
 import { Team } from '@/src/components/Team';
 import { TeamGallerySection } from '@/src/components/sections/team/TeamGallerySection';
 import { EditorialStatementCTA } from '@/src/components/sections/cta/EditorialStatementCTA';
+import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import { TEAM_PAGE } from '@/src/data/team-page';
 
 export default function TeamPage() {
@@ -16,19 +17,27 @@ export default function TeamPage() {
   return (
     <div className="w-full flex flex-col items-center">
       <TeamHero />
-      <DirectorAboutSection />
-      <Team />
-      <TeamGallerySection />
-      <EditorialStatementCTA
-        line1={cta.line1}
-        line2={cta.line2}
-        line3Prefix=""
-        line3Outlined={cta.line3Outlined}
-        line3Suffix="?"
-        italicQuote={cta.italicQuote}
-        buttonText={cta.buttonText}
-        buttonLink={cta.buttonLink}
-      />
+      <ScrollFade className="w-full">
+        <DirectorAboutSection />
+      </ScrollFade>
+      <ScrollFade className="w-full">
+        <Team />
+      </ScrollFade>
+      <ScrollFade className="w-full">
+        <TeamGallerySection />
+      </ScrollFade>
+      <ScrollFade className="w-full">
+        <EditorialStatementCTA
+          line1={cta.line1}
+          line2={cta.line2}
+          line3Prefix=""
+          line3Outlined={cta.line3Outlined}
+          line3Suffix="?"
+          italicQuote={cta.italicQuote}
+          buttonText={cta.buttonText}
+          buttonLink={cta.buttonLink}
+        />
+      </ScrollFade>
     </div>
   );
 }
