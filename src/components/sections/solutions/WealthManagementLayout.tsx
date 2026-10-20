@@ -1,5 +1,6 @@
 import { Button, Container } from '@/src/components/ui';
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
+import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import { COMPANY } from '@/src/data/company';
 
 const OFFERS = [
@@ -80,8 +81,10 @@ export function WealthManagementLayout() {
 
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-6 md:gap-5">
             {OFFERS.map((offer, index) => (
-              <li
+              <ScrollFade
+                as="li"
                 key={offer.title}
+                delay={index * 0.08}
                 className={
                   index < 2
                     ? 'rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:col-span-3 md:p-8'
@@ -92,15 +95,15 @@ export function WealthManagementLayout() {
                 <p className="mt-3 text-sm font-light leading-relaxed text-text-muted md:text-base">
                   {offer.body}
                 </p>
-              </li>
+              </ScrollFade>
             ))}
           </ul>
 
-          <div className="mt-10 flex justify-center md:mt-14">
+          <ScrollFade delay={0.2} className="mt-10 flex justify-center md:mt-14">
             <Button to="/contact" variant="primary" size="md">
               Book a conversation
             </Button>
-          </div>
+          </ScrollFade>
         </Container>
       </section>
 
@@ -115,16 +118,18 @@ export function WealthManagementLayout() {
             </h2>
           </RevealOnScroll>
           <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
-            {ADVANTAGES.map((item) => (
-              <li
+            {ADVANTAGES.map((item, index) => (
+              <ScrollFade
+                as="li"
                 key={item.title}
+                delay={index * 0.07}
                 className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:p-8"
               >
                 <h3 className="text-lg font-medium tracking-tight text-white">{item.title}</h3>
                 <p className="mt-3 text-sm font-light leading-relaxed text-text-muted md:text-base">
                   {item.body}
                 </p>
-              </li>
+              </ScrollFade>
             ))}
           </ul>
         </Container>

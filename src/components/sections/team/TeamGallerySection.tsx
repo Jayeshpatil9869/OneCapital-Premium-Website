@@ -228,27 +228,18 @@ export function TeamGallerySection() {
         ref={pinContainerRef}
         className="w-full min-h-screen flex flex-col justify-center items-center py-12 md:py-16 overflow-hidden"
       >
-        {/* Corner-Dot Eyebrow Badge */}
-        <div className="relative w-fit px-4 mx-auto bg-white/[0.04] border text-[#9B9999] border-white/15 text-xs sm:text-sm font-mono tracking-widest leading-[1] pt-2 pb-2 inline-block">
-          {TEAM_PAGE.gallery.eyebrow}
-          <span className="absolute w-[3px] h-[3px] bg-white z-10 top-0 left-0 -translate-x-1/2 -translate-y-1/2" />
-          <span className="absolute w-[3px] h-[3px] bg-white z-10 top-0 right-0 translate-x-1/2 -translate-y-1/2" />
-          <span className="corner-dot-bl absolute w-[3px] h-[3px] bg-white z-10 bottom-0 left-0 -translate-x-1/2 translate-y-1/2" />
-          <span className="corner-dot-br absolute w-[3px] h-[3px] bg-white z-10 bottom-0 right-0 translate-x-1/2 translate-y-1/2" />
-        </div>
-
         {/* Section Heading */}
-        <div className="flex justify-center px-5">
+        <div className="flex justify-center px-4 sm:px-6 lg:px-8 w-full">
           <h2
             id="gallery-heading"
-            className="text-center shrink-0 mt-5 sm:mb-4 mb-3 text-[2.2rem] md:text-[3.5rem] capitalize leading-[1.2] w-[90%] md:w-[95%] lg:w-[75%] font-sans font-medium text-white tracking-tight"
+            className="text-center w-full max-w-5xl lg:max-w-6xl mt-2 sm:mt-4 mb-4 sm:mb-6 text-[2.4rem] sm:text-5xl md:text-6xl lg:text-[4rem] font-sans font-medium text-white tracking-tight leading-[1.12]"
           >
             {TEAM_PAGE.gallery.heading}
           </h2>
         </div>
 
-        {/* Subtitle */}
-        <p className="text-center text-white/65 max-w-2xl mx-auto text-sm sm:text-base md:text-lg font-light leading-relaxed mb-6 sm:mb-10 px-6">
+        {/* Subtitle with increased width */}
+        <p className="text-center text-white/70 w-full max-w-4xl lg:max-w-5xl mx-auto text-base sm:text-lg md:text-xl font-light leading-relaxed mb-8 sm:mb-14 px-4 sm:px-6 text-pretty">
           {TEAM_PAGE.gallery.body}
         </p>
 

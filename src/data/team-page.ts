@@ -17,9 +17,9 @@ export const TEAM_PAGE = {
   },
 
   gallery: {
-    eyebrow: `Inside ${COMPANY.brandName}`,
-    heading: 'Across Maharashtra',
-    body: `A glimpse into our work — from the ${COMPANY.hqCity} headquarters to regional advisory conversations across Mumbai, Kolhapur, and Nashik.`,
+    eyebrow: 'Culture & Conviction',
+    heading: 'In The Rooms Where Wealth Is Built.',
+    body: `True wealth isn’t created by chance or managed in isolation. From high-conviction strategy sessions at our ${COMPANY.hqCity} headquarters to private advisory roundtables across Mumbai, Kolhapur, and Nashik — step inside the culture, research, and relentless execution behind One Capital.`,
   },
 
   cta: {

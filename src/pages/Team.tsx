@@ -17,9 +17,7 @@ export default function TeamPage() {
   return (
     <div className="w-full flex flex-col items-center">
       <TeamHero />
-      <ScrollFade className="w-full">
-        <DirectorAboutSection />
-      </ScrollFade>
+      <DirectorAboutSection />
       <ScrollFade className="w-full">
         <Team />
       </ScrollFade>

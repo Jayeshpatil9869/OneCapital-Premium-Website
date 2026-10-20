@@ -207,10 +207,15 @@ function OfferGroup({ group }: { group: (typeof PRODUCT_GROUPS)[number] }) {
         </h3>
       </div>
       <ul ref={listRef} className="border-t border-white/15 lg:col-span-8">
-        {getProductsInGroup(group.id).map((product) => {
+        {getProductsInGroup(group.id).map((product, index) => {
           const children = getProductChildren(product.id);
           return (
-            <li key={product.id} className="border-b border-white/15">
+            <ScrollFade
+              as="li"
+              key={product.id}
+              delay={index * 0.06}
+              className="border-b border-white/15"
+            >
               <Link
                 to={product.path}
                 className="grid gap-2 py-7 transition-colors hover:text-white/80 sm:grid-cols-12 sm:gap-6 sm:py-8"
@@ -239,7 +244,7 @@ function OfferGroup({ group }: { group: (typeof PRODUCT_GROUPS)[number] }) {
                   ))}
                 </ul>
               ) : null}
-            </li>
+            </ScrollFade>
           );
         })}
       </ul>

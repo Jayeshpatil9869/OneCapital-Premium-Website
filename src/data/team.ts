@@ -26,8 +26,8 @@ export const teamMembers: TeamMember[] = [
     description:
       'Guides clients through investment decisions with clear communication, risk awareness, and practical recommendations aligned to long-term goals.',
     category: 'Advisory',
-    image: '/images/team/member-1.png',
-    imagePosition: 'center 10%',
+    image: '/images/team/member-avatar.png',
+    imagePosition: 'center',
     profileUrl: '/contact',
     linkedinUrl: COMPANY.linkedinUrl,
   },
@@ -38,8 +38,8 @@ export const teamMembers: TeamMember[] = [
     description:
       'Constructs and monitors portfolios around client objectives, liquidity needs, and risk appetite — with disciplined oversight across market cycles and clear reporting.',
     category: 'Portfolio',
-    image: '/images/team/member-2.png',
-    imagePosition: 'center 12%',
+    image: '/images/team/member-avatar.png',
+    imagePosition: 'center',
     profileUrl: '/contact',
     linkedinUrl: COMPANY.linkedinUrl,
   },
@@ -50,8 +50,8 @@ export const teamMembers: TeamMember[] = [
     description:
       'Supports individuals and businesses with long-term wealth planning, tax-aware conversations, and risk awareness — coordinated from Pune headquarters with local access in Mumbai, Kolhapur, and Nashik.',
     category: 'Wealth Planning',
-    image: '/images/team/member-3.png',
-    imagePosition: 'center 18%',
+    image: '/images/team/member-avatar.png',
+    imagePosition: 'center',
     profileUrl: '/contact',
     linkedinUrl: COMPANY.linkedinUrl,
   },

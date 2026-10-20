@@ -6,9 +6,38 @@ import {
   useReducedMotion,
   type MotionValue,
 } from 'motion/react';
+import { useGSAP } from '@gsap/react';
+import { gsap, prefersReducedMotion } from '@/src/lib/motion';
 import { Button } from '@/src/components/ui';
-import { ScrollFade } from '@/src/components/motion/ScrollFade';
 import { cn } from '@/src/lib/utils';
+
+gsap.registerPlugin(useGSAP);
+
+function SplitChars({
+  text,
+  attr,
+}: {
+  text: string;
+  attr: 'data-char-h' | 'data-char-p';
+}) {
+  const words = text.split(' ');
+  return (
+    <>
+      {words.map((word, wordIndex) => (
+        <span key={wordIndex} className="inline-block whitespace-nowrap">
+          {Array.from(word).map((char, charIndex) => (
+            <span key={charIndex} {...{ [attr]: '' }}>
+              {char}
+            </span>
+          ))}
+          {wordIndex < words.length - 1 && (
+            <span {...{ [attr]: '' }}>&nbsp;</span>
+          )}
+        </span>
+      ))}
+    </>
+  );
+}
 
 // 3 Advisory Pillars
 const PILLAR_CARDS = [
@@ -19,7 +48,7 @@ const PILLAR_CARDS = [
     description:
       'Before picking a single fund, we map your capital across equities, debt, and liquid reserves. A disciplined mandate built to compound steadily while eliminating emotional portfolio churn.',
     buttonText: 'Explore Strategic Allocation',
-    image: '/images/solutions/capital-strategy-illustration.jpg',
+    image: '/images/solutions/capital-strategy-illustration.png',
     imageAlt: 'Strategic Asset Allocation: Risk & Capital Blueprint Illustration',
   },
   {
@@ -29,7 +58,7 @@ const PILLAR_CARDS = [
     description:
       'Direct equity portfolios of 18–25 high-conviction businesses held in your Demat, combined with curated pre-IPO and long-short AIFs. Complete transparency, active alpha, and quarterly rebalancing.',
     buttonText: 'Explore PMS & Alternative Funds',
-    image: '/images/solutions/portfolio-management-illustration.jpg',
+    image: '/images/solutions/portfolio-management-illustration.png',
     imageAlt: 'Portfolio Management: Mutual Funds, PMS & AIFs Illustration',
   },
   {
@@ -39,7 +68,7 @@ const PILLAR_CARDS = [
     description:
       'Systematic tax-loss harvesting, emergency liquidity reserves, and multi-generational family estate structures ensure market volatility and lifecycle shifts never disrupt your legacy.',
     buttonText: 'Explore Wealth Governance',
-    image: '/images/solutions/wealth-management-illustration.jpg',
+    image: '/images/solutions/wealth-management-illustration.png',
     imageAlt: 'Wealth Management: Liquidity, Tax & Succession Illustration',
   },
 ];
@@ -146,31 +175,101 @@ function Card({ card, i, progress, range, targetScale }: CardProps) {
   );
 }
 
+const HEADING_LINE_1 = 'Stop Collecting Random Funds.';
+const HEADING_LINE_2 = 'Start Building Real Wealth.';
+const SUBTITLE =
+  'Most portfolios hold 20+ duplicate schemes with zero unified strategy. We bring asset allocation, direct equity, and downside protection under one disciplined plan.';
+
 export function SolutionsOverviewSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   });
+
+  useGSAP(
+    () => {
+      const header = headerRef.current;
+      if (!header) return;
+
+      const headingChars = header.querySelectorAll<HTMLElement>('[data-char-h]');
+      const bodyChars = header.querySelectorAll<HTMLElement>('[data-char-p]');
+      if (!headingChars.length && !bodyChars.length) return;
+
+      const DIM = 'rgba(255, 255, 255, 0.22)';
+      const LIT_HEADING = '#ffffff';
+      const LIT_BODY = 'rgba(255, 255, 255, 0.85)';
+
+      if (prefersReducedMotion()) {
+        gsap.set(headingChars, { color: LIT_HEADING });
+        gsap.set(bodyChars, { color: LIT_BODY });
+        return;
+      }
+
+      gsap.set(headingChars, { color: DIM });
+      gsap.set(bodyChars, { color: DIM });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: header,
+          start: 'top 75%',
+          end: 'bottom 20%',
+          scrub: 1,
+        },
+      });
+
+      tl.to(headingChars, {
+        color: LIT_HEADING,
+        ease: 'none',
+        stagger: 0.05,
+      });
+
+      tl.to(
+        bodyChars,
+        {
+          color: LIT_BODY,
+          ease: 'none',
+          stagger: 0.02,
+        },
+        '-=0.15',
+      );
+    },
+    { scope: headerRef },
+  );
 
   return (
     <section
       aria-labelledby="solutions-overview-heading"
       className="relative flex w-full flex-col items-center bg-black pt-20 pb-0 md:pt-32 md:pb-0 text-white border-y border-white/10"
     >
-      {/* ─── SECTION HEADER ─── */}
-      <ScrollFade className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 text-center mb-8 sm:mb-14">
+      {/* ─── SECTION HEADER WITH SCROLL COLOR FILL SCRUB ─── */}
+      <div
+        ref={headerRef}
+        className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 text-center mb-8 sm:mb-14"
+      >
         <h2
           id="solutions-overview-heading"
-          className="text-[2.2rem] sm:text-[3.25rem] lg:text-[4rem] font-medium tracking-tight leading-[1.1] text-white"
+          className="text-[2.2rem] sm:text-[3.25rem] lg:text-[4rem] font-medium tracking-tight leading-[1.1] text-white/20 select-none"
         >
-          <span className="block">Stop Collecting Random Funds.</span>
-          <span className="block">Start Building Real Wealth.</span>
+          <span className="sr-only">
+            {HEADING_LINE_1} {HEADING_LINE_2}
+          </span>
+          <span aria-hidden="true" className="block">
+            <SplitChars text={HEADING_LINE_1} attr="data-char-h" />
+          </span>
+          <span aria-hidden="true" className="block mt-1 sm:mt-2">
+            <SplitChars text={HEADING_LINE_2} attr="data-char-h" />
+          </span>
         </h2>
-        <p className="mt-4 text-base sm:text-lg text-white/70 font-light max-w-2xl mx-auto">
-          Most portfolios hold 20+ duplicate schemes with zero unified strategy. We bring asset allocation, direct equity, and downside protection under one disciplined plan.
+        <p className="mt-4 text-base sm:text-lg text-white/20 font-light max-w-2xl mx-auto leading-relaxed">
+          <span className="sr-only">{SUBTITLE}</span>
+          <span aria-hidden="true">
+            <SplitChars text={SUBTITLE} attr="data-char-p" />
+          </span>
         </p>
-      </ScrollFade>
+      </div>
 
       {/* ─── STACKED CARDS CONTAINER ─── */}
       <div ref={containerRef} className="relative w-full pb-[23vh]">
