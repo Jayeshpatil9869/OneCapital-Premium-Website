@@ -36,7 +36,7 @@ export const COMPANY = {
     'A Pune-based wealth advisory firm helping high-net-worth investors, founders, and families protect and compound capital through bespoke PMS, AIFs, and strategic mutual fund advisory.',
   /** Live-site hero support line — product focus without invented returns. */
   heroSupport:
-    'Mutual Funds, PMS, AIF, Equity, Options Baskets, and Investment Advisory. Research first. Strategy next. Investment last.',
+    'Research first. Strategy next. Investment last.',
   focusAreas: [
     'Investment advisory',
     'Portfolio management',

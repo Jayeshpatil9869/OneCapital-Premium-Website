@@ -30,12 +30,10 @@ export function OfficesPresenceSection() {
               <div className="flex flex-col gap-5">
                 <Eyebrow>Our Presence</Eyebrow>
                 <SectionHeading id="offices-presence-heading">
-                  Advisory rooted in Maharashtra.
+                  Advisory Rooted in Maharashtra.
                 </SectionHeading>
-                <BodyText className="text-base md:text-lg max-w-xl">
-                  One Capital serves clients from four regional offices — Pune headquarters plus
-                  Mumbai, Kolhapur, and Nashik — combining local access with disciplined advisory.
-                  Each office opens in turn. Select a location on the map to look closer.
+                <BodyText className="text-base md:text-lg max-w-xl text-text-muted leading-relaxed">
+                  Headquartered in Pune with regional offices across Mumbai, Nashik, and Kolhapur, One Capital combines local proximity with institutional research to manage and protect wealth across Maharashtra.
                 </BodyText>
               </div>
             </RevealOnScroll>

@@ -12,7 +12,6 @@ import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import {
   FAQ_ALL_ID,
   HOME_FAQ_CATEGORIES,
-  getAllFAQQuestions,
   getCategoryTitle,
   getFAQQuestionsForCategory,
   type FAQQuestion,
@@ -28,14 +27,11 @@ type FAQCategoryNavProps = {
 };
 
 function FAQCategoryNav({ activeId, onSelect, className }: FAQCategoryNavProps) {
-  const allCount = getAllFAQQuestions().length;
-
   const items = [
-    { id: FAQ_ALL_ID, title: 'All', count: allCount },
+    { id: FAQ_ALL_ID, title: 'All' },
     ...HOME_FAQ_CATEGORIES.map((category) => ({
       id: category.id,
       title: category.title,
-      count: category.questions.length,
     })),
   ];
 
@@ -57,20 +53,10 @@ function FAQCategoryNav({ activeId, onSelect, className }: FAQCategoryNavProps) 
             )}
           >
             <span className="text-xs uppercase tracking-widest font-mono">{item.title}</span>
-            <span className="flex items-center gap-2 shrink-0">
-              <span
-                className={cn(
-                  'text-xs font-mono tabular-nums',
-                  active ? 'text-black/50' : 'text-white/40',
-                )}
-              >
-                {String(item.count).padStart(2, '0')}
-              </span>
-              <ChevronRight
-                className={cn('w-4 h-4', active ? 'text-black/50' : 'text-white/30')}
-                aria-hidden
-              />
-            </span>
+            <ChevronRight
+              className={cn('w-4 h-4 shrink-0', active ? 'text-black/50' : 'text-white/30')}
+              aria-hidden
+            />
           </button>
         );
       })}
@@ -297,9 +283,20 @@ export function FAQSection() {
           </RevealOnScroll>
         </div>
 
-        <p className="mt-10 md:mt-12 text-center text-sm text-white/45 font-mono uppercase tracking-widest">
-          Still have questions? The conversation begins with a consultation.
-        </p>
+        <RevealOnScroll className="mt-12 md:mt-16 flex flex-col items-center justify-center gap-5 text-center">
+          <p className="text-sm md:text-base text-white/50 font-mono uppercase tracking-widest max-w-xl">
+            Still have questions? The conversation begins with a consultation.
+          </p>
+          <Button
+            to="/contact"
+            variant="primary"
+            size="md"
+            arrow="up-right"
+            className="shadow-lg hover:shadow-white/10 transition-all font-medium tracking-wide"
+          >
+            Book Consultation
+          </Button>
+        </RevealOnScroll>
       </Container>
     </Section>
   );

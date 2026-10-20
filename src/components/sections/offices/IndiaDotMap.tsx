@@ -161,6 +161,28 @@ function OfficeMarkerItem({
       )}
       style={{ left: `${office.mapX}%`, top: `${office.mapY}%` }}
     >
+      {/* Permanent City Label (always visible like Purnartha) */}
+      <span
+        aria-hidden="true"
+        className={cn(
+          'pointer-events-none absolute z-20 flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-mono tracking-wider transition-all duration-300 select-none',
+          office.id === 'mumbai'
+            ? 'right-full mr-2.5 top-1/2 -translate-y-1/2'
+            : 'left-full ml-2.5 top-1/2 -translate-y-1/2',
+          isHovered
+            ? 'bg-white text-black font-semibold shadow-lg shadow-white/20 scale-105'
+            : 'bg-[#181818]/90 text-white/85 border border-white/15 backdrop-blur-md',
+        )}
+      >
+        <span
+          className={cn(
+            'h-1.5 w-1.5 rounded-full',
+            isHovered ? 'bg-black' : 'bg-emerald-400',
+          )}
+        />
+        <span>{office.city}</span>
+      </span>
+
       {isHovered && (
         <div
           ref={tooltipRef}
@@ -168,23 +190,23 @@ function OfficeMarkerItem({
           className={config.className}
           role="tooltip"
         >
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#1D1D1D] p-5 shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-xl">
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+          <div className="relative overflow-hidden rounded-xl border border-white/20 bg-[#161616]/95 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-xl">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
 
-            <p className="text-xs md:text-sm leading-relaxed text-[#B3B3B3] italic font-light">
-              &ldquo;{office.quote}&rdquo;
-            </p>
-
-            <div className="mt-4 pt-3 border-t border-white/10 flex flex-col gap-0.5">
-              <p className="text-sm font-medium text-white tracking-tight">
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 shrink-0" />
+              <p className="text-sm font-semibold text-white tracking-tight">
                 {office.headline}
               </p>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
-                <p className="text-xs font-medium text-[#757575]">
-                  {office.city}, {office.region}
-                </p>
-              </div>
+            </div>
+
+            <p className="mt-2 text-xs leading-relaxed text-neutral-300 font-light">
+              {office.quote}
+            </p>
+
+            <div className="mt-2.5 pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-neutral-400">
+              <span>{office.city}, {office.region}</span>
+              <span className="text-emerald-400 font-medium">Active Office</span>
             </div>
           </div>
         </div>

@@ -39,7 +39,7 @@ export default function Home() {
           </span>
         }
         titleClassName="text-3xl sm:text-5xl md:text-6xl lg:text-[3.85rem] xl:text-[4.35rem] leading-[1.08] font-medium tracking-tight"
-        description="Mutual Funds, PMS, AIF, Equity, Options Baskets, and Investment Advisory. Research first. Strategy next. Investment last."
+        description="Research first. Strategy next. Investment last."
         metrics={METRICS}
       />
 

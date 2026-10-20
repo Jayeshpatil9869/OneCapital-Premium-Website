@@ -40,9 +40,8 @@ const OFFICE_SEEDS: OfficeSeed[] = [
     mapX: 18,
     mapY: 60,
     order: 2,
-    quote:
-      `Our Mumbai desk connects clients to ${COMPANY.brandName}’s advisory network — mutual funds, portfolio management, and wealth planning with a clear local cadence.`,
-    headline: 'Mumbai Advisory Office',
+    quote: 'Financial Capital Desk • Institutional & HNI Advisory',
+    headline: 'Mumbai Desk',
   },
   {
     id: 'pune',
@@ -53,9 +52,8 @@ const OFFICE_SEEDS: OfficeSeed[] = [
     mapX: 24.5,
     mapY: 62.5,
     order: 1,
-    quote:
-      'Pune headquarters at World Trade Centre, Tower 1, West Kharadi — delivering investment advisory, portfolio management, and long-term wealth planning with a client-first approach.',
-    headline: 'Pune Headquarters',
+    quote: 'World Trade Centre, Tower 1, Kharadi • Wealth Advisory & PMS',
+    headline: 'Pune Office',
   },
   {
     id: 'kolhapur',
@@ -66,9 +64,8 @@ const OFFICE_SEEDS: OfficeSeed[] = [
     mapX: 26.5,
     mapY: 70,
     order: 3,
-    quote:
-      'From Kolhapur, we support families and businesses with structured wealth planning and disciplined portfolio conversations.',
-    headline: 'Kolhapur Advisory Office',
+    quote: 'Regional Office • Family Wealth & Capital Advisory',
+    headline: 'Kolhapur Office',
   },
   {
     id: 'nashik',
@@ -79,9 +76,8 @@ const OFFICE_SEEDS: OfficeSeed[] = [
     mapX: 26,
     mapY: 55,
     order: 4,
-    quote:
-      `Our Nashik office extends ${COMPANY.brandName}’s advisory reach to clients who value clarity, cadence, and considered counsel.`,
-    headline: 'Nashik Advisory Office',
+    quote: 'Regional Office • Strategic Portfolio Management',
+    headline: 'Nashik Office',
   },
 ];
 

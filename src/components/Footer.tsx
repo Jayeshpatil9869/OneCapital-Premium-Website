@@ -23,25 +23,25 @@ export default function Footer() {
 
       <RevealOnScroll className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-8 md:mb-20 relative z-10">
         {/* Brand */}
-        <div className="flex flex-col gap-6 lg:pr-8">
+        <div className="flex flex-col items-center text-center md:items-start md:text-left gap-6 lg:pr-8">
           <BrandLogo className="text-white w-fit" markClassName="h-9 w-9" />
           <p className="text-text-muted text-sm leading-relaxed max-w-sm text-balance">
             {COMPANY.tagline}
           </p>
-          <SocialLinks className="mt-2" />
+          <SocialLinks className="mt-2 justify-center md:justify-start" />
           <AppDownloadCard className="mt-2 hidden w-full max-w-sm md:block" />
         </div>
 
         <div className="grid grid-cols-1 gap-8 lg:contents">
           {/* Strategies */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col items-center text-center md:items-start md:text-left gap-4">
             <h4 className="text-xs uppercase tracking-wider font-mono text-text-muted mb-2">
               Strategies
             </h4>
             {getOfferTree()
               .filter((node) => node.children.length > 0)
               .map((node) => (
-                <div key={node.product.id} className="flex flex-col gap-2">
+                <div key={node.product.id} className="flex flex-col items-center md:items-start gap-2">
                   <Link
                     to={node.product.path}
                     className="text-sm text-white/80 hover:text-white transition-colors inline-flex items-center group w-fit"
@@ -49,7 +49,7 @@ export default function Footer() {
                     <NavTextSlide label={node.product.navLabel} />
                     <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
                   </Link>
-                  <ul className="flex flex-col gap-2 border-l border-white/10 pl-3">
+                  <ul className="flex flex-col items-center md:items-start gap-2 md:border-l md:border-white/10 md:pl-3">
                     {node.children.map((child) => (
                       <li key={child.path}>
                         <Link
@@ -73,7 +73,7 @@ export default function Footer() {
           </div>
 
           {/* Company */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col items-center text-center md:items-start md:text-left gap-4">
             <h4 className="text-xs uppercase tracking-wider font-mono text-text-muted mb-2">
               Company
             </h4>
@@ -98,15 +98,11 @@ export default function Footer() {
         </div>
 
         {/* Contact/CTA */}
-        <div className="flex flex-col gap-6">
-          <h4 className="text-xs uppercase tracking-wider font-mono text-text-muted mb-2">
-            Start a Conversation
+        <div className="flex flex-col items-center text-center md:items-start md:text-left gap-5">
+          <h4 className="text-xs uppercase tracking-wider font-mono text-text-muted">
+            Connect with Us
           </h4>
-          <p className="text-sm text-text-muted">
-            Reach out to our advisory team to discuss your portfolio and
-            long-term vision.
-          </p>
-          <div className="flex flex-col gap-2 text-sm text-white/70">
+          <div className="flex flex-col items-center md:items-start gap-2 text-sm text-white/70">
             <a
               href={COMPANY.phoneHref}
               className="tabular-nums hover:text-white transition-colors w-fit"
@@ -128,7 +124,7 @@ export default function Footer() {
             to="/contact"
             variant="secondary"
             arrow="up-right"
-            className="w-full rounded-xl justify-between px-6 py-4 min-h-14 [&_.oc-btn-label]:w-full [&_.oc-btn-label]:justify-between"
+            className="w-full max-w-sm rounded-xl justify-between px-6 py-4 min-h-14 [&_.oc-btn-label]:w-full [&_.oc-btn-label]:justify-between"
           >
             Book Consultation
           </Button>

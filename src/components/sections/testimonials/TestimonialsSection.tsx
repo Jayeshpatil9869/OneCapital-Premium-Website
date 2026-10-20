@@ -12,7 +12,6 @@ import { useGSAP } from "@gsap/react";
 
 import {
   Container,
-  Eyebrow,
   SectionHeading,
 } from "@/src/components/ui";
 
@@ -268,17 +267,11 @@ export function TestimonialsSection() {
           className="mx-auto grid max-w-5xl grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:items-center lg:gap-12 xl:max-w-[72rem]"
         >
           <div className="flex flex-col gap-5 lg:col-span-5">
-            <Eyebrow
-              className="text-white/55 group-[.light-section]:text-black/55 [&_span:last-child]:text-white/55 group-[.light-section]:[&_span:last-child]:text-black/55 [&_span:first-child]:bg-white/30 group-[.light-section]:[&_span:first-child]:bg-black/30"
-            >
-              Client Perspectives
-            </Eyebrow>
-
             <SectionHeading
               id="client-perspectives-heading"
-              className="max-w-[10ch] text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.65rem] font-semibold tracking-tight leading-[1.08] text-white group-[.light-section]:text-black"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.65rem] font-semibold tracking-tight leading-[1.08] text-white group-[.light-section]:text-black"
             >
-              Trusted for the long term.
+              Client Perspectives
             </SectionHeading>
           </div>
 
