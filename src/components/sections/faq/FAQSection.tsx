@@ -283,8 +283,11 @@ export function FAQSection() {
           </RevealOnScroll>
         </div>
 
-        <RevealOnScroll className="mt-12 md:mt-16 flex flex-col items-center justify-center gap-5 text-center">
-          <p className="text-sm md:text-base text-white/50 font-mono uppercase tracking-widest max-w-xl">
+        <RevealOnScroll className="mt-12 md:mt-16 flex flex-col items-center justify-center gap-5 text-center w-full">
+          <p
+            style={{ whiteSpace: 'nowrap' }}
+            className="text-xs sm:text-sm md:text-base text-white/50 font-mono uppercase tracking-wider sm:tracking-widest whitespace-nowrap text-center max-w-none"
+          >
             Still have questions? The conversation begins with a consultation.
           </p>
           <Button

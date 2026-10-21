@@ -33,12 +33,12 @@ export default function Home() {
         backgroundImage="/images/hero-wealth.jpg"
         eyebrow="EXPERT FINANCIAL GUIDANCE"
         title={
-          <span className="block max-w-5xl mx-auto">
+          <span className="block max-w-4xl mx-auto">
             <span className="block">Wealth Isn't Built By Chance.</span>
-            <span className="block mt-1 sm:mt-2 text-white/95">It's Built By Strategy.</span>
+            <span className="block mt-1 sm:mt-1.5 text-white/95">It's Built By Strategy.</span>
           </span>
         }
-        titleClassName="text-3xl sm:text-5xl md:text-6xl lg:text-[3.85rem] xl:text-[4.35rem] leading-[1.08] font-medium tracking-tight"
+        titleClassName="text-2xl sm:text-4xl md:text-[2.65rem] lg:text-[2.85rem] xl:text-[3.25rem] 2xl:text-[3.75rem] leading-[1.1] font-medium tracking-tight"
         description="Research first. Strategy next. Investment last."
         metrics={METRICS}
       />

@@ -32,11 +32,23 @@ function isFinePointer() {
   return window.matchMedia(FINE_POINTER_QUERY).matches;
 }
 
-function tooltipShift(smSide: boolean) {
+function tooltipShift(officeId: string, smSide: boolean) {
   const mobile = window.matchMedia(MOBILE_MAP_QUERY).matches;
+  if (mobile) {
+    return {
+      x: MOBILE_TOOLTIP_NUDGE,
+      xPercent: -50,
+    };
+  }
+  if (officeId === 'mumbai') {
+    return {
+      x: 0,
+      xPercent: 0,
+    };
+  }
   return {
-    x: mobile ? MOBILE_TOOLTIP_NUDGE : 0,
-    xPercent: !mobile && smSide ? 0 : -50,
+    x: 0,
+    xPercent: smSide ? 0 : -50,
   };
 }
 
@@ -46,20 +58,25 @@ function northToSouth(offices: OfficeLocation[]) {
 }
 
 const ABOVE_MARKER =
-  'pointer-events-none absolute bottom-full left-1/2 z-50 mb-3 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] max-sm:translate-x-[calc(-50%+5rem)] sm:-translate-x-1/2';
+  'pointer-events-none absolute bottom-full left-1/2 z-50 mb-3 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] max-sm:translate-x-[calc(-50%+4rem)] sm:-translate-x-1/2';
 
-const ABOVE_THEN_SIDE =
-  'pointer-events-none absolute bottom-full left-1/2 z-50 mb-3 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] max-sm:translate-x-[calc(-50%+5rem)] sm:bottom-auto sm:left-full sm:top-0 sm:mb-0 sm:ml-3 sm:translate-x-0';
+/** Positioned westward into the Arabian Sea so it never touches Nashik, Pune, or Kolhapur */
+const WEST_MARKER =
+  'pointer-events-none absolute bottom-full z-50 mb-3 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] max-sm:left-1/2 max-sm:-translate-x-1/2 max-sm:translate-x-[calc(-50%+4rem)] sm:bottom-full sm:right-[-1.5rem] sm:left-auto sm:translate-x-0';
+
+/** Positioned eastward with clear horizontal separation to prevent overlapping Kolhapur or Nashik */
+const SIDE_MARKER =
+  'pointer-events-none absolute bottom-full left-1/2 z-50 mb-3 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] max-sm:translate-x-[calc(-50%+4rem)] sm:bottom-auto sm:left-full sm:top-0 sm:mb-0 sm:ml-9 sm:translate-x-0';
 
 const TOOLTIP_MOTION = {
-  fromVars: { opacity: 0, y: 18, scale: 0.94 },
+  fromVars: { opacity: 0, y: 14, scale: 0.94 },
   toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
 } as const;
 
 const TOOLTIP_CONFIGS: Record<string, TooltipConfig> = {
-  mumbai: { className: ABOVE_MARKER, smSide: false, ...TOOLTIP_MOTION },
-  pune: { className: ABOVE_THEN_SIDE, smSide: true, ...TOOLTIP_MOTION },
-  kolhapur: { className: ABOVE_THEN_SIDE, smSide: true, ...TOOLTIP_MOTION },
+  mumbai: { className: WEST_MARKER, smSide: false, ...TOOLTIP_MOTION },
+  pune: { className: SIDE_MARKER, smSide: true, ...TOOLTIP_MOTION },
+  kolhapur: { className: SIDE_MARKER, smSide: true, ...TOOLTIP_MOTION },
   nashik: { className: ABOVE_MARKER, smSide: false, ...TOOLTIP_MOTION },
 };
 
@@ -93,15 +110,15 @@ function OfficeMarkerItem({
     const query = window.matchMedia(MOBILE_MAP_QUERY);
     const apply = () => {
       if (!isHovered || !tooltipRef.current) return;
-      gsap.set(tooltipRef.current, tooltipShift(config.smSide));
+      gsap.set(tooltipRef.current, tooltipShift(office.id, config.smSide));
     };
     query.addEventListener('change', apply);
     return () => query.removeEventListener('change', apply);
-  }, [isHovered, config.smSide]);
+  }, [isHovered, office.id, config.smSide]);
 
   useGSAP(
     () => {
-      const { x, xPercent } = tooltipShift(config.smSide);
+      const { x, xPercent } = tooltipShift(office.id, config.smSide);
 
       if (isHovered) {
         if (tooltipRef.current) {
@@ -161,25 +178,20 @@ function OfficeMarkerItem({
       )}
       style={{ left: `${office.mapX}%`, top: `${office.mapY}%` }}
     >
-      {/* Permanent City Label (always visible like Purnartha) */}
+      {/* Permanent City Label - Mumbai and Kolhapur sit on the left (west coast), Nashik and Pune on the right */}
       <span
         aria-hidden="true"
         className={cn(
           'pointer-events-none absolute z-20 flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-mono tracking-wider transition-all duration-300 select-none',
-          office.id === 'mumbai'
+          office.id === 'mumbai' || office.id === 'kolhapur'
             ? 'right-full mr-2.5 top-1/2 -translate-y-1/2'
             : 'left-full ml-2.5 top-1/2 -translate-y-1/2',
           isHovered
-            ? 'bg-white text-black font-semibold shadow-lg shadow-white/20 scale-105'
-            : 'bg-[#181818]/90 text-white/85 border border-white/15 backdrop-blur-md',
+            ? 'opacity-0 scale-90 pointer-events-none'
+            : 'opacity-100 scale-100 bg-[#181818]/90 text-white/85 border border-white/15 backdrop-blur-md shadow-md',
         )}
       >
-        <span
-          className={cn(
-            'h-1.5 w-1.5 rounded-full',
-            isHovered ? 'bg-black' : 'bg-emerald-400',
-          )}
-        />
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
         <span>{office.city}</span>
       </span>
 
@@ -190,6 +202,16 @@ function OfficeMarkerItem({
           className={config.className}
           role="tooltip"
         >
+          {/* Subtle radar connector hairline on desktop to visually anchor the offset tooltip */}
+          {config.smSide && (
+            <div
+              aria-hidden="true"
+              className="hidden sm:block absolute right-full top-5 w-9 h-px bg-gradient-to-l from-white/30 via-emerald-400/50 to-transparent pointer-events-none"
+            >
+              <span className="absolute left-0 top-1/2 -translate-y-1/2 h-1 w-1 rounded-full bg-emerald-400/80 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
+            </div>
+          )}
+
           <div className="relative overflow-hidden rounded-xl border border-white/20 bg-[#161616]/95 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-xl">
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
 

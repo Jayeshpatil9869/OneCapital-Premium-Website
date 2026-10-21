@@ -198,11 +198,11 @@ function HeroMetrics({ metrics }: { metrics: HeroMetric[] }) {
           key={metric.label}
           className="flex flex-col items-center min-w-0"
         >
-          <span className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-sans font-medium tracking-tight text-white leading-none">
+          <span className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-sans font-medium tracking-tight text-white leading-none">
             <span data-count={metric.value}>0</span>
             {metric.suffix != null && metric.suffix}
           </span>
-          <span className="text-xs sm:text-sm font-sans font-normal text-white/70 text-center max-w-[18ch] sm:max-w-[20ch] leading-snug mt-3">
+          <span className="text-[11px] sm:text-xs lg:text-sm font-sans font-normal text-white/70 text-center max-w-[18ch] sm:max-w-[20ch] leading-snug mt-2 sm:mt-2.5">
             {metric.label}
           </span>
         </div>
@@ -275,7 +275,7 @@ export function HeroEditorial({
     return (
       <section
         className={cn(
-          "relative flex min-h-[100svh] w-full flex-col justify-center items-center overflow-hidden bg-black pt-[max(6rem,env(safe-area-inset-top))] pb-10 sm:pb-14 lg:pb-16",
+          "relative flex min-h-[100svh] w-full flex-col justify-center items-center overflow-hidden bg-black pt-[max(6rem,env(safe-area-inset-top))] pb-10 sm:pb-12 lg:pb-14",
           className,
         )}
       >
@@ -285,7 +285,7 @@ export function HeroEditorial({
           <div className="pointer-events-none absolute inset-0 bg-black" aria-hidden />
         )}
 
-        <Container className="relative z-10 flex flex-col items-center px-6 md:px-8 translate-y-3 sm:translate-y-5">
+        <Container className="relative z-10 flex flex-col items-center px-6 md:px-8">
           <div className="flex w-full max-w-5xl flex-col items-center text-center">
             {eyebrow && (
               <RevealOnScroll
@@ -299,7 +299,7 @@ export function HeroEditorial({
               >
                 <Eyebrow
                   centered
-                  className="mb-6 sm:mb-7 text-xs font-mono uppercase tracking-[0.24em] text-white/70 [&>span:first-child]:w-9 sm:[&>span:first-child]:w-12 [&>span:first-child]:bg-white/35 [&>span:last-child]:w-9 sm:[&>span:last-child]:w-12 [&>span:last-child]:bg-white/35"
+                  className="mb-6 sm:mb-7 lg:mb-8 text-[11px] sm:text-xs font-mono uppercase tracking-[0.22em] text-white/70 [&>span:first-child]:w-8 sm:[&>span:first-child]:w-10 [&>span:first-child]:bg-white/35 [&>span:last-child]:w-8 sm:[&>span:last-child]:w-10 [&>span:last-child]:bg-white/35"
                 >
                   {eyebrow}
                 </Eyebrow>
@@ -317,8 +317,8 @@ export function HeroEditorial({
             >
               <DisplayHeading
                 className={cn(
-                  "mb-5 sm:mb-6 text-center text-white font-medium tracking-tight leading-[1.08] text-balance",
-                  "text-[clamp(2.25rem,1.4rem+3.2vw,4.5rem)] sm:text-5xl md:text-6xl lg:text-[3.85rem] xl:text-[4.35rem] max-w-5xl mx-auto",
+                  "mb-4 sm:mb-5 lg:mb-6 text-center text-white font-medium tracking-tight leading-[1.1] text-balance",
+                  "text-2xl sm:text-4xl md:text-5xl lg:text-[2.85rem] xl:text-[3.25rem] max-w-4xl mx-auto",
                   titleClassName
                 )}
               >
@@ -336,7 +336,7 @@ export function HeroEditorial({
                 ease="power3.out"
                 className="w-full flex justify-center"
               >
-                <BodyText className="mx-auto mb-0 max-w-[44rem] text-center text-base sm:text-lg text-[#B3B3B3] leading-relaxed font-light">
+                <BodyText className="mx-auto mb-0 max-w-[38rem] text-center text-sm sm:text-base lg:text-[1.05rem] text-[#B3B3B3] leading-relaxed font-light">
                   {description}
                 </BodyText>
               </RevealOnScroll>
@@ -350,7 +350,7 @@ export function HeroEditorial({
                 delay={0.6}
                 duration={1.1}
                 ease="power3.out"
-                className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-4"
+                className="mt-6 sm:mt-7 flex flex-wrap items-center justify-center gap-4"
               >
                 {actions}
               </RevealOnScroll>
@@ -359,15 +359,15 @@ export function HeroEditorial({
         </Container>
 
         {metrics && metrics.length > 0 && (
-          <div className="relative z-10 w-full mt-12 sm:mt-16 lg:mt-20">
+          <div className="relative z-10 w-full mt-10 sm:mt-13 lg:mt-16">
             <RevealOnScroll trigger="load" delay={0.65} duration={0.9}>
               <div
-                className="mx-auto w-[75%] max-w-5xl border-t border-white/20 mb-8 sm:mb-10"
+                className="mx-auto w-[70%] max-w-4xl border-t border-white/20 mb-7 sm:mb-8 lg:mb-9"
                 aria-hidden
               />
             </RevealOnScroll>
             <RevealOnScroll trigger="load" delay={0.72} duration={1.1}>
-              <Container className="px-6 md:px-8 max-w-[1100px]">
+              <Container className="px-6 md:px-8 max-w-[1000px]">
                 <HeroMetrics metrics={metrics} />
               </Container>
             </RevealOnScroll>
