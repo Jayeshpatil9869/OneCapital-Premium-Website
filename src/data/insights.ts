@@ -1,10 +1,7 @@
 import { COMPANY } from '@/src/data/company';
+import { BLOG_POSTS, type BlogCategory } from '@/src/data/blog-posts';
 
-export type InsightCategory =
-  | 'Market Outlook'
-  | 'Wealth Planning'
-  | 'Alternatives'
-  | 'Behavioral Finance';
+export type InsightCategory = BlogCategory;
 
 export type InsightArticle = {
   id: string;
@@ -67,14 +64,14 @@ export const BLOG_PAGE = {
     line1: 'Notes from',
     line2: 'the practice.',
     description:
-      'Short, practical essays on multi-asset portfolios, tax-aware architecture, alternatives, and the behavioural discipline required to stay invested through cycles.',
+      'Plain answers to the questions clients actually ask: what a PMS is, how it differs from a mutual fund, and where a fixed deposit still belongs.',
   },
   readingPath: {
     eyebrow: 'Suggested path',
-    heading: 'Start with behaviour, then allocation.',
-    body: 'Most clients benefit from reading the drawdown note first — then the multi-asset outlook — before a planning conversation.',
-    primaryId: 'drawdown-decisions',
-    secondaryId: 'multi-asset-higher-for-longer',
+    heading: 'Start with the product, then the comparison.',
+    body: 'Read what a PMS and an AIF actually are. Then read whether a PMS belongs beside the mutual funds you already hold.',
+    primaryId: 'what-are-aif-and-pms',
+    secondaryId: 'is-pms-better-than-mutual-funds',
   },
 } as const;
 
@@ -129,48 +126,15 @@ export const INSIGHT_THEMES: InsightTheme[] = [
   },
 ];
 
-export const INSIGHT_ARTICLES: InsightArticle[] = [
-  {
-    id: 'multi-asset-higher-for-longer',
-    category: 'Market Outlook',
-    title: 'Navigating multi-asset portfolios in a higher-for-longer world',
-    excerpt:
-      'How disciplined rebalancing and quality bias can protect real purchasing power when rates stay elevated.',
-    readTime: '6 min',
-    image: '/images/gallery/quant-analytics-hub.jpg',
-    href: '/contact',
-  },
-  {
-    id: 'tax-aware-family-offices',
-    category: 'Wealth Planning',
-    title: 'Tax-aware architecture for family offices',
-    excerpt:
-      'Structuring liquidity, estate transfers, and investment vehicles without sacrificing long-term compounding.',
-    readTime: '7 min',
-    image: '/images/gallery/family-office-advisory.jpg',
-    href: '/contact',
-  },
-  {
-    id: 'private-credit-stabilizer',
-    category: 'Alternatives',
-    title: 'Private credit as a portfolio stabilizer',
-    excerpt:
-      'Where carefully underwritten private debt can complement public fixed income for sophisticated clients.',
-    readTime: '5 min',
-    image: '/images/gallery/wealth-headquarters.jpg',
-    href: '/contact',
-  },
-  {
-    id: 'drawdown-decisions',
-    category: 'Behavioral Finance',
-    title: 'Removing emotion from drawdown decisions',
-    excerpt:
-      'A framework for staying invested when volatility spikes—and when to deliberately redeploy cash.',
-    readTime: '5 min',
-    image: '/images/gallery/executive-client-meeting.jpg',
-    href: '/contact',
-  },
-];
+export const INSIGHT_ARTICLES: InsightArticle[] = BLOG_POSTS.map((post) => ({
+  id: post.id,
+  category: post.category,
+  title: post.title,
+  excerpt: post.excerpt,
+  readTime: post.readTime,
+  image: post.image,
+  href: post.href,
+}));
 
 export function getArticleById(id: string): InsightArticle | undefined {
   return INSIGHT_ARTICLES.find((article) => article.id === id);

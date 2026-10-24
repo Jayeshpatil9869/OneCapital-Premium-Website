@@ -134,6 +134,35 @@ export function buildServiceJsonLd(opts: {
   };
 }
 
+export function buildArticleJsonLd(opts: {
+  headline: string;
+  description: string;
+  path: string;
+  datePublished: string;
+  image?: string;
+}): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: opts.headline,
+    description: opts.description,
+    datePublished: opts.datePublished,
+    dateModified: opts.datePublished,
+    mainEntityOfPage: absoluteUrl(opts.path),
+    ...(opts.image ? { image: absoluteUrl(opts.image) } : {}),
+    author: {
+      '@type': 'Organization',
+      name: COMPANY.brandName,
+      url: COMPANY.websiteUrl,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: COMPANY.legalName,
+      url: COMPANY.websiteUrl,
+    },
+  };
+}
+
 export function buildOrganizationJsonLd(): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',

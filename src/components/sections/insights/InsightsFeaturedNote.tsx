@@ -39,7 +39,7 @@ export function InsightsFeaturedNote() {
             {featured.excerpt}
           </p>
           <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-white">
-            Discuss with an advisor
+            Read the note
             <ArrowUpRight
               className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               aria-hidden

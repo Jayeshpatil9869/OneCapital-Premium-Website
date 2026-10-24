@@ -1,10 +1,16 @@
 import { Link } from 'react-router-dom';
 
-type InsightsBreadcrumbProps = {
-  current: string;
+type InsightsCrumb = {
+  label: string;
+  to: string;
 };
 
-export function InsightsBreadcrumb({ current }: InsightsBreadcrumbProps) {
+type InsightsBreadcrumbProps = {
+  current: string;
+  crumbs?: InsightsCrumb[];
+};
+
+export function InsightsBreadcrumb({ current, crumbs = [] }: InsightsBreadcrumbProps) {
   return (
     <nav
       aria-label="Breadcrumb"
@@ -13,6 +19,14 @@ export function InsightsBreadcrumb({ current }: InsightsBreadcrumbProps) {
       <Link to="/insights" className="transition-colors hover:text-white">
         Insights
       </Link>
+      {crumbs.map((crumb) => (
+        <span key={crumb.to} className="contents">
+          <span aria-hidden>/</span>
+          <Link to={crumb.to} className="transition-colors hover:text-white">
+            {crumb.label}
+          </Link>
+        </span>
+      ))}
       <span aria-hidden>/</span>
       <span className="text-white/75">{current}</span>
     </nav>
