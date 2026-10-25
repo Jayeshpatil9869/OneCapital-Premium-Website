@@ -66,9 +66,31 @@ const NAV_ITEMS: NavItem[] = [
     name: "Service",
     label: "Service",
     path: "/solutions",
-    children: (["equity", "options-baskets", "investment-advisory"] as const).map(
-      productNavChild,
-    ),
+    children: [
+      {
+        name: "Core pillars",
+        path: "menu:core-pillars",
+        children: [
+          { name: "Capital Strategy", path: "/solutions/capital-strategy" },
+          { name: "Portfolio Management", path: "/solutions/portfolio-management" },
+          { name: "Wealth Management", path: "/solutions/wealth-management" },
+        ],
+      },
+      {
+        name: "Tactical Products & Strategies",
+        path: "menu:tactical",
+        children: [
+          { name: "Mutual Funds", path: "/solutions/mutual-funds" },
+          { name: "PMS & AIF", path: "/solutions/pms-aif" },
+          { name: "Direct Equity", path: "/solutions/equity" },
+          { name: "Equity Baskets", path: "/solutions/equity-baskets" },
+          { name: "Options Baskets", path: "/solutions/options-baskets" },
+          { name: "Passive Income Strategy", path: "/solutions/passive-income-strategy" },
+          { name: "NIFTY 50 Hedging Strategy", path: "/solutions/nifty-50-hedging" },
+          { name: "Investment Advisory", path: "/solutions/investment-advisory" },
+        ],
+      },
+    ],
   },
   {
     kind: "dropdown",
@@ -341,7 +363,10 @@ function DesktopDropdown({
         className={cn(
           // Never animate opacity here — ancestor opacity < 1 disables backdrop-filter.
           // Closed: `hidden` (not invisible) so backdrop-filter cannot leave a compositor ghost.
-          "absolute top-full left-0 right-0 flex justify-center pt-3 z-[var(--z-overlay)]",
+          "absolute top-full pt-3 z-[var(--z-overlay)]",
+          item.children.some((child) => (child.children?.length ?? 0) > 0)
+            ? "right-0"
+            : "left-0 right-0 flex justify-center",
           open
             ? "translate-y-0 visible pointer-events-auto transition-transform duration-200 ease-out"
             : "hidden pointer-events-none",
@@ -351,7 +376,7 @@ function DesktopDropdown({
           data-nav-surface="dropdown"
           className={cn(
             "min-w-[17rem] rounded-2xl border p-3",
-            item.children.some((child) => (child.children?.length ?? 0) > 0) && "min-w-[22rem]",
+            item.children.some((child) => (child.children?.length ?? 0) > 0) && "min-w-[26rem]",
             groupNavChildren(item.children).some((group) => group.label) && "min-w-[34rem]",
             // Blur only while open — closed panels must not keep a GPU blur layer.
             open &&
@@ -379,7 +404,7 @@ function DesktopDropdown({
         >
           <div
             className={cn(
-              "flex max-h-[70vh] flex-col gap-4 overflow-y-auto",
+              "flex max-h-[calc(100vh-8rem)] flex-col gap-4 overflow-y-auto",
               groupNavChildren(item.children).filter((group) => group.label).length > 1 &&
               "sm:grid sm:grid-cols-2 sm:gap-6",
             )}
@@ -411,52 +436,85 @@ function DesktopDropdown({
                           }
                         }}
                       >
-                        <Link
-                          to={child.path}
-                          role="menuitem"
-                          aria-expanded={nested.length > 0 ? nestedOpen : undefined}
-                          onClick={handleLinkClick}
-                          className="group group/item flex items-center gap-2 px-3 py-2.5 transition-colors"
-                        >
-                          <span
-                            className={cn(
-                              "relative inline-block text-sm font-medium tracking-tight transition-colors",
-                              childActive
-                                ? "text-white"
-                                : "text-white/90 group-hover/item:text-white",
-                            )}
+                        {nested.length > 0 ? (
+                          <button
+                            type="button"
+                            role="menuitem"
+                            aria-expanded={nestedOpen}
+                            onClick={() => setOpenChildPath(child.path)}
+                            className="group group/item flex w-full items-center gap-2 px-3 py-2.5 text-left transition-colors"
                           >
-                            <span className="block overflow-hidden">
-                              <span
-                                data-nav-reveal
-                                className="block"
-                                style={
-                                  reveal
-                                    ? {
-                                      animation: "nav-line-reveal 0.62s var(--ease-premium) both",
-                                      animationDelay: `${index * 0.045}s`,
-                                    }
-                                    : undefined
-                                }
-                              >
-                                <NavTextSlide label={child.name} />
+                            <span
+                              className={cn(
+                                "relative inline-block whitespace-nowrap text-sm font-medium tracking-tight transition-colors",
+                                nestedActive
+                                  ? "text-white"
+                                  : "text-white/90 group-hover/item:text-white",
+                              )}
+                            >
+                              <span className="block overflow-hidden">
+                                <span
+                                  data-nav-reveal
+                                  className="block"
+                                  style={
+                                    reveal
+                                      ? {
+                                        animation: "nav-line-reveal 0.62s var(--ease-premium) both",
+                                        animationDelay: `${index * 0.045}s`,
+                                      }
+                                      : undefined
+                                  }
+                                >
+                                  <NavTextSlide label={child.name} />
+                                </span>
                               </span>
                             </span>
-                            {childActive && (
-                              <span className="absolute -bottom-1 left-0 w-full h-px bg-white opacity-50" />
-                            )}
-                            <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 opacity-0 group-hover/item:w-full group-hover/item:opacity-50" />
-                          </span>
-                          {nested.length > 0 ? (
                             <ChevronRight
                               className={cn(
-                                "h-3.5 w-3.5 shrink-0 text-white/80 transition-transform duration-200",
+                                "ml-auto h-3.5 w-3.5 shrink-0 text-white/80 transition-transform duration-200",
                                 nestedOpen && "rotate-90 text-white",
                               )}
                               aria-hidden
                             />
-                          ) : null}
-                        </Link>
+                          </button>
+                        ) : (
+                          <Link
+                            to={child.path}
+                            role="menuitem"
+                            onClick={handleLinkClick}
+                            className="group group/item flex items-center gap-2 px-3 py-2.5 transition-colors"
+                          >
+                            <span
+                              className={cn(
+                                "relative inline-block text-sm font-medium tracking-tight transition-colors",
+                                childActive
+                                  ? "text-white"
+                                  : "text-white/90 group-hover/item:text-white",
+                              )}
+                            >
+                              <span className="block overflow-hidden">
+                                <span
+                                  data-nav-reveal
+                                  className="block"
+                                  style={
+                                    reveal
+                                      ? {
+                                        animation: "nav-line-reveal 0.62s var(--ease-premium) both",
+                                        animationDelay: `${index * 0.045}s`,
+                                      }
+                                      : undefined
+                                  }
+                                >
+                                  <NavTextSlide label={child.name} />
+                                </span>
+                              </span>
+                              {childActive && (
+                                <span className="absolute -bottom-1 left-0 w-full h-px bg-white opacity-50" />
+                              )}
+                              <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 opacity-0 group-hover/item:w-full group-hover/item:opacity-50" />
+                            </span>
+                          </Link>
+                        )}
                         {nested.length > 0 ? (
                           <NestedNavLinks
                             open={nestedOpen}
@@ -856,17 +914,33 @@ export default function Navbar() {
                               return (
                                 <li key={child.path}>
                                   <div className="flex items-center justify-between gap-2">
-                                    <Link
-                                      to={child.path}
-                                      className={cn(
-                                        "group block w-fit grow py-2 text-base transition-colors",
-                                        location.pathname === child.path
-                                          ? "text-white"
-                                          : "text-white/90 hover:text-white",
-                                      )}
-                                    >
-                                      <NavTextSlide label={child.name} />
-                                    </Link>
+                                    {nested.length > 0 ? (
+                                      <button
+                                        type="button"
+                                        aria-expanded={nestedOpen}
+                                        onClick={() =>
+                                          setMobileNestedPath((current) =>
+                                            current === child.path ? null : child.path,
+                                          )
+                                        }
+                                        className="group block w-fit grow py-2 text-left text-base text-white/90 transition-colors hover:text-white"
+                                      >
+                                        <NavTextSlide label={child.name} />
+                                      </button>
+                                    ) : (
+                                      <Link
+                                        to={child.path}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className={cn(
+                                          "group block w-fit grow py-2 text-base transition-colors",
+                                          location.pathname === child.path
+                                            ? "text-white"
+                                            : "text-white/90 hover:text-white",
+                                        )}
+                                      >
+                                        <NavTextSlide label={child.name} />
+                                      </Link>
+                                    )}
                                     {nested.length > 0 ? (
                                       <button
                                         type="button"
@@ -894,6 +968,7 @@ export default function Navbar() {
                                       open={nestedOpen}
                                       items={nested}
                                       pathname={location.pathname}
+                                      onNavigate={() => setMobileMenuOpen(false)}
                                       tone="mobile"
                                     />
                                   ) : null}
