@@ -148,8 +148,9 @@ function buildDedicated(pillarId: string, config: DedicatedPageInput): SolutionD
 export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> = {
   'capital-strategy': buildDedicated('capital-strategy', {
     seo: {
-      title: `Capital Strategy & Investment Advisory | ${COMPANY.brandName}`,
-      description: `Capital strategy and investment advisory in ${COMPANY.hqCity} — goal mapping, asset allocation, and portfolio design across mutual funds, debt, equity, and alternatives before capital is deployed.`,
+      title: `Capital Strategy & Investment Planning | ${COMPANY.brandName}`,
+      description:
+        'Build a personalised investment strategy with One Capital. Explore goal-based financial planning, asset allocation and investment advisory guidance.',
       keywords: [
         'capital strategy investment',
         'investment advisory Pune',
@@ -161,36 +162,36 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
     },
     hero: {
       image: '/images/solutions/capital-strategy.jpg',
-      headline: 'A plan before you invest.',
+      headline: 'A Clear Strategy for Every Stage of Wealth',
       subheadline:
-        'Goal-based financial planning for retirement, education, a home, and the business. The products come after the plan.',
+        'Turn important life goals into an investment plan shaped by your priorities, time horizon and ability to take risk, with guidance.',
       imagePosition: 'center 40%',
     },
     intro: {
-      statement: 'Tell us what the money has to do. Then we choose how it is invested.',
-      body: `Capital Strategy is the planning meeting families and business owners in ${COMPANY.hqCity} and across Maharashtra use before they buy a fund. We write the goals, the monthly surplus, the loans, and the date each goal is due. That page decides the mix of equity, debt, and cash.`,
+      statement: 'A financial plan that begins with your life, not the market',
+      body: 'At One Capital, we start by listening. We help connect your goals, current finances and risk profile to a practical investment strategy you can understand and revisit.',
     },
     theme: 'direction',
     visual: 'capital-flow',
     sections: [
       {
         id: 'strategic-framework',
-        title: 'Goals we plan for',
-        body: 'Most plans cover the same jobs of money: an emergency reserve, a home, education for children, retirement income, and liquidity for a business. Each goal gets an amount, a date, and a priority. A goal due in three years is not funded the same way as a goal due in twenty.',
+        title: 'Start With Your Goals',
+        body: 'We map your priorities and time horizons so each goal has a clear place in your wider investment plan.',
         points: [
-          'Written goals, with dates and amounts',
-          'Retirement',
+          'The milestones that matter most to your family',
           'Education',
-          'Home',
-          'Business liquidity',
+          'Retirement',
+          'Home purchase',
+          'Family security',
         ],
       },
       {
         id: 'who-its-for',
-        title: 'Who this is for',
-        body: 'Salaried professionals building a first serious portfolio. Founders and CXOs with ESOPs or a coming liquidity event. Family businesses that need personal wealth kept separate from the company. If you already invest but cannot say which fund pays for which goal, start here.',
+        title: 'Built Around You',
+        body: 'Whether building wealth or planning its use, our advice reflects your circumstances and capacity for risk.',
         points: [
-          'A plan for the person, not a model portfolio',
+          'Your circumstances shape every recommendation',
           'Professionals',
           'Business owners',
           'Families',
@@ -198,37 +199,37 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
       },
       {
         id: 'capital-allocation',
-        title: 'Asset allocation',
-        body: 'We set a range for equity, debt, hybrid funds, and cash. Long-horizon goals can hold equity through a fall. Money you need within three years stays in debt and liquid funds. Gold and alternatives are added only when they improve the plan, and only in a size you can leave untouched.',
+        title: 'Asset Allocation',
+        body: 'We consider how assets work together in a mix suited to your goals, liquidity needs and risk profile.',
         points: [
-          'A mix you can hold in a bad year',
-          'Equity for long goals',
-          'Debt for near goals',
-          'Cash reserve',
+          'Finding the right balance for your needs',
+          'Equity',
+          'Fixed income',
+          'Cash reserves',
         ],
       },
       {
         id: 'opportunity-mapping',
-        title: 'Which product fits the goal',
-        body: 'A monthly surplus usually starts as a SIP in equity, debt, or hybrid mutual funds. A bonus can be a lumpsum, paced over a few months. ELSS is considered when Section 80C still has room. PMS and AIFs are discussed only after the core plan is funded and you meet the minimum and the lock-in.',
+        title: 'Choosing Suitable Products',
+        body: 'We consider suitability, costs and risks before discussing how an investment may fit your strategy.',
         points: [
-          'Category first, scheme second',
-          'SIP',
-          'Lumpsum',
-          'ELSS',
-          'PMS and AIF',
+          'Each investment should serve a clear purpose',
+          'Funds',
+          'Bonds',
+          'ETFs',
+          'REITs',
         ],
       },
       {
         id: 'decision-framework',
-        title: 'How a planning engagement works',
-        body: 'We start with a conversation on income, existing folios, loans, and goals. You share statements. We return a written allocation and a short list of product types. Implementation sits on the Portfolio Management page. The plan is revisited once a year, and sooner if you change jobs, sell a business, or a goal date moves.',
+        title: 'From Plan to Progress',
+        body: 'We begin with a discussion, assess your needs, share recommendations and revisit the plan as life changes.',
         points: [
-          'Conversation, written plan, then investing',
-          'Discovery',
-          'Existing holdings',
-          'Written allocation',
-          'Annual review',
+          'A clear process, with room to adapt',
+          'Discover',
+          'Assess',
+          'Advise',
+          'Review',
         ],
       },
     ],
@@ -243,8 +244,9 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
 
   'portfolio-management': buildDedicated('portfolio-management', {
     seo: {
-      title: `Portfolio Management Services & Mutual Funds | ${COMPANY.brandName}`,
-      description: `Portfolio management in ${COMPANY.hqCity} — mutual funds, PMS pathways, and suitable AIFs with ongoing monitoring and rebalancing. AMFI-registered distribution and disciplined stewardship.`,
+      title: `Portfolio Management Advisory Services | ${COMPANY.brandName}`,
+      description:
+        'Explore personalised portfolio advisory services at One Capital. Get guidance on investment allocation, risk suitability and portfolio reviews.',
       keywords: [
         'portfolio management services Pune',
         'mutual funds India',
@@ -256,14 +258,14 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
     },
     hero: {
       image: '/images/solutions/portfolio-management.jpg',
-      headline: 'Mutual funds, PMS, and more.',
+      headline: 'Your Portfolio. Your Goals. Our Perspective.',
       subheadline:
-        'SIPs, lumpsums, equity and debt funds, and PMS or AIFs when the amount and the lock-in are right for you.',
+        'Invest with greater clarity through personalised portfolio advice that considers your goals, risk comfort and changing priorities.',
       imagePosition: 'center',
     },
     intro: {
-      statement: 'The plan names the category. This page is where the money is invested.',
-      body: 'Portfolio Management puts the Capital Strategy to work. For most families that means mutual funds: equity for long goals, debt for near goals, hybrid where you want both. PMS and alternatives are added only after suitability, minimum investment, and liquidity are clear.',
+      statement: 'Thoughtful Advice for Every Investment Decision',
+      body: 'A well-considered portfolio starts with understanding you. At One Capital, we review your investments, assess suitability and offer clear, research-informed guidance to help you make decisions with confidence.',
     },
     theme: 'precision',
     visual: 'allocation-chart',
@@ -337,8 +339,9 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
 
   'wealth-management': buildDedicated('wealth-management', {
     seo: {
-      title: `Wealth Management & Risk Planning | ${COMPANY.brandName}`,
-      description: `Wealth management in ${COMPANY.hqCity}: risk profiling, liquidity, tax-aware investing, and nominations, planned beside the portfolio.`,
+      title: `Wealth Management & Financial Advisory | ${COMPANY.brandName}`,
+      description:
+        'Explore personalised wealth management guidance at One Capital, covering risk assessment, investment suitability, liquidity and family wealth planning.',
       keywords: [
         'risk management wealth planning',
         'tax strategy investing India',
@@ -350,9 +353,9 @@ export const SOLUTION_DEDICATED_PAGES: Record<string, SolutionDedicatedConfig> =
     },
     hero: {
       image: '/images/solutions/risk-wealth-architecture.jpg',
-      headline: 'Wealth management, beside the portfolio.',
+      headline: 'Wealth With Purpose. Advice With Perspective.',
       subheadline:
-        'A risk profile, an emergency reserve, tax-aware holding periods, and nominations that match your wishes.',
+        'Thoughtful wealth guidance shaped by your family, financial priorities and risk profile, with personal attention at every step.',
       imagePosition: 'center 35%',
     },
     intro: {

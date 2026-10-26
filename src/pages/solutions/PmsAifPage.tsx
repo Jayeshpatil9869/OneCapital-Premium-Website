@@ -24,45 +24,45 @@ import { buildServiceJsonLd } from '@/src/lib/seo';
 /* ─── COMPARISON MATRIX ATTRIBUTES ─── */
 const MATRIX_ATTRIBUTES = [
   {
-    parameter: 'Statutory Minimum Investment',
-    pms: 'INR 50 Lakhs (SEBI mandated)',
-    aif: 'INR 1 Crore (SEBI mandated for Cat I & II)',
+    parameter: 'Minimum Investment',
+    pms: 'Generally ₹50 lakh, with specified regulatory exceptions.',
+    aif: 'Generally ₹1 crore, with specified regulatory exceptions.',
     highlight: true,
   },
   {
-    parameter: 'Ownership & Legal Structure',
-    pms: 'Direct beneficial ownership in your individual Demat account',
-    aif: 'Pooled investment vehicle via SEBI-registered Trust or LLP',
+    parameter: 'Ownership Structure',
+    pms: "Securities are generally held directly in the client's name.",
+    aif: 'Investors own fund units rather than underlying assets directly.',
     highlight: false,
   },
   {
-    parameter: 'Underlying Asset Spectrum',
-    pms: 'Public listed equities, high-grade debt, and liquid securities',
-    aif: 'Pre-IPO companies, Private Credit, Venture Capital, Real Estate & Derivatives',
+    parameter: 'Investment Assets',
+    pms: 'Securities selected within the agreed client investment mandate.',
+    aif: 'Assets and strategies depend on the fund category and mandate.',
     highlight: false,
   },
   {
-    parameter: 'Portfolio Customization',
-    pms: 'High: Bespoke negative screening (e.g., exclude tobacco, defence) & model variations',
-    aif: 'Standardized: Uniform fund-level mandate managed across all pooled units',
+    parameter: 'Customization',
+    pms: 'May allow individual mandates, preferences and agreed restrictions.',
+    aif: 'Investors generally follow a common strategy and fund mandate.',
     highlight: false,
   },
   {
-    parameter: 'Liquidity & Lock-in Horizon',
-    pms: 'High operational liquidity (T+1/T+2 settlement), no statutory lock-in',
-    aif: 'Typically 3–7 years closed-ended (Cat I/II); Periodic redemption windows (Cat III)',
+    parameter: 'Liquidity & Exit',
+    pms: 'Withdrawals depend on portfolio assets and contractual terms.',
+    aif: 'Liquidity depends on the scheme, tenure and redemption terms.',
     highlight: true,
   },
   {
-    parameter: 'Taxation Mechanism',
-    pms: 'Direct capital gains (STCG 20%, LTCG 12.5%) per individual trade on your PAN',
-    aif: 'Pass-through for Cat I & II; Fund-level taxation at MMR for Cat III',
+    parameter: 'Tax Treatment',
+    pms: 'Tax treatment generally depends on investor-level transactions.',
+    aif: 'Tax treatment varies across AIF categories and income types.',
     highlight: false,
   },
   {
-    parameter: 'Operational Transparency',
-    pms: 'Real-time live Demat tracking + monthly statements & manager notes',
-    aif: 'Quarterly audited NAV statements, valuation reports & fund commentary',
+    parameter: 'Transparency',
+    pms: 'Client-specific holdings, transactions and performance reporting.',
+    aif: 'Fund-level disclosures, valuations and investor reporting.',
     highlight: false,
   },
 ];
@@ -71,70 +71,70 @@ const MATRIX_ATTRIBUTES = [
 const WEALTH_BRACKETS = [
   {
     id: 'bracket-1',
-    label: 'INR 50L – 1.5 Cr',
-    title: 'Focused Public Equity Alpha',
+    label: '₹50 Lakhs – ₹1 Crore',
+    title: 'Building Your Base',
     summary:
-      'Ideal for investors outgrowing retail mutual funds who want concentrated equity exposure and direct ownership transparency.',
+      'An investment amount alone does not determine suitability.',
     allocations: [
-      { name: 'Core Focused PMS (15–25 Stocks)', share: '60%' },
-      { name: 'High-Grade Debt / Stability Funds', share: '30%' },
-      { name: 'Tactical Cash / Liquid Reserve', share: '10%' },
+      { name: 'Core Investment Portfolio', share: '60%' },
+      { name: 'PMS Strategy Exposure', share: '30%' },
+      { name: 'Liquidity & Contingency', share: '10%' },
     ],
     thesis:
-      'Replaces fragmented mutual funds with a unified portfolio of high-conviction compounders, held directly in your individual Demat account with real-time performance tracking.',
+      'An investment amount alone does not determine suitability. Consider existing assets, emergency reserves, concentration, investment costs and your capacity to withstand losses before allocating to PMS.',
   },
   {
     id: 'bracket-2',
-    label: 'INR 1.5 Cr – 5 Cr',
-    title: 'Multi-Strategy Growth & Private Yield',
+    label: '₹1 Crore – ₹5 Crore',
+    title: 'Broadening The Mix',
     summary:
-      'Designed for established HNIs seeking to diversify public market volatility with high-yielding structured debt.',
+      'PMS and AIFs involve different risks, costs, investment structures and liquidity terms.',
     allocations: [
-      { name: 'Multi-Cap & Special Situations PMS', share: '45%' },
-      { name: 'Category II Structured Private Credit', share: '35%' },
-      { name: 'Liquid & Short-Duration Debt', share: '20%' },
+      { name: 'Diversified Core Holdings', share: '45%' },
+      { name: 'PMS Investment Strategies', share: '35%' },
+      { name: 'AIF Strategy Allocation', share: '20%' },
     ],
     thesis:
-      'Blends public equity upside with senior-secured private credit (targeting 14–18% IRR), insulating the portfolio against extended public market drawdowns.',
+      'PMS and AIFs involve different risks, costs, investment structures and liquidity terms. Exposure should be considered only after reviewing your wider portfolio and the terms of each product.',
   },
   {
     id: 'bracket-3',
-    label: 'INR 5 Cr+ (Family Office)',
-    title: 'Institutional Private Market Architecture',
+    label: 'Above ₹5 Crore',
+    title: 'A Wider Perspective',
     summary:
-      'Comprehensive endowment-style structure engineered for generation-level wealth preservation, pre-IPO upside, and tax efficiency.',
+      'A larger portfolio may allow access to different investment structures, but does not remove market or liquidity risk.',
     allocations: [
-      { name: 'Bespoke High-Conviction PMS', share: '35%' },
-      { name: 'Category II Private Equity & Pre-IPO', share: '25%' },
-      { name: 'Category III Long-Short Hedge Fund', share: '20%' },
-      { name: 'Sovereign Fixed Income / Global Assets', share: '20%' },
+      { name: 'Core Portfolio Holdings', share: '35%' },
+      { name: 'PMS Managed Portfolios', share: '25%' },
+      { name: 'Alternative Fund Exposure', share: '20%' },
+      { name: 'Liquidity & Future Commitments', share: '20%' },
     ],
     thesis:
-      'Full institutional deployment across public equity, private markets, and market-neutral hedge strategies with customized governance and estate succession guardrails.',
+      'A larger portfolio may allow access to different investment structures, but does not remove market or liquidity risk. Allocation decisions should reflect suitability, diversification and future cash needs.',
   },
 ];
 
 /* ─── INSTITUTIONAL DUE DILIGENCE FAQS ─── */
 const FAQS = [
   {
-    q: 'Can I fund my PMS by transferring existing shares from my Demat account?',
-    a: 'Yes. SEBI regulations permit investors to fund a PMS using either cash (NEFT/RTGS) or an existing portfolio of listed stocks, provided the total valuation meets the statutory ₹50 Lakh threshold. Upon transfer, the portfolio manager systematically restructures the holdings according to the chosen strategy to eliminate lag and capital drag.',
+    q: 'What is the difference between PMS and AIF investments?',
+    a: 'PMS is a portfolio management service where securities are generally held directly for the investor under an agreed mandate. An AIF is a pooled investment vehicle in which investors hold units. The two structures differ in ownership, investment strategies, liquidity, reporting and taxation. Both carry investment risks.',
   },
   {
-    q: 'How does taxation work for PMS vs. AIF in India?',
-    a: 'In a PMS, all securities are held directly in your personal Demat account. Every buy/sell triggers capital gains (STCG at 20%, LTCG at 12.5%) directly under your PAN. In contrast, Category I & II AIFs enjoy pass-through status (income is taxed in the investor\'s hands with original tax character). Category III AIFs are taxed at the fund level at the Maximum Marginal Rate (MMR), meaning distributions arrive post-tax.',
+    q: 'What is the minimum investment required for PMS and AIF?',
+    a: 'The standard minimum is ₹50 lakh for PMS and ₹1 crore for AIFs. Regulatory exceptions may apply, including for eligible accredited investors and certain other specified cases. Individual managers or schemes may require higher commitments. Eligibility should be confirmed before any investment decision.',
   },
   {
-    q: 'What is the practical difference between Discretionary and Non-Discretionary PMS?',
-    a: 'In Discretionary PMS, the portfolio manager executes portfolio rebalancing and trade allocations independently based on the formal agreement. In Non-Discretionary PMS, the manager provides research and recommendations, but cannot execute trades without explicit client sign-off for each order. Over 95% of HNIs choose Discretionary for disciplined, rapid execution without operational bottlenecks.',
+    q: 'Are PMS and AIF investments suitable for every investor?',
+    a: 'No. PMS and AIF investments may involve concentrated exposure, market volatility, limited liquidity, higher costs or complex strategies. Suitability depends on your financial circumstances, objectives, investment horizon, risk capacity and understanding of the product. A larger investment amount does not automatically make either suitable.',
   },
   {
-    q: 'How do fee structures work (Management Fees vs. Performance Hurdle Rates)?',
-    a: 'PMS typically offers two options: a fixed management fee (1.25%–2% p.a.) or a hybrid performance fee (e.g., 1% fixed + 15%–20% of profit above a hurdle rate like 10%–12% with a high-water mark provision). AIFs generally charge a 1.5%–2% management fee plus 15%–20% carry above an 8%–10% hurdle rate.',
+    q: 'Can I withdraw my money whenever I need it?',
+    a: 'Withdrawal terms depend on the investment structure and governing documents. PMS withdrawals may be subject to the client agreement, asset liquidity and applicable charges. Many AIFs have defined tenures, commitments or restrictions on redemption. Review exit provisions and expected cash requirements before investing.',
   },
   {
-    q: 'What are the lock-in periods for Category II and Category III AIFs?',
-    a: 'Category I and II AIFs are closed-ended with statutory tenures of 3 to 7 years to allow underlying private companies and real estate/debt assets to mature. Category III AIFs can be open-ended or closed-ended, often offering periodic quarterly or semi-annual redemption windows after an initial lock-in period (typically 1 year).',
+    q: 'How does One Capital help me evaluate PMS and AIF options?',
+    a: "One Capital's proposed advisory journey begins with understanding your goals, financial position and risk profile. Relevant products can then be discussed in terms of strategy, costs, risks, liquidity and suitability. The exact scope of advice, distribution and ongoing support should be confirmed through the applicable engagement disclosures.",
   },
 ];
 
@@ -149,7 +149,8 @@ export default function PmsAifPage() {
   usePageSeo({
     title: page?.seoTitle ?? 'PMS & AIF | High-Net-Worth Advisory | ONE CAPITAL',
     description:
-      'SEBI-regulated Portfolio Management Services (INR 50L min) and Alternative Investment Funds (INR 1Cr min) for High-Net-Worth Individuals, Family Offices, and institutions.',
+      page?.seoDescription ??
+      'Understand PMS and Alternative Investment Funds with One Capital. Explore ownership, minimum investments, risks, liquidity and suitability.',
     path: page?.path ?? '/solutions/pms-aif',
     keywords: page?.keywords,
     image: '/images/solutions/pms-demat-architecture.jpg',
@@ -205,15 +206,15 @@ export default function PmsAifPage() {
               <div className="lg:col-span-7">
                 <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3.5 py-1 text-xs font-mono uppercase tracking-[0.2em] text-white/80">
                   <Sparkles className="h-3.5 w-3.5 text-white" />
-                  <span>High-Net-Worth Advisory</span>
+                  <span>Private Investing</span>
                 </div>
 
                 <DisplayHeading className="mt-5 text-white tracking-tight text-balance text-4xl sm:text-5xl md:text-6xl lg:text-[4rem] leading-[1.06]">
-                  Beyond Mutual Funds: PMS & AIF
+                  Beyond Conventional Investing
                 </DisplayHeading>
 
                 <BodyText className="mt-6 max-w-[42rem] text-base font-light leading-relaxed text-white/80 md:text-lg lg:text-xl">
-                  When investible capital crosses ₹50 Lakhs, broad retail mutual funds create diworsification—diluting high-conviction ideas across 80+ stocks. Discover how One Capital structures focused public equity and private market alternatives.
+                  Explore professionally managed portfolios and alternative investments with guidance focused on suitability, transparency, risk and your long-term financial priorities.
                 </BodyText>
 
                 <div className="mt-8 sm:mt-10 flex flex-wrap items-center gap-4">
@@ -247,11 +248,11 @@ export default function PmsAifPage() {
                           ₹50 Lakhs
                         </div>
                         <div className="text-xs font-mono uppercase tracking-[0.14em] text-[#757575] mt-0.5">
-                          PMS Minimum Ticket
+                          PMS Investment
                         </div>
                       </div>
                       <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white/90 border border-white/10">
-                        Public Equity
+                        Minimum
                       </span>
                     </div>
 
@@ -261,11 +262,11 @@ export default function PmsAifPage() {
                           ₹1 Crore
                         </div>
                         <div className="text-xs font-mono uppercase tracking-[0.14em] text-[#757575] mt-0.5">
-                          AIF Minimum Ticket
+                          AIF Investment
                         </div>
                       </div>
                       <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white/90 border border-white/10">
-                        Private Markets
+                        Minimum
                       </span>
                     </div>
 
@@ -275,17 +276,17 @@ export default function PmsAifPage() {
                           100% Direct
                         </div>
                         <div className="text-xs font-mono uppercase tracking-[0.14em] text-[#757575] mt-0.5">
-                          Demat Account Ownership
+                          PMS Ownership
                         </div>
                       </div>
                       <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white/90 border border-white/10">
-                        Zero Pooling
+                        Direct Hold
                       </span>
                     </div>
                   </div>
 
                   <p className="mt-6 text-xs text-[#757575] leading-relaxed font-sans">
-                    All assets held directly via independent tier-1 institutional custodians (ICICI, HDFC, Orbis). One Capital never holds client funds.
+                    Standard minimums have exceptions. Direct ownership applies to PMS, not pooled AIF assets.
                   </p>
                 </div>
               </div>
@@ -299,13 +300,13 @@ export default function PmsAifPage() {
         <Container className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
           <ScrollFade className="text-center max-w-3xl mx-auto">
             <span className="inline-block text-xs font-mono uppercase tracking-[0.22em] font-medium text-[#757575]">
-              Strategic Asset Allocation
+              Investment Pathways
             </span>
             <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white">
-              Two Distinct Institutional Pathways
+              Two Distinct Approaches
             </h2>
             <p className="mt-4 font-sans text-base sm:text-lg font-light leading-relaxed text-[#B3B3B3]">
-              Choose the right structure based on your liquidity appetite, target asset classes, and desire for direct Demat ownership.
+              Understand how PMS and AIF structures differ before considering their place in your investment portfolio.
             </p>
           </ScrollFade>
 
@@ -335,26 +336,26 @@ export default function PmsAifPage() {
                   </div>
 
                   <p className="mt-6 text-base font-normal leading-relaxed text-[#B3B3B3]">
-                    A separately managed account where shares are bought directly in your personal Demat account. Designed for investors seeking concentrated public equity alpha (15–25 stocks) without fund co-mingling.
+                    PMS offers professionally managed portfolios with securities typically held in your name. Investment decisions follow the agreed mandate, with risks, fees and liquidity to consider.
                   </p>
 
                   <div className="mt-6 space-y-3">
                     <div className="flex items-start gap-3 rounded-xl bg-[#262626] p-3.5 border border-white/10">
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-white" />
                       <span className="text-sm font-medium text-[#B3B3B3]">
-                        <strong className="text-white">Direct Demat Ownership:</strong> Stocks held in your name; corporate actions and dividends credited to your bank account.
+                        <strong className="text-white">Ownership:</strong> Securities are generally held in the client&apos;s own account.
                       </span>
                     </div>
                     <div className="flex items-start gap-3 rounded-xl bg-[#262626] p-3.5 border border-white/10">
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-white" />
                       <span className="text-sm font-medium text-[#B3B3B3]">
-                        <strong className="text-white">High Liquidity (T+1 / T+2):</strong> No statutory lock-in; redeemable capital based on settlement cycles.
+                        <strong className="text-white">Investment Style:</strong> Portfolio decisions follow the agreed investment mandate.
                       </span>
                     </div>
                     <div className="flex items-start gap-3 rounded-xl bg-[#262626] p-3.5 border border-white/10">
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-white" />
                       <span className="text-sm font-medium text-[#B3B3B3]">
-                        <strong className="text-white">Bespoke Overlays:</strong> Ability to exclude specific companies or sectors (e.g. ESG, negative list).
+                        <strong className="text-white">Risk & Reporting:</strong> Review holdings, portfolio concentration, costs and performance.
                       </span>
                     </div>
                   </div>
@@ -396,26 +397,26 @@ export default function PmsAifPage() {
                   </div>
 
                   <p className="mt-6 text-base font-normal leading-relaxed text-[#B3B3B3]">
-                    A pooled private investment trust designed for sophisticated capital. Grants exclusive access to private equity, pre-IPO deals, high-yielding private credit, and long-short hedge strategies.
+                    AIFs pool investor capital under a defined fund strategy. They may provide exposure to specialised assets, but involve varying liquidity, valuation, concentration and exit risks.
                   </p>
 
                   <div className="mt-6 space-y-3">
                     <div className="flex items-start gap-3 rounded-xl bg-[#262626] p-3.5 border border-white/10">
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-white" />
                       <span className="text-sm font-medium text-[#B3B3B3]">
-                        <strong className="text-white">Private Market Access:</strong> Unlisted growth equity, pre-IPO unicorns, and structured debt yielding 14%–18%.
+                        <strong className="text-white">Fund Structure:</strong> Investors hold units in a pooled investment vehicle.
                       </span>
                     </div>
                     <div className="flex items-start gap-3 rounded-xl bg-[#262626] p-3.5 border border-white/10">
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-white" />
                       <span className="text-sm font-medium text-[#B3B3B3]">
-                        <strong className="text-white">Market-Neutral Hedging:</strong> Category III funds employ derivative strategies to protect capital during market crashes.
+                        <strong className="text-white">Asset Exposure:</strong> Strategies and permitted investments vary by AIF category.
                       </span>
                     </div>
                     <div className="flex items-start gap-3 rounded-xl bg-[#262626] p-3.5 border border-white/10">
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-white" />
                       <span className="text-sm font-medium text-[#B3B3B3]">
-                        <strong className="text-white">3 to 7 Years Lock-in:</strong> Patient institutional capital insulated from retail redemption pressures.
+                        <strong className="text-white">Liquidity Terms:</strong> Lock-ins, distributions and exits depend on fund documents.
                       </span>
                     </div>
                   </div>
@@ -444,13 +445,13 @@ export default function PmsAifPage() {
         <Container className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
           <ScrollFade className="text-center max-w-3xl mx-auto">
             <span className="inline-block text-xs font-mono uppercase tracking-[0.22em] font-medium text-[#757575]">
-              Institutional Due Diligence
+              Comparison
             </span>
             <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white">
-              PMS vs. AIF Decision Matrix
+              Understanding the Differences
             </h2>
             <p className="mt-4 font-sans text-base sm:text-lg font-light leading-relaxed text-[#B3B3B3]">
-              Compare structural, operational, taxation, and regulatory differences side-by-side.
+              Two investment structures with distinct ownership, flexibility and risks.
             </p>
           </ScrollFade>
 
@@ -500,6 +501,9 @@ export default function PmsAifPage() {
                 ))}
               </div>
             </div>
+            <p className="mt-6 text-center font-sans text-sm font-light leading-relaxed text-[#757575]">
+              Comparison is indicative. Actual features depend on the portfolio manager, AIF category, strategy and contractual documentation.
+            </p>
           </ScrollFade>
         </Container>
       </section>
@@ -509,13 +513,13 @@ export default function PmsAifPage() {
         <Container className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
           <ScrollFade className="text-center max-w-3xl mx-auto">
             <span className="inline-block text-xs font-mono uppercase tracking-[0.22em] font-medium text-[#757575]">
-              Capital Sizing Architecture
+              Wealth Brackets
             </span>
             <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white">
-              Which Vehicle Fits Your Wealth Bracket?
+              Investing Across Wealth Levels
             </h2>
             <p className="mt-4 font-sans text-base sm:text-lg font-light leading-relaxed text-[#B3B3B3]">
-              Explore how institutional portfolios scale allocation across PMS, structured debt, and private equity as investible surplus expands.
+              Your investment capacity is only one part of the decision. We consider financial goals, existing assets, liquidity, risk tolerance and time horizon before discussing PMS or AIF suitability.
             </p>
           </ScrollFade>
 
@@ -603,13 +607,13 @@ export default function PmsAifPage() {
         <Container className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
           <ScrollFade className="text-center max-w-3xl mx-auto">
             <span className="inline-block text-xs font-mono uppercase tracking-[0.22em] font-medium text-[#757575]">
-              Institutional Safeguards
+              Governance
             </span>
             <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white">
-              Custody & Governance Architecture
+              Clarity At Every Step
             </h2>
             <p className="mt-4 font-sans text-base sm:text-lg font-light leading-relaxed text-[#B3B3B3]">
-              Substantial capital requires tier-1 institutional custody, audited disclosures, and strict SEBI fiduciary oversight.
+              Investment decisions deserve proper assessment, clear disclosures and informed conversations.
             </p>
           </ScrollFade>
 
@@ -620,13 +624,13 @@ export default function PmsAifPage() {
                   <Scale className="h-7 w-7" />
                 </div>
                 <h3 className="mt-5 text-lg font-bold text-white">
-                  APMI & SEBI Registration
+                  Suitability Review
                 </h3>
                 <p className="mt-1 text-xs font-mono uppercase tracking-wider text-[#757575]">
-                  APMI Reg: {COMPANY.apmiRegistrationNo}
+                  Understand Your Needs
                 </p>
                 <p className="mt-4 text-sm font-normal text-[#B3B3B3] leading-relaxed">
-                  Compliant with SEBI (Portfolio Managers) Regulations, 2020 and SEBI (Alternative Investment Funds) Regulations, 2012.
+                  We assess investment goals, risk capacity, liquidity requirements and experience before discussing potential exposure.
                 </p>
               </div>
             </ScrollFade>
@@ -637,13 +641,13 @@ export default function PmsAifPage() {
                   <Building2 className="h-7 w-7" />
                 </div>
                 <h3 className="mt-5 text-lg font-bold text-white">
-                  Tier-1 Custodial Separation
+                  Investment Due Diligence
                 </h3>
                 <p className="mt-1 text-xs font-mono uppercase tracking-wider text-[#757575]">
-                  ICICI • HDFC • Orbis
+                  Look Beyond Returns
                 </p>
                 <p className="mt-4 text-sm font-normal text-[#B3B3B3] leading-relaxed">
-                  One Capital never handles or pools client cash or securities. All assets sit in institutional demat vaults under independent custody.
+                  We consider strategy, manager disclosures, fees, concentration, valuation practices and relevant investment risks.
                 </p>
               </div>
             </ScrollFade>
@@ -654,13 +658,13 @@ export default function PmsAifPage() {
                   <FileCheck2 className="h-7 w-7" />
                 </div>
                 <h3 className="mt-5 text-lg font-bold text-white">
-                  Audited TWRR Reporting
+                  Ongoing Oversight
                 </h3>
                 <p className="mt-1 text-xs font-mono uppercase tracking-wider text-[#757575]">
-                  Time-Weighted Rate of Return
+                  Stay Informed
                 </p>
                 <p className="mt-4 text-sm font-normal text-[#B3B3B3] leading-relaxed">
-                  SEBI-mandated monthly factsheets, annual audited tax packs, and performance metrics calculated without ambiguous claims.
+                  We support periodic discussions of portfolio information, material changes and suitability as your needs evolve.
                 </p>
               </div>
             </ScrollFade>
@@ -673,13 +677,13 @@ export default function PmsAifPage() {
         <Container className="mx-auto max-w-[1000px] px-6 sm:px-8 lg:px-12">
           <ScrollFade className="text-center max-w-2xl mx-auto">
             <span className="inline-block text-xs font-mono uppercase tracking-[0.22em] font-medium text-[#757575]">
-              Investor Due Diligence
+              Questions
             </span>
             <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white">
-              Frequently Answered Questions
+              Your Questions
             </h2>
             <p className="mt-4 font-sans text-base sm:text-lg font-light leading-relaxed text-[#B3B3B3]">
-              Practical answers on regulatory minimums, Demat share transfers, fee structures, and taxation.
+              Understand the essentials before exploring a PMS or AIF investment.
             </p>
           </ScrollFade>
 

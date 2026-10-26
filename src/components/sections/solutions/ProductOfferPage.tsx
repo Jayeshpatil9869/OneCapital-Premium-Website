@@ -31,9 +31,9 @@ export function ProductOfferPage({ product }: ProductOfferPageProps) {
       <section className="border-b border-white/15 pt-[max(7.5rem,env(safe-area-inset-top))]">
         <Container className="mx-auto w-full max-w-[1400px] px-6 pb-14 sm:px-8 lg:px-12 lg:pb-20">
           <ScrollFade>
-            <SolutionsBreadcrumb current={product.title} />
+            <SolutionsBreadcrumb current={product.headline ?? product.title} />
             <DisplayHeading className="mt-6 max-w-[16ch] text-white sm:mt-8">
-              {product.title}
+              {product.headline ?? product.title}
             </DisplayHeading>
             <BodyText className="mt-8 max-w-[40rem] text-base text-[#B3B3B3] md:text-lg lg:text-xl">
               {product.opening}

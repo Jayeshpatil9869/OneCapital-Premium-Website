@@ -1,7 +1,7 @@
 import { COMPANY } from './company';
 import { SOLUTION_PILLARS, getPillarPageHref } from './solutions-pillars';
 
-export type ProductJourneyId = 'portfolio-management' | 'capital-strategy';
+export type ProductJourneyId = 'portfolio-management' | 'capital-strategy' | 'wealth-management';
 
 export type ProductGroupId = 'portfolios' | 'listed-markets' | 'advice';
 
@@ -26,8 +26,10 @@ export type ProductOffer = {
   path: string;
   /** Short label for menus. */
   navLabel: string;
-  /** Visible product name and H1. */
+  /** Visible product name in menus, breadcrumbs, and related rows. */
   title: string;
+  /** Page heading when it is shorter than the product name. */
+  headline?: string;
   seoTitle: string;
   seoDescription: string;
   keywords: string[];
@@ -66,8 +68,9 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     path: '/solutions/mutual-funds',
     navLabel: 'Mutual Funds',
     title: 'Mutual Funds',
-    seoTitle: `Mutual Funds | ${brand}`,
-    seoDescription: `Mutual fund selection from your goals, risk profile, time horizon, and ${brand}'s research view of the market. SIPs, lump sums, and reviews as conditions change.`,
+    seoTitle: `Mutual Fund Investment & Advisory Services | ${brand}`,
+    seoDescription:
+      'Explore mutual funds with One Capital. Get personalised guidance on SIPs, equity, debt and hybrid funds, risk suitability and portfolio reviews.',
     keywords: [
       'mutual funds Pune',
       'SIP investment',
@@ -99,8 +102,9 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     path: '/solutions/pms-aif',
     navLabel: 'PMS/AIF',
     title: 'PMS and AIF',
-    seoTitle: `Portfolio Management Services and Alternative Investment Funds | ${brand}`,
-    seoDescription: `Two separate products. PMS is a more personalised portfolio for larger capital. An AIF is access to strategies beyond traditional mutual funds, for eligible investors.`,
+    seoTitle: `PMS & AIF Investment Advisory | ${brand}`,
+    seoDescription:
+      'Understand PMS and Alternative Investment Funds with One Capital. Explore ownership, minimum investments, risks, liquidity and suitability.',
     keywords: [
       'portfolio management services',
       'PMS India',
@@ -190,10 +194,12 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
   {
     id: 'equity',
     path: '/solutions/equity',
-    navLabel: 'Equity',
-    title: 'Equity Investments',
-    seoTitle: `Equity Investments | ${brand}`,
-    seoDescription: `Direct equity investing supported by research and market insights. ${brand} looks for businesses and sectors where future growth, earnings and valuations may create an opportunity.`,
+    navLabel: 'Direct Equity',
+    title: 'Direct Equity',
+    headline: 'Equity',
+    seoTitle: `Direct Equity Investment Advisory | ${brand}`,
+    seoDescription:
+      'Explore direct equity investing with One Capital. Understand business fundamentals, portfolio concentration, valuations and investment risks.',
     keywords: [
       'direct equity investing',
       'equity research',
@@ -202,31 +208,33 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'We provide investors with access to direct equity investing supported by our research and market insights.',
+      'Invest in listed businesses with a considered approach to research, risk and your long-term financial goals',
     audience:
-      'Investors who want to invest directly in listed companies and are comfortable with equity-market risk.',
+      'For investors who understand equity volatility and can remain invested through market cycles.',
     features: [
-      'Research-backed stock ideas',
-      'Fundamental analysis',
-      'Sector analysis',
-      'Valuation analysis',
-      'Market and economic research',
-      'Portfolio monitoring',
+      'Business-led research',
+      'Risk and fit assessment',
+      'Valuation perspective',
+      'Portfolio concentration',
+      'Transparent discussions',
+      'Periodic equity reviews',
     ],
     difference:
-      'We do not simply chase stocks that are already popular or have recently gone up. We look for businesses and sectors where future growth, earnings and valuations may create investment opportunities.',
+      'Investing in businesses starts with understanding them. Explore direct equity with thoughtful guidance, clear risk awareness and decisions shaped around your goals.',
     journeyId: 'portfolio-management',
     group: 'listed-markets',
-    eligibility: 'Listed-market risk',
-    note: 'Investments in securities markets are subject to market risks. Read all related documents carefully before investing.',
+    eligibility: 'Risk review first',
+    note: 'Equity investments carry market and company-specific risks, including possible loss of capital.',
   },
   {
     id: 'equity-baskets',
     path: '/solutions/equity-baskets',
     navLabel: 'Equity Baskets',
     title: 'Equity Baskets',
-    seoTitle: `Equity Baskets | ${brand}`,
-    seoDescription: `A group of stocks selected for one investment strategy or theme. Built from a research view, then reviewed to see whether the original thesis still holds.`,
+    headline: 'Baskets',
+    seoTitle: `Equity Baskets & Stock Advisory | ${brand}`,
+    seoDescription:
+      'Explore equity baskets with One Capital. Discover research-led stock selection, risk assessment, portfolio suitability and personalised investment guidance.',
     keywords: [
       'equity baskets',
       'stock basket strategy',
@@ -235,31 +243,33 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'Equity Baskets provide investors with a group of carefully selected stocks based on a particular investment strategy or theme.',
+      'Explore curated groups of listed stocks with research-led guidance aligned to your goals and risk profiles.',
     audience:
-      'Investors who want exposure to direct equities but prefer a structured portfolio rather than selecting individual stocks themselves.',
+      'For investors comfortable with stock market volatility who want to consider a group of equities as part of a diversified portfolio.',
     features: [
-      'Multiple stocks in one strategy',
-      'Research-based stock selection',
-      'Defined investment theme or strategy',
-      'Diversification across selected companies',
-      'Periodic review and rebalancing where applicable',
+      'Theme-based stock selection',
+      'Research-led stock review',
+      'Risk and suitability checks',
+      'Concentration awareness',
+      'Periodic basket assessments',
     ],
     difference:
-      'Our baskets are built around a research view, not simply a collection of stocks that have performed well recently. We identify the underlying theme, select companies that can benefit from it and review whether the original investment thesis remains valid.',
+      'A thoughtful basket begins with a clear purpose. Explore collections of listed companies through research, measured risk assessment and guidance that respects your financial goals.',
     journeyId: 'portfolio-management',
     group: 'listed-markets',
     parentId: 'equity',
-    eligibility: 'Listed-market risk',
-    note: 'Investments in securities markets are subject to market risks. Read all related documents carefully before investing.',
+    eligibility: 'Risk review first',
+    note: 'Equity baskets carry market and stock-specific risks, including potential loss of capital.',
   },
   {
     id: 'options-baskets',
     path: '/solutions/options-baskets',
     navLabel: 'Options Baskets',
     title: 'Options Baskets',
-    seoTitle: `Options Baskets | ${brand}`,
-    seoDescription: `Structured options strategies for experienced investors, based on a market view and defined risk. ${brand} starts with the strategy and the risk, not with a trading call.`,
+    headline: 'Options',
+    seoTitle: `Options Baskets & Derivatives Advisory | ${brand}`,
+    seoDescription:
+      'Explore options basket strategies with One Capital. Understand derivatives risks, margin exposure, strategy suitability and investment considerations.',
     keywords: [
       'options baskets',
       'options strategies',
@@ -268,30 +278,32 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'Options Baskets are structured strategies using options based on specific market views and defined risk parameters.',
+      'Explore options baskets with risk-aware guidance, clear strategy terms and suitability checks.',
     audience:
-      'Experienced investors who understand derivatives and are comfortable with the higher risks associated with options.',
+      'For experienced investors aware of derivatives risks, margin calls and the possibility of loss.',
     features: [
-      'Research-driven market strategies',
-      'Defined strategy and investment approach',
-      'Focus on risk management',
-      'Strategies based on specific market conditions',
-      'Active monitoring',
+      'Strategy risk assessment',
+      'Defined payoff analysis',
+      'Margin and exposure review',
+      'Expiry and liquidity checks',
+      'Ongoing position reviews',
     ],
     difference:
-      'We focus on the strategy and risk first, rather than simply providing options trading calls. Our research considers market direction, volatility, important levels and broader market conditions before developing a strategy.',
+      'Understand the strategy before taking a position. Explore options baskets through risk discussions, suitability checks and a disciplined view of potential losses.',
     journeyId: 'portfolio-management',
     group: 'listed-markets',
-    eligibility: 'Experienced investors',
-    note: 'Options and other derivatives can lose more than a simple stock holding and are not suitable for every investor. This page does not describe a specific exchange membership or a strategy’s past results.',
+    eligibility: 'Risk first',
+    note: 'Options carry high risk. Buyers may lose the full premium; certain sellers face losses beyond margin posted. Leverage, volatility and low liquidity may amplify losses.',
   },
   {
     id: 'passive-income-strategy',
     path: '/solutions/passive-income-strategy',
     navLabel: 'Passive Income',
     title: 'Passive Income Strategy',
-    seoTitle: `Passive Income Strategy | ${brand}`,
-    seoDescription: `A NIFTY 50 systematic income strategy for HNI and UHNI investors who want regular cash-flow while keeping long-term equity exposure. ${brand} uses disciplined derivatives strategies, with a focus on capital efficiency, consistency, and downside management.`,
+    headline: 'Passive Income',
+    seoTitle: `Passive Income Strategy & Financial Planning | ${brand}`,
+    seoDescription:
+      'Explore passive income planning with One Capital. Understand investment cash flows, income sources, liquidity needs and associated risks.',
     keywords: [
       'passive income strategy',
       'HNI UHNI income strategy',
@@ -300,29 +312,29 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'A NIFTY 50-based systematic income strategy for HNI and UHNI investors seeking regular cash-flow generation while maintaining long-term equity exposure.',
+      'Plan for potential investment cash flows with thoughtful guidance on income sources, liquidity, risk and your changing financial needs.',
     audience:
-      'HNI and UHNI investors who want regular cash-flow without leaving their long-term equity exposure.',
+      'For investors seeking potential periodic cash flows while recognising income and capital risks.',
     features: [
-      'NIFTY 50 exposure stays invested',
-      'Additional income through disciplined derivatives strategies',
-      'Capital efficiency',
-      'Consistency of the income approach',
-      'Downside management written into the strategy',
+      'Goal-based cash flow planning',
+      'Income source suitability review',
+      'Credit and liquidity risk checks',
+      'Tax-aware income considerations',
+      'Periodic income plan reviews',
     ],
     difference:
-      'The equity exposure is the core. Derivatives are used to generate additional income, not to replace the long-term holding.',
-    journeyId: 'portfolio-management',
+      'Plan income around your life, with clear attention to changing needs, investment risks and cash flows.',
+    journeyId: 'wealth-management',
     group: 'listed-markets',
     parentId: 'options-baskets',
-    eligibility: 'HNI and UHNI investors who understand derivatives',
-    note: 'Options and other derivatives can lose more than a simple stock holding and are not suitable for every investor. This page does not describe a specific exchange membership or a strategy’s past results.',
+    eligibility: 'Based on goals, risk profile and cash needs',
+    note: 'Investment income is not assured. Payouts and capital values may change; credit, market, liquidity and tax risks vary. Past payouts do not predict future income.',
     diagram: {
       kind: 'stack',
       steps: [
-        { kicker: 'Equity', title: 'NIFTY 50 exposure stays invested' },
-        { kicker: 'Overlay', title: 'Disciplined derivatives strategies' },
-        { kicker: 'Cash-flow', title: 'Income, with downside rules' },
+        { kicker: 'GOALS', title: 'Understand Your Income Needs' },
+        { kicker: 'BUILD', title: 'Consider Suitable Income Sources' },
+        { kicker: 'CHECK', title: 'Review Cash Flows and Risks' },
       ],
     },
   },
@@ -331,8 +343,10 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     path: '/solutions/nifty-50-hedging',
     navLabel: 'NIFTY 50 Hedging',
     title: 'NIFTY 50 Hedging Strategy',
+    headline: 'NIFTY 50 Hedge Strategy',
     seoTitle: `NIFTY 50 Hedging Strategy | ${brand}`,
-    seoDescription: `A systematic hedging framework that adjusts NIFTY 50 futures and options exposure when predefined risk and market conditions change. Built for investors who want the hedge written as rules.`,
+    seoDescription:
+      'Understand NIFTY 50 hedging with One Capital. Explore index exposure, derivatives risks, hedge costs and suitability with personalised guidance.',
     keywords: [
       'NIFTY 50 hedging strategy',
       'NIFTY 50 futures and options',
@@ -341,28 +355,28 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'An adaptive hedging framework that dynamically adjusts NIFTY 50 futures and options exposure according to predefined risk and market conditions.',
+      'Explore NIFTY 50 hedging to manage equity market exposure, with clear costs, trade-offs and risk-aware guidance.',
     audience:
-      'Investors who want a rules-based hedge around NIFTY 50 exposure, using futures and options.',
+      'For experienced equity investors evaluating index hedges, costs and residual risks.',
     features: [
-      'NIFTY 50 futures and options',
-      'Exposure adjusts when predefined risk conditions change',
-      'Exposure adjusts when predefined market conditions change',
-      'A systematic framework, not a one-off trade',
+      'Assessment of equity and index exposure',
+      'Discussion of hedge costs and limitations',
+      'Review of margin and liquidity needs',
+      'Monitoring of hedge fit and changing risks',
     ],
     difference:
-      'The hedge is adaptive. Futures and options exposure changes only when the predefined risk and market conditions change.',
+      'A hedge is a risk decision, not a return promise. Understand the costs, limits and trade-offs first.',
     journeyId: 'portfolio-management',
     group: 'listed-markets',
     parentId: 'options-baskets',
-    eligibility: 'Investors who understand NIFTY 50 futures and options',
-    note: 'Options and other derivatives can lose more than a simple stock holding and are not suitable for every investor. This page does not describe a specific exchange membership or a strategy’s past results.',
+    eligibility: 'Subject to risk and derivatives suitability',
+    note: 'Derivatives are high risk. Hedges can fail or cost money. Options may expire worthless; futures can trigger margin calls and losses beyond initial funds.',
     diagram: {
       kind: 'flow',
       steps: [
-        { kicker: 'Condition', title: 'A predefined risk or market condition' },
-        { kicker: 'Rule', title: 'The hedging rule for that condition' },
-        { kicker: 'Exposure', title: 'NIFTY 50 futures and options are adjusted' },
+        { kicker: 'CHECK', title: 'Review Your Portfolio Exposure' },
+        { kicker: 'MATCH', title: 'Assess Suitable Hedge Instruments' },
+        { kicker: 'TRACK', title: 'Monitor Hedge Costs and Effectiveness' },
       ],
     },
   },
@@ -371,8 +385,10 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
     path: '/solutions/investment-advisory',
     navLabel: 'Investment Advisory',
     title: 'Investment Advisory',
-    seoTitle: `Investment Advisory | ${brand}`,
-    seoDescription: `An investment strategy built from your goals, risk profile and time horizon. For individuals, families, professionals, business owners and investors who want a structured plan.`,
+    headline: 'Investment',
+    seoTitle: `Investment Advisory Services | ${brand}`,
+    seoDescription:
+      'Explore personalised investment advisory services with One Capital. Get research-informed guidance on financial goals, risk assessment and portfolio planning.',
     keywords: [
       'investment advisory Pune',
       'financial goal planning',
@@ -381,23 +397,23 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'Our advisory service helps investors create an investment strategy based on their financial goals, risk profile and investment horizon.',
+      'Personalised investment guidance shaped by your goals, risk profile and the decisions that matter to you.',
     audience:
-      'Individuals, families, professionals, business owners and investors looking for a structured investment strategy.',
+      'For people seeking considered investment advice aligned with their goals and risks.',
     features: [
-      'Financial goal assessment',
-      'Risk profiling',
+      'Goal-led guidance',
+      'Research review',
+      'Risk assessment',
+      'Portfolio reviews',
       'Asset allocation',
-      'Investment planning',
-      'Product selection',
-      'Portfolio review',
-      'Market and investment insights',
+      'Clear fee terms',
+      'Periodic guidance',
     ],
     difference:
-      'We start with the investor’s objective, not the product. The question is not simply “Which product should you buy?” but “What is the right investment strategy for you?”',
+      'Advice built around your life, not market noise. Understand your options, assess the risks and make investment decisions with greater clarity.',
     journeyId: 'capital-strategy',
     group: 'advice',
-    eligibility: 'The product comes after the plan.',
+    eligibility: 'Risk and suitability assessment',
   },
 ];
 

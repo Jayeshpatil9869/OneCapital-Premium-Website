@@ -23,39 +23,39 @@ import { buildServiceJsonLd } from '@/src/lib/seo';
 const WHY_CHOOSE_PILLARS = [
   {
     icon: Ban,
-    title: 'No "Top Performers" Gimmicks',
+    title: 'Goals Before Products',
     description:
-      'Carefully selected mutual funds based on forward-looking market analysis, not just past performance.',
+      'We begin with your goals and timeline before discussing any mutual fund scheme.',
   },
   {
     icon: Compass,
-    title: 'Market Scenario & Sector Outlook',
+    title: 'Risk-Aware Choices',
     description:
-      'Direct align with benchmark to recommend potential market shifts based on market conditions.',
+      "We consider your risk capacity and comfort alongside each scheme's risk profile.",
   },
   {
     icon: Percent,
-    title: 'Interest Rate & Inflation Analysis',
+    title: 'Research With Context',
     description:
-      'Determine macroeconomic indicators such as interest rates and inflation to make informed asset allocation choices.',
+      'We discuss fund objectives, holdings, costs and fit, not recent returns alone.',
   },
   {
     icon: BarChart3,
-    title: 'Evidence-Based Strategy',
+    title: 'Clear Cost Discussion',
     description:
-      'Research-driven recommendations backed by thorough market analysis and historical data.',
+      'Understand fees, expense ratios and plan options before making a decision.',
   },
   {
     icon: UserCheck,
-    title: 'Fund Manager Strategy',
+    title: 'Personal Conversations',
     description:
-      'Deep dive into fund manager philosophy and performance consistency over varying market cycles.',
+      'Ask questions, discuss concerns and understand the reasons behind each option.',
   },
   {
     icon: ShieldCheck,
-    title: 'Enterprise-Grade Security',
+    title: 'Reviews That Matter',
     description:
-      'Secure and compliant platform with 100% digital, paperless process for your convenience.',
+      'Revisit investments when your goals, circumstances or portfolio needs change.',
   },
 ];
 
@@ -63,28 +63,28 @@ const WHY_CHOOSE_PILLARS = [
 const APPROACH_STEPS = [
   {
     number: '01',
-    title: 'Forward-looking Strategy',
-    description: 'We construct portfolios based on future prospects, not backward-looking performance.',
+    title: 'Know Your Goals',
+    description: 'We discuss your needs, priorities and expected timelines.',
   },
   {
     number: '02',
-    title: 'Strategic Rebalancing',
-    description: 'Periodic adjustments to asset allocation to maintain optimal portfolio balance.',
+    title: 'Assess Your Risk',
+    description: 'We assess suitability, capacity for loss and risk comfort.',
   },
   {
     number: '03',
-    title: 'Goal-Based Planning',
-    description: 'Customized strategies for SIPs, lump-sum investments, and tactical entries.',
+    title: 'Review Holdings',
+    description: 'We examine existing investments and potential overlap.',
   },
   {
     number: '04',
-    title: 'Continuous Monitoring',
-    description: 'Regular reviews to optimize fund performance based on market trends.',
+    title: 'Discuss Options',
+    description: 'We explain relevant categories, schemes, fees and risks.',
   },
   {
     number: '05',
-    title: 'Risk Management',
-    description: 'Constant evaluation of risk-adjusted returns across all strategies.',
+    title: 'Revisit The Plan',
+    description: 'We review changes in your life and investment needs.',
   },
 ];
 
@@ -92,18 +92,18 @@ const APPROACH_STEPS = [
 const CATEGORIES = [
   {
     name: 'Equity Funds',
-    description: 'Focused on stock market investments for growth potential',
-    tag: 'Wealth Creation',
+    description: 'Invest in equities; values may fluctuate.',
+    tag: 'Growth',
   },
   {
     name: 'Debt Funds',
-    description: 'Primarily invest in fixed income and debt-instruments',
-    tag: 'Capital Stability',
+    description: 'Debt exposure carries credit and rate risks.',
+    tag: 'Income',
   },
   {
     name: 'Hybrid Funds',
-    description: 'Balanced mix of equity and debt for moderate growth',
-    tag: 'Balanced Growth',
+    description: 'Mix asset classes with varying risk profiles.',
+    tag: 'Balanced',
   },
 ];
 
@@ -154,7 +154,7 @@ export default function MutualFundsPage() {
                 Mutual Funds
               </DisplayHeading>
               <p className="mt-6 text-base sm:text-lg md:text-xl font-light text-white/80 max-w-2xl mx-auto leading-relaxed">
-                Build wealth systematically with professionally managed investment portfolios across equity, debt, and hybrid categories.
+                Explore mutual fund investing with guidance grounded in your goals, risk profile and investment horizon.
               </p>
 
               <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -182,10 +182,10 @@ export default function MutualFundsPage() {
                   Foundational Concept
                 </span>
                 <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white">
-                  What are Mutual Funds?
+                  Understanding Funds
                 </h2>
                 <p className="mt-6 font-sans text-base sm:text-lg font-normal leading-relaxed text-[#B3B3B3]">
-                  Mutual funds pool money from multiple investors to invest in a diversified portfolio of stocks, bonds, or other securities. They are managed by professional fund managers, offering an easy way to invest in financial markets without needing large capital or expertise.
+                  Mutual funds pool money from investors and invest it in securities according to a defined scheme objective. Professional fund managers make investment decisions within the scheme mandate. Returns are market-linked, and the value of your investment can rise or fall.
                 </p>
 
                 <div className="mt-8 space-y-4 pt-6 border-t border-white/10">
@@ -194,7 +194,7 @@ export default function MutualFundsPage() {
                       <CheckCircle2 className="h-3.5 w-3.5" />
                     </div>
                     <p className="text-sm font-normal text-[#B3B3B3]">
-                      <strong className="font-semibold text-white">Systematic Compounding:</strong> Small disciplined contributions grow exponentially through automated monthly SIPs.
+                      <strong className="font-semibold text-white">Pooling:</strong> Investors participate in a professionally managed pool of assets.
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
@@ -202,7 +202,7 @@ export default function MutualFundsPage() {
                       <CheckCircle2 className="h-3.5 w-3.5" />
                     </div>
                     <p className="text-sm font-normal text-[#B3B3B3]">
-                      <strong className="font-semibold text-white">Strict Regulatory Oversight:</strong> Governed by SEBI and monitored with transparent daily NAV valuations.
+                      <strong className="font-semibold text-white">Market Risk:</strong> Returns are not assured; scheme risks and costs differ.
                     </p>
                   </div>
                 </div>
@@ -267,13 +267,13 @@ export default function MutualFundsPage() {
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
                 <div className="max-w-2xl">
                   <span className="inline-block text-xs font-mono uppercase tracking-[0.22em] font-medium text-[#757575]">
-                    Interactive Planning Tools
+                    Calculator
                   </span>
                   <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white">
-                    Mutual Fund Calculators
+                    Plan Your SIP
                   </h2>
                   <p className="mt-4 font-sans text-base font-normal text-[#B3B3B3] leading-relaxed">
-                    Model wealth accumulation, estimate SIP compounding, plan goal milestones, and calculate lumpsum returns with institutional precision.
+                    Explore how contribution amounts and time horizons affect illustrative outcomes, not guaranteed returns.
                   </p>
                 </div>
                 <Link
@@ -295,13 +295,13 @@ export default function MutualFundsPage() {
           <Container className="mx-auto max-w-[1400px] px-6 sm:px-8 lg:px-12">
             <ScrollFade className="text-center max-w-3xl mx-auto">
               <span className="inline-block text-xs font-mono uppercase tracking-[0.22em] font-medium text-[#757575]">
-                The One Capital Difference
+                Why One Capital
               </span>
               <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white">
-                Why Choose One Capital for Mutual Funds?
+                Guidance Beyond Fund Selection
               </h2>
               <p className="mt-4 font-sans text-base font-normal leading-relaxed text-[#B3B3B3]">
-                We look past transient top-performer rankings. Our proprietary fund research architecture prioritizes macroeconomic fundamentals, risk-adjusted alpha, and lasting consistency.
+                We start with your needs, explain the trade-offs and help you make informed mutual fund decisions.
               </p>
             </ScrollFade>
 
@@ -338,13 +338,13 @@ export default function MutualFundsPage() {
             <ScrollFade>
               <div className="max-w-2xl">
                 <span className="inline-block text-xs font-mono uppercase tracking-[0.22em] font-medium text-[#757575]">
-                  Institutional Methodology
+                  Our Approach
                 </span>
                 <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-white">
-                  Our Approach to Fund Selection
+                  Your Journey, Step by Step
                 </h2>
                 <p className="mt-4 font-sans text-base font-normal text-[#B3B3B3]">
-                  A disciplined five-stage evaluation system built to protect downside risk and optimize forward returns.
+                  A clear conversation, a considered plan and ongoing attention to your priorities.
                 </p>
               </div>
             </ScrollFade>

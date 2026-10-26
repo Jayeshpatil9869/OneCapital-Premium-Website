@@ -24,17 +24,17 @@ type Continuation = {
 const CONTINUATIONS: Record<string, Continuation> = {
   'capital-strategy': {
     eyebrow: 'After the plan is written',
-    heading: 'The plan only works once it is invested, protected, and checked against what you already hold.',
+    heading: 'Your financial priorities deserve more than a standard approach. Explore what comes next.',
     links: [
       {
         pillarId: 'portfolio-management',
-        kicker: 'Invest the allocation',
-        line: 'SIPs, mutual fund categories, and a PMS only when the amount and the lock-in fit the goals you just wrote.',
+        kicker: 'Explore services',
+        line: 'Review your investments, understand portfolio risks and explore advice aligned with your goals.',
       },
       {
         pillarId: 'wealth-management',
-        kicker: 'Set the guardrails',
-        line: 'Emergency cash, tax holding periods, and nominations belong in the plan before the first instalment goes out.',
+        kicker: 'Explore services',
+        line: 'Connect investment advice with your family goals, financial commitments and future plans.',
       },
     ],
   },
@@ -56,17 +56,17 @@ const CONTINUATIONS: Record<string, Continuation> = {
   },
   'wealth-management': {
     eyebrow: 'Once the structure is clear',
-    heading: 'Risk, cash, and tax change what you should buy and what you should leave alone.',
+    heading: 'Explore the decisions that bring greater clarity to your financial life.',
     links: [
       {
         pillarId: 'capital-strategy',
-        kicker: 'Rewrite the allocation',
-        line: 'A lower equity ceiling or a nearer goal date means the original mix has to be redrawn.',
+        kicker: 'Explore strategy',
+        line: 'Connect your financial goals, time horizons and appetite for risk through a structured capital strategy.',
       },
       {
         pillarId: 'portfolio-management',
-        kicker: 'Fund the buckets',
-        line: 'Liquid funds for the reserve, equity SIPs for the long goals, ELSS only if Section 80C still has room.',
+        kicker: 'Explore advisory',
+        line: 'Review your holdings, portfolio risks and suitability with informed advice.',
       },
     ],
   },

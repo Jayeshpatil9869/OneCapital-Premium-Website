@@ -1,55 +1,54 @@
 import { Button, Container } from '@/src/components/ui';
 import { RevealOnScroll } from '@/src/components/motion/RevealOnScroll';
 import { ScrollFade } from '@/src/components/motion/ScrollFade';
-import { COMPANY } from '@/src/data/company';
 
 const OFFERS = [
   {
-    title: 'Risk profiling',
-    body: 'Ability is income, loans, and when you need the money. Willingness is how you behave when equity falls. The profile sets a ceiling before a fund is chosen.',
+    title: 'Risk Review',
+    body: 'We begin by understanding your finances, investment experience, ability to bear losses and comfort with risk before we advise.',
   },
   {
-    title: 'Concentration',
-    body: 'Employer stock, the family business, one fund house, or one sector should not be copied again inside the portfolio.',
+    title: 'Exposure',
+    body: 'We look at where your wealth is invested and whether too much depends on one company, sector, asset class or source of income.',
   },
   {
     title: 'Liquidity',
-    body: 'The next year’s spending and an emergency reserve stay in the bank or in liquid and short-duration funds. Equity is not asked to pay a dated bill.',
+    body: 'We consider near-term commitments and access to funds, so your plan accounts for cash needs.',
   },
   {
-    title: 'Tax-aware investing',
-    body: 'ELSS, holding periods, and capital gains are planned with your chartered accountant. A tax saving does not override a bad fit. We do not file returns.',
+    title: 'Tax Matters',
+    body: 'We consider tax implications and coordinate with your CA where specialist guidance is needed.',
   },
   {
-    title: 'Nominations and succession',
-    body: 'We review folio and demat nominations and talk through who should receive what. Wills and trusts stay with your lawyer. We do not draft them.',
+    title: 'Succession',
+    body: 'We discuss nominations and continuity, with legal specialists involved when appropriate.',
   },
 ] as const;
 
 const ADVANTAGES = [
   {
-    title: 'Research before products',
-    body: 'Research first. Strategy next. Investment last. The fund list follows the written plan.',
+    title: 'Research Led',
+    body: 'We examine options, costs and risks before discussing what may suit your needs.',
   },
   {
-    title: 'Maharashtra, in person',
-    body: `${COMPANY.hqCity} headquarters, with offices in Mumbai, Kolhapur, and Nashik.`,
+    title: 'Meet In Person',
+    body: 'We make room for face-to-face discussions in Maharashtra when available.',
   },
   {
-    title: 'Registered distribution',
-    body: `Mutual funds are offered as an AMFI-registered distributor, ARN-${COMPANY.amfiArn}.`,
+    title: 'Clear Disclosures',
+    body: 'We explain the advisory or distribution role involved before you decide.',
   },
   {
-    title: 'Tax, with your CA',
-    body: 'Holding periods and switches are discussed with the person who files your return.',
+    title: 'Working With CAs',
+    body: 'We coordinate with your CA on relevant tax matters, with your consent.',
   },
   {
-    title: 'Accounts that can transfer',
-    body: 'Nominations are checked so the investment accounts are not the gap in a family plan.',
+    title: 'Plan For Transfer',
+    body: 'We help you review nominations and records for smoother family transitions.',
   },
   {
-    title: 'One advisory relationship',
-    body: 'Capital strategy, the portfolio, and this risk work sit in the same conversation.',
+    title: 'A Personal Guide',
+    body: 'You have a person to speak with as your needs and circumstances evolve.',
   },
 ] as const;
 
@@ -60,9 +59,9 @@ export function WealthManagementLayout() {
         <Container className="max-w-[46rem]">
           <RevealOnScroll>
             <p className="text-center text-base font-light leading-[1.7] text-text-muted md:text-lg">
-              Wealth management here is the structure beside the funds: how much risk you can live
-              with, where the next year’s cash comes from, how tax changes what you keep, and who
-              receives the accounts if you are not here to sign.
+              Wealth is personal. Your plans may include family security, future milestones and
+              financial independence. We bring your priorities together through considered advice,
+              clear conversations and regular reviews.
             </p>
           </RevealOnScroll>
         </Container>
@@ -75,7 +74,7 @@ export function WealthManagementLayout() {
               id="wealth-offer-heading"
               className="font-sans text-3xl font-medium tracking-tight text-white md:text-4xl"
             >
-              What this covers
+              What We Consider
             </h2>
           </RevealOnScroll>
 
@@ -114,7 +113,7 @@ export function WealthManagementLayout() {
               id="wealth-advantage-heading"
               className="font-sans text-3xl font-medium tracking-tight text-white md:text-4xl"
             >
-              How {COMPANY.brandName} works
+              How One Capital Works
             </h2>
           </RevealOnScroll>
           <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
