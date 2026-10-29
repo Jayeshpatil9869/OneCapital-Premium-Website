@@ -12,7 +12,7 @@ export function CalculatorSideNav({ active, className }: CalculatorSideNavProps)
   const navigate = useNavigate();
 
   return (
-    <div className={cn('w-full max-w-xs lg:w-72', className)}>
+    <div className={cn('oc-calc-select-light relative z-40 w-full max-w-xs lg:w-72', className)}>
       <SelectField
         id="calculator-switcher"
         label="Calculators"

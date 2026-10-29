@@ -27,7 +27,7 @@ export function Accordion({ items, className, allowMultiple = false }: Accordion
   };
 
   return (
-    <div className={cn('flex flex-col border-t border-white/10', className)}>
+    <div className={cn('oc-accordion flex flex-col border-t border-white/10', className)}>
       {items.map((item, i) => {
         const key = item.id ?? `${baseId}-${i}`;
         const isOpen = open.has(key);

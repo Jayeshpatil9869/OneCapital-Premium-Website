@@ -25,7 +25,7 @@ export function CalculatorSlider({
   prefix,
   onChange,
   formatDisplay,
-  theme = 'dark',
+  theme = 'light',
 }: CalculatorSliderProps) {
   const isLight = theme === 'light';
   const display = formatDisplay

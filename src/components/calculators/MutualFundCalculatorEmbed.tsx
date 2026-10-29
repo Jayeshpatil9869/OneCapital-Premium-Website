@@ -123,30 +123,30 @@ function SipPanel() {
           <div className="flex flex-wrap gap-2 text-[11px] font-medium uppercase tracking-wider">
             <span
               className={cn(
-                'rounded-full px-3 py-1 border transition-colors',
+                'rounded-full border px-3 py-1 transition-colors',
                 band === 'low'
-                  ? 'border-white bg-white text-black font-semibold'
-                  : 'border-white/15 bg-white/[0.04] text-white/60',
+                  ? 'border-black bg-black text-white font-semibold'
+                  : 'border-black/10 bg-zinc-100 text-black/45',
               )}
             >
               Low risk
             </span>
             <span
               className={cn(
-                'rounded-full px-3 py-1 border transition-colors',
+                'rounded-full border px-3 py-1 transition-colors',
                 band === 'balanced'
-                  ? 'border-white bg-white text-black font-semibold'
-                  : 'border-white/15 bg-white/[0.04] text-white/60',
+                  ? 'border-black bg-black text-white font-semibold'
+                  : 'border-black/10 bg-zinc-100 text-black/45',
               )}
             >
               Balanced
             </span>
             <span
               className={cn(
-                'rounded-full px-3 py-1 border transition-colors',
+                'rounded-full border px-3 py-1 transition-colors',
                 band === 'high'
-                  ? 'border-white bg-white text-black font-semibold'
-                  : 'border-white/15 bg-white/[0.04] text-white/60',
+                  ? 'border-black bg-black text-white font-semibold'
+                  : 'border-black/10 bg-zinc-100 text-black/45',
               )}
             >
               High risk
@@ -407,10 +407,10 @@ export function MutualFundCalculatorEmbed() {
               aria-selected={selected}
               onClick={() => setKind(option.id)}
               className={cn(
-                'rounded-2xl border px-5 py-4 text-center sm:text-left transition-all duration-200 shadow-sm',
+                'rounded-2xl border px-5 py-4 text-center transition-all duration-200 sm:text-left',
                 selected
-                  ? 'border-white bg-white text-black font-semibold shadow-md'
-                  : 'border-white/15 bg-[#1D1D1D] text-white/80 hover:border-white/35 hover:bg-[#262626] hover:text-white',
+                  ? 'border-white bg-white font-semibold text-black shadow-md'
+                  : 'border-white/20 bg-black text-white/75 hover:border-white/40 hover:text-white',
               )}
             >
               <span className="block font-sans text-base sm:text-lg font-semibold">{option.title}</span>
@@ -421,7 +421,7 @@ export function MutualFundCalculatorEmbed() {
 
       <div
         role="tabpanel"
-        className="mt-6 rounded-3xl border border-white/10 bg-[#1D1D1D] p-6 sm:p-8 lg:p-10 text-white shadow-[0_12px_40px_rgba(0,0,0,0.5)]"
+        className="mt-6 rounded-3xl border border-black/10 bg-white p-6 text-black shadow-[0_14px_40px_rgba(0,0,0,0.06)] sm:p-8 lg:p-10"
       >
         <ActivePanel key={kind} kind={kind} />
       </div>

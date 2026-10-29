@@ -39,6 +39,11 @@
   /* Links */
   --color-link: #0099FF;
 
+  /* Tertiary gold accent (calculators / highlights) */
+  --color-accent: #C9A86A;
+  --color-accent-muted: #D4BC8E;
+  --color-accent-soft: rgba(201, 168, 106, 0.22);
+
   --radius-sm: 0.5rem;
   --radius-md: 0.875rem;
   --radius-lg: 1.5rem;
@@ -65,7 +70,7 @@
 
 :root {
   /* Primary backgrounds */
-  --color-background: #000000;
+  --color-background: #b16c6c;
   --color-surface: #1D1D1D;
   --color-surface-elevated: #262626;
 
@@ -85,6 +90,11 @@
 
   /* Links */
   --color-link: #0099FF;
+
+  /* Tertiary gold accent */
+  --color-accent: #C9A86A;
+  --color-accent-muted: #D4BC8E;
+  --color-accent-soft: rgba(201, 168, 106, 0.22);
 
   --page-gutter: clamp(1rem, 4vw, 1.5rem);
   --container-max: 72rem;

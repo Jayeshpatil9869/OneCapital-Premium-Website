@@ -20,7 +20,7 @@ export function CalculatorResults({
   title = 'Summary',
   rows,
   className,
-  theme = 'dark',
+  theme = 'light',
 }: CalculatorResultsProps) {
   const isLight = theme === 'light';
 

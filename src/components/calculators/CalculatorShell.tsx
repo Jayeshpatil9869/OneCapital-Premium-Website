@@ -26,9 +26,7 @@ type CalculatorShellProps = {
   controls: ReactNode;
   results: ReactNode;
   chart?: ReactNode;
-  /** Optional Monthly / Lumpsum switch (SIP & Lumpsum pages). */
   modeToggle?: ReactNode;
-  /** Optional invested / returns for donut breakdown. */
   breakdown?: {
     invested: number;
     returns: number;
@@ -53,13 +51,13 @@ export function CalculatorShell({
 }: CalculatorShellProps) {
   return (
     <div className="flex w-full flex-col items-center">
-      <Section pad="lg" className="relative pt-28 md:pt-32">
+      <Section pad="lg" className="relative bg-black pt-28 md:pt-32">
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-          <div className="absolute -left-[20%] top-[10%] h-[min(42rem,70vw)] w-[min(42rem,70vw)] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.07)_0%,transparent_68%)] blur-3xl" />
+          <div className="absolute -right-[8%] top-[12%] h-[min(26rem,48vw)] w-[min(26rem,48vw)] rounded-full bg-[radial-gradient(circle,var(--color-accent-soft)_0%,transparent_70%)] blur-3xl" />
         </div>
 
         <Container className="relative z-10">
-          <RevealOnScroll className="mb-8 md:mb-10">
+          <RevealOnScroll className="relative z-30 mb-8 md:mb-10">
             <Link
               to="/calculators"
               className="inline-flex w-fit items-center gap-2 text-sm text-white/55 transition-colors hover:text-white"
@@ -77,36 +75,45 @@ export function CalculatorShell({
                   {subtitle}
                 </p>
               </div>
-              <CalculatorSideNav active={slug} className="shrink-0 lg:mb-1" />
+              <CalculatorSideNav active={slug} className="relative z-30 shrink-0 lg:mb-1" />
             </div>
           </RevealOnScroll>
 
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6 xl:gap-8">
-            {/* Left — inputs (reference control panel) */}
+          <div className="relative z-0 grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6 xl:gap-8">
             <RevealOnScroll className="lg:col-span-5 xl:col-span-4">
-              <div className="flex h-full flex-col gap-7 rounded-3xl border border-white/10 bg-[#1D1D1D] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl sm:p-8">
+              <div className="flex h-full flex-col gap-7 rounded-3xl border border-black/10 bg-white p-6 shadow-[0_14px_40px_rgba(0,0,0,0.06)] sm:p-8">
                 <div className="flex flex-col gap-4">
-                  <h2 className="font-sans text-xl font-semibold tracking-tight text-white sm:text-2xl">
+                  <h2 className="font-sans text-xl font-semibold tracking-tight text-black sm:text-2xl">
                     Adjust inputs
                   </h2>
                   {modeToggle}
                 </div>
                 <div className="flex flex-col gap-7">{controls}</div>
-                <Button to="/contact" variant="primary" size="md" arrow="right" className="mt-auto w-full">
+                <Button
+                  to="/contact"
+                  variant="primary"
+                  size="md"
+                  arrow="right"
+                  className="mt-auto w-full !bg-black !text-white hover:!bg-black/90"
+                >
                   Talk to an advisor
                 </Button>
               </div>
             </RevealOnScroll>
 
-            {/* Right — summary + charts */}
             <RevealOnScroll delay={0.06} className="lg:col-span-7 xl:col-span-8">
-              <div className="flex flex-col gap-5 rounded-3xl border border-white/10 bg-[#1D1D1D] p-5 sm:p-7 lg:p-8">
+              <div className="relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-black/10 bg-white p-5 shadow-[0_14px_40px_rgba(0,0,0,0.06)] sm:p-7 lg:p-8">
+                <div
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent-muted)] to-transparent"
+                  aria-hidden
+                />
                 {results}
 
                 <div className="grid grid-cols-1 gap-5 xl:grid-cols-12">
                   <div className={breakdown ? 'xl:col-span-8' : 'xl:col-span-12'}>{chart}</div>
                   {breakdown ? (
                     <AllocationDonut
+                      theme="light"
                       className="xl:col-span-4"
                       invested={breakdown.invested}
                       returns={breakdown.returns}
@@ -118,26 +125,25 @@ export function CalculatorShell({
               </div>
             </RevealOnScroll>
           </div>
-
         </Container>
       </Section>
 
-      <Section pad="lg" tone="panel">
+      <Section pad="lg" tone="light" className="border-t border-black/10 bg-white">
         <Container className="max-w-3xl">
           <div className="flex flex-col gap-12">
             {infoSections.map((section) => (
               <ScrollFade key={section.id} className="w-full">
                 <article className="flex flex-col gap-4">
-                  <h2 className="text-2xl font-medium tracking-tight text-white sm:text-3xl">
+                  <h2 className="text-2xl font-medium tracking-tight text-black sm:text-3xl">
                     {section.title}
                   </h2>
                   {section.paragraphs.map((p) => (
-                    <p key={p.slice(0, 32)} className="text-base leading-relaxed text-[#B3B3B3]">
+                    <p key={p.slice(0, 32)} className="text-base leading-relaxed text-black/60">
                       {p}
                     </p>
                   ))}
                   {section.bullets ? (
-                    <ul className="list-disc space-y-2 pl-5 text-base text-[#B3B3B3]">
+                    <ul className="list-disc space-y-2 pl-5 text-base text-black/60">
                       {section.bullets.map((b) => (
                         <li key={b}>{b}</li>
                       ))}
@@ -150,7 +156,7 @@ export function CalculatorShell({
             {faqs.length > 0 ? (
               <ScrollFade className="w-full">
                 <div className="flex flex-col gap-6">
-                  <h2 className="text-2xl font-medium tracking-tight text-white sm:text-3xl">
+                  <h2 className="text-2xl font-medium tracking-tight text-black sm:text-3xl">
                     Frequently asked questions
                   </h2>
                   <Accordion
@@ -165,7 +171,7 @@ export function CalculatorShell({
             ) : null}
 
             <ScrollFade className="w-full">
-              <p className="rounded-2xl border border-white/10 bg-[#262626] p-5 text-sm leading-relaxed text-[#B3B3B3]">
+              <p className="rounded-2xl border border-black/10 bg-[#F4F3F0] p-5 text-sm leading-relaxed text-black/55">
                 {CALCULATOR_DISCLAIMER}
               </p>
             </ScrollFade>

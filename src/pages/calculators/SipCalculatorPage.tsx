@@ -13,9 +13,15 @@ function RateRiskHint({ rate }: { rate: number }) {
   const band = rate < 10 ? 'low' : rate < 14 ? 'balanced' : 'high';
   return (
     <div className="flex flex-wrap gap-3 pt-1 text-[11px] uppercase tracking-wider">
-      <span className={cn(band === 'low' ? 'text-white' : 'text-white/35')}>Low risk</span>
-      <span className={cn(band === 'balanced' ? 'text-white' : 'text-white/35')}>Balanced</span>
-      <span className={cn(band === 'high' ? 'text-white' : 'text-white/35')}>High risk</span>
+      <span className={cn(band === 'low' ? 'text-black font-semibold' : 'text-black/35')}>
+        Low risk
+      </span>
+      <span className={cn(band === 'balanced' ? 'text-black font-semibold' : 'text-black/35')}>
+        Balanced
+      </span>
+      <span className={cn(band === 'high' ? 'text-black font-semibold' : 'text-black/35')}>
+        High risk
+      </span>
     </div>
   );
 }

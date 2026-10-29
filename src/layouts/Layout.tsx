@@ -6,7 +6,6 @@ import Footer from "../components/Footer";
 import { AppDownloadFloatingWidget } from "../components/AppDownloadFloatingWidget";
 import ChatWidget from "../components/chat/ChatWidget";
 import { RiskFactorsStrip } from "../components/sections/legal/RiskFactorsStrip";
-import { CustomCursor } from "../components/motion/CustomCursor";
 import { Preloader } from "@/src/components/Preloader";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -230,7 +229,6 @@ function AppShell({ children }: { children?: ReactNode }) {
             <AppDownloadFloatingWidget embedded />
           </div>
         </div>
-        <CustomCursor />
         {children}
       </div>
     </>

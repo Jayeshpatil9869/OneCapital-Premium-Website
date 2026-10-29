@@ -10,7 +10,7 @@ export function CalculatorModeToggle({ active, className }: CalculatorModeToggle
   return (
     <div
       className={cn(
-        'inline-flex w-full rounded-full border border-white/12 bg-black/40 p-1 sm:w-auto',
+        'inline-flex w-full rounded-full border border-black/10 bg-zinc-100 p-1 sm:w-auto',
         className,
       )}
       role="tablist"
@@ -23,8 +23,8 @@ export function CalculatorModeToggle({ active, className }: CalculatorModeToggle
         className={cn(
           'flex-1 rounded-full px-5 py-2.5 text-center text-sm font-medium transition-colors sm:flex-none',
           active === 'monthly'
-            ? 'bg-white text-black'
-            : 'text-white/55 hover:text-white',
+            ? 'bg-black text-white shadow-sm'
+            : 'text-black/50 hover:text-black',
         )}
       >
         Monthly
@@ -36,8 +36,8 @@ export function CalculatorModeToggle({ active, className }: CalculatorModeToggle
         className={cn(
           'flex-1 rounded-full px-5 py-2.5 text-center text-sm font-medium transition-colors sm:flex-none',
           active === 'lumpsum'
-            ? 'bg-white text-black'
-            : 'text-white/55 hover:text-white',
+            ? 'bg-black text-white shadow-sm'
+            : 'text-black/50 hover:text-black',
         )}
       >
         Lumpsum

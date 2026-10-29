@@ -17,7 +17,7 @@ export function AllocationDonut({
   investedLabel = 'Invested amount',
   returnsLabel = 'Est. gains',
   className,
-  theme = 'dark',
+  theme = 'light',
 }: AllocationDonutProps) {
   const isLight = theme === 'light';
   const safeInvested = Math.max(0, invested);

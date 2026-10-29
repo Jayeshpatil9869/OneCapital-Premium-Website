@@ -40,7 +40,7 @@ export function GrowthChart({
   returnsLabel = 'Est. returns',
   mode = 'line',
   className,
-  theme = 'dark',
+  theme = 'light',
 }: GrowthChartProps) {
   if (points.length === 0) {
     return null;
@@ -103,7 +103,7 @@ export function GrowthChart({
             <span
               className={cn(
                 'h-2.5 w-2.5 rounded-sm',
-                isLight ? 'bg-zinc-400' : 'bg-white/35',
+                isLight ? 'bg-[var(--color-accent-muted)]' : 'bg-white/35',
               )}
             />
             {investedLabel}
@@ -112,7 +112,7 @@ export function GrowthChart({
             <span
               className={cn(
                 'h-2.5 w-2.5 rounded-sm',
-                isLight ? 'bg-zinc-900' : 'bg-white',
+                isLight ? 'bg-[var(--color-accent)]' : 'bg-white',
               )}
             />
             {mode === 'swp' ? returnsLabel : 'Projected value'}
@@ -217,7 +217,7 @@ export function GrowthChart({
                       width={barWidth}
                       height={Math.max(corpusH, 0)}
                       rx={3}
-                      className={isLight ? 'fill-zinc-300' : 'fill-white/35'}
+                      className={isLight ? 'fill-[var(--color-accent-muted)]' : 'fill-white/35'}
                     />
                     <rect
                       x={x}
@@ -225,7 +225,7 @@ export function GrowthChart({
                       width={barWidth}
                       height={Math.max(withdrawnH, 0)}
                       rx={3}
-                      className={isLight ? 'fill-zinc-900' : 'fill-white'}
+                      className={isLight ? 'fill-[var(--color-accent)]' : 'fill-white'}
                       opacity={isLight ? 1 : 0.85}
                     />
                     <text
@@ -257,7 +257,7 @@ export function GrowthChart({
                     width={barWidth}
                     height={Math.max(investedH, 0)}
                     rx={3}
-                    className={isLight ? 'fill-zinc-300' : 'fill-white/35'}
+                    className={isLight ? 'fill-[var(--color-accent-muted)]' : 'fill-white/35'}
                   />
                   <rect
                     x={x}
@@ -265,7 +265,7 @@ export function GrowthChart({
                     width={barWidth}
                     height={Math.max(returnsH, 0)}
                     rx={3}
-                    className={isLight ? 'fill-zinc-900' : 'fill-white'}
+                    className={isLight ? 'fill-[var(--color-accent)]' : 'fill-white'}
                     opacity={isLight ? 1 : 0.9}
                   />
                   <text

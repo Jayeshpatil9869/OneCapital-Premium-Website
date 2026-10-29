@@ -1,23 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
-import { useGSAP } from "@gsap/react";
 import { cn } from "../lib/utils";
-import {
-  gsap,
-  isMobileViewport,
-  motionTokens,
-  prefersReducedMotion,
-} from "../lib/motion";
 import BrandLogo from "./BrandLogo";
-import { NavTextSlide } from "./motion/NavTextSlide";
 import { subscribeRafScroll } from "../lib/raf-scroll";
 import { Button } from "@/src/components/ui";
 import { getOfferTree } from "../data/products";
 
 const CLIENT_LOGIN_URL = "https://onecapitalinvestment.investwell.app/app/#/login";
-
-gsap.registerPlugin(useGSAP);
 
 type NavChild = {
   name: string;
@@ -108,11 +98,6 @@ const NAV_ITEMS: NavItem[] = [
   { kind: "link", name: "Contact Us", path: "/contact" },
 ];
 
-const SURFACE_GLASS = {
-  backgroundColor: "rgba(255, 255, 255, 0.02)",
-  borderColor: "rgba(255, 255, 255, 0.1)",
-} as const;
-
 const SURFACE_OVER_LIGHT = {
   backgroundColor: "rgba(0, 0, 0, 0.8)",
   borderColor: "rgba(255, 255, 255, 0.1)",
@@ -135,27 +120,9 @@ const SURFACE_DROPDOWN_PILL = {
 
 const DESKTOP_MENU_CLOSE_MS = 160;
 
-function surfaceVars(
-  kind: "pill" | "dropdown",
-  showPill: boolean,
-  overLight: boolean,
-) {
-  if (kind === "pill") {
-    if (!showPill) {
-      return { opacity: 0, ...SURFACE_GLASS };
-    }
-    if (overLight) {
-      return { opacity: 1, ...SURFACE_OVER_LIGHT };
-    }
-    return { opacity: 1, ...SURFACE_GLASS };
-  }
-  // Dropdown surfaces (opacity of the panel is CSS-driven by open state).
-  if (overLight) {
-    return { ...SURFACE_OVER_LIGHT };
-  }
-  if (showPill) {
-    return { ...SURFACE_DROPDOWN_PILL };
-  }
+function dropdownSurfaceVars(showPill: boolean, overLight: boolean) {
+  if (overLight) return { ...SURFACE_OVER_LIGHT };
+  if (showPill) return { ...SURFACE_DROPDOWN_PILL };
   return { ...SURFACE_DROPDOWN };
 }
 
@@ -231,17 +198,17 @@ function NestedNavLinks({
           tone === "desktop" ? "ml-3 border-white/15" : "ml-1 border-white/10",
         )}
       >
-        {items.map((item, index) => {
+        {items.map((item) => {
           const itemActive = pathname === item.path;
           return (
-            <li key={item.path} className="overflow-hidden">
+            <li key={item.path}>
               <Link
                 to={item.path}
                 role={tone === "desktop" ? "menuitem" : undefined}
                 onClick={onNavigate}
                 tabIndex={open ? undefined : -1}
                 className={cn(
-                  "group block w-fit py-1.5 pl-3 text-sm transition-colors",
+                  "group block w-fit py-1.5 pl-3 text-base transition-colors",
                   tone === "desktop"
                     ? itemActive
                       ? "text-white"
@@ -251,15 +218,7 @@ function NestedNavLinks({
                       : "text-white/90 hover:text-white",
                 )}
               >
-                <span
-                  className={cn(
-                    "block transition-transform ease-[var(--ease-premium)] motion-reduce:translate-none motion-reduce:transition-none",
-                    open ? "translate-y-0 duration-500" : "translate-y-full duration-200",
-                  )}
-                  style={{ transitionDelay: open ? `${index * 45}ms` : "0ms" }}
-                >
-                  <NavTextSlide label={item.name} />
-                </span>
+                {item.name}
               </Link>
             </li>
           );
@@ -290,11 +249,14 @@ function DesktopDropdown({
 }) {
   const active = pathMatchesItem(pathname, item);
   const open = openId === item.name;
+  const defaultNestedPath =
+    item.children.find((child) => (child.children?.length ?? 0) > 0)?.path ?? null;
   const [openChildPath, setOpenChildPath] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!open) setOpenChildPath(null);
-  }, [open]);
+    // Service (and similar): open with Core pillars expanded by default.
+    setOpenChildPath(open ? defaultNestedPath : null);
+  }, [open, defaultNestedPath]);
 
   const openMenu = () => onOpen(item.name);
 
@@ -321,14 +283,14 @@ function DesktopDropdown({
           aria-haspopup="true"
           onClick={handleLinkClick}
           className={cn(
-            "text-sm tracking-wide transition-colors relative group min-h-11 inline-flex items-center gap-1",
+            "inline-flex min-h-11 shrink-0 items-center gap-1 whitespace-nowrap text-base tracking-wide transition-colors relative group",
             NavLinkStyles(active, overLight),
           )}
         >
-          <NavTextSlide label={item.label} />
+          {item.label}
           <ChevronDown
             className={cn(
-              "w-3.5 h-3.5 transition-transform duration-300",
+              "h-4 w-4 shrink-0 transition-transform duration-300",
               open && "rotate-180",
             )}
             aria-hidden
@@ -344,14 +306,14 @@ function DesktopDropdown({
           aria-haspopup="true"
           onClick={() => (open ? handleLinkClick() : openMenu())}
           className={cn(
-            "text-sm tracking-wide transition-colors relative group min-h-11 inline-flex items-center gap-1",
+            "inline-flex min-h-11 shrink-0 items-center gap-1 whitespace-nowrap text-base tracking-wide transition-colors relative group",
             NavLinkStyles(active, overLight),
           )}
         >
-          <NavTextSlide label={item.label} />
+          {item.label}
           <ChevronDown
             className={cn(
-              "w-3.5 h-3.5 transition-transform duration-300",
+              "h-4 w-4 shrink-0 transition-transform duration-300",
               open && "rotate-180",
             )}
             aria-hidden
@@ -388,7 +350,7 @@ function DesktopDropdown({
               : "backdrop-blur-xl shadow-2xl"),
           )}
           style={{
-            ...surfaceVars("dropdown", showPill, overLight),
+            ...dropdownSurfaceVars(showPill, overLight),
             ...(open
               ? {
                 transform: "translateZ(0)",
@@ -415,12 +377,11 @@ function DesktopDropdown({
             {groupNavChildren(item.children).map((group) => (
               <div key={group.label || "links"}>
                 <ul className="flex flex-col gap-0.5">
-                  {group.items.map((child, index) => {
+                  {group.items.map((child) => {
                     const childActive = pathname === child.path;
                     const nested = child.children ?? [];
                     const nestedActive = nested.some((item) => pathname === item.path);
-                    const nestedOpen = nestedActive || openChildPath === child.path;
-                    const reveal = open && !prefersReducedMotion();
+                    const nestedOpen = openChildPath === child.path;
                     return (
                       <li
                         key={child.path}
@@ -428,14 +389,8 @@ function DesktopDropdown({
                           if (nested.length > 0) setOpenChildPath(child.path);
                         }}
                         onMouseLeave={() => {
-                          if (openChildPath === child.path) setOpenChildPath(null);
-                        }}
-                        onFocus={() => {
-                          if (nested.length > 0) setOpenChildPath(child.path);
-                        }}
-                        onBlur={(event) => {
-                          if (!event.currentTarget.contains(event.relatedTarget as Node)) {
-                            setOpenChildPath(null);
+                          if (openChildPath === child.path) {
+                            setOpenChildPath(defaultNestedPath);
                           }
                         }}
                       >
@@ -444,37 +399,26 @@ function DesktopDropdown({
                             type="button"
                             role="menuitem"
                             aria-expanded={nestedOpen}
-                            onClick={() => setOpenChildPath(child.path)}
+                            onClick={() =>
+                              setOpenChildPath((prev) =>
+                                prev === child.path ? defaultNestedPath : child.path,
+                              )
+                            }
                             className="group group/item flex w-full items-center gap-2 px-3 py-2.5 text-left transition-colors"
                           >
                             <span
                               className={cn(
-                                "relative inline-block whitespace-nowrap text-sm font-medium tracking-tight transition-colors",
-                                nestedActive
+                                "relative inline-block whitespace-nowrap text-base font-medium tracking-tight transition-colors",
+                                nestedActive || nestedOpen
                                   ? "text-white"
                                   : "text-white/90 group-hover/item:text-white",
                               )}
                             >
-                              <span className="block overflow-hidden">
-                                <span
-                                  data-nav-reveal
-                                  className="block"
-                                  style={
-                                    reveal
-                                      ? {
-                                        animation: "nav-line-reveal 0.62s var(--ease-premium) both",
-                                        animationDelay: `${index * 0.045}s`,
-                                      }
-                                      : undefined
-                                  }
-                                >
-                                  <NavTextSlide label={child.name} />
-                                </span>
-                              </span>
+                              {child.name}
                             </span>
                             <ChevronRight
                               className={cn(
-                                "ml-auto h-3.5 w-3.5 shrink-0 text-white/80 transition-transform duration-200",
+                                "ml-auto h-4 w-4 shrink-0 text-white/80 transition-transform duration-200",
                                 nestedOpen && "rotate-90 text-white",
                               )}
                               aria-hidden
@@ -489,28 +433,13 @@ function DesktopDropdown({
                           >
                             <span
                               className={cn(
-                                "relative inline-block text-sm font-medium tracking-tight transition-colors",
+                                "relative inline-block text-base font-medium tracking-tight transition-colors",
                                 childActive
                                   ? "text-white"
                                   : "text-white/90 group-hover/item:text-white",
                               )}
                             >
-                              <span className="block overflow-hidden">
-                                <span
-                                  data-nav-reveal
-                                  className="block"
-                                  style={
-                                    reveal
-                                      ? {
-                                        animation: "nav-line-reveal 0.62s var(--ease-premium) both",
-                                        animationDelay: `${index * 0.045}s`,
-                                      }
-                                      : undefined
-                                  }
-                                >
-                                  <NavTextSlide label={child.name} />
-                                </span>
-                              </span>
+                              {child.name}
                               {childActive && (
                                 <span className="absolute -bottom-1 left-0 w-full h-px bg-white opacity-50" />
                               )}
@@ -659,72 +588,53 @@ export default function Navbar() {
   }, [mobileMenuOpen, desktopOpenId]);
 
   const showPill = scrolled || overLight;
-  const headerRef = useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      const root = headerRef.current;
-      if (!root) return;
-
-      const duration = prefersReducedMotion() ? 0 : motionTokens.duration.normal;
-      const ease = motionTokens.ease.smooth;
-      const pill = root.querySelector<HTMLElement>('[data-nav-surface="pill"]');
-
-      if (pill) {
-        const vars = surfaceVars("pill", showPill, overLight);
-        const pillVars =
-          isMobileViewport() && showPill
-            ? {
-              ...vars,
-              backgroundColor: overLight
-                ? SURFACE_OVER_LIGHT.backgroundColor
-                : "rgba(0, 0, 0, 0.72)",
-            }
-            : vars;
-        gsap.to(pill, {
-          ...pillVars,
-          duration,
-          ease,
-          overwrite: "auto",
-        });
-      }
-      // Dropdown glass is layered in CSS (solid base + blur) — do not GSAP it.
-    },
-    { dependencies: [showPill, overLight], scope: headerRef },
-  );
 
   return (
     <header
-      ref={headerRef}
       data-site-nav
       className={cn(
         "fixed top-0 inset-x-0 z-[var(--z-nav)] transition-all duration-500 pt-[env(safe-area-inset-top)]",
         scrolled || overLight ? "py-4" : "py-6",
       )}
     >
-      <div className="relative z-[var(--z-modal)] mx-auto w-full max-w-[var(--container-max)] px-[var(--page-gutter)] xl:max-w-[min(79.2rem,calc(100vw-4.5rem))]">
+      <div
+        className={cn(
+          "relative z-[var(--z-modal)] mx-auto w-full px-[clamp(1.5rem,5.5vw,4.5rem)] transition-[max-width] duration-500",
+          // Simple full-bleed bar at top; near-full pill when scrolled / over light.
+          showPill
+            ? "max-w-[calc(100vw-1.25rem)] sm:max-w-[calc(100vw-1.75rem)]"
+            : "max-w-none",
+        )}
+      >
         <div
           className={cn(
-            "relative flex items-center justify-between transition-all duration-500",
-            showPill ? "px-4 sm:px-6 py-3" : "px-0 py-2",
+            "relative flex items-center justify-between gap-3 transition-all duration-500 xl:gap-4",
+            showPill ? "px-5 py-3 sm:px-7 sm:py-3.5" : "px-0 py-2",
           )}
         >
           <div
             data-nav-surface="pill"
             data-nav-pill-active={showPill ? "true" : undefined}
             aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-xl opacity-0"
+            className={cn(
+              "pointer-events-none absolute inset-0 rounded-full border backdrop-blur-xl transition-[opacity,background-color,border-color] duration-300 ease-out",
+              showPill
+                ? overLight
+                  ? "opacity-100 border-white/10 bg-black/80"
+                  : "opacity-100 border-white/10 bg-white/[0.02] max-xl:bg-black/[0.72]"
+                : "opacity-0 border-white/10 bg-white/[0.02]",
+            )}
           />
 
           <BrandLogo
             className={cn(
-              "relative z-[1] transition-colors duration-500",
+              "relative z-[1] shrink-0 transition-colors duration-500",
               overLight ? "text-white" : "text-text-main",
             )}
           />
 
           <nav
-            className="relative z-[1] hidden xl:flex items-center gap-4 2xl:gap-6"
+            className="relative z-[1] hidden min-w-0 flex-1 items-center justify-center gap-3 xl:flex 2xl:gap-5"
             aria-label="Primary"
           >
             {NAV_ITEMS.map((item) => {
@@ -750,11 +660,11 @@ export default function Navbar() {
                   key={item.name}
                   to={item.path}
                   className={cn(
-                    "text-sm tracking-wide transition-colors relative group min-h-11 inline-flex items-center",
+                    "inline-flex min-h-11 shrink-0 items-center whitespace-nowrap text-base tracking-wide transition-colors relative group",
                     NavLinkStyles(active, overLight),
                   )}
                 >
-                  <NavTextSlide label={item.name} />
+                  {item.name}
                   {active && (
                     <span className="absolute -bottom-1.5 left-0 w-full h-[1px] bg-white opacity-50" />
                   )}
@@ -764,13 +674,13 @@ export default function Navbar() {
             })}
           </nav>
 
-          <div className="relative z-[1] flex items-center gap-2 sm:gap-3">
+          <div className="relative z-[1] flex shrink-0 items-center gap-2 sm:gap-3">
             <Button
               to="/contact"
               variant="secondary"
               size="sm"
               arrow="up-right"
-              className="hidden xl:inline-flex text-xs tracking-wider font-medium"
+              className="hidden whitespace-nowrap px-5 xl:inline-flex text-sm tracking-wider font-medium"
             >
               Book Consultation
             </Button>
@@ -781,7 +691,7 @@ export default function Navbar() {
               variant="outline"
               size="sm"
               className={cn(
-                "hidden xl:inline-flex text-xs tracking-wider font-medium",
+                "hidden whitespace-nowrap px-5 xl:inline-flex text-sm tracking-wider font-medium",
                 overLight ? "text-white" : "text-white/80",
               )}
             >
@@ -838,7 +748,7 @@ export default function Navbar() {
                         : "text-white/90 hover:text-white",
                     )}
                   >
-                    <NavTextSlide label={item.name} />
+                    {item.name}
                   </Link>
                 );
               }
@@ -858,7 +768,7 @@ export default function Navbar() {
                             : "text-white/90 hover:text-white",
                         )}
                       >
-                        <NavTextSlide label={item.label} />
+                        {item.label}
                       </Link>
                     ) : (
                       <button
@@ -874,7 +784,7 @@ export default function Navbar() {
                             : "text-white/90 hover:text-white",
                         )}
                       >
-                        <NavTextSlide label={item.label} />
+                        {item.label}
                       </button>
                     )}
                     <button
@@ -928,7 +838,7 @@ export default function Navbar() {
                                         }
                                         className="group block w-fit grow py-2 text-left text-base text-white/90 transition-colors hover:text-white"
                                       >
-                                        <NavTextSlide label={child.name} />
+                                        {child.name}
                                       </button>
                                     ) : (
                                       <Link
@@ -941,7 +851,7 @@ export default function Navbar() {
                                             : "text-white/90 hover:text-white",
                                         )}
                                       >
-                                        <NavTextSlide label={child.name} />
+                                        {child.name}
                                       </Link>
                                     )}
                                     {nested.length > 0 ? (

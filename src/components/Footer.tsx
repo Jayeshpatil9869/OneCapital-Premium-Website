@@ -1,12 +1,9 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
 import { RevealOnScroll } from "@/src/components/motion/RevealOnScroll";
 import BrandLogo from "./BrandLogo";
 import { Button } from "@/src/components/ui";
 import { AppDownloadCard } from "./AppDownloadCard";
 import { SocialLinks } from "./SocialLinks";
-import { LightSweepText } from "./motion/LightSweepText";
-import { NavTextSlide } from "./motion/NavTextSlide";
 import { COMPANY } from "@/src/data/company";
 import { getOfferTree } from "@/src/data/products";
 
@@ -44,19 +41,18 @@ export default function Footer() {
                 <div key={node.product.id} className="flex flex-col items-center md:items-start gap-2">
                   <Link
                     to={node.product.path}
-                    className="text-sm text-white/80 hover:text-white transition-colors inline-flex items-center group w-fit"
+                    className="text-sm text-white/80 hover:text-white transition-colors w-fit"
                   >
-                    <NavTextSlide label={node.product.navLabel} />
-                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                    {node.product.navLabel}
                   </Link>
                   <ul className="flex flex-col items-center md:items-start gap-2 md:border-l md:border-white/10 md:pl-3">
                     {node.children.map((child) => (
                       <li key={child.path}>
                         <Link
                           to={child.path}
-                          className="text-sm text-white/60 hover:text-white transition-colors inline-flex items-center group w-fit"
+                          className="text-sm text-white/60 hover:text-white transition-colors w-fit"
                         >
-                          <NavTextSlide label={child.name} />
+                          {child.name}
                         </Link>
                       </li>
                     ))}
@@ -65,10 +61,9 @@ export default function Footer() {
               ))}
             <Link
               to="/calculators"
-              className="text-sm text-white/80 hover:text-white transition-colors inline-flex items-center group w-fit"
+              className="text-sm text-white/80 hover:text-white transition-colors w-fit"
             >
-              <NavTextSlide label="Calculators" />
-              <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+              Calculators
             </Link>
           </div>
 
@@ -88,10 +83,9 @@ export default function Footer() {
               <Link
                 key={item.name}
                 to={item.path}
-                className="text-sm text-white/80 hover:text-white transition-colors inline-flex items-center group w-fit"
+                className="text-sm text-white/80 hover:text-white transition-colors w-fit"
               >
-                <NavTextSlide label={item.name} />
-                <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 translate-y-2 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300" />
+                {item.name}
               </Link>
             ))}
           </div>
@@ -134,12 +128,9 @@ export default function Footer() {
 
       {/* Mobile-only brand watermark — below CTA, above copyright */}
       <div className="md:hidden relative z-10 w-full flex justify-center items-center py-5 my-2">
-        <LightSweepText
-          className="w-full max-w-md mx-auto px-1"
-          duration={5}
-        >
+        <p className="w-full max-w-md mx-auto px-1 text-center text-3xl font-bold tracking-tighter text-white/15">
           One Capital
-        </LightSweepText>
+        </p>
       </div>
 
       {/* Bottom Bar */}
@@ -156,10 +147,9 @@ export default function Footer() {
           ].map((item) => (
             <span
               key={item}
-              className="relative group text-xs text-text-muted hover:text-white transition-colors inline-flex items-center cursor-default"
+              className="text-xs text-text-muted hover:text-white transition-colors cursor-default"
             >
-              <NavTextSlide label={item} />
-              <span className="absolute -bottom-1.5 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full opacity-0 group-hover:opacity-50" />
+              {item}
             </span>
           ))}
         </div>
