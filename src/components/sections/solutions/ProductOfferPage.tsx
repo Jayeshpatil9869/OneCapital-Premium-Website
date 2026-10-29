@@ -123,17 +123,26 @@ export function ProductOfferPage({ product }: ProductOfferPageProps) {
         <ScrollFade as="section" className="border-b border-white/15">
           <Container className="mx-auto max-w-[1400px] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
             <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/60">
-              Inside {product.navLabel}
+              Inside{' '}
+              {product.id === 'investment-advisory'
+                ? 'Advisory'
+                : (product.headline ?? product.navLabel)}
             </p>
             <ul className="mt-8 border-t border-white/15">
               {children.map((child) => (
-                <li key={child.path} className="border-b border-white/15">
-                  <Link
-                    to={child.path}
-                    className="block py-5 font-sans text-lg font-medium tracking-tight text-white transition-colors hover:text-white/80 sm:text-xl"
-                  >
-                    {child.name}
-                  </Link>
+                <li key={child.path ?? child.name} className="border-b border-white/15">
+                  {child.path ? (
+                    <Link
+                      to={child.path}
+                      className="block py-5 font-sans text-lg font-medium tracking-tight text-white transition-colors hover:text-white/80 sm:text-xl"
+                    >
+                      {child.name}
+                    </Link>
+                  ) : (
+                    <span className="block py-5 font-sans text-lg font-medium tracking-tight text-white sm:text-xl">
+                      {child.name}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>

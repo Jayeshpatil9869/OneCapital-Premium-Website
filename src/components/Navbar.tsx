@@ -37,10 +37,13 @@ function productNavChild(id: string): NavChild {
   if (!node) {
     throw new Error(`Missing nav product: ${id}`);
   }
+  const linkedChildren = node.children.filter(
+    (child): child is { name: string; path: string } => Boolean(child.path),
+  );
   return {
     name: node.product.navLabel,
     path: node.product.path,
-    ...(node.children.length > 0 ? { children: node.children } : {}),
+    ...(linkedChildren.length > 0 ? { children: linkedChildren } : {}),
   };
 }
 

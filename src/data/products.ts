@@ -18,7 +18,8 @@ export const PRODUCT_GROUPS: readonly ProductGroup[] = [
 
 export type ProductChild = {
   name: string;
-  path: string;
+  /** Omit when Word lists a named child without a dedicated route. */
+  path?: string;
 };
 
 export type ProductOffer = {
@@ -79,19 +80,19 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       brand,
     ],
     opening:
-      'We help investors select mutual funds based on their goals, risk profile, investment horizon and our research view of the market.',
+      'Explore mutual fund investing with guidance grounded in your goals, risk profile and investment horizon.',
     audience:
-      'First-time investors as well as experienced investors looking to build long-term wealth.',
+      'Investors seeking mutual fund guidance aligned to goals, risk profile and investment horizon.',
     features: [
-      'Research-based fund selection',
-      'SIP and lump-sum investments',
-      'Diversification across asset classes and categories',
-      'Portfolio review and monitoring',
-      'Goal-based investing',
-      'Regular review based on changing market conditions',
+      'Goals Before Products',
+      'Risk-Aware Choices',
+      'Research With Context',
+      'Clear Cost Discussion',
+      'Personal Conversations',
+      'Reviews That Matter',
     ],
     difference:
-      'We do not select funds only because they have delivered strong past returns. We study the fund, its portfolio, underlying sectors and companies, valuations and the market environment to understand its future potential.',
+      'We start with your needs, explain the trade-offs and help you make informed mutual fund decisions.',
     journeyId: 'portfolio-management',
     group: 'portfolios',
     eligibility: 'Market risk. Regular plans.',
@@ -326,7 +327,6 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       'Plan income around your life, with clear attention to changing needs, investment risks and cash flows.',
     journeyId: 'wealth-management',
     group: 'listed-markets',
-    parentId: 'options-baskets',
     eligibility: 'Based on goals, risk profile and cash needs',
     note: 'Investment income is not assured. Payouts and capital values may change; credit, market, liquidity and tax risks vary. Past payouts do not predict future income.',
     diagram: {
@@ -368,7 +368,6 @@ export const PRODUCT_OFFERS: ProductOffer[] = [
       'A hedge is a risk decision, not a return promise. Understand the costs, limits and trade-offs first.',
     journeyId: 'portfolio-management',
     group: 'listed-markets',
-    parentId: 'options-baskets',
     eligibility: 'Subject to risk and derivatives suitability',
     note: 'Derivatives are high risk. Hedges can fail or cost money. Options may expire worthless; futures can trigger margin calls and losses beyond initial funds.',
     diagram: {
@@ -445,6 +444,10 @@ export function getProductChildren(id: string): ProductChild[] {
       name: pillar.title,
       path: getPillarPageHref(pillar.id),
     }));
+  }
+  // Word: Options Basket → Inside children Index Options / Stock Options (no dedicated routes yet).
+  if (id === 'options-baskets') {
+    return [{ name: 'Index Options' }, { name: 'Stock Options' }];
   }
   return PRODUCT_OFFERS.filter((product) => product.parentId === id && !product.unlisted).map((product) => ({
     name: product.navLabel,

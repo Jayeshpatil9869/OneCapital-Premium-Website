@@ -233,13 +233,19 @@ function OfferGroup({ group }: { group: (typeof PRODUCT_GROUPS)[number] }) {
               {children.length > 0 ? (
                 <ul className="mb-6 border-t border-white/10">
                   {children.map((child) => (
-                    <li key={child.path}>
-                      <Link
-                        to={child.path}
-                        className="block py-3 pl-4 font-sans text-sm text-white/70 transition-colors hover:text-white sm:pl-6 sm:text-base"
-                      >
-                        {child.name}
-                      </Link>
+                    <li key={child.path ?? child.name}>
+                      {child.path ? (
+                        <Link
+                          to={child.path}
+                          className="block py-3 pl-4 font-sans text-sm text-white/70 transition-colors hover:text-white sm:pl-6 sm:text-base"
+                        >
+                          {child.name}
+                        </Link>
+                      ) : (
+                        <span className="block py-3 pl-4 font-sans text-sm text-white/70 sm:pl-6 sm:text-base">
+                          {child.name}
+                        </span>
+                      )}
                     </li>
                   ))}
                 </ul>
