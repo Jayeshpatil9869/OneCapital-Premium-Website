@@ -1,0 +1,44 @@
+$font-families: (
+  "sans": (
+    "Geist",
+    "Plus Jakarta Sans",
+    "Inter",
+    "Geist Sans",
+    -apple-system,
+    system-ui,
+    sans-serif,
+  ),
+  "serif": ("Playfair Display", "Cormorant Garamond", Georgia, serif),
+  "cormorant": ("Cormorant Garamond", Georgia, serif),
+  "script": ("Alex Brush", cursive),
+  "mono": ("Geist Mono", monospace),
+);
+
+// Semantic sizes for Stage D typography migration (not all emitted to @theme yet).
+$font-sizes: (
+  "display": clamp(2.25rem, 1.2rem + 4.5vw, 5.5rem),
+  "section": clamp(1.5rem, 1rem + 2vw, 3rem),
+  "body": 1rem,
+  "body-lg": 1.125rem,
+  "label": 0.75rem,
+  "meta": 0.6875rem,
+);
+
+$font-weights: (
+  "regular": 400,
+  "medium": 500,
+  "semibold": 600,
+  "bold": 700,
+);
+
+$line-heights: (
+  "display": 1.05,
+  "tight": 1.2,
+  "body": 1.6,
+);
+
+$letter-spacing: (
+  "tight": -0.02em,
+  "eyebrow": 0.2em,
+  "preloader": 0.24em,
+);

@@ -1,0 +1,9 @@
+// Minimal reset additives — full browser normalize deferred.
+// Body/html rules that need Tailwind @apply stay in index.css @layer base (Stage C).
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}

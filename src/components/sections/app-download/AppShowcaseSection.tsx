@@ -34,9 +34,9 @@ export function AppShowcaseSection({ className }: { className?: string }) {
                     variant="primary"
                     size="lg"
                     arrow="up-right"
-                    className="w-full sm:w-auto justify-center bg-white text-black font-semibold uppercase tracking-wider px-6 sm:px-7 hover:bg-white/90 text-xs sm:text-sm"
+                    className="w-full sm:w-auto justify-center font-semibold uppercase tracking-wider px-6 sm:px-7 text-xs sm:text-sm"
                   >
-                    Book a Consultation
+                    Book Consultation
                   </Button>
 
                   <div className="flex items-center gap-3 pl-1 sm:pl-4 sm:border-l sm:border-white/10 pt-1 sm:pt-0">

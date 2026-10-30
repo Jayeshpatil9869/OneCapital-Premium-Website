@@ -22,7 +22,7 @@ type PreloaderProps = {
 };
 
 function lockPageScroll() {
-  document.documentElement.classList.add('oc-preloader-lock');
+  document.documentElement.classList.add('oc-preloader-lock', 'oc-shell-intro');
 }
 
 function unlockPageScroll() {
@@ -31,10 +31,14 @@ function unlockPageScroll() {
   document.body.style.overflow = '';
 }
 
+/**
+ * Keep the loader DOM node mounted after GSAP owns it.
+ * Returning null after transforms races ReactLenis → removeChild NotFoundError.
+ */
 export function Preloader({ enabled = true }: PreloaderProps) {
   const { pathname } = useLocation();
 
-  const [active, setActive] = useState(() => {
+  const [running, setRunning] = useState(() => {
     if (enabled && typeof document !== 'undefined') {
       lockPageScroll();
     }
@@ -54,57 +58,72 @@ export function Preloader({ enabled = true }: PreloaderProps) {
     if (handedOffRef.current) return;
     handedOffRef.current = true;
 
+    document.documentElement.classList.add('oc-shell-reveal');
+    document.documentElement.classList.remove('oc-shell-intro');
     unlockPageScroll();
     window.dispatchEvent(new CustomEvent(PRELOADER_DONE_EVENT));
-
-    const shell = document.querySelector<HTMLElement>('.oc-shell');
-    if (shell) {
-      gsap.killTweensOf(shell);
-      gsap.set(shell, { opacity: 1 });
-    }
 
     requestAnimationFrame(() => ScrollTrigger.refresh());
   };
 
-  const finish = () => {
-    forceHandoff();
+  const dismiss = () => {
     if (finishedRef.current) return;
     finishedRef.current = true;
-    setActive(false);
+    forceHandoff();
+
+    const root = rootRef.current;
+    const path = pathRef.current;
+    const heading = headingRef.current;
+    const headingWrap = headingWrapRef.current;
+    if (root) gsap.killTweensOf(root);
+    if (path) gsap.killTweensOf(path);
+    if (heading) gsap.killTweensOf(heading);
+    if (headingWrap) gsap.killTweensOf(headingWrap);
+    if (root) {
+      gsap.set(root, {
+        autoAlpha: 0,
+        pointerEvents: 'none',
+        visibility: 'hidden',
+      });
+    }
+
+    setRunning(false);
+    document.documentElement.classList.remove('oc-shell-intro');
+    requestAnimationFrame(() => ScrollTrigger.refresh());
   };
 
   // SPA nav mid-intro: clean up immediately
   useLayoutEffect(() => {
-    if (!active) return;
+    if (!running || finishedRef.current) return;
     if (pathname === pathnameAtStartRef.current) return;
 
     timelineRef.current?.kill();
     timelineRef.current = null;
-    finish();
-  }, [pathname, active]);
+    dismiss();
+  }, [pathname, running]);
 
   useLayoutEffect(() => {
-    if (!active) return;
+    if (!running) return;
     lockPageScroll();
     return () => {
       unlockPageScroll();
     };
-  }, [active]);
+  }, [running]);
 
   // Failsafe
   useEffect(() => {
-    if (!active) return;
+    if (!running) return;
     const timer = window.setTimeout(() => {
       timelineRef.current?.kill();
       timelineRef.current = null;
-      finish();
+      dismiss();
     }, PRELOADER_SAFETY_MS);
     return () => window.clearTimeout(timer);
-  }, [active]);
+  }, [running]);
 
   useGSAP(
     () => {
-      if (!active) return;
+      if (!enabled || finishedRef.current) return;
 
       const root = rootRef.current;
       const path = pathRef.current;
@@ -112,32 +131,20 @@ export function Preloader({ enabled = true }: PreloaderProps) {
       const heading = headingRef.current;
       if (!root || !path || !heading || !headingWrap) return;
 
-      const shell = document.querySelector<HTMLElement>('.oc-shell');
-      if (shell) gsap.set(shell, { opacity: 0 });
+      document.documentElement.classList.add('oc-shell-intro');
 
       const handoff = () => {
         if (handedOffRef.current) return;
         handedOffRef.current = true;
 
+        document.documentElement.classList.add('oc-shell-reveal');
+        document.documentElement.classList.remove('oc-shell-intro');
         unlockPageScroll();
         window.dispatchEvent(new CustomEvent(PRELOADER_DONE_EVENT));
-
-        if (shell) {
-          gsap.to(shell, {
-            opacity: 1,
-            duration: 0.85,
-            ease: 'power2.out',
-            overwrite: 'auto',
-          });
-        }
       };
 
       const teardown = () => {
-        if (finishedRef.current) return;
-        finishedRef.current = true;
-        setActive(false);
-        unlockPageScroll();
-        requestAnimationFrame(() => ScrollTrigger.refresh());
+        dismiss();
       };
 
       if (prefersReducedMotion()) {
@@ -149,7 +156,6 @@ export function Preloader({ enabled = true }: PreloaderProps) {
       const tl = gsap.timeline();
       timelineRef.current = tl;
 
-      // 1. Medium size heading smoothly fades & slides in with subtle skew, dwells, then fully fades & slides out
       tl.fromTo(
         heading,
         {
@@ -174,9 +180,7 @@ export function Preloader({ enabled = true }: PreloaderProps) {
           duration: 0.55,
           ease: 'power3.in',
         })
-        // Immediately eliminate heading container from DOM painting so no clipped letter fragments can linger
         .set(headingWrap, { display: 'none' })
-        // 2. SVG path morphs into smooth upward curve and then flat drape, smoothly unveiling the site
         .to(path, {
           duration: 0.75,
           attr: { d: CURVE_PATH },
@@ -190,32 +194,22 @@ export function Preloader({ enabled = true }: PreloaderProps) {
           attr: { d: FLAT_PATH },
           ease: 'power2.out',
         })
-        // 3. Complete slide-out and teardown cleanly
         .to(root, {
           yPercent: -100,
           duration: 0.4,
           ease: 'power2.inOut',
-        })
-        .set(root, {
-          display: 'none',
-          zIndex: -1,
           onComplete: teardown,
         });
 
       return () => {
         tl.kill();
         if (timelineRef.current === tl) timelineRef.current = null;
-        if (handedOffRef.current && !finishedRef.current) {
-          finishedRef.current = true;
-          setActive(false);
-          unlockPageScroll();
-        }
       };
     },
-    { dependencies: [active], scope: rootRef },
+    { dependencies: [enabled], scope: rootRef },
   );
 
-  if (!active) return null;
+  if (!enabled) return null;
 
   return (
     <div
@@ -223,8 +217,11 @@ export function Preloader({ enabled = true }: PreloaderProps) {
       className="loader-wrap fixed inset-0 z-[var(--z-preloader,9999)] h-screen w-full flex items-center justify-center overflow-hidden bg-transparent pointer-events-auto"
       role="status"
       aria-live="polite"
-      aria-busy="true"
+      aria-busy={running}
+      aria-hidden={!running}
       aria-label="ONE CAPITAL"
+      // Keep fiber mounted — only hide after GSAP exit (see dismiss).
+      inert={running ? undefined : true}
     >
       <svg
         viewBox="0 0 1000 1000"

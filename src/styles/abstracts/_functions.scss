@@ -1,0 +1,11 @@
+@use "sass:map";
+@use "sass:meta";
+
+/// Read a value from a design-token map; throws if missing.
+@function token($map, $key) {
+  @if not map.has-key($map, $key) {
+    @error "Unknown design token `#{$key}` in #{meta.type-of($map)} map.";
+  }
+
+  @return map.get($map, $key);
+}

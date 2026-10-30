@@ -1,5 +1,6 @@
 @import "tailwindcss";
-@import "./styles/tokens.css";
+/* Stage B: :root tokens come from main.scss (imported in main.tsx before this file). */
+@import "./styles/theme-bridge.css";
 @import "./styles/motion.css";
 @import "./styles/effects.css";
 @import "./styles/team.css";

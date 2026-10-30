@@ -11,19 +11,35 @@ export type ContactDetail = {
   href?: string;
 };
 
+export const CONTACT_HERO_IMAGE = {
+  src: '/images/gallery/executive-client-meeting.jpg',
+  alt: 'One Capital advisory conversation in a private meeting suite',
+} as const;
+
 export const CONTACT_PAGE_COPY = {
   eyebrow: 'Contact',
-  watermark: 'CONTACT',
-  headline: 'Get in touch',
+  headline: "Let's begin with a conversation",
   subtext:
-    `Questions about advisory, mutual funds, or portfolio management? Start a conversation with the ${COMPANY.brandName} team in Pune.`,
-  formTitle: 'Request a Consultation',
+    'Every capital decision starts with context. We engage through thoughtful dialogue—grounded in your objectives, risk comfort, and long-term alignment.',
+  formTitle: 'Request a consultation',
   confidentialityNote: 'All communications are treated with discretion.',
+  confidentialityAccent: 'discretion',
   successTitle: 'Request received',
   successMessage:
     'Thank you. Our team will review your note and respond as soon as we can.',
   submitAnotherLabel: 'Submit another request',
-  submitLabel: 'Submit Request',
+  submitLabel: 'Get Started',
+} as const;
+
+export const CONTACT_SEO = {
+  title: `Contact & Consultation | ${COMPANY.brandName}`,
+  description: `Book a wealth management consultation with ${COMPANY.brandName} in ${COMPANY.hqCity}. Reach our team for advisory, mutual funds, PMS, and portfolio conversations.`,
+  keywords: [
+    'wealth management consultation Pune',
+    'One Capital contact',
+    'book consultation Maharashtra',
+    'PMS AIF advisory Pune',
+  ],
 } as const;
 
 export const CONTACT_DETAILS: ContactDetail[] = [

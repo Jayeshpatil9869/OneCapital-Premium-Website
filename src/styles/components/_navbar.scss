@@ -1,0 +1,64 @@
+@use "../abstracts/mixins" as mix;
+
+// Navbar density — prevent overlap on xl / small-laptop desktops (1280–1535).
+
+[data-site-nav] {
+  .oc-nav-primary {
+    min-width: 0;
+    // Tighter link rhythm in the xl band where logo + links + dual CTAs compete
+    gap: 0.35rem;
+
+    @include mix.bp-up("2xl") {
+      gap: 1.25rem;
+    }
+  }
+
+  .oc-nav-link {
+    font-size: 0.8125rem; // denser default for xl desktop band
+    letter-spacing: 0.01em;
+
+    .lucide,
+    svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    @include mix.bp-up("2xl") {
+      font-size: 1rem;
+
+      .lucide,
+      svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+
+  .oc-nav-actions {
+    min-width: 0;
+    flex-shrink: 0;
+  }
+
+  .oc-nav-cta {
+    padding-inline: 0.7rem !important;
+    font-size: 0.6875rem !important;
+
+    @include mix.bp-up("2xl") {
+      padding-inline: 1.25rem !important;
+      font-size: 0.875rem !important;
+    }
+  }
+
+  // Mega panel: never wider than viewport; stay on-screen when trigger is near edges
+  .oc-nav-mega-panel {
+    width: min(40rem, calc(100vw - 2rem));
+    max-width: calc(100vw - 2rem);
+    min-width: 0;
+  }
+
+  .oc-nav-mega-wrap {
+    left: 50%;
+    max-width: calc(100vw - 2rem);
+    transform: translateX(-50%);
+  }
+}

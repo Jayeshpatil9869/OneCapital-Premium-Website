@@ -50,10 +50,18 @@
 /*
  * Full black welcome only — shell (including Navbar) stays hidden
  * until preloader handoff, then fades in with the page (Dezerv-style).
+ * CSS-only (no GSAP on .oc-shell) so ReactLenis teardown stays stable.
  */
-html.oc-preloader-lock .oc-shell {
+html.oc-preloader-lock .oc-shell,
+html.oc-shell-intro .oc-shell {
   opacity: 0;
   pointer-events: none;
+}
+
+html.oc-shell-reveal .oc-shell {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html.oc-preloader-lock,

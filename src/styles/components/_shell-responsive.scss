@@ -1,0 +1,9 @@
+@use "../abstracts/mixins" as mix;
+
+// Shell-level responsive guards (Phase D).
+
+.oc-map-stage {
+  // visible so map tooltips are not clipped; tooltips also use fixed + viewport clamp
+  overflow: visible;
+  max-width: 100%;
+}

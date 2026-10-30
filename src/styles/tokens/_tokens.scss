@@ -1,0 +1,55 @@
+@use "sass:map";
+@use "../abstracts/mixins" as mix;
+@use "themes";
+@use "layout";
+
+// PRIMARY CONTROL SURFACE
+// Edit color/type/space maps in sibling partials, then rebuild.
+// `:root` = runtime CSS variables (fixed: background matches canvas, not #b16c6c).
+// `@theme` = Tailwind v4 design tokens for utilities.
+
+:root {
+  color-scheme: dark;
+  @include themes.dark-theme-props;
+  @include themes.dark-theme-runtime;
+}
+
+// Tailwind @theme must live in plain CSS (theme-bridge.css).
+// @tailwindcss/vite does not register utilities from @theme emitted via SCSS.
+
+// Route-scoped container width overrides (xl = 1280 — former Sass lg)
+@include mix.bp-up("xl") {
+  .is-home {
+    --container-max: #{map.get(layout.$container-overrides, "home")};
+  }
+
+  .is-insights {
+    --container-max: #{map.get(layout.$container-overrides, "insights")};
+  }
+
+  .is-team {
+    --container-max: #{map.get(layout.$container-overrides, "team")};
+  }
+}
+
+// Nav reveal keyframes previously in tokens.css
+@keyframes nav-line-reveal {
+  from {
+    transform: translateY(110%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@include mix.reduced-motion {
+  [data-nav-reveal] {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+// Option C stub — inactive. Uncomment/wire only after product approval.
+// [data-theme="dark"] { @include themes.dark-theme-props; }
+// [data-theme="light"] { @include themes.light-theme-props; }

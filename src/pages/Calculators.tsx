@@ -121,9 +121,9 @@ function CalculatorBentoCard({
     <Link
       to={card.path}
       className={cn(
-        'oc-mobile-glass-card group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-black/10 p-5 text-left sm:rounded-[1.25rem] sm:p-6',
-        'bg-white hover:bg-zinc-50',
-        'shadow-[0_10px_32px_rgba(0,0,0,0.12)]',
+        'group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-black/10 p-5 text-left sm:rounded-[1.25rem] sm:p-6',
+        'bg-white text-black hover:bg-zinc-50',
+        'shadow-[0_12px_40px_rgba(0,0,0,0.35)]',
         'transition-all duration-400',
         'hover:-translate-y-0.5 hover:border-black/20',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/30',

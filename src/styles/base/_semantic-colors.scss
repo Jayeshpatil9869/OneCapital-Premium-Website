@@ -1,0 +1,84 @@
+@use "sass:map";
+@use "../tokens/colors";
+
+// White-card / light content sections on the dark canvas.
+// Soft semantic fills (*-soft) belong here — not as full-bleed washes on #000.
+.light-section {
+  color-scheme: light;
+  --oc-section-canvas: #{map.get(colors.$oc-light-colors, "canvas")};
+  --oc-section-surface: #{map.get(colors.$oc-light-colors, "surface")};
+  --oc-section-surface-subtle: #{map.get(colors.$oc-light-colors, "surface-subtle")};
+  --oc-section-text: #{map.get(colors.$oc-light-colors, "text-main")};
+  --oc-section-text-secondary: #{map.get(colors.$oc-light-colors, "text-secondary")};
+  --oc-section-text-muted: #{map.get(colors.$oc-light-colors, "text-muted")};
+  --oc-section-border: #{map.get(colors.$oc-light-colors, "border")};
+
+  color: var(--oc-section-text);
+  background: var(--oc-section-surface);
+
+  // Text links on white — brand-hover (AA-safer than mint); not bright fill green
+  .oc-link {
+    color: var(--oc-color-brand-hover);
+  }
+
+  .oc-link:hover {
+    color: var(--oc-color-brand-active);
+  }
+}
+
+.oc-text-brand {
+  color: var(--oc-color-brand);
+}
+
+.oc-text-gold {
+  color: var(--oc-color-gold);
+}
+
+.oc-text-positive {
+  color: var(--oc-color-positive);
+}
+
+.oc-text-negative {
+  color: var(--oc-color-negative);
+}
+
+.oc-text-warning {
+  color: var(--oc-color-warning);
+}
+
+.oc-text-info {
+  color: var(--oc-color-info);
+}
+
+.oc-link {
+  color: var(--oc-color-link);
+}
+
+.oc-link:hover {
+  color: var(--oc-color-link-hover);
+}
+
+.oc-status-positive {
+  color: var(--oc-color-positive);
+  background: var(--oc-color-positive-soft);
+}
+
+.oc-status-negative {
+  color: var(--oc-color-negative);
+  background: var(--oc-color-negative-soft);
+}
+
+.oc-status-warning {
+  color: var(--oc-color-warning);
+  background: var(--oc-color-warning-soft);
+}
+
+.oc-status-info {
+  color: var(--oc-color-info);
+  background: var(--oc-color-info-soft);
+}
+
+.oc-status-neutral {
+  color: var(--oc-color-text-secondary);
+  background: var(--oc-color-surface-elevated);
+}

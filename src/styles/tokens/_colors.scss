@@ -1,0 +1,70 @@
+// OneCapital — dark-first palette (Option A + brand/semantics).
+// Canonical runtime: --oc-color-* via _themes.scss. Legacy --color-* aliases kept.
+// Soft fills (*-soft) are for white-card / light-section chips — not full-bleed on #000.
+
+$oc-colors: (
+  // Core dark foundation
+  "canvas": #000000,
+  "background": #000000,
+  "surface": #1d1d1d,
+  "surface-elevated": #262626,
+  "surface-overlay": #303030,
+  "surface-white": #ffffff,
+  "surface-white-subtle": #f7f7f7,
+
+  // Text on dark surfaces
+  "text-main": #ffffff,
+  "text-primary": #ffffff,
+  "text-secondary": #b3b3b3,
+  "text-muted": #858585,
+  "text-inverse": #000000,
+  "text-high-emphasis": rgba(255, 255, 255, 0.94),
+  "text-medium-emphasis": rgba(255, 255, 255, 0.7),
+  "text-low-emphasis": rgba(255, 255, 255, 0.5),
+
+  // Brand green
+  "brand": #168653,
+  "brand-hover": #117448,
+  "brand-active": #0d603b,
+  "brand-soft": #eaf5ee,
+  "brand-subtle": #f3faf5,
+  "brand-contrast": #ffffff,
+
+  // Financial semantics
+  "positive": #168653,
+  "positive-soft": #eaf5ee,
+  "negative": #d64545,
+  "negative-soft": #fceeee,
+  "warning": #a96b12,
+  "warning-soft": #fff5e5,
+  "info": #1677c8,
+  "info-soft": #eaf4fc,
+
+  // Links
+  "link": #1677c8,
+  "link-hover": #105f9f,
+
+  // Premium gold — secondary accent (legacy --color-accent* aliases here)
+  "gold": #c9a86a,
+  "gold-muted": #d4bc8e,
+  "gold-soft": rgba(201, 168, 106, 0.22),
+
+  // Borders and effects on dark surfaces
+  "border": rgba(255, 255, 255, 0.1),
+  "border-subtle": rgba(255, 255, 255, 0.07),
+  "border-strong": rgba(255, 255, 255, 0.18),
+  "shadow": rgba(0, 0, 0, 0.35),
+  "glow": rgba(255, 255, 255, 0.06),
+);
+
+// White-card / light content sections on the dark canvas (scoped, not global theme).
+$oc-light-colors: (
+  "canvas": #f6f7f8,
+  "surface": #ffffff,
+  "surface-subtle": #f7f7f7,
+  "text-main": #171717,
+  "text-secondary": rgba(0, 0, 0, 0.65),
+  "text-muted": rgba(0, 0, 0, 0.55),
+  "border": rgba(0, 0, 0, 0.1),
+  "border-subtle": rgba(0, 0, 0, 0.07),
+);

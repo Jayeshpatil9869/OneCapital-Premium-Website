@@ -28,13 +28,17 @@ export function ContactFormPanel() {
     setSubmitted(true);
   };
 
+  const note = CONTACT_PAGE_COPY.confidentialityNote;
+  const accent = CONTACT_PAGE_COPY.confidentialityAccent;
+  const accentIndex = note.toLowerCase().indexOf(accent.toLowerCase());
+
   return (
-    <RevealOnScroll delay={0.2} className="w-full">
+    <RevealOnScroll delay={0.15} className="w-full lg:ml-auto lg:max-w-lg xl:max-w-xl">
       <ContactSurface>
         {submitted ? (
-          <div className="flex min-h-[min(22rem,70svh)] flex-col items-center justify-center gap-5 py-12 text-center sm:min-h-[400px] sm:gap-6 sm:py-16">
-            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-white sm:h-16 sm:w-16">
-              <CheckCircle2 className="h-7 w-7 sm:h-8 sm:w-8" strokeWidth={2} aria-hidden />
+          <div className="flex min-h-[min(18rem,60svh)] flex-col items-center justify-center gap-5 py-10 text-center sm:min-h-[320px] sm:gap-6 sm:py-12">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-brand/40 bg-brand/10 text-brand">
+              <CheckCircle2 className="h-7 w-7" strokeWidth={2} aria-hidden />
             </div>
             <div>
               <SectionHeading as="h2" className="mb-3 text-xl sm:text-2xl">
@@ -48,83 +52,90 @@ export function ContactFormPanel() {
               variant="outline"
               size="sm"
               onClick={() => setSubmitted(false)}
-              className="mt-2 min-h-11 font-mono text-[10px] uppercase tracking-widest sm:mt-4"
+              className="mt-2 min-h-11 font-mono text-[10px] uppercase tracking-widest"
             >
               {CONTACT_PAGE_COPY.submitAnotherLabel}
             </Button>
           </div>
         ) : (
           <>
-            <SectionHeading as="h2" className="mb-6 text-xl leading-tight sm:mb-8 sm:text-2xl md:text-3xl">
+            <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.2em] text-white/45 sm:mb-6">
               {CONTACT_PAGE_COPY.formTitle}
-            </SectionHeading>
+            </p>
 
-            <form className="flex flex-col gap-5 sm:gap-6" onSubmit={handleSubmit} noValidate>
+            <form className="flex flex-col gap-4 sm:gap-5" onSubmit={handleSubmit} noValidate>
               <InputField
                 id="fullName"
                 name="fullName"
-                label="Full Name"
+                label="Name"
                 type="text"
                 required
                 autoComplete="name"
                 placeholder={CONTACT_FORM_PLACEHOLDERS.fullName}
               />
 
-              {/* Stack email/phone while the page is 2-col (narrow half-width); side-by-side on full-width tablet + wide desktop */}
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-1 xl:grid-cols-2">
-                <InputField
-                  id="email"
-                  name="email"
-                  label="Professional Email"
-                  type="email"
-                  required
-                  autoComplete="email"
-                  inputMode="email"
-                  placeholder={CONTACT_FORM_PLACEHOLDERS.email}
-                />
+              <InputField
+                id="email"
+                name="email"
+                label="Email ID"
+                type="email"
+                required
+                autoComplete="email"
+                inputMode="email"
+                placeholder={CONTACT_FORM_PLACEHOLDERS.email}
+              />
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
                 <InputField
                   id="phone"
                   name="phone"
-                  label="Phone"
+                  label="Mobile Number"
                   type="tel"
                   autoComplete="tel"
                   inputMode="tel"
                   className="tabular-nums"
                   placeholder={CONTACT_FORM_PLACEHOLDERS.phone}
                 />
+                <SelectField
+                  id="interest"
+                  name="interest"
+                  label="Primary Interest"
+                  required
+                  defaultValue=""
+                  placeholder={CONTACT_FORM_PLACEHOLDERS.interest}
+                  options={CONTACT_INTEREST_OPTIONS}
+                />
               </div>
-
-              <SelectField
-                id="interest"
-                name="interest"
-                label="Primary Interest"
-                required
-                defaultValue=""
-                placeholder={CONTACT_FORM_PLACEHOLDERS.interest}
-                options={CONTACT_INTEREST_OPTIONS}
-              />
 
               <TextareaField
                 id="message"
                 name="message"
                 label="Message / Portfolio Brief"
-                rows={4}
+                rows={3}
                 placeholder={CONTACT_FORM_PLACEHOLDERS.message}
               />
 
-              <div className="mt-1 sm:mt-2">
+              <div className="mt-1">
                 <Button
                   type="submit"
                   variant="primary"
                   size="lg"
-                  className="min-h-12 w-full justify-center py-3.5 text-base font-semibold tracking-wide sm:py-4"
+                  className="min-h-12 w-full justify-center rounded-full py-3.5 text-base font-semibold tracking-wide sm:py-4"
                 >
                   {CONTACT_PAGE_COPY.submitLabel}
                 </Button>
               </div>
 
-              <p className="px-1 text-center font-mono text-[10px] uppercase leading-relaxed tracking-widest text-white/40">
-                {CONTACT_PAGE_COPY.confidentialityNote}
+              <p className="px-1 text-center text-[11px] leading-relaxed text-white/45 sm:text-xs">
+                {accentIndex >= 0 ? (
+                  <>
+                    {note.slice(0, accentIndex)}
+                    <span className="text-gold">{note.slice(accentIndex, accentIndex + accent.length)}</span>
+                    {note.slice(accentIndex + accent.length)}
+                  </>
+                ) : (
+                  note
+                )}
               </p>
             </form>
           </>

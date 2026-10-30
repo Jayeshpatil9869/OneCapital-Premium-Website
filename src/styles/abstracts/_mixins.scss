@@ -1,0 +1,41 @@
+@use "sass:map";
+@use "breakpoints" as bp;
+
+/// Emit each map entry as a CSS custom property.
+@mixin emit-props($map, $prefix: "--") {
+  @each $name, $value in $map {
+    #{$prefix}#{$name}: #{$value};
+  }
+}
+
+/// min-width media query from the shared breakpoint map.
+@mixin bp-up($name) {
+  $width: map.get(bp.$breakpoints, $name);
+
+  @if $width == null {
+    @error "Unknown breakpoint `#{$name}`.";
+  }
+
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+/// max-width media query (boundary = breakpoint - 1px).
+@mixin bp-down($name) {
+  $width: map.get(bp.$breakpoints, $name);
+
+  @if $width == null {
+    @error "Unknown breakpoint `#{$name}`.";
+  }
+
+  @media (max-width: ($width - 1px)) {
+    @content;
+  }
+}
+
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}

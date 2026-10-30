@@ -1,0 +1,270 @@
+@use "../abstracts/mixins" as mix;
+
+// Savvy-style wealth collage (right column only) — soft plane + chart + floats.
+
+.oc-wealth-collage {
+  position: relative;
+  isolation: isolate;
+  height: 100%;
+  width: 100%;
+  min-height: 12.5rem;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  container-type: size;
+  container-name: oc-wealth;
+
+  @include mix.bp-up("lg") {
+    border-radius: 1.5rem;
+    min-height: 0;
+  }
+}
+
+.oc-wealth-collage__plane {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    #f7f3ec 0%,
+    #efe8dc 42%,
+    #e8e0d2 100%
+  );
+}
+
+.oc-wealth-collage__chart-wrap {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.oc-wealth-collage__chart {
+  width: 125%;
+  height: auto;
+  max-height: 100%;
+  translate: 6% 8%;
+  opacity: 0.9;
+
+  @include mix.bp-up("lg") {
+    translate: 8% 12%;
+  }
+}
+
+.oc-wealth-collage__stage {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  max-width: 28rem;
+  margin-inline: auto;
+}
+
+.oc-wealth-collage__net {
+  position: absolute;
+  z-index: 20;
+  left: 4%;
+  top: 10%;
+  width: min(62%, 17rem);
+  border-radius: 1rem;
+  padding: 0.85rem 1rem;
+  color: var(--oc-color-brand-contrast);
+  background: var(--oc-color-brand);
+  box-shadow:
+    0 18px 44px rgba(13, 96, 59, 0.28),
+    0 2px 0 rgba(255, 255, 255, 0.12) inset;
+
+  @include mix.bp-up("sm") {
+    left: 0;
+    top: 12%;
+    padding: 1.1rem 1.35rem;
+  }
+
+  @include mix.bp-up("lg") {
+    left: -4%;
+    top: 14%;
+  }
+}
+
+.oc-wealth-collage__net-label {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.oc-wealth-collage__net-value {
+  margin: 0.3rem 0 0;
+  font-size: clamp(1.15rem, 3.2cqi + 0.55rem, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.oc-wealth-collage__net-sub {
+  margin: 0.45rem 0 0;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.oc-wealth-collage__returns {
+  position: absolute;
+  z-index: 20;
+  right: 2%;
+  top: 38%;
+  width: min(44%, 13rem);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: #e6e1d6;
+  padding: 0.75rem 0.95rem;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.1);
+
+  @include mix.bp-up("sm") {
+    right: 0;
+    top: 42%;
+    padding: 0.95rem 1.15rem;
+  }
+
+  @include mix.bp-up("lg") {
+    right: -8%;
+    top: 44%;
+  }
+}
+
+.oc-wealth-collage__returns-label {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.oc-wealth-collage__returns-value {
+  margin: 0.3rem 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: clamp(1.15rem, 2.8cqi + 0.55rem, 1.85rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: #111;
+}
+
+.oc-wealth-collage__trend-icon {
+  width: 1.1em;
+  height: 1.1em;
+  color: var(--oc-color-brand);
+  flex-shrink: 0;
+}
+
+.oc-wealth-collage__advisor {
+  position: absolute;
+  z-index: 30;
+  left: 6%;
+  bottom: 10%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  max-width: calc(100% - 12%);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: #fff;
+  padding: 0.35rem 1rem 0.35rem 0.35rem;
+  text-decoration: none;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
+  transition:
+    background-color var(--duration-fast, 200ms) var(--ease-smooth, ease),
+    box-shadow var(--duration-fast, 200ms) var(--ease-smooth, ease);
+
+  @include mix.bp-up("sm") {
+    left: 8%;
+    bottom: 14%;
+    gap: 0.85rem;
+    padding: 0.4rem 1.25rem 0.4rem 0.4rem;
+  }
+
+  @include mix.bp-up("lg") {
+    left: 2%;
+    bottom: 16%;
+  }
+
+  &:hover {
+    background: #faf8f4;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+  }
+}
+
+.oc-wealth-collage__avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.oc-wealth-collage__avatar {
+  display: block;
+  height: clamp(2.75rem, 14cqi, 3.75rem);
+  width: clamp(2.75rem, 14cqi, 3.75rem);
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.oc-wealth-collage__online {
+  position: absolute;
+  right: 0.1rem;
+  bottom: 0.1rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 9999px;
+  background: var(--oc-color-brand);
+  border: 2px solid #fff;
+}
+
+.oc-wealth-collage__chat-label {
+  min-width: 0;
+  font-size: clamp(0.5625rem, 1.6cqi + 0.4rem, 0.6875rem);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  line-height: 1.25;
+}
+
+.oc-wealth-collage__chat-icon {
+  width: 0.9rem;
+  height: 0.9rem;
+  flex-shrink: 0;
+  color: #444;
+}
+
+@container oc-wealth (max-height: 240px) {
+  .oc-wealth-collage__net {
+    padding: 0.55rem 0.7rem;
+    top: 8%;
+  }
+
+  .oc-wealth-collage__returns {
+    top: 34%;
+    padding: 0.5rem 0.65rem;
+  }
+
+  .oc-wealth-collage__advisor {
+    bottom: 6%;
+    left: 4%;
+    padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+  }
+
+  .oc-wealth-collage__avatar {
+    height: 2.35rem;
+    width: 2.35rem;
+  }
+}

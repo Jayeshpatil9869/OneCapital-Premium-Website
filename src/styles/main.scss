@@ -1,0 +1,7 @@
+// OneCapital SCSS entry (Stage B foundation).
+// Load order in main.tsx: main.scss → index.css (Tailwind + theme-bridge + legacy CSS).
+// abstracts/ are pulled in by tokens via @use.
+
+@use "tokens";
+@use "base";
+@use "components";

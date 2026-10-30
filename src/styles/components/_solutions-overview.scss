@@ -1,0 +1,143 @@
+@use "../abstracts/mixins" as mix;
+
+// FR — Solutions Overview sticky pillars (responsive).
+// Sticky stack only from Tailwind `lg` (1024px). Below that: static stack.
+
+.oc-pillar-slot {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  width: 100%;
+  align-items: stretch;
+  justify-content: center;
+  padding: 4.75rem var(--page-gutter) 1rem;
+  pointer-events: none;
+
+  @include mix.bp-up("md") {
+    padding-inline: 1.5rem;
+  }
+
+  @include mix.bp-up("lg") {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    align-items: center;
+    padding-top: 4rem;
+    padding-bottom: 2rem;
+  }
+}
+
+.oc-pillar-card {
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 1380px;
+  min-height: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 2rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff;
+  color: #000;
+  padding: 1rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.32);
+  transform: translateZ(0);
+  will-change: transform;
+
+  @include mix.bp-up("sm") {
+    border-radius: 2.5rem;
+    padding: 1.5rem;
+  }
+
+  // Desktop: fluid height — never taller than short laptops allow
+  @include mix.bp-up("lg") {
+    flex: 0 0 auto;
+    height: min(36.25rem, calc(100svh - 6.5rem));
+    max-height: min(36.25rem, calc(100svh - 6.5rem));
+    min-height: min(31.25rem, calc(100svh - 7.5rem));
+    padding: 2.5rem 3rem;
+  }
+
+  @include mix.bp-up("xl") {
+    height: min(36.25rem, calc(100svh - 6.5rem));
+    max-height: min(36.25rem, calc(100svh - 6.5rem));
+    padding: 3rem 3.5rem;
+  }
+}
+
+.oc-pillar-grid {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto minmax(11.25rem, 14rem);
+
+  @include mix.bp-up("sm") {
+    gap: 1.25rem;
+    grid-template-rows: auto minmax(13.75rem, 17.5rem);
+  }
+
+  @include mix.bp-up("lg") {
+    gap: 2.5rem;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.1fr);
+    grid-template-rows: minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  &--flip {
+    @include mix.bp-up("lg") {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.95fr);
+
+      .oc-pillar-copy {
+        order: 2;
+      }
+
+      .oc-pillar-visual {
+        order: 1;
+      }
+    }
+  }
+}
+
+.oc-pillar-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.oc-pillar-visual {
+  position: relative;
+  display: flex;
+  min-height: 11.25rem;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 1rem;
+
+  @include mix.bp-up("sm") {
+    min-height: 13.75rem;
+    border-radius: 1.25rem;
+  }
+
+  @include mix.bp-up("lg") {
+    min-height: 0;
+    height: 100%;
+    border-radius: 1.5rem;
+  }
+}
+
+.oc-pillar-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  border-radius: inherit;
+  background: #000;
+  will-change: opacity;
+}

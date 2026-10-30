@@ -1,6 +1,28 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
+import {
+  Activity,
+  BookOpen,
+  Briefcase,
+  Building2,
+  ChevronDown,
+  ChevronRight,
+  Coins,
+  Compass,
+  Handshake,
+  Layers,
+  LayoutGrid,
+  Mail,
+  Menu,
+  PieChart,
+  Shield,
+  Target,
+  TrendingUp,
+  Users,
+  Wallet,
+  X,
+  type LucideIcon,
+} from "lucide-react";
 import { cn } from "../lib/utils";
 import BrandLogo from "./BrandLogo";
 import { subscribeRafScroll } from "../lib/raf-scroll";
@@ -9,11 +31,18 @@ import { getOfferTree } from "../data/products";
 
 const CLIENT_LOGIN_URL = "https://onecapitalinvestment.investwell.app/app/#/login";
 
+type NavLeaf = {
+  name: string;
+  path: string;
+  icon?: LucideIcon;
+};
+
 type NavChild = {
   name: string;
   path: string;
   group?: string;
-  children?: { name: string; path: string }[];
+  icon?: LucideIcon;
+  children?: NavLeaf[];
 };
 
 type NavItem =
@@ -45,9 +74,9 @@ const NAV_ITEMS: NavItem[] = [
     label: "About Us",
     path: "/about",
     children: [
-      { name: "About One Capital", path: "/about" },
-      { name: "Our Team", path: "/team" },
-      { name: "Our Approach", path: "/approach" },
+      { name: "About One Capital", path: "/about", icon: Building2 },
+      { name: "Our Team", path: "/team", icon: Users },
+      { name: "Our Approach", path: "/approach", icon: Compass },
     ],
   },
   ...(["mutual-funds", "pms-aif"] as const).map((id) => {
@@ -64,23 +93,39 @@ const NAV_ITEMS: NavItem[] = [
         name: "Core pillars",
         path: "menu:core-pillars",
         children: [
-          { name: "Capital Strategy", path: "/solutions/capital-strategy" },
-          { name: "Portfolio Management", path: "/solutions/portfolio-management" },
-          { name: "Wealth Management", path: "/solutions/wealth-management" },
+          { name: "Capital Strategy", path: "/solutions/capital-strategy", icon: Target },
+          {
+            name: "Portfolio Management",
+            path: "/solutions/portfolio-management",
+            icon: Briefcase,
+          },
+          { name: "Wealth Management", path: "/solutions/wealth-management", icon: Wallet },
         ],
       },
       {
         name: "Tactical Products & Strategies",
         path: "menu:tactical",
         children: [
-          { name: "Mutual Funds", path: "/solutions/mutual-funds" },
-          { name: "PMS & AIF", path: "/solutions/pms-aif" },
-          { name: "Direct Equity", path: "/solutions/equity" },
-          { name: "Equity Baskets", path: "/solutions/equity-baskets" },
-          { name: "Options Baskets", path: "/solutions/options-baskets" },
-          { name: "Passive Income Strategy", path: "/solutions/passive-income-strategy" },
-          { name: "NIFTY 50 Hedging Strategy", path: "/solutions/nifty-50-hedging" },
-          { name: "Investment Advisory", path: "/solutions/investment-advisory" },
+          { name: "Mutual Funds", path: "/solutions/mutual-funds", icon: PieChart },
+          { name: "PMS & AIF", path: "/solutions/pms-aif", icon: Layers },
+          { name: "Direct Equity", path: "/solutions/equity", icon: TrendingUp },
+          { name: "Equity Baskets", path: "/solutions/equity-baskets", icon: LayoutGrid },
+          { name: "Options Baskets", path: "/solutions/options-baskets", icon: Activity },
+          {
+            name: "Passive Income Strategy",
+            path: "/solutions/passive-income-strategy",
+            icon: Coins,
+          },
+          {
+            name: "NIFTY 50 Hedging Strategy",
+            path: "/solutions/nifty-50-hedging",
+            icon: Shield,
+          },
+          {
+            name: "Investment Advisory",
+            path: "/solutions/investment-advisory",
+            icon: Handshake,
+          },
         ],
       },
     ],
@@ -91,40 +136,21 @@ const NAV_ITEMS: NavItem[] = [
     label: "Insights",
     path: "/insights",
     children: [
-      { name: "Blog", path: "/blog" },
-      { name: "Newsletter", path: "/newsletter" },
+      { name: "Blog", path: "/blog", icon: BookOpen },
+      { name: "Newsletter", path: "/newsletter", icon: Mail },
     ],
   },
   { kind: "link", name: "Contact Us", path: "/contact" },
 ];
 
-const SURFACE_OVER_LIGHT = {
-  backgroundColor: "rgba(0, 0, 0, 0.8)",
-  borderColor: "rgba(255, 255, 255, 0.1)",
-} as const;
-
-/** Solid dropdown at top of page (no pill). */
+/** White mega/single dropdown — ET Money–style solid panel on dark nav. */
 const SURFACE_DROPDOWN = {
-  backgroundColor: "rgba(0, 0, 0, 0.92)",
-  borderColor: "rgba(255, 255, 255, 0.1)",
-} as const;
-
-/**
- * Glass dropdown when the pill nav is active.
- * Dark enough to read without waiting on blur, translucent enough for blur to show.
- */
-const SURFACE_DROPDOWN_PILL = {
-  backgroundColor: "rgba(0, 0, 0, 0.55)",
-  borderColor: "rgba(255, 255, 255, 0.12)",
+  backgroundColor: "#FFFFFF",
+  borderColor: "rgba(0, 0, 0, 0.06)",
+  boxShadow: "0 0 15px rgb(0 0 0 / 25%)",
 } as const;
 
 const DESKTOP_MENU_CLOSE_MS = 160;
-
-function dropdownSurfaceVars(showPill: boolean, overLight: boolean) {
-  if (overLight) return { ...SURFACE_OVER_LIGHT };
-  if (showPill) return { ...SURFACE_DROPDOWN_PILL };
-  return { ...SURFACE_DROPDOWN };
-}
 
 function pathMatchesChild(pathname: string, child: NavChild): boolean {
   const basePath = child.path.split("#")[0];
@@ -170,18 +196,62 @@ function NavLinkStyles(active: boolean, overLight: boolean) {
   return active ? "text-white" : "text-white/90 hover:text-white";
 }
 
+function isMegaDropdown(item: Extract<NavItem, { kind: "dropdown" }>) {
+  return item.children.some((child) => (child.children?.length ?? 0) > 0);
+}
+
+function DropdownRow({
+  name,
+  path,
+  icon: Icon,
+  active,
+  onNavigate,
+}: {
+  name: string;
+  path: string;
+  icon?: LucideIcon;
+  active: boolean;
+  onNavigate: () => void;
+}) {
+  return (
+    <Link
+      to={path}
+      role="menuitem"
+      onClick={onNavigate}
+      className="group/item flex min-h-11 items-center gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-black/[0.04]"
+    >
+      <span
+        className="inline-flex size-7 shrink-0 items-center justify-center text-neutral-600 transition-colors group-hover/item:text-neutral-900"
+        aria-hidden
+      >
+        {Icon ? <Icon className="h-5 w-5" strokeWidth={1.75} /> : null}
+      </span>
+      <span
+        className={cn(
+          "relative inline-block text-base font-medium tracking-tight transition-colors",
+          active ? "text-neutral-900" : "text-neutral-800 group-hover/item:text-neutral-900",
+        )}
+      >
+        {name}
+        {active && (
+          <span className="absolute -bottom-1 left-0 h-px w-full bg-neutral-900 opacity-40" />
+        )}
+        <span className="absolute -bottom-1 left-0 h-px w-0 bg-neutral-900 opacity-0 transition-all duration-300 group-hover/item:w-full group-hover/item:opacity-40" />
+      </span>
+    </Link>
+  );
+}
+
 function NestedNavLinks({
   open,
   items,
   pathname,
   onNavigate,
-  tone,
 }: {
   open: boolean;
-  items: { name: string; path: string }[];
+  items: NavLeaf[];
   pathname: string;
   onNavigate?: () => void;
-  tone: "desktop" | "mobile";
 }) {
   return (
     <div
@@ -192,30 +262,18 @@ function NestedNavLinks({
       inert={!open}
       aria-hidden={!open}
     >
-      <ul
-        className={cn(
-          "flex min-h-0 flex-col overflow-hidden border-l",
-          tone === "desktop" ? "ml-3 border-white/15" : "ml-1 border-white/10",
-        )}
-      >
+      <ul className="ml-1 flex min-h-0 flex-col overflow-hidden border-l border-white/10">
         {items.map((item) => {
           const itemActive = pathname === item.path;
           return (
             <li key={item.path}>
               <Link
                 to={item.path}
-                role={tone === "desktop" ? "menuitem" : undefined}
                 onClick={onNavigate}
                 tabIndex={open ? undefined : -1}
                 className={cn(
                   "group block w-fit py-1.5 pl-3 text-base transition-colors",
-                  tone === "desktop"
-                    ? itemActive
-                      ? "text-white"
-                      : "text-white/80 hover:text-white"
-                    : itemActive
-                      ? "text-white"
-                      : "text-white/90 hover:text-white",
+                  itemActive ? "text-white" : "text-white/90 hover:text-white",
                 )}
               >
                 {item.name}
@@ -231,7 +289,6 @@ function NestedNavLinks({
 function DesktopDropdown({
   item,
   overLight,
-  showPill,
   pathname,
   openId,
   onOpen,
@@ -240,7 +297,6 @@ function DesktopDropdown({
 }: {
   item: Extract<NavItem, { kind: "dropdown" }>;
   overLight: boolean;
-  showPill: boolean;
   pathname: string;
   openId: string | null;
   onOpen: (id: string) => void;
@@ -249,14 +305,7 @@ function DesktopDropdown({
 }) {
   const active = pathMatchesItem(pathname, item);
   const open = openId === item.name;
-  const defaultNestedPath =
-    item.children.find((child) => (child.children?.length ?? 0) > 0)?.path ?? null;
-  const [openChildPath, setOpenChildPath] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Service (and similar): open with Core pillars expanded by default.
-    setOpenChildPath(open ? defaultNestedPath : null);
-  }, [open, defaultNestedPath]);
+  const mega = isMegaDropdown(item);
 
   const openMenu = () => onOpen(item.name);
 
@@ -283,7 +332,7 @@ function DesktopDropdown({
           aria-haspopup="true"
           onClick={handleLinkClick}
           className={cn(
-            "inline-flex min-h-11 shrink-0 items-center gap-1 whitespace-nowrap text-base tracking-wide transition-colors relative group",
+            "oc-nav-link relative group inline-flex min-h-11 shrink-0 items-center gap-1 whitespace-nowrap tracking-wide transition-colors",
             NavLinkStyles(active, overLight),
           )}
         >
@@ -296,7 +345,7 @@ function DesktopDropdown({
             aria-hidden
           />
           {active && (
-            <span className="absolute -bottom-1.5 left-0 w-full h-[1px] bg-white opacity-50" />
+            <span className="absolute -bottom-1.5 left-0 h-[1px] w-full bg-white opacity-50" />
           )}
         </Link>
       ) : (
@@ -306,7 +355,7 @@ function DesktopDropdown({
           aria-haspopup="true"
           onClick={() => (open ? handleLinkClick() : openMenu())}
           className={cn(
-            "inline-flex min-h-11 shrink-0 items-center gap-1 whitespace-nowrap text-base tracking-wide transition-colors relative group",
+            "oc-nav-link relative group inline-flex min-h-11 shrink-0 items-center gap-1 whitespace-nowrap tracking-wide transition-colors",
             NavLinkStyles(active, overLight),
           )}
         >
@@ -319,150 +368,74 @@ function DesktopDropdown({
             aria-hidden
           />
           {active && (
-            <span className="absolute -bottom-1.5 left-0 w-full h-[1px] bg-white opacity-50" />
+            <span className="absolute -bottom-1.5 left-0 h-[1px] w-full bg-white opacity-50" />
           )}
         </button>
       )}
 
       <div
         className={cn(
-          // Never animate opacity here — ancestor opacity < 1 disables backdrop-filter.
-          // Closed: `hidden` (not invisible) so backdrop-filter cannot leave a compositor ghost.
-          "absolute top-full pt-3 z-[var(--z-overlay)]",
-          item.children.some((child) => (child.children?.length ?? 0) > 0)
-            ? "right-0"
+          // Closed: `hidden` so no compositor ghost from the white panel.
+          "absolute top-full z-[var(--z-overlay)] pt-3",
+          mega
+            ? "oc-nav-mega-wrap"
             : "left-0 right-0 flex justify-center",
-          open
-            ? "translate-y-0 visible pointer-events-auto transition-transform duration-200 ease-out"
-            : "hidden pointer-events-none",
+          open ? "visible pointer-events-auto" : "pointer-events-none hidden",
         )}
       >
         <div
           data-nav-surface="dropdown"
           className={cn(
-            "min-w-[17rem] rounded-2xl border p-3",
-            item.children.some((child) => (child.children?.length ?? 0) > 0) && "min-w-[26rem]",
-            groupNavChildren(item.children).some((group) => group.label) && "min-w-[34rem]",
-            // Blur only while open — closed panels must not keep a GPU blur layer.
-            open &&
-            (showPill || overLight
-              ? "backdrop-blur-2xl shadow-lg"
-              : "backdrop-blur-xl shadow-2xl"),
+            "rounded-2xl border",
+            mega
+              ? "oc-nav-mega-panel px-5 py-6 sm:px-7 sm:py-8"
+              : "min-w-[17rem] max-w-[calc(100vw-2rem)] px-5 py-6",
           )}
-          style={{
-            ...dropdownSurfaceVars(showPill, overLight),
-            ...(open
-              ? {
-                transform: "translateZ(0)",
-                WebkitBackdropFilter:
-                  showPill || overLight ? "blur(40px)" : "blur(24px)",
-                backdropFilter:
-                  showPill || overLight ? "blur(40px)" : "blur(24px)",
-              }
-              : {
-                WebkitBackdropFilter: "none",
-                backdropFilter: "none",
-              }),
-          }}
+          style={SURFACE_DROPDOWN}
           role="menu"
           aria-label={item.label}
         >
-          <div
-            className={cn(
-              "flex max-h-[calc(100vh-8rem)] flex-col gap-4 overflow-y-auto",
-              groupNavChildren(item.children).filter((group) => group.label).length > 1 &&
-              "sm:grid sm:grid-cols-2 sm:gap-6",
-            )}
-          >
-            {groupNavChildren(item.children).map((group) => (
-              <div key={group.label || "links"}>
-                <ul className="flex flex-col gap-0.5">
-                  {group.items.map((child) => {
-                    const childActive = pathname === child.path;
-                    const nested = child.children ?? [];
-                    const nestedActive = nested.some((item) => pathname === item.path);
-                    const nestedOpen = openChildPath === child.path;
-                    return (
-                      <li
-                        key={child.path}
-                        onMouseEnter={() => {
-                          if (nested.length > 0) setOpenChildPath(child.path);
-                        }}
-                        onMouseLeave={() => {
-                          if (openChildPath === child.path) {
-                            setOpenChildPath(defaultNestedPath);
-                          }
-                        }}
-                      >
-                        {nested.length > 0 ? (
-                          <button
-                            type="button"
-                            role="menuitem"
-                            aria-expanded={nestedOpen}
-                            onClick={() =>
-                              setOpenChildPath((prev) =>
-                                prev === child.path ? defaultNestedPath : child.path,
-                              )
-                            }
-                            className="group group/item flex w-full items-center gap-2 px-3 py-2.5 text-left transition-colors"
-                          >
-                            <span
-                              className={cn(
-                                "relative inline-block whitespace-nowrap text-base font-medium tracking-tight transition-colors",
-                                nestedActive || nestedOpen
-                                  ? "text-white"
-                                  : "text-white/90 group-hover/item:text-white",
-                              )}
-                            >
-                              {child.name}
-                            </span>
-                            <ChevronRight
-                              className={cn(
-                                "ml-auto h-4 w-4 shrink-0 text-white/80 transition-transform duration-200",
-                                nestedOpen && "rotate-90 text-white",
-                              )}
-                              aria-hidden
-                            />
-                          </button>
-                        ) : (
-                          <Link
-                            to={child.path}
-                            role="menuitem"
-                            onClick={handleLinkClick}
-                            className="group group/item flex items-center gap-2 px-3 py-2.5 transition-colors"
-                          >
-                            <span
-                              className={cn(
-                                "relative inline-block text-base font-medium tracking-tight transition-colors",
-                                childActive
-                                  ? "text-white"
-                                  : "text-white/90 group-hover/item:text-white",
-                              )}
-                            >
-                              {child.name}
-                              {childActive && (
-                                <span className="absolute -bottom-1 left-0 w-full h-px bg-white opacity-50" />
-                              )}
-                              <span className="absolute -bottom-1 left-0 w-0 h-px bg-white transition-all duration-300 opacity-0 group-hover/item:w-full group-hover/item:opacity-50" />
-                            </span>
-                          </Link>
-                        )}
-                        {nested.length > 0 ? (
-                          <NestedNavLinks
-                            open={nestedOpen}
-                            items={nested}
-                            pathname={pathname}
+          {mega ? (
+            <div className="grid max-h-[calc(100vh-8rem)] grid-cols-1 items-start gap-x-8 gap-y-6 overflow-y-auto sm:grid-cols-2 sm:gap-x-10">
+              {item.children.map((column) => {
+                const leaves = column.children ?? [];
+                return (
+                  <div key={column.path} className="min-w-0">
+                    <strong className="mb-3 block text-xs font-medium tracking-[0.08em] text-neutral-500 uppercase">
+                      {column.name}
+                    </strong>
+                    <ul className="flex flex-col gap-0.5">
+                      {leaves.map((leaf) => (
+                        <li key={leaf.path}>
+                          <DropdownRow
+                            name={leaf.name}
+                            path={leaf.path}
+                            icon={leaf.icon}
+                            active={pathname === leaf.path}
                             onNavigate={handleLinkClick}
-                            tone="desktop"
                           />
-                        ) : null}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            ))}
-          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <ul className="flex max-h-[calc(100vh-8rem)] flex-col gap-0.5 overflow-y-auto">
+              {item.children.map((child) => (
+                <li key={child.path}>
+                  <DropdownRow
+                    name={child.name}
+                    path={child.path}
+                    icon={child.icon}
+                    active={pathname === child.path}
+                    onNavigate={handleLinkClick}
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>
@@ -608,8 +581,8 @@ export default function Navbar() {
       >
         <div
           className={cn(
-            "relative flex items-center justify-between gap-3 transition-all duration-500 xl:gap-4",
-            showPill ? "px-5 py-3 sm:px-7 sm:py-3.5" : "px-0 py-2",
+            "relative flex min-w-0 items-center justify-between gap-2 transition-all duration-500 sm:gap-3 xl:gap-3 2xl:gap-4",
+            showPill ? "px-4 py-3 sm:px-6 sm:py-3.5 xl:px-5 2xl:px-7" : "px-0 py-2",
           )}
         >
           <div
@@ -634,7 +607,7 @@ export default function Navbar() {
           />
 
           <nav
-            className="relative z-[1] hidden min-w-0 flex-1 items-center justify-center gap-3 xl:flex 2xl:gap-5"
+            className="oc-nav-primary relative z-[1] hidden min-w-0 flex-1 items-center justify-center xl:flex"
             aria-label="Primary"
           >
             {NAV_ITEMS.map((item) => {
@@ -644,7 +617,6 @@ export default function Navbar() {
                     key={item.name}
                     item={item}
                     overLight={overLight}
-                    showPill={showPill}
                     pathname={location.pathname}
                     openId={desktopOpenId}
                     onOpen={openDesktopMenu}
@@ -660,7 +632,7 @@ export default function Navbar() {
                   key={item.name}
                   to={item.path}
                   className={cn(
-                    "inline-flex min-h-11 shrink-0 items-center whitespace-nowrap text-base tracking-wide transition-colors relative group",
+                    "oc-nav-link relative group inline-flex min-h-11 shrink-0 items-center whitespace-nowrap tracking-wide transition-colors",
                     NavLinkStyles(active, overLight),
                   )}
                 >
@@ -674,15 +646,21 @@ export default function Navbar() {
             })}
           </nav>
 
-          <div className="relative z-[1] flex shrink-0 items-center gap-2 sm:gap-3">
+          <div className="oc-nav-actions relative z-[1] flex shrink-0 items-center gap-1.5 sm:gap-2 2xl:gap-3">
             <Button
               to="/contact"
-              variant="secondary"
+              variant="primary"
               size="sm"
               arrow="up-right"
-              className="hidden whitespace-nowrap px-5 xl:inline-flex text-sm tracking-wider font-medium"
+              aria-label="Book Consultation"
+              className="oc-nav-cta hidden whitespace-nowrap tracking-wider font-medium xl:inline-flex"
             >
-              Book Consultation
+              <span className="2xl:hidden" aria-hidden>
+                Book a Call
+              </span>
+              <span className="hidden 2xl:inline" aria-hidden>
+                Book Consultation
+              </span>
             </Button>
             <Button
               href={CLIENT_LOGIN_URL}
@@ -691,7 +669,7 @@ export default function Navbar() {
               variant="outline"
               size="sm"
               className={cn(
-                "hidden whitespace-nowrap px-5 xl:inline-flex text-sm tracking-wider font-medium",
+                "oc-nav-cta hidden whitespace-nowrap tracking-wider font-medium xl:inline-flex",
                 overLight ? "text-white" : "text-white/80",
               )}
             >
@@ -704,7 +682,7 @@ export default function Navbar() {
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-nav"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden relative inline-flex items-center justify-center min-h-11 min-w-11 text-white transition-colors hover:text-white/80"
+              className="relative inline-flex min-h-11 min-w-11 items-center justify-center text-white transition-colors hover:text-white/80 xl:hidden"
             >
               {mobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -723,10 +701,10 @@ export default function Navbar() {
         aria-hidden={!mobileMenuOpen}
         aria-label="Mobile navigation"
         className={cn(
-          "fixed inset-0 z-[var(--z-overlay)] bg-canvas transition-all duration-500 xl:hidden flex flex-col overflow-y-auto overscroll-contain px-[var(--page-gutter)] pt-[calc(env(safe-area-inset-top)+4.25rem)] pb-[max(1.5rem,env(safe-area-inset-bottom))]",
+          "fixed inset-0 z-[var(--z-overlay)] flex flex-col overflow-y-auto overscroll-contain bg-canvas px-[var(--page-gutter)] pt-[calc(env(safe-area-inset-top)+4.25rem)] pb-[max(1.5rem,env(safe-area-inset-bottom))] transition-all duration-500 xl:hidden",
           mobileMenuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none",
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none invisible opacity-0",
         )}
       >
         <div className="my-auto w-full py-6">
@@ -882,7 +860,6 @@ export default function Navbar() {
                                       items={nested}
                                       pathname={location.pathname}
                                       onNavigate={() => setMobileMenuOpen(false)}
-                                      tone="mobile"
                                     />
                                   ) : null}
                                 </li>
@@ -900,7 +877,7 @@ export default function Navbar() {
             <div className="mt-8 flex flex-col gap-3">
               <Button
                 to="/contact"
-                variant="secondary"
+                variant="primary"
                 arrow="up-right"
                 className="w-full rounded-xl justify-between px-6 py-4 min-h-14 [&_.oc-btn-label]:w-full [&_.oc-btn-label]:justify-between"
               >

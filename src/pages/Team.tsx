@@ -18,7 +18,8 @@ export default function TeamPage() {
     <div className="w-full flex flex-col items-center">
       <TeamHero />
       <DirectorAboutSection />
-      <ScrollFade className="w-full">
+      {/* Hidden on request — keep mounted in tree for easy restore (do not delete). */}
+      <ScrollFade className="hidden w-full" aria-hidden>
         <Team />
       </ScrollFade>
       <ScrollFade className="w-full">

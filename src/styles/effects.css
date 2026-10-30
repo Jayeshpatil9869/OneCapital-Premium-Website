@@ -310,6 +310,18 @@
   --oc-btn-stroke-border: transparent;
 }
 
+/* Brand green fill: white flair; label → brand on hover (design-system CTAs). */
+.oc-btn-stroke--brand {
+  --oc-btn-flair-fill: #fff;
+  --oc-btn-stroke-border: transparent;
+}
+
+/* Hollow brand: keep green stroke; flair fills brand. */
+.oc-btn-stroke--brand-outline {
+  --oc-btn-flair-fill: var(--oc-color-brand);
+  --oc-btn-stroke-border: var(--oc-color-brand);
+}
+
 .oc-btn-flair {
   position: absolute;
   inset: 0;
@@ -364,6 +376,18 @@
     transition: color 0.15s var(--ease-in-out-quart);
   }
 
+  .oc-btn-stroke--brand:hover .oc-btn-label,
+  .oc-btn-stroke--brand:focus-visible .oc-btn-label {
+    color: var(--oc-color-brand);
+    transition: color 0.15s var(--ease-in-out-quart);
+  }
+
+  .oc-btn-stroke--brand-outline:hover .oc-btn-label,
+  .oc-btn-stroke--brand-outline:focus-visible .oc-btn-label {
+    color: var(--oc-color-brand-contrast);
+    transition: color 0.15s var(--ease-in-out-quart);
+  }
+
   .light-section .oc-btn-stroke--light {
     --oc-btn-stroke-border: var(--color-canvas);
     --oc-btn-flair-fill: var(--color-canvas);
@@ -396,6 +420,18 @@
   .oc-btn-stroke--on-black:focus-visible {
     color: #000;
     background-color: #fff;
+  }
+
+  .oc-btn-stroke--brand:hover,
+  .oc-btn-stroke--brand:focus-visible {
+    color: var(--oc-color-brand);
+    background-color: #fff;
+  }
+
+  .oc-btn-stroke--brand-outline:hover,
+  .oc-btn-stroke--brand-outline:focus-visible {
+    color: var(--oc-color-brand-contrast);
+    background-color: var(--oc-color-brand);
   }
 
   .light-section .oc-btn-stroke--light:hover,

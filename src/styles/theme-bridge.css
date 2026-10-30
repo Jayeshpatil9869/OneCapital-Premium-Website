@@ -1,0 +1,96 @@
+/*
+  Tailwind v4 @theme bridge — values resolve from :root tokens emitted by SCSS.
+  Authoring source of truth: src/styles/tokens/_*.scss (via main.scss).
+  Do not hardcode palette hex here; change SCSS maps instead.
+*/
+
+@theme inline {
+  /* Screens aligned with src/styles/abstracts/_breakpoints.scss */
+  --breakpoint-sm: 40rem; /* 640 */
+  --breakpoint-md: 48rem; /* 768 */
+  --breakpoint-lg: 64rem; /* 1024 */
+  --breakpoint-xl: 80rem; /* 1280 */
+  --breakpoint-2xl: 96rem; /* 1536 */
+
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-cormorant: var(--font-cormorant);
+  --font-script: var(--font-script);
+  --font-mono: var(--font-mono);
+
+  /* Foundation (legacy --color-* aliases on :root) */
+  --color-canvas: var(--color-canvas);
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-panel: var(--color-panel);
+  --color-surface-elevated: var(--color-surface-elevated);
+  --color-surface-overlay: var(--oc-color-surface-overlay);
+  --color-surface-white: var(--oc-color-surface-white);
+  --color-surface-white-subtle: var(--oc-color-surface-white-subtle);
+
+  --color-text-main: var(--color-text-main);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-inverse: var(--oc-color-text-inverse);
+  --color-text-high-emphasis: var(--color-text-high-emphasis);
+  --color-text-medium-emphasis: var(--color-text-medium-emphasis);
+  --color-text-low-emphasis: var(--color-text-low-emphasis);
+
+  --color-border: var(--color-border);
+  --color-border-subtle: var(--color-border-subtle);
+  --color-border-strong: var(--oc-color-border-strong);
+  --color-shadow: var(--color-shadow);
+  --color-glow: var(--color-glow);
+
+  /* Brand */
+  --color-brand: var(--oc-color-brand);
+  --color-brand-hover: var(--oc-color-brand-hover);
+  --color-brand-active: var(--oc-color-brand-active);
+  --color-brand-soft: var(--oc-color-brand-soft);
+  --color-brand-subtle: var(--oc-color-brand-subtle);
+  --color-brand-contrast: var(--oc-color-brand-contrast);
+
+  /* Financial semantics */
+  --color-positive: var(--oc-color-positive);
+  --color-positive-soft: var(--oc-color-positive-soft);
+  --color-negative: var(--oc-color-negative);
+  --color-negative-soft: var(--oc-color-negative-soft);
+  --color-warning: var(--oc-color-warning);
+  --color-warning-soft: var(--oc-color-warning-soft);
+  --color-info: var(--oc-color-info);
+  --color-info-soft: var(--oc-color-info-soft);
+
+  /* Links + gold (secondary) + legacy accent */
+  --color-link: var(--color-link);
+  --color-link-hover: var(--oc-color-link-hover);
+  --color-gold: var(--oc-color-gold);
+  --color-gold-muted: var(--oc-color-gold-muted);
+  --color-gold-soft: var(--oc-color-gold-soft);
+  --color-accent: var(--color-accent);
+  --color-accent-muted: var(--color-accent-muted);
+  --color-accent-soft: var(--color-accent-soft);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-pill: var(--radius-pill);
+
+  --container-max: var(--container-max);
+  --page-gutter: var(--page-gutter);
+  --space-section: var(--space-section);
+  --space-section-sm: var(--space-section-sm);
+  --grid-gap: var(--grid-gap);
+  --blur-glass: var(--blur-glass);
+
+  --z-base: var(--z-base);
+  --z-content: var(--z-content);
+  --z-sticky: var(--z-sticky);
+  --z-nav: var(--z-nav);
+  --z-overlay: var(--z-overlay);
+  --z-modal: var(--z-modal);
+  --z-toast: var(--z-toast);
+  --z-preloader: var(--z-preloader);
+  --z-cursor: var(--z-cursor);
+}

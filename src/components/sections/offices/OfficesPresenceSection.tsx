@@ -22,7 +22,9 @@ export function OfficesPresenceSection() {
       <Container>
         <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-16">
           <RevealOnScroll className="lg:col-span-6 overflow-visible">
-            <IndiaDotMap offices={OFFICE_LOCATIONS} />
+            <div className="oc-map-stage">
+              <IndiaDotMap offices={OFFICE_LOCATIONS} />
+            </div>
           </RevealOnScroll>
 
           <div className="lg:col-span-6 flex flex-col gap-10">

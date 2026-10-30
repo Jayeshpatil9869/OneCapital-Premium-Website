@@ -22,20 +22,23 @@ export type ButtonVariant =
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: 'bg-white text-black font-medium',
+  // Design-system: solid brand green CTA (ET Money principle → --oc-color-brand)
+  primary:
+    'bg-brand text-brand-contrast font-medium hover:bg-brand-hover active:bg-brand-active',
   secondary: 'glass-panel text-white',
   ghost: 'bg-transparent text-white/70',
-  outline: 'bg-transparent text-white/90',
+  // Chrome outline (Login etc.) — use className + border-brand for hollow-green CTAs
+  outline: 'bg-transparent text-white/90 border border-white/25 hover:border-white/50',
   magnetic: 'glass-panel text-white',
-  text: 'bg-transparent text-white/70 hover:text-white px-0 py-0 min-h-0 rounded-none',
+  text: 'bg-transparent text-brand hover:text-brand-hover px-0 py-0 min-h-0 rounded-none',
   pill: 'glass-panel text-white/90',
   glow:
-    'bg-white text-black shadow-[0_0_40px_rgba(255,255,255,0.12)] hover:shadow-[0_0_56px_rgba(255,255,255,0.2)]',
+    'bg-brand text-brand-contrast shadow-[0_0_40px_color-mix(in_srgb,var(--oc-color-brand)_35%,transparent)] hover:shadow-[0_0_56px_color-mix(in_srgb,var(--oc-color-brand)_50%,transparent)] hover:bg-brand-hover',
 };
 
 const strokeToneClasses: Record<ButtonVariant, string> = {
-  primary: 'oc-btn-stroke--dark',
-  glow: 'oc-btn-stroke--dark',
+  primary: 'oc-btn-stroke--brand',
+  glow: 'oc-btn-stroke--brand',
   secondary: 'oc-btn-stroke--light',
   ghost: 'oc-btn-stroke--light',
   outline: 'oc-btn-stroke--light',
@@ -84,7 +87,7 @@ export function ButtonFlair({
 }: {
   className?: string;
   children?: ReactNode;
-  tone?: 'dark' | 'light' | 'on-black';
+  tone?: 'dark' | 'light' | 'on-black' | 'brand';
 }) {
   const { buttonRef, flairRef } = useFlairButton(true);
 
@@ -96,6 +99,7 @@ export function ButtonFlair({
         tone === 'dark' && 'oc-btn-stroke--dark',
         tone === 'light' && 'oc-btn-stroke--light',
         tone === 'on-black' && 'oc-btn-stroke--on-black',
+        tone === 'brand' && 'oc-btn-stroke--brand',
         className,
       )}
     >
@@ -121,7 +125,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
     const { buttonRef, flairRef } = useFlairButton(useFlair);
 
     const classes = cn(
-      'inline-flex items-center justify-center uppercase tracking-wide transition-all duration-500 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
+      'inline-flex items-center justify-center uppercase tracking-wide transition-all duration-500 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/45 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas',
       useFlair && 'oc-btn-stroke',
       useFlair && strokeToneClasses[variant],
       !isText && 'rounded-full',

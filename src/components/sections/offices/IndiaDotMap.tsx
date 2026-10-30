@@ -1,4 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type RefObject,
+} from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
@@ -11,45 +18,20 @@ type IndiaDotMapProps = {
   className?: string;
 };
 
-type TooltipConfig = {
-  className: string;
-  /** From sm up, sit to the right of the marker. Mobile always sits above. */
-  smSide: boolean;
-  fromVars: gsap.TweenVars;
-  toVars: gsap.TweenVars;
-};
-
-/** West-coast markers center the card off the left edge of the phone. */
-const MOBILE_TOOLTIP_NUDGE = '5rem';
 const MOBILE_MAP_QUERY = '(max-width: 639px)';
 const FINE_POINTER_QUERY = '(hover: hover) and (pointer: fine)';
 /** Long enough to read the quote, then the active dot steps south. */
 const CYCLE_MS = 4500;
 
 type CycleMode = 'pin' | 'release' | 'jump';
+type TooltipSide = 'right' | 'left' | 'above';
 
 function isFinePointer() {
   return window.matchMedia(FINE_POINTER_QUERY).matches;
 }
 
-function tooltipShift(officeId: string, smSide: boolean) {
-  const mobile = window.matchMedia(MOBILE_MAP_QUERY).matches;
-  if (mobile) {
-    return {
-      x: MOBILE_TOOLTIP_NUDGE,
-      xPercent: -50,
-    };
-  }
-  if (officeId === 'mumbai') {
-    return {
-      x: 0,
-      xPercent: 0,
-    };
-  }
-  return {
-    x: 0,
-    xPercent: smSide ? 0 : -50,
-  };
+function isMobileMap() {
+  return window.matchMedia(MOBILE_MAP_QUERY).matches;
 }
 
 /** North to south: Nashik, Mumbai, Pune, Kolhapur. */
@@ -57,38 +39,55 @@ function northToSouth(offices: OfficeLocation[]) {
   return [...offices].sort((a, b) => a.mapY - b.mapY || a.mapX - b.mapX);
 }
 
-const ABOVE_MARKER =
-  'pointer-events-none absolute bottom-full left-1/2 z-50 mb-3 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] max-sm:translate-x-[calc(-50%+4rem)] sm:-translate-x-1/2';
+/**
+ * Pick a side relative to the marker so the card stays inside the map box.
+ * Absolute positioning only — scrolls with the page (no fixed / portal / parallax).
+ */
+function pickTooltipSide(
+  map: HTMLElement,
+  marker: HTMLElement,
+  tipW: number,
+): TooltipSide {
+  if (isMobileMap()) return 'above';
 
-/** Positioned westward into the Arabian Sea so it never touches Nashik, Pune, or Kolhapur */
-const WEST_MARKER =
-  'pointer-events-none absolute bottom-full z-50 mb-3 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] max-sm:left-1/2 max-sm:-translate-x-1/2 max-sm:translate-x-[calc(-50%+4rem)] sm:bottom-full sm:right-[-1.5rem] sm:left-auto sm:translate-x-0';
+  const mapR = map.getBoundingClientRect();
+  const m = marker.getBoundingClientRect();
+  const pad = 12;
+  const need = tipW + 20;
 
-/** Positioned eastward with clear horizontal separation to prevent overlapping Kolhapur or Nashik */
-const SIDE_MARKER =
-  'pointer-events-none absolute bottom-full left-1/2 z-50 mb-3 w-[min(17rem,calc(100vw-3rem))] max-w-[calc(100vw-2rem)] max-sm:translate-x-[calc(-50%+4rem)] sm:bottom-auto sm:left-full sm:top-0 sm:mb-0 sm:ml-9 sm:translate-x-0';
+  const roomRight = mapR.right - m.right - pad;
+  const roomLeft = m.left - mapR.left - pad;
+
+  if (roomRight >= need) return 'right';
+  if (roomLeft >= need) return 'left';
+  return 'above';
+}
+
+const SIDE_CLASS: Record<TooltipSide, string> = {
+  right:
+    'absolute left-full top-1/2 z-50 ml-3 -translate-y-1/2 w-[min(16.5rem,calc(100vw-2.5rem))]',
+  left:
+    'absolute right-full top-1/2 z-50 mr-3 -translate-y-1/2 w-[min(16.5rem,calc(100vw-2.5rem))]',
+  above:
+    'absolute bottom-full left-1/2 z-50 mb-3 w-[min(16.5rem,calc(100vw-2.5rem))] -translate-x-1/2',
+};
 
 const TOOLTIP_MOTION = {
-  fromVars: { opacity: 0, y: 14, scale: 0.94 },
-  toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
+  fromVars: { opacity: 0, y: 10, scale: 0.96 },
+  toVars: { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: 'power2.out' },
 } as const;
-
-const TOOLTIP_CONFIGS: Record<string, TooltipConfig> = {
-  mumbai: { className: WEST_MARKER, smSide: false, ...TOOLTIP_MOTION },
-  pune: { className: SIDE_MARKER, smSide: true, ...TOOLTIP_MOTION },
-  kolhapur: { className: SIDE_MARKER, smSide: true, ...TOOLTIP_MOTION },
-  nashik: { className: ABOVE_MARKER, smSide: false, ...TOOLTIP_MOTION },
-};
 
 function OfficeMarkerItem({
   office,
   isHovered,
+  mapRef,
   onHover,
   onLeave,
   onSelect,
 }: {
   office: OfficeLocation;
   isHovered: boolean;
+  mapRef: RefObject<HTMLDivElement | null>;
   onHover: () => void;
   onLeave: () => void;
   onSelect: () => void;
@@ -98,35 +97,38 @@ function OfficeMarkerItem({
   const ringRef = useRef<HTMLSpanElement>(null);
   const dotRef = useRef<HTMLSpanElement>(null);
   const pointerFocus = useRef(false);
+  const [tooltipSide, setTooltipSide] = useState<TooltipSide>('right');
 
-  const config = TOOLTIP_CONFIGS[office.id] ?? {
-    className: ABOVE_MARKER,
-    smSide: false,
-    fromVars: { opacity: 0, y: 14, scale: 0.94 },
-    toVars: { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' },
-  };
+  useLayoutEffect(() => {
+    if (!isHovered) return;
 
-  useEffect(() => {
-    const query = window.matchMedia(MOBILE_MAP_QUERY);
     const apply = () => {
-      if (!isHovered || !tooltipRef.current) return;
-      gsap.set(tooltipRef.current, tooltipShift(office.id, config.smSide));
+      const tip = tooltipRef.current;
+      const marker = containerRef.current;
+      const map = mapRef.current;
+      if (!tip || !marker || !map) return;
+      const tipW = tip.offsetWidth || 264;
+      setTooltipSide(pickTooltipSide(map, marker, tipW));
     };
-    query.addEventListener('change', apply);
-    return () => query.removeEventListener('change', apply);
-  }, [isHovered, office.id, config.smSide]);
+
+    apply();
+    const raf = requestAnimationFrame(apply);
+    window.addEventListener('resize', apply);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', apply);
+    };
+  }, [isHovered, office.id, mapRef]);
 
   useGSAP(
     () => {
-      const { x, xPercent } = tooltipShift(office.id, config.smSide);
-
       if (isHovered) {
         if (tooltipRef.current) {
           gsap.killTweensOf(tooltipRef.current);
           gsap.fromTo(
             tooltipRef.current,
-            { ...config.fromVars, x, xPercent },
-            { ...config.toVars, x, xPercent },
+            { ...TOOLTIP_MOTION.fromVars },
+            { ...TOOLTIP_MOTION.toVars },
           );
         }
         if (dotRef.current) {
@@ -178,11 +180,10 @@ function OfficeMarkerItem({
       )}
       style={{ left: `${office.mapX}%`, top: `${office.mapY}%` }}
     >
-      {/* Permanent City Label - Mumbai and Kolhapur sit on the left (west coast), Nashik and Pune on the right */}
       <span
         aria-hidden="true"
         className={cn(
-          'pointer-events-none absolute z-20 flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-mono tracking-wider transition-all duration-300 select-none',
+          'pointer-events-none absolute z-20 hidden items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-mono tracking-wider transition-all duration-300 select-none sm:flex',
           office.id === 'mumbai' || office.id === 'kolhapur'
             ? 'right-full mr-2.5 top-1/2 -translate-y-1/2'
             : 'left-full ml-2.5 top-1/2 -translate-y-1/2',
@@ -199,17 +200,20 @@ function OfficeMarkerItem({
         <div
           ref={tooltipRef}
           id={`${office.id}-tooltip`}
-          className={config.className}
+          className={cn('pointer-events-none', SIDE_CLASS[tooltipSide])}
           role="tooltip"
         >
-          {/* Subtle radar connector hairline on desktop to visually anchor the offset tooltip */}
-          {config.smSide && (
+          {tooltipSide === 'right' && (
             <div
               aria-hidden="true"
-              className="hidden sm:block absolute right-full top-5 w-9 h-px bg-gradient-to-l from-white/30 via-emerald-400/50 to-transparent pointer-events-none"
-            >
-              <span className="absolute left-0 top-1/2 -translate-y-1/2 h-1 w-1 rounded-full bg-emerald-400/80 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
-            </div>
+              className="hidden sm:block absolute right-full top-1/2 -translate-y-1/2 w-3 h-px bg-gradient-to-l from-white/30 via-emerald-400/50 to-transparent"
+            />
+          )}
+          {tooltipSide === 'left' && (
+            <div
+              aria-hidden="true"
+              className="hidden sm:block absolute left-full top-1/2 -translate-y-1/2 w-3 h-px bg-gradient-to-r from-white/30 via-emerald-400/50 to-transparent"
+            />
           )}
 
           <div className="relative overflow-hidden rounded-xl border border-white/20 bg-[#161616]/95 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-xl">
@@ -226,9 +230,11 @@ function OfficeMarkerItem({
               {office.quote}
             </p>
 
-            <div className="mt-2.5 pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-neutral-400">
-              <span>{office.city}, {office.region}</span>
-              <span className="text-emerald-400 font-medium">Active Office</span>
+            <div className="mt-2.5 pt-2 border-t border-white/10 flex items-center justify-between gap-2 text-[10px] font-mono uppercase tracking-widest text-neutral-400">
+              <span>
+                {office.city}, {office.region}
+              </span>
+              <span className="text-emerald-400 font-medium shrink-0">Active Office</span>
             </div>
           </div>
         </div>
@@ -265,14 +271,11 @@ function OfficeMarkerItem({
           onSelect();
         }}
       >
-        {/* Concentric outer ring (Image 2 hover state) */}
         <span
           ref={ringRef}
           className="absolute inline-flex h-9 w-9 rounded-full border border-white/80 pointer-events-none opacity-0 scale-75"
           aria-hidden
         />
-
-        {/* Solid filled central dot (Image 1 normal state) */}
         <span
           ref={dotRef}
           className="relative inline-flex h-3.5 w-3.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]"
@@ -284,11 +287,32 @@ function OfficeMarkerItem({
 }
 
 export function IndiaDotMap({ offices, className }: IndiaDotMapProps) {
+  const mapRef = useRef<HTMLDivElement>(null);
   const cycle = useMemo(() => northToSouth(offices), [offices]);
-  const [hoveredId, setHoveredId] = useState<string | null>(() => northToSouth(offices)[0]?.id ?? null);
+  const [hoveredId, setHoveredId] = useState<string | null>(
+    () => northToSouth(offices)[0]?.id ?? null,
+  );
+  const [mapInView, setMapInView] = useState(true);
   const hoveredIdRef = useRef(hoveredId);
+  const mapInViewRef = useRef(true);
   const pickRef = useRef<(id: string, mode: CycleMode) => void>(() => {});
   hoveredIdRef.current = hoveredId;
+  mapInViewRef.current = mapInView;
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        const visible = entry.isIntersecting && entry.intersectionRatio > 0.12;
+        mapInViewRef.current = visible;
+        setMapInView(visible);
+      },
+      { threshold: [0, 0.12, 0.25] },
+    );
+    io.observe(map);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     const reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -309,7 +333,15 @@ export function IndiaDotMap({ offices, className }: IndiaDotMapProps) {
 
     const startTimer = () => {
       clear();
-      if (paused || reduceQuery.matches || cycle.length < 2 || document.hidden) return;
+      if (
+        paused ||
+        !mapInViewRef.current ||
+        reduceQuery.matches ||
+        cycle.length < 2 ||
+        document.hidden
+      ) {
+        return;
+      }
       timer = window.setInterval(() => publish(index + 1), CYCLE_MS);
     };
 
@@ -356,8 +388,17 @@ export function IndiaDotMap({ offices, className }: IndiaDotMapProps) {
     };
   }, [cycle]);
 
+  // Pause auto-cycle when map leaves view (no floating card over nav/FAQ).
+  useEffect(() => {
+    if (!mapInView) return;
+    // Restart cycle when map returns
+    pickRef.current(hoveredIdRef.current ?? cycle[0]?.id ?? '', 'release');
+  }, [mapInView, cycle]);
+
   return (
     <div
+      ref={mapRef}
+      data-india-map
       className={cn(
         'relative mx-auto aspect-[4/5] w-full max-w-[36rem] overflow-visible md:max-w-[40rem]',
         className,
@@ -374,7 +415,8 @@ export function IndiaDotMap({ offices, className }: IndiaDotMapProps) {
         <OfficeMarkerItem
           key={office.id}
           office={office}
-          isHovered={hoveredId === office.id}
+          mapRef={mapRef}
+          isHovered={mapInView && hoveredId === office.id}
           onHover={() => pickRef.current(office.id, 'pin')}
           onLeave={() => pickRef.current(office.id, 'release')}
           onSelect={() => pickRef.current(office.id, 'jump')}

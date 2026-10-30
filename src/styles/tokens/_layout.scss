@@ -1,0 +1,12 @@
+$layout: (
+  "container-max": 72rem,
+  "blur-glass": 24px,
+  "spotlight-size": 420px,
+);
+
+// Route-scoped container overrides (≥ lg / 1280px) — values from prior tokens.css.
+$container-overrides: (
+  "home": min(79.2rem, calc(100vw - 4.5rem)),
+  "insights": calc(100vw - 12rem),
+  "team": calc(100vw - 15rem),
+);

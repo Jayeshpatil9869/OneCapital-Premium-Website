@@ -22,7 +22,7 @@ export default function Footer() {
         {/* Brand */}
         <div className="flex flex-col items-center text-center md:items-start md:text-left gap-6 lg:pr-8">
           <BrandLogo className="text-white w-fit" markClassName="h-9 w-9" />
-          <p className="text-text-muted text-sm leading-relaxed max-w-sm text-balance">
+          <p className="text-text-muted text-base leading-relaxed max-w-sm text-balance">
             {COMPANY.tagline}
           </p>
           <SocialLinks className="mt-2 justify-center md:justify-start" />
@@ -32,7 +32,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-8 lg:contents">
           {/* Strategies */}
           <div className="flex flex-col items-center text-center md:items-start md:text-left gap-4">
-            <h4 className="text-xs uppercase tracking-wider font-mono text-text-muted mb-2">
+            <h4 className="text-sm uppercase tracking-wider font-mono text-text-muted mb-2">
               Strategies
             </h4>
             {getOfferTree()
@@ -41,16 +41,16 @@ export default function Footer() {
                 <div key={node.product.id} className="flex flex-col items-center md:items-start gap-2">
                   <Link
                     to={node.product.path}
-                    className="text-sm text-white/80 hover:text-white transition-colors w-fit"
+                    className="text-base text-white/80 hover:text-white transition-colors w-fit"
                   >
                     {node.product.navLabel}
                   </Link>
-                  <ul className="flex flex-col items-center md:items-start gap-2 md:border-l md:border-white/10 md:pl-3">
+                  <ul className="flex flex-col items-center md:items-start gap-2.5 md:border-l md:border-white/10 md:pl-3">
                     {node.children.map((child) => (
                       <li key={child.path}>
                         <Link
                           to={child.path}
-                          className="text-sm text-white/60 hover:text-white transition-colors w-fit"
+                          className="text-[15px] text-white/60 hover:text-white transition-colors w-fit"
                         >
                           {child.name}
                         </Link>
@@ -61,7 +61,7 @@ export default function Footer() {
               ))}
             <Link
               to="/calculators"
-              className="text-sm text-white/80 hover:text-white transition-colors w-fit"
+              className="text-base text-white/80 hover:text-white transition-colors w-fit"
             >
               Calculators
             </Link>
@@ -69,7 +69,7 @@ export default function Footer() {
 
           {/* Company */}
           <div className="flex flex-col items-center text-center md:items-start md:text-left gap-4">
-            <h4 className="text-xs uppercase tracking-wider font-mono text-text-muted mb-2">
+            <h4 className="text-sm uppercase tracking-wider font-mono text-text-muted mb-2">
               Company
             </h4>
             {[
@@ -83,7 +83,7 @@ export default function Footer() {
               <Link
                 key={item.name}
                 to={item.path}
-                className="text-sm text-white/80 hover:text-white transition-colors w-fit"
+                className="text-base text-white/80 hover:text-white transition-colors w-fit"
               >
                 {item.name}
               </Link>
@@ -93,10 +93,10 @@ export default function Footer() {
 
         {/* Contact/CTA */}
         <div className="flex flex-col items-center text-center md:items-start md:text-left gap-5">
-          <h4 className="text-xs uppercase tracking-wider font-mono text-text-muted">
+          <h4 className="text-sm uppercase tracking-wider font-mono text-text-muted">
             Connect with Us
           </h4>
-          <div className="flex flex-col items-center md:items-start gap-2 text-sm text-white/70">
+          <div className="flex flex-col items-center md:items-start gap-2.5 text-base text-white/70">
             <a
               href={COMPANY.phoneHref}
               className="tabular-nums hover:text-white transition-colors w-fit"
@@ -108,7 +108,7 @@ export default function Footer() {
               <br />
               {COMPANY.hqCity} {COMPANY.hqPostalCode}
             </p>
-            <p className="text-[11px] font-mono text-white/40 leading-relaxed tracking-wide">
+            <p className="text-xs font-mono text-white/45 leading-relaxed tracking-wide">
               GSTIN {COMPANY.gstin}
               <br />
               CIN {COMPANY.cin}
@@ -116,7 +116,7 @@ export default function Footer() {
           </div>
           <Button
             to="/contact"
-            variant="secondary"
+            variant="primary"
             arrow="up-right"
             className="w-full max-w-sm rounded-xl justify-between px-6 py-4 min-h-14 [&_.oc-btn-label]:w-full [&_.oc-btn-label]:justify-between"
           >
@@ -135,7 +135,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 pt-8 border-t border-white/10 relative z-10">
-        <p className="text-xs text-text-muted font-mono tracking-wide">
+        <p className="text-sm text-text-muted font-mono tracking-wide">
           © {new Date().getFullYear()} {COMPANY.legalName}
         </p>
         <div className="flex flex-wrap items-center gap-6 justify-center">
@@ -147,7 +147,7 @@ export default function Footer() {
           ].map((item) => (
             <span
               key={item}
-              className="text-xs text-text-muted hover:text-white transition-colors cursor-default"
+              className="text-sm text-text-muted hover:text-white transition-colors cursor-default"
             >
               {item}
             </span>

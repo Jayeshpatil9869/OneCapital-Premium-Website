@@ -1,0 +1,7 @@
+// Soft elevation used by team cards / future card tokens (Stage D).
+$shadows: (
+  "card": 0 20px 50px -28px rgb(0 0 0 / 0.55),
+  "card-raised": 0 28px 60px -24px rgb(0 0 0 / 0.7),
+  "button-glow": 0 0 40px rgba(255, 255, 255, 0.12),
+  "calc-select": 0 18px 40px rgba(0, 0, 0, 0.12),
+);

@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { ReactLenis, useLenis } from "lenis/react";
 import Navbar from "../components/Navbar";
@@ -13,12 +13,44 @@ import { prefersReducedMotion, PRELOADER_DONE_EVENT } from "@/src/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const LENIS_OPTIONS = {
+  lerp: 0.14,
+  wheelMultiplier: 0.95,
+  smoothWheel: true,
+  syncTouch: false,
+  autoRaf: false,
+} as const;
+
+/** True desktop only: no touch, fine pointer, hover, ≥1024, motion OK. */
+function computeDesktopSmoothScroll(): boolean {
+  if (typeof window === "undefined") return false;
+
+  const finePointer = window.matchMedia("(pointer: fine)");
+  const canHover = window.matchMedia("(hover: hover)");
+  const coarsePointer = window.matchMedia("(pointer: coarse)");
+  const desktopWidth = window.matchMedia("(min-width: 1024px)");
+  const hasTouch =
+    "ontouchstart" in window ||
+    navigator.maxTouchPoints > 0 ||
+    coarsePointer.matches;
+
+  return (
+    !hasTouch &&
+    finePointer.matches &&
+    canHover.matches &&
+    desktopWidth.matches &&
+    !prefersReducedMotion()
+  );
+}
+
 /**
  * Enable Lenis smooth scroll only on desktop (non-touch) devices.
  * Touch devices use native scroll to avoid preventDefault blocking.
+ * Initial state is sync so Layout never remounts AppShell under ReactLenis
+ * (false→true swap caused removeChild NotFoundError).
  */
 function useDesktopSmoothScroll() {
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = useState(computeDesktopSmoothScroll);
 
   useEffect(() => {
     const finePointer = window.matchMedia("(pointer: fine)");
@@ -26,21 +58,7 @@ function useDesktopSmoothScroll() {
     const coarsePointer = window.matchMedia("(pointer: coarse)");
     const desktopWidth = window.matchMedia("(min-width: 1024px)");
 
-    const sync = () => {
-      const hasTouch =
-        'ontouchstart' in window ||
-        navigator.maxTouchPoints > 0 ||
-        coarsePointer.matches;
-
-      // Enable only on true desktop: no touch, fine pointer, can hover, wide screen
-      setEnabled(
-        !hasTouch &&
-          finePointer.matches &&
-          canHover.matches &&
-          desktopWidth.matches &&
-          !prefersReducedMotion(),
-      );
-    };
+    const sync = () => setEnabled(computeDesktopSmoothScroll());
 
     sync();
     finePointer.addEventListener("change", sync);
@@ -57,6 +75,35 @@ function useDesktopSmoothScroll() {
   }, []);
 
   return enabled;
+}
+
+/** Keep Lenis tree mounted; start/stop so resize across 1024 never remounts shell. */
+function LenisModeGate({ enabled }: { enabled: boolean }) {
+  const lenis = useLenis();
+  const [preloaderDone, setPreloaderDone] = useState(false);
+
+  useEffect(() => {
+    const onDone = () => setPreloaderDone(true);
+    window.addEventListener(PRELOADER_DONE_EVENT, onDone);
+    // Already finished (fast path / remount)
+    if (!document.documentElement.classList.contains("oc-preloader-lock")) {
+      setPreloaderDone(true);
+    }
+    return () => window.removeEventListener(PRELOADER_DONE_EVENT, onDone);
+  }, []);
+
+  useEffect(() => {
+    if (!lenis) return;
+    if (enabled && preloaderDone) {
+      lenis.start();
+    } else {
+      lenis.stop();
+    }
+  }, [lenis, enabled, preloaderDone]);
+
+  // Defer ScrollTrigger proxy until intro unlock — avoids removeChild vs GSAP.
+  if (!enabled || !preloaderDone) return null;
+  return <LenisScrollSync />;
 }
 
 function LenisScrollSync() {
@@ -211,7 +258,6 @@ function AppShell({ children }: { children?: ReactNode }) {
   return (
     <>
       <RouteScrollReset />
-      <Preloader />
       <div
         className={`oc-shell flex flex-col min-h-dvh w-full max-w-full overflow-x-clip bg-canvas${isHome ? " is-home" : ""}${isTeam ? " is-team" : ""}`}
       >
@@ -237,25 +283,18 @@ function AppShell({ children }: { children?: ReactNode }) {
 
 export default function Layout() {
   const desktopSmoothScroll = useDesktopSmoothScroll();
+  // Stable options identity — mutating smoothWheel remounted Lenis internals.
+  const options = useMemo(() => ({ ...LENIS_OPTIONS }), []);
 
-  // Touch devices / phones / tablets: native browser scroll only.
-  if (!desktopSmoothScroll) {
-    return <AppShell />;
-  }
-
+  // Preloader stays OUTSIDE ReactLenis — GSAP intro + Lenis root wrapper
+  // otherwise race into removeChild NotFoundError on teardown.
   return (
-    <ReactLenis
-      root
-      options={{
-        lerp: 0.14,
-        wheelMultiplier: 0.95,
-        smoothWheel: true,
-        syncTouch: false,
-        autoRaf: false,
-      }}
-    >
-      <LenisScrollSync />
-      <AppShell />
-    </ReactLenis>
+    <>
+      <Preloader />
+      <ReactLenis root options={options}>
+        <LenisModeGate enabled={desktopSmoothScroll} />
+        <AppShell />
+      </ReactLenis>
+    </>
   );
 }

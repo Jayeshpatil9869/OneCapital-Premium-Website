@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { Noise } from '@/src/components/effects/Atmosphere';
 import { cn } from '@/src/lib/utils';
 
 type ContactSurfaceProps = {
@@ -7,46 +6,23 @@ type ContactSurfaceProps = {
   className?: string;
 };
 
+/** Translucent form shell — IIFL-style glass over photo, OC tokens. */
 export function ContactSurface({ children, className }: ContactSurfaceProps) {
   return (
     <div
       className={cn(
-        'relative min-w-0 overflow-hidden rounded-[1.25rem] sm:rounded-[1.75rem] md:rounded-[2.25rem]',
-        'bg-[#1D1D1D] bg-gradient-to-b from-white/[0.04] to-transparent',
-        'backdrop-blur-2xl md:backdrop-blur-3xl',
-        'border border-white/10',
-        'p-5 pt-7 sm:p-8 sm:pt-10 md:p-10 md:pt-12',
-        'shadow-[0_30px_90px_-15px_rgba(0,0,0,0.85),inset_0_1px_0_0_rgba(255,255,255,0.25),inset_0_0_30px_rgba(255,255,255,0.02)]',
-        'transition-all duration-300',
+        'relative min-w-0 overflow-hidden rounded-2xl sm:rounded-3xl',
+        'border border-white/15 bg-black/45 backdrop-blur-xl md:backdrop-blur-2xl',
+        'p-5 pt-6 sm:p-7 sm:pt-8 md:p-8 md:pt-9',
+        'shadow-[0_24px_64px_-20px_rgba(0,0,0,0.75)]',
         className,
       )}
     >
-      <Noise opacity={0.02} />
-
-      {/* Internal ambient glowing orbs for specular glass refraction */}
       <div
-        className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/[0.06] blur-[70px]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent"
         aria-hidden="true"
       />
-      <div
-        className="pointer-events-none absolute -left-16 -bottom-16 h-56 w-56 rounded-full bg-white/[0.03] blur-[80px]"
-        aria-hidden="true"
-      />
-
-      {/* Top rim specular highlight line */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"
-        aria-hidden="true"
-      />
-
-      {/* Subtle bottom rim edge */}
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
-        aria-hidden="true"
-      />
-
       <div className="relative z-10">{children}</div>
     </div>
   );
 }
-

@@ -1,0 +1,98 @@
+@use "sass:map";
+@use "../abstracts/mixins" as mix;
+@use "colors";
+@use "typography";
+@use "spacing";
+@use "radius";
+@use "layout";
+@use "motion";
+@use "z-index" as z;
+@use "shadows";
+
+/// Shared property set for the default (dark) theme.
+/// Canonical colours: --oc-color-*. Legacy --color-* aliases for existing consumers.
+@mixin dark-theme-props {
+  // Fonts — Tailwind font-* utilities
+  --font-sans: #{map.get(typography.$font-families, "sans")};
+  --font-serif: #{map.get(typography.$font-families, "serif")};
+  --font-cormorant: #{map.get(typography.$font-families, "cormorant")};
+  --font-script: #{map.get(typography.$font-families, "script")};
+  --font-mono: #{map.get(typography.$font-families, "mono")};
+
+  // Canonical colour tokens
+  @include mix.emit-props(colors.$oc-colors, "--oc-color-");
+
+  // Legacy aliases — preserve Tailwind/CSS/TSX consumers during migration
+  --color-canvas: var(--oc-color-canvas);
+  --color-background: var(--oc-color-background);
+  --color-surface: var(--oc-color-surface);
+  --color-panel: var(--oc-color-surface);
+  --color-surface-elevated: var(--oc-color-surface-elevated);
+  --color-text-main: var(--oc-color-text-main);
+  --color-text-primary: var(--oc-color-text-primary);
+  --color-text-secondary: var(--oc-color-text-secondary);
+  --color-text-muted: var(--oc-color-text-muted);
+  --color-text-high-emphasis: var(--oc-color-text-high-emphasis);
+  --color-text-medium-emphasis: var(--oc-color-text-medium-emphasis);
+  --color-text-low-emphasis: var(--oc-color-text-low-emphasis);
+  --color-link: var(--oc-color-link);
+  --color-accent: var(--oc-color-gold);
+  --color-accent-muted: var(--oc-color-gold-muted);
+  --color-accent-soft: var(--oc-color-gold-soft);
+  --color-border: var(--oc-color-border);
+  --color-border-subtle: var(--oc-color-border-subtle);
+  --color-shadow: var(--oc-color-shadow);
+  --color-glow: var(--oc-color-glow);
+
+  @include mix.emit-props(radius.$radii, "--radius-");
+  @include mix.emit-props(z.$z-index, "--z-");
+
+  --container-max: #{map.get(layout.$layout, "container-max")};
+  --page-gutter: #{map.get(spacing.$space-semantic, "page-gutter")};
+  --space-section: #{map.get(spacing.$space-semantic, "section")};
+  --space-section-sm: #{map.get(spacing.$space-semantic, "section-sm")};
+  --grid-gap: #{map.get(spacing.$space-semantic, "grid-gap")};
+  --blur-glass: #{map.get(layout.$layout, "blur-glass")};
+}
+
+/// Runtime-only extras (motion, spotlight, legacy border alias, shadows, focus).
+@mixin dark-theme-runtime {
+  --ease-premium: #{map.get(motion.$easings, "premium")};
+  --ease-smooth: #{map.get(motion.$easings, "smooth")};
+  --ease-in-out-quart: #{map.get(motion.$easings, "in-out-quart")};
+  --duration-fast: #{map.get(motion.$durations, "fast")};
+  --duration-normal: #{map.get(motion.$durations, "normal")};
+  --duration-slow: #{map.get(motion.$durations, "slow")};
+  --border-subtle: var(--color-border-subtle);
+  --spotlight-size: #{map.get(layout.$layout, "spotlight-size")};
+  /* Brand-forward focus (design-system §8) — link blue kept for .oc-link */
+  --oc-focus-ring: 0 0 0 3px color-mix(in srgb, var(--oc-color-brand) 40%, transparent);
+
+  --oc-shadow-card: #{map.get(shadows.$shadows, "card")};
+  --oc-shadow-card-raised: #{map.get(shadows.$shadows, "card-raised")};
+  --oc-shadow-button-glow: #{map.get(shadows.$shadows, "button-glow")};
+  --oc-shadow-calc-select: #{map.get(shadows.$shadows, "calc-select")};
+
+  --oc-font-size-display: #{map.get(typography.$font-sizes, "display")};
+  --oc-font-size-section: #{map.get(typography.$font-sizes, "section")};
+  --oc-font-size-body: #{map.get(typography.$font-sizes, "body")};
+  --oc-motion-fast: var(--duration-fast);
+  --oc-layout-container-max: var(--container-max);
+  --oc-layout-page-gutter: var(--page-gutter);
+}
+
+// Architectural stub for a future light theme (Option C) — not activated.
+@mixin light-theme-props {
+  // ponytail: ceiling = Option A dark-only. Upgrade: wire $oc-light-colors + [data-theme="light"].
+  --color-canvas: #f6f7f8;
+  --color-background: #f6f7f8;
+  --color-surface: #ffffff;
+  --color-panel: #ffffff;
+  --color-surface-elevated: #f1f3f4;
+  --color-text-main: #171717;
+  --color-text-primary: #171717;
+  --color-text-secondary: #666666;
+  --color-text-muted: #858585;
+  --color-border: #e5e7e9;
+  --color-accent: var(--oc-color-brand);
+}

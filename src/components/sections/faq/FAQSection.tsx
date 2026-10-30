@@ -91,7 +91,7 @@ function FAQAccordionItem({
           aria-expanded={isOpen}
           aria-controls={panelId}
           onClick={onToggle}
-          className="w-full text-left px-5 py-5 md:px-6 md:py-6 flex items-start justify-between gap-6 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          className="w-full text-left px-5 py-5 md:px-6 md:py-6 flex items-start justify-between gap-6 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/45 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
         >
           <span className="min-w-0 flex-1">
             <span className="block text-[10px] uppercase tracking-[0.2em] font-mono text-white/40 mb-3">
@@ -105,7 +105,7 @@ function FAQAccordionItem({
             aria-hidden
             className={cn(
               'shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/10 text-white/50 transition-transform duration-500',
-              isOpen && 'rotate-180 bg-white text-black border-white',
+              isOpen && 'rotate-180 bg-brand text-brand-contrast border-brand',
             )}
           >
             <ChevronDown className="w-4 h-4" />
@@ -229,7 +229,7 @@ export function FAQSection() {
                 id={selectId}
                 value={activeCategoryId}
                 onChange={(event) => handleCategoryChange(event.target.value)}
-                className="w-full appearance-none glass-panel rounded-2xl px-4 py-3.5 min-h-11 text-sm uppercase tracking-widest font-mono text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                className="w-full appearance-none glass-panel rounded-2xl px-4 py-3.5 min-h-11 text-sm uppercase tracking-widest font-mono text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/45"
               >
                 <option value={FAQ_ALL_ID}>All</option>
                 {HOME_FAQ_CATEGORIES.map((category) => (
@@ -284,10 +284,7 @@ export function FAQSection() {
         </div>
 
         <RevealOnScroll className="mt-12 md:mt-16 flex flex-col items-center justify-center gap-5 text-center w-full">
-          <p
-            style={{ whiteSpace: 'nowrap' }}
-            className="text-xs sm:text-sm md:text-base text-white/50 font-mono uppercase tracking-wider sm:tracking-widest whitespace-nowrap text-center max-w-none"
-          >
+          <p className="mx-auto max-w-[min(36rem,100%)] px-2 text-center text-xs font-mono uppercase tracking-wider text-white/50 text-balance sm:text-sm sm:tracking-widest md:text-base">
             Still have questions? The conversation begins with a consultation.
           </p>
           <Button
