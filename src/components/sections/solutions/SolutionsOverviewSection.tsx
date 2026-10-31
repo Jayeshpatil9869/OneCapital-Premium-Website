@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import {
   motion,
   useScroll,
@@ -10,26 +10,10 @@ import { useGSAP } from '@gsap/react';
 import { gsap, prefersReducedMotion } from '@/src/lib/motion';
 import { Button, Eyebrow } from '@/src/components/ui';
 import { cn } from '@/src/lib/utils';
+import { HOME_SEO } from '@/src/data/home-seo';
 import { WealthCollageVisual } from './WealthCollageVisual';
 
 gsap.registerPlugin(useGSAP);
-
-/** Sticky stack only at lg+ (1024) — matches Sass + Tailwind. */
-function useDesktopCardStack() {
-  const [enabled, setEnabled] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches,
-  );
-
-  useEffect(() => {
-    const mq = window.matchMedia('(min-width: 1024px)');
-    const sync = () => setEnabled(mq.matches);
-    sync();
-    mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
-  }, []);
-
-  return enabled;
-}
 
 function SplitChars({
   text,
@@ -85,43 +69,43 @@ const PILLAR_CARDS: PillarCardData[] = [
       'Your financial journey deserves a smarter beginning. Invest consistently in mutual funds and give your long-term goals an opportunity to grow.',
     buttonText: 'Explore Strategic Allocation',
     collage: {
-      netWorthValue: '₹45,75,000',
+      netWorthValue: '₹0.46 Cr',
       netWorthSub: 'Illustrative allocation view',
       returnsValue: '7.82%',
-      advisorImage: '/images/team/prasad-satare.jpg',
-      advisorAlt: 'One Capital advisor',
+      advisorImage: '/images/clients/client-man-1.png',
+      advisorAlt: 'Client portrait',
     },
   },
   {
     id: 'portfolio-management',
     href: '/solutions/portfolio-management',
-    title: 'Discretionary Portfolio Management: PMS & AIFs',
+    title: 'PMS & AIFs, managed for you.',
     description:
-      'Direct equity portfolios of 18–25 high-conviction businesses held in your Demat, combined with curated pre-IPO and long-short AIFs. Complete transparency, active alpha, and quarterly rebalancing.',
-    buttonText: 'Explore PMS & Alternative Funds',
+      'A focused stock portfolio in your Demat, plus select alternative funds. You see every holding. We review it every quarter.',
+    buttonText: 'Explore PMS & AIFs',
     collage: {
       netWorthValue: '₹2.1 Cr+',
       netWorthSub: 'Illustrative PMS sleeve',
       returnsValue: '12.4%',
-      advisorImage: '/images/team/ramkumar-agrawal.jpg',
-      advisorAlt: 'One Capital portfolio advisor',
+      advisorImage: '/images/clients/client-man-2.jpg',
+      advisorAlt: 'Client portrait',
     },
   },
   {
     id: 'wealth-management',
     href: '/solutions/wealth-management',
-    title: 'Total Wealth Governance: Tax, Liquidity & Succession',
+    title: 'Tax, cash & the next generation.',
     description:
-      'Systematic tax-loss harvesting, emergency liquidity reserves, and multi-generational family estate structures ensure market volatility and lifecycle shifts never disrupt your legacy.',
-    buttonText: 'Explore Wealth Governance',
+      'Smarter tax planning, emergency money when you need it, and a clear plan for your family—so market swings do not throw you off course.',
+    buttonText: 'Explore wealth planning',
     collage: {
       netWorthValue: 'Family office',
       netWorthSub: 'Liquidity · tax · succession',
       returnsLabel: 'Focus',
       returnsValue: 'On plan',
       returnsTrend: false,
-      advisorImage: '/images/team/director.jpg',
-      advisorAlt: 'One Capital wealth advisor',
+      advisorImage: '/images/clients/client-man-3.png',
+      advisorAlt: 'Client portrait',
     },
   },
 ];
@@ -150,7 +134,7 @@ function Card({ card, i, progress, range, targetScale, stack }: CardProps) {
   const topOffset = stack ? `${i * 20}px` : '0px';
 
   return (
-    <div className={cn('oc-pillar-slot', !stack && 'oc-pillar-slot--static')}>
+    <div className="oc-pillar-slot">
       <motion.div
         style={{
           scale,
@@ -159,27 +143,27 @@ function Card({ card, i, progress, range, targetScale, stack }: CardProps) {
         }}
         className="oc-pillar-card"
       >
-        {stack && i < PILLAR_CARDS.length - 1 && (
+        {stack && i < PILLAR_CARDS.length - 1 ? (
           <motion.div style={{ opacity: overlayOpacity }} className="oc-pillar-overlay" />
-        )}
+        ) : null}
 
         <div className={cn('oc-pillar-grid', i === 1 && 'oc-pillar-grid--flip')}>
           <div className="oc-pillar-copy">
-            <h3 className="font-sans text-[1.25rem] font-semibold leading-[1.15] tracking-tight text-black sm:text-2xl lg:text-[2.55rem] lg:leading-[1.12] xl:text-[2.95rem]">
+            <h3 className="oc-pillar-copy__title font-sans text-[1.0625rem] font-semibold leading-[1.25] tracking-tight text-black text-balance sm:text-[1.25rem] sm:leading-[1.22] md:text-[1.5rem] lg:text-[2.55rem] lg:leading-[1.12] xl:text-[2.95rem]">
               {card.title}
             </h3>
 
-            <p className="mt-2 max-w-xl text-[0.8125rem] font-light leading-snug text-black/60 sm:mt-4 sm:text-base lg:mt-5 lg:text-lg lg:leading-relaxed xl:text-xl">
+            <p className="oc-pillar-copy__body max-w-xl text-[0.8125rem] font-light leading-[1.55] text-black/60 sm:text-[0.875rem] sm:leading-relaxed md:text-[0.9375rem] lg:mt-5 lg:text-lg lg:leading-relaxed xl:text-xl">
               {card.description}
             </p>
 
-            <div className="mt-3 sm:mt-6 lg:mt-8">
+            <div className="oc-pillar-copy__cta lg:mt-8">
               <Button
                 to={card.href}
                 variant="primary"
                 size="md"
                 arrow="up-right"
-                className="oc-btn-stroke--on-black h-auto w-full max-w-full bg-black text-xs font-medium tracking-wider text-white shadow-md hover:bg-zinc-800 lg:w-auto [&_.oc-btn-label]:w-full lg:[&_.oc-btn-label]:w-auto [&_.oc-btn-label>span]:min-w-0 [&_.oc-btn-label>span]:whitespace-normal [&_.oc-btn-label>span]:text-balance"
+                className="oc-btn-stroke--on-black h-auto w-full max-w-full bg-black px-4 py-3 text-[0.6875rem] font-medium tracking-wider text-white shadow-md hover:bg-zinc-800 sm:text-xs lg:w-auto lg:px-5 lg:py-3.5 [&_.oc-btn-label]:w-full lg:[&_.oc-btn-label]:w-auto [&_.oc-btn-label>span]:min-w-0 [&_.oc-btn-label>span]:whitespace-normal [&_.oc-btn-label>span]:text-balance"
               >
                 <span>{card.buttonText}</span>
               </Button>
@@ -203,13 +187,15 @@ function Card({ card, i, progress, range, targetScale, stack }: CardProps) {
   );
 }
 
-const HEADING_LINE_1 = 'Wealth Is More Than Capital.';
-const HEADING_LINE_2 = "It's A Legacy In The Making.";
+const HEADING_LINE_1 = 'Personalised Wealth Management';
+const HEADING_LINE_2 = 'Solutions';
 
 export function SolutionsOverviewSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const stack = useDesktopCardStack();
+  // Sticky stack on every viewport (same laptop behavior on phones).
+  const reduceMotion = useReducedMotion();
+  const stack = !reduceMotion;
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -256,22 +242,20 @@ export function SolutionsOverviewSection() {
     >
       <div
         ref={headerRef}
-        className="mx-auto mb-8 w-full max-w-5xl px-4 text-center sm:mb-14 sm:px-6 lg:px-8"
+        className="mx-auto mb-10 w-full max-w-3xl px-5 text-center sm:mb-12 sm:max-w-4xl sm:px-8 md:mb-14 lg:px-10"
       >
-        <Eyebrow centered className="mb-4 text-white/60 sm:mb-6">
+        <Eyebrow centered className="mb-3 text-white/60 sm:mb-5">
           Who We Are
         </Eyebrow>
         <h2
           id="solutions-overview-heading"
-          className="select-none text-[2.2rem] font-medium leading-[1.1] tracking-tight text-white/20 sm:text-[3.25rem] lg:text-[4rem]"
+          className="select-none text-[1.5rem] font-medium leading-[1.2] tracking-tight text-white/20 sm:text-[1.875rem] sm:leading-[1.18] md:text-[2.125rem] lg:text-[2.5rem] lg:leading-[1.15] xl:text-[2.75rem]"
         >
-          <span className="sr-only">
-            {HEADING_LINE_1} {HEADING_LINE_2}
-          </span>
-          <span aria-hidden="true" className="block">
+          <span className="sr-only">{HOME_SEO.h2.personalised}</span>
+          <span aria-hidden="true" className="block text-balance">
             <SplitChars text={HEADING_LINE_1} attr="data-char-h" />
           </span>
-          <span aria-hidden="true" className="mt-1 block sm:mt-2">
+          <span aria-hidden="true" className="mt-1.5 block text-balance sm:mt-2">
             <SplitChars text={HEADING_LINE_2} attr="data-char-h" />
           </span>
         </h2>
@@ -279,7 +263,10 @@ export function SolutionsOverviewSection() {
 
       <div
         ref={containerRef}
-        className={cn('relative w-full', stack ? 'pb-[23vh]' : 'flex flex-col gap-6 pb-16 sm:gap-8')}
+        className={cn(
+          'relative w-full',
+          stack ? 'pb-[18vh] sm:pb-[23vh]' : 'flex flex-col gap-6 pb-16 sm:gap-8',
+        )}
       >
         {PILLAR_CARDS.map((card, i) => {
           const targetScale = 1 - (PILLAR_CARDS.length - 1 - i) * 0.05;

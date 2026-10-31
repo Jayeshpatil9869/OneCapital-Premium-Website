@@ -12,7 +12,7 @@ export type ContactDetail = {
 };
 
 export const CONTACT_HERO_IMAGE = {
-  src: '/images/gallery/executive-client-meeting.jpg',
+  src: '/images/gallery/advisory-meeting-suite.jpg',
   alt: 'One Capital advisory conversation in a private meeting suite',
 } as const;
 

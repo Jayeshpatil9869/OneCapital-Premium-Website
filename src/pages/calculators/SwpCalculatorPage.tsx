@@ -53,6 +53,7 @@ export default function SwpCalculatorPage() {
             min={limits.corpus.min}
             max={limits.corpus.max}
             step={limits.corpus.step}
+            prefix="₹ "
             onChange={setCorpus}
           />
           <CalculatorSlider
@@ -62,6 +63,7 @@ export default function SwpCalculatorPage() {
             min={limits.withdrawal.min}
             max={limits.withdrawal.max}
             step={limits.withdrawal.step}
+            prefix="₹ "
             onChange={setWithdrawal}
           />
           <CalculatorSlider

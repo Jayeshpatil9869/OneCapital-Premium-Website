@@ -77,7 +77,14 @@ function useDesktopSmoothScroll() {
   return enabled;
 }
 
-/** Keep Lenis tree mounted; start/stop so resize across 1024 never remounts shell. */
+/**
+ * Keep Lenis tree mounted; start/stop so resize across 1024 never remounts shell.
+ *
+ * Critical: `lenis.stop()` adds `.lenis-stopped { overflow: hidden }` and
+ * preventDefaults touch — fine during the preloader, fatal for native mobile
+ * scroll. After unlock, touch/native mode must stay started (syncTouch: false
+ * already leaves touch to the browser; ScrollTrigger proxy stays desktop-only).
+ */
 function LenisModeGate({ enabled }: { enabled: boolean }) {
   const lenis = useLenis();
   const [preloaderDone, setPreloaderDone] = useState(false);
@@ -85,20 +92,35 @@ function LenisModeGate({ enabled }: { enabled: boolean }) {
   useEffect(() => {
     const onDone = () => setPreloaderDone(true);
     window.addEventListener(PRELOADER_DONE_EVENT, onDone);
-    // Already finished (fast path / remount)
-    if (!document.documentElement.classList.contains("oc-preloader-lock")) {
+    // Only treat as done when the Preloader actually handed off — never when
+    // another component stripped `oc-preloader-lock` early.
+    if (document.documentElement.classList.contains("oc-shell-reveal")) {
       setPreloaderDone(true);
     }
     return () => window.removeEventListener(PRELOADER_DONE_EVENT, onDone);
   }, []);
 
   useEffect(() => {
-    if (!lenis) return;
-    if (enabled && preloaderDone) {
-      lenis.start();
+    const root = document.documentElement;
+    if (enabled) {
+      root.classList.remove("oc-native-scroll");
     } else {
-      lenis.stop();
+      root.classList.add("oc-native-scroll");
     }
+    return () => root.classList.remove("oc-native-scroll");
+  }, [enabled]);
+
+  useEffect(() => {
+    if (!lenis) return;
+    if (!preloaderDone) {
+      lenis.stop();
+      return;
+    }
+    // Never leave `.lenis-stopped` after unlock (overflow:hidden + touch block).
+    // Mutate options in place — swapping ReactLenis `options` remounts the shell.
+    lenis.options.smoothWheel = enabled;
+    lenis.options.syncTouch = false;
+    lenis.start();
   }, [lenis, enabled, preloaderDone]);
 
   // Defer ScrollTrigger proxy until intro unlock — avoids removeChild vs GSAP.
@@ -216,8 +238,9 @@ function RouteScrollReset() {
 
   useEffect(() => {
     const onPreloaderDone = () => {
-      lenis?.start();
-      document.documentElement.classList.remove("oc-preloader-lock");
+      // LenisModeGate owns start/stop; only clear leftover inline locks + refresh.
+      document.documentElement.classList.remove("oc-preloader-lock", "oc-shell-intro");
+      document.documentElement.classList.add("oc-shell-reveal");
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
       resetScrollTop(lenis);

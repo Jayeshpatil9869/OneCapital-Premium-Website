@@ -1,0 +1,109 @@
+﻿One Capital – Website SEO Audit & Revised Plan of Action
+Website: www.onecapital.in | Focus Location: Pune, Maharashtra
+Primary objective: Improve website crawlability, Google indexing, technical SEO, and organic visibility for the keywords Wealth Management & Financial Services in Pune.
+1. Updated homepage SEO recommendations
+Recommended SEO Title
+Wealth Management & Financial Services in Pune | One Capital
+Meta Description
+Explore wealth management and financial services in Pune with One Capital. Personalised financial planning and investment solutions for your financial goals.
+H1 Heading
+Wealth Management & Financial Services in Pune
+Primary SEO Keywords
+Wealth Management in Pune, Financial Services in Pune, Wealth Management Company in Pune, Financial Planning in Pune, Investment Advisory Pune (only if applicable and authorised).
+Copy SEO Metadata
+2. Revised developer action plan
+The earlier audit identified areas requiring technical verification. These actions should be treated as implementation priorities, not as confirmation that every issue currently exists.
+Priority
+Task
+Instructions for developer
+Expected result
+P0
+Google crawl accessibility
+Verify HTTP 200 responses, Googlebot access and readable HTML
+Google can access website content
+P0
+Robots.txt
+Check or create /robots.txt, allowing public content to be crawled
+No unintended crawl restrictions
+P0
+XML sitemap
+Generate /sitemap.xml with all important indexable pages
+Google can discover important URLs
+P0
+Indexing configuration
+Remove unintended noindex directives and incorrect canonical tags
+Important pages eligible for indexing
+P0
+Search Console
+Verify property, submit sitemap and inspect key URLs
+Indexing status can be monitored
+P1
+Homepage metadata
+Apply revised SEO title and meta description
+Improved keyword relevance
+P1
+Heading optimisation
+Add one clear H1 and meaningful H2 headings
+Clear content hierarchy
+P1
+Website scrollability
+Test desktop/mobile scrolling, sticky sections and content visibility
+Smooth website experience
+P1
+Mobile responsiveness
+Fix overflow, fonts, menus, buttons and spacing
+Mobile-friendly layout
+P1
+Speed optimisation
+Compress images, optimise scripts, caching and loading
+Improved Core Web Vitals
+P1
+Internal linking
+Connect homepage to relevant services and contact pages
+Better page discovery
+P2
+Content SEO
+Add original service descriptions, FAQs and Pune-relevant information
+Stronger topical relevance
+P2
+Structured data
+Add valid Organization, Local Business and Breadcrumb schema where relevant
+Better machine-readable context
+P2
+Local SEO
+Update Google Business Profile and consistent company information
+Stronger Pune local presence
+3. Homepage content structure
+The developer and content team can use this suggested structure, subject to One Capital's actual services.
+Section
+Recommended heading
+H1
+Wealth Management & Financial Services in Pune
+H2
+Personalised Wealth Management Solutions
+H2
+Explore Our Financial Services
+H2
+Financial Planning for Your Future
+H2
+Why Choose One Capital?
+H2
+Our Approach to Wealth Management
+H2
+Frequently Asked Questions
+CTA
+Book a Financial Consultation
+Ensure that these headings correspond to genuinely useful content rather than repeating keywords unnecessarily.
+4. Technical SEO implementation
+Robots.txt
+User-agent: *
+Allow: /
+Sitemap: https://onecapital.in/sitemap.xml
+Use this as a baseline, adjusting it for any areas that must not be crawled.
+Homepage meta tags
+<title>Wealth Management & Financial Services in Pune | One Capital</title>
+<meta name="description"
+content="Explore wealth management and financial services in Pune with One Capital. Personalised financial planning and investment solutions for your financial goals.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://onecapital.in/">
+The developer must also check whether Google can render the website content properly, including content loaded through JavaScript.

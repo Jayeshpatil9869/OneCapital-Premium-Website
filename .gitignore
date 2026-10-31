@@ -7,3 +7,9 @@ coverage/
 .env*
 !.env.example
 .code-review-graph/
+.vercel/
+*.local
+.turbo/
+.cache/
+tmp/
+.tmp/

@@ -27,12 +27,20 @@ import {
   componentRegistryByCategory,
 } from '@/src/lib/component-registry';
 import { motionTokens } from '@/src/lib/motion';
+import { usePageSeo } from '@/src/hooks/usePageSeo';
 
 const categories = Object.keys(componentRegistryByCategory) as Array<
   keyof typeof componentRegistryByCategory
 >;
 
 export default function DesignSystem() {
+  usePageSeo({
+    title: 'Design System (internal) | One Capital',
+    description: 'Internal component workshop — not a public product page.',
+    path: '/design-system',
+    noIndex: true,
+  });
+
   return (
     <div className="w-full pb-24">
       <Section pad="lg" className="border-b border-white/10 overflow-hidden">

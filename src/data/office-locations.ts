@@ -94,21 +94,21 @@ export const PRESENCE_STATS: PresenceStat[] = [
   {
     id: 'offices',
     value: String(OFFICE_LOCATIONS.length),
-    label: 'Regional advisory offices across Maharashtra',
+    label: 'Offices across Maharashtra',
   },
   {
     id: 'founded',
     value: String(COMPANY.foundedYear),
-    label: 'Year founded',
+    label: 'Year we started',
   },
   {
     id: 'focus',
     value: String(COMPANY.focusAreas.length),
-    label: 'Core mandates: advisory, portfolios, wealth planning',
+    label: 'Focus areas: advice, portfolios, wealth plans',
   },
   {
     id: 'services',
     value: `${COMPANY.serviceLines.length}+`,
-    label: 'Service lines spanning funds, planning, and alternatives',
+    label: 'Ways we help you invest and plan',
   },
 ];

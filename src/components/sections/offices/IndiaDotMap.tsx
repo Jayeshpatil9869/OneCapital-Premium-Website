@@ -72,6 +72,17 @@ const SIDE_CLASS: Record<TooltipSide, string> = {
     'absolute bottom-full left-1/2 z-50 mb-3 w-[min(16.5rem,calc(100vw-2.5rem))] -translate-x-1/2',
 };
 
+/** West-coast MH cities — centered tip clips the left edge on phones. */
+const MOBILE_SHIFT_RIGHT_IDS = new Set(['nashik', 'pune', 'kolhapur']);
+
+function mobileAboveClass(officeId: string): string {
+  if (MOBILE_SHIFT_RIGHT_IDS.has(officeId)) {
+    // Anchor near marker, bias right so the card stays on-screen.
+    return 'absolute bottom-full left-0 z-50 mb-3 ml-1 w-[min(16.5rem,calc(100vw-2.75rem))]';
+  }
+  return SIDE_CLASS.above;
+}
+
 const TOOLTIP_MOTION = {
   fromVars: { opacity: 0, y: 10, scale: 0.96 },
   toVars: { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: 'power2.out' },
@@ -109,6 +120,21 @@ function OfficeMarkerItem({
       if (!tip || !marker || !map) return;
       const tipW = tip.offsetWidth || 264;
       setTooltipSide(pickTooltipSide(map, marker, tipW));
+
+      // Mobile: keep tip inside the viewport (west offices bias right).
+      if (!isMobileMap()) {
+        tip.style.marginLeft = '';
+        return;
+      }
+      tip.style.marginLeft = '';
+      const pad = 10;
+      const tipR = tip.getBoundingClientRect();
+      let shift = 0;
+      if (tipR.left < pad) shift = pad - tipR.left;
+      else if (tipR.right > window.innerWidth - pad) {
+        shift = window.innerWidth - pad - tipR.right;
+      }
+      if (shift !== 0) tip.style.marginLeft = `${shift}px`;
     };
 
     apply();
@@ -117,6 +143,7 @@ function OfficeMarkerItem({
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', apply);
+      if (tooltipRef.current) tooltipRef.current.style.marginLeft = '';
     };
   }, [isHovered, office.id, mapRef]);
 
@@ -200,7 +227,12 @@ function OfficeMarkerItem({
         <div
           ref={tooltipRef}
           id={`${office.id}-tooltip`}
-          className={cn('pointer-events-none', SIDE_CLASS[tooltipSide])}
+          className={cn(
+            'pointer-events-none',
+            tooltipSide === 'above' && isMobileMap()
+              ? mobileAboveClass(office.id)
+              : SIDE_CLASS[tooltipSide],
+          )}
           role="tooltip"
         >
           {tooltipSide === 'right' && (

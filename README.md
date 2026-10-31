@@ -35,6 +35,41 @@ npm run preview
 
 `lint` is a TypeScript check. `build` writes the static site to `dist/`.
 
+```bash
+npm run sitemap
+```
+
+Regenerates `public/sitemap.xml` (also runs automatically before `npm run build`).
+
+## Production launch (Vercel)
+
+1. Connect this repo to Vercel (Framework: Vite, output `dist/`, build `npm run build`).
+2. Confirm production domain is `https://1capital.in` (matches `COMPANY.websiteUrl`, `robots.txt`, and `sitemap.xml`).
+3. After first deploy, in [Google Search Console](https://search.google.com/search-console) submit `https://1capital.in/sitemap.xml`.
+4. Spot-check: `/`, `/contact`, `/blog`, a calculator, and a deliberate 404.
+5. Human-review all public copy before calling the site live — especially returns, testimonials, and registrations.
+
+Launch artifacts already in `public/`:
+
+| File | Role |
+| --- | --- |
+| `robots.txt` | Crawl rules + sitemap pointer; `/design-system` disallowed |
+| `sitemap.xml` | Canonical indexable routes + blog posts |
+| `og-default.jpg` | Default Open Graph / Twitter image |
+| `site.webmanifest` | PWA-lite install metadata |
+
+Security response headers (nosniff, frame deny, referrer, permissions) ship via `vercel.json`. SPA deep links rewrite to `index.html`; static files in `public/` are served as-is.
+
+**Do not push until the owner has reviewed.** Deploy only after a local `npm run build` + `npm run preview` check.
+
+## Repo hygiene
+
+| Path | Role |
+| --- | --- |
+| `src/`, `public/`, `docs/` | Product code and official specs |
+| `All MD File/` | Archived audits, loose assets, scratch — **not deleted**, not required at runtime |
+| `.env.example` | Documented optional `VITE_*` vars (no secrets) |
+
 ## How the project is put together
 
 Vite, React, and TypeScript. Pages are routed with React Router. Visual styling is Tailwind. Motion is GSAP, with Lenis used only where the page is meant to scroll like an editorial piece.

@@ -53,6 +53,7 @@ export default function StepUpSipCalculatorPage() {
             min={limits.monthly.min}
             max={limits.monthly.max}
             step={limits.monthly.step}
+            prefix="₹ "
             onChange={setMonthly}
           />
           <CalculatorSlider

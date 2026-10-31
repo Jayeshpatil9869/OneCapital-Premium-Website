@@ -5,6 +5,7 @@ import {
   BookOpen,
   Briefcase,
   Building2,
+  Calculator,
   ChevronDown,
   ChevronRight,
   Coins,
@@ -125,6 +126,11 @@ const NAV_ITEMS: NavItem[] = [
             name: "Investment Advisory",
             path: "/solutions/investment-advisory",
             icon: Handshake,
+          },
+          {
+            name: "Calculators",
+            path: "/calculators",
+            icon: Calculator,
           },
         ],
       },
@@ -534,18 +540,18 @@ export default function Navbar() {
       document.body.style.overflow = "";
     }
     return () => {
-      // Always force-clear overflow locks on unmount
+      // Clear menu overflow only — never strip oc-preloader-lock (Preloader owns that).
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
-      document.documentElement.classList.remove("oc-preloader-lock");
     };
   }, [mobileMenuOpen]);
 
-  // Safety: force-unlock scroll on mount
+  // Clear stale *menu* inline locks on mount. Do not remove oc-preloader-lock —
+  // that raced the intro and left Lenis stopped + overflow:hidden on mobile.
   useEffect(() => {
+    if (document.documentElement.classList.contains("oc-preloader-lock")) return;
     document.documentElement.style.overflow = "";
     document.body.style.overflow = "";
-    document.documentElement.classList.remove("oc-preloader-lock");
   }, []);
 
   useEffect(() => {
@@ -591,10 +597,10 @@ export default function Navbar() {
             aria-hidden
             className={cn(
               "pointer-events-none absolute inset-0 rounded-full border backdrop-blur-xl transition-[opacity,background-color,border-color] duration-300 ease-out",
+              // Scrolled pill always opaque — near-transparent dark-hero style left
+              // white calculator/about copy unreadable under the bar (ISSUE-01).
               showPill
-                ? overLight
-                  ? "opacity-100 border-white/10 bg-black/80"
-                  : "opacity-100 border-white/10 bg-white/[0.02] max-xl:bg-black/[0.72]"
+                ? "opacity-100 border-white/12 bg-black/85"
                 : "opacity-0 border-white/10 bg-white/[0.02]",
             )}
           />
@@ -602,7 +608,8 @@ export default function Navbar() {
           <BrandLogo
             className={cn(
               "relative z-[1] shrink-0 transition-colors duration-500",
-              overLight ? "text-white" : "text-text-main",
+              // Scrolled pill is always dark — keep mark white for contrast.
+              showPill || overLight ? "text-white" : "text-text-main",
             )}
           />
 

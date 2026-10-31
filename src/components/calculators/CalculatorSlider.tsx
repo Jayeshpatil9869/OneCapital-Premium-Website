@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { formatInrCompact } from '@/src/lib/format-inr';
 import { cn } from '@/src/lib/utils';
 
 type CalculatorSliderProps = {
@@ -28,11 +30,18 @@ export function CalculatorSlider({
   theme = 'light',
 }: CalculatorSliderProps) {
   const isLight = theme === 'light';
+  const isRupee = Boolean(prefix?.includes('₹'));
+  const [editing, setEditing] = useState(false);
+
   const display = formatDisplay
     ? formatDisplay(value)
-    : `${prefix ?? ''}${value.toLocaleString('en-IN')}${suffix ? ` ${suffix}` : ''}`;
+    : isRupee
+      ? formatInrCompact(value)
+      : `${prefix ?? ''}${value.toLocaleString('en-IN')}${suffix ? ` ${suffix}` : ''}`;
 
   const pct = max === min ? 0 : ((value - min) / (max - min)) * 100;
+
+  const clamp = (next: number) => Math.min(max, Math.max(min, next));
 
   return (
     <div className="flex flex-col gap-3">
@@ -51,24 +60,41 @@ export function CalculatorSlider({
               : 'border-white/15 bg-white/[0.04]',
           )}
         >
-          <input
-            id={`${id}-number`}
-            type="number"
-            min={min}
-            max={max}
-            step={step}
-            value={value}
-            aria-label={label}
-            onChange={(e) => {
-              const next = Number(e.target.value);
-              if (Number.isNaN(next)) return;
-              onChange(Math.min(max, Math.max(min, next)));
-            }}
-            className={cn(
-              'w-full bg-transparent text-right text-sm font-semibold tabular-nums outline-none',
-              isLight ? 'text-zinc-900' : 'text-white',
-            )}
-          />
+          {isRupee && !editing ? (
+            <button
+              type="button"
+              id={`${id}-number`}
+              aria-label={label}
+              onClick={() => setEditing(true)}
+              className={cn(
+                'w-full bg-transparent text-right text-sm font-semibold tabular-nums outline-none',
+                isLight ? 'text-zinc-900' : 'text-white',
+              )}
+            >
+              {display}
+            </button>
+          ) : (
+            <input
+              id={`${id}-number`}
+              type="number"
+              min={min}
+              max={max}
+              step={step}
+              value={value}
+              aria-label={label}
+              autoFocus={isRupee && editing}
+              onBlur={() => setEditing(false)}
+              onChange={(e) => {
+                const next = Number(e.target.value);
+                if (Number.isNaN(next)) return;
+                onChange(clamp(next));
+              }}
+              className={cn(
+                'w-full bg-transparent text-right text-sm font-semibold tabular-nums outline-none',
+                isLight ? 'text-zinc-900' : 'text-white',
+              )}
+            />
+          )}
           {suffix ? (
             <span
               className={cn(

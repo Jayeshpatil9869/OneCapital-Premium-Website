@@ -1,4 +1,3 @@
-import qrCodeUrl from '@/qr-code.svg';
 import { cn } from '@/src/lib/utils';
 
 type AppDownloadQrProps = {
@@ -12,7 +11,7 @@ const sizeMap = {
   md: 'h-[4.5rem] w-[4.5rem]',
 } as const;
 
-/** Official One Capital app QR (`qr-code.svg`), inverted for the dark UI. */
+/** Official One Capital app QR (`/images/app-download-qr.svg`), inverted for the dark UI. */
 export function AppDownloadQr({
   className,
   size = 'md',
@@ -28,7 +27,7 @@ export function AppDownloadQr({
       )}
     >
       <img
-        src={qrCodeUrl}
+        src="/images/app-download-qr.svg"
         alt=""
         width={size === 'sm' ? 64 : 72}
         height={size === 'sm' ? 64 : 72}

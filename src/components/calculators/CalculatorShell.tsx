@@ -51,13 +51,14 @@ export function CalculatorShell({
 }: CalculatorShellProps) {
   return (
     <div className="flex w-full flex-col items-center">
-      <Section pad="lg" className="relative bg-black pt-28 md:pt-32">
+      {/* pad none + explicit pb — avoid large black band under cards (ISSUE-02). */}
+      <Section pad="none" className="relative bg-black pt-28 pb-6 md:pt-32 md:pb-8">
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
           <div className="absolute -right-[8%] top-[12%] h-[min(26rem,48vw)] w-[min(26rem,48vw)] rounded-full bg-[radial-gradient(circle,var(--color-accent-soft)_0%,transparent_70%)] blur-3xl" />
         </div>
 
         <Container className="relative z-10">
-          <RevealOnScroll className="relative z-30 mb-8 md:mb-10">
+          <RevealOnScroll trigger="load" className="relative z-30 mb-8 md:mb-10">
             <Link
               to="/calculators"
               className="inline-flex w-fit items-center gap-2 text-sm text-white/55 transition-colors hover:text-white"
@@ -68,7 +69,7 @@ export function CalculatorShell({
             <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
               <div className="flex min-h-[9.5rem] max-w-2xl flex-col justify-end gap-3">
                 <Eyebrow>Calculator</Eyebrow>
-                <h1 className="font-sans text-[clamp(2.25rem,1.6rem+1.8vw,3.25rem)] font-medium leading-[1.05] tracking-[-0.03em] text-balance text-white">
+                <h1 className="scroll-mt-28 font-sans text-[clamp(2.25rem,1.6rem+1.8vw,3.25rem)] font-medium leading-[1.05] tracking-[-0.03em] text-balance text-white">
                   {title}
                 </h1>
                 <p className="max-w-xl font-sans text-base font-light leading-relaxed text-white/65">
@@ -79,8 +80,9 @@ export function CalculatorShell({
             </div>
           </RevealOnScroll>
 
-          <div className="relative z-0 grid grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6 xl:gap-8">
-            <RevealOnScroll className="lg:col-span-5 xl:col-span-4">
+          {/* disabled: money UI must never sit at opacity 0 over bg-black (ISSUE-03). */}
+          <div className="relative z-0 grid scroll-mt-28 grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6 xl:gap-8">
+            <RevealOnScroll disabled className="lg:col-span-5 xl:col-span-4">
               <div className="flex h-full flex-col gap-7 rounded-3xl border border-black/10 bg-white p-6 shadow-[0_14px_40px_rgba(0,0,0,0.06)] sm:p-8">
                 <div className="flex flex-col gap-4">
                   <h2 className="font-sans text-xl font-semibold tracking-tight text-black sm:text-2xl">
@@ -101,10 +103,10 @@ export function CalculatorShell({
               </div>
             </RevealOnScroll>
 
-            <RevealOnScroll delay={0.06} className="lg:col-span-7 xl:col-span-8">
+            <RevealOnScroll disabled className="lg:col-span-7 xl:col-span-8">
               <div className="relative flex flex-col gap-5 overflow-hidden rounded-3xl border border-black/10 bg-white p-5 shadow-[0_14px_40px_rgba(0,0,0,0.06)] sm:p-7 lg:p-8">
                 <div
-                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent-muted)] to-transparent"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-black/15 to-transparent"
                   aria-hidden
                 />
                 {results}

@@ -8,7 +8,6 @@ import {
   Eyebrow,
   DisplayHeading,
   BodyText,
-  ButtonFlair,
 } from '@/src/components/ui';
 import {
   CALCULATOR_CARDS,
@@ -23,6 +22,9 @@ import { cn } from '@/src/lib/utils';
  * [ SIP tall ] [ Lumpsum wide -------- ]
  * [ SIP tall ] [ Step Up ] [ SWP      ]
  * [ Goal Planning full width --------- ]
+ *
+ * Palette: white cards on black. Green only on Calculate + icons.
+ * Gold only on the Featured label (rare attention cue).
  */
 const BENTO_LAYOUT: Record<
   CalculatorCard['slug'],
@@ -126,7 +128,7 @@ function CalculatorBentoCard({
         'shadow-[0_12px_40px_rgba(0,0,0,0.35)]',
         'transition-all duration-400',
         'hover:-translate-y-0.5 hover:border-black/20',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/30',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--oc-color-brand)]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black',
         layout.className,
       )}
     >
@@ -145,7 +147,7 @@ function CalculatorBentoCard({
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 flex-col gap-1">
             {layout.featured ? (
-              <span className="text-[9px] font-mono uppercase tracking-[0.18em] text-black/40">
+              <span className="w-fit text-[9px] font-mono uppercase tracking-[0.18em] text-[var(--oc-color-gold)]">
                 Featured
               </span>
             ) : null}
@@ -160,7 +162,7 @@ function CalculatorBentoCard({
               {card.title}
             </h2>
           </div>
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-black/10 bg-zinc-100 text-black/75 transition-colors group-hover:border-black/20 group-hover:text-black sm:h-10 sm:w-10">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[var(--oc-color-brand)]/15 bg-[var(--oc-color-brand-soft)] text-[var(--oc-color-brand)] transition-colors duration-400 group-hover:border-[var(--oc-color-brand)]/25 sm:h-10 sm:w-10">
             <Icon className="h-4 w-4" aria-hidden />
           </div>
         </div>
@@ -178,13 +180,13 @@ function CalculatorBentoCard({
       </div>
 
       <div className="relative z-10 mt-5 flex items-end justify-between gap-3 sm:mt-6">
-        <ButtonFlair
-          tone="dark"
-          className="bg-black px-3.5 py-2 text-[10px] font-semibold uppercase tracking-wide text-white sm:px-4 sm:py-2.5 sm:text-xs"
-        >
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--oc-color-brand)] px-3.5 py-2 text-[10px] font-semibold uppercase tracking-wide text-white transition-[filter,transform] duration-400 group-hover:bg-[var(--oc-color-brand-hover)] sm:px-4 sm:py-2.5 sm:text-xs">
           Calculate
-          <ArrowRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
-        </ButtonFlair>
+          <ArrowRight
+            className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-1"
+            aria-hidden
+          />
+        </span>
       </div>
     </Link>
   );
@@ -193,14 +195,14 @@ function CalculatorBentoCard({
 function FeaturedChartArt() {
   return (
     <svg
-      className="pointer-events-none absolute bottom-4 right-3 h-[36%] w-[48%] opacity-[0.16] transition-opacity duration-500 group-hover:opacity-[0.26] lg:bottom-5 lg:right-4"
+      className="pointer-events-none absolute bottom-4 right-3 h-[36%] w-[48%] opacity-[0.14] transition-opacity duration-500 group-hover:opacity-[0.22] lg:bottom-5 lg:right-4"
       viewBox="0 0 240 140"
       fill="none"
       aria-hidden
     >
       <path
         d="M8 118 C 48 110, 62 96, 88 88 C 120 78, 132 70, 158 52 C 184 34, 198 28, 232 16"
-        stroke="black"
+        stroke="var(--oc-color-brand)"
         strokeWidth="2.5"
         strokeLinecap="round"
       />
@@ -208,10 +210,10 @@ function FeaturedChartArt() {
         d="M8 128 C 52 122, 70 112, 96 104 C 128 94, 140 90, 168 74 C 196 58, 208 54, 232 42"
         stroke="black"
         strokeWidth="1.5"
-        strokeOpacity="0.35"
+        strokeOpacity="0.25"
         strokeLinecap="round"
       />
-      <circle cx="232" cy="16" r="3.5" fill="black" />
+      <circle cx="232" cy="16" r="3.5" fill="var(--oc-color-brand)" />
     </svg>
   );
 }

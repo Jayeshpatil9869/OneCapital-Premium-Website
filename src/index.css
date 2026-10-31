@@ -16,6 +16,8 @@
      */
     /* Prevent iOS/Android rubber-band from flashing the default white canvas. */
     overscroll-behavior-y: none;
+    /* Fixed nav clearance for anchors / scrollIntoView (ISSUE-01). */
+    scroll-padding-top: calc(5.75rem + env(safe-area-inset-top, 0px));
   }
 
   body {
@@ -115,6 +117,15 @@ html.lenis body {
 
 .lenis.lenis-stopped {
   overflow: hidden;
+}
+
+/*
+ * Touch / native-scroll devices: Lenis stays mounted but must not trap the
+ * document. `.lenis-stopped { overflow: hidden }` was blocking mobile swipe.
+ * Preloader still locks via `html.oc-preloader-lock { overflow: hidden !important }`.
+ */
+html.oc-native-scroll.lenis.lenis-stopped {
+  overflow: auto;
 }
 
 .lenis.lenis-smooth iframe {

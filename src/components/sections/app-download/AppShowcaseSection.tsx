@@ -1,6 +1,7 @@
 import { Button, Container, Surface } from "@/src/components/ui";
 import { RevealOnScroll } from "@/src/components/motion/RevealOnScroll";
 import { AppDownloadStoreButtons } from "@/src/components/AppDownloadStoreButtons";
+import { HOME_SEO } from "@/src/data/home-seo";
 import { cn } from "@/src/lib/utils";
 
 export function AppShowcaseSection({ className }: { className?: string }) {
@@ -36,7 +37,7 @@ export function AppShowcaseSection({ className }: { className?: string }) {
                     arrow="up-right"
                     className="w-full sm:w-auto justify-center font-semibold uppercase tracking-wider px-6 sm:px-7 text-xs sm:text-sm"
                   >
-                    Book Consultation
+                    {HOME_SEO.cta}
                   </Button>
 
                   <div className="flex items-center gap-3 pl-1 sm:pl-4 sm:border-l sm:border-white/10 pt-1 sm:pt-0">

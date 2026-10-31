@@ -19,6 +19,7 @@ export function usePageSeo(input: PageSeoInput): void {
     input.path,
     input.image,
     input.type,
+    input.noIndex,
     keywordsKey,
     jsonLdKey,
   ]);

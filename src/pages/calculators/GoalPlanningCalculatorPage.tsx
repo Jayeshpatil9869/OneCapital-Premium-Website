@@ -40,6 +40,7 @@ export default function GoalPlanningCalculatorPage() {
             min={limits.target.min}
             max={limits.target.max}
             step={limits.target.step}
+            prefix="₹ "
             onChange={setTarget}
           />
           <CalculatorSlider

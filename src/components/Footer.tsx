@@ -47,13 +47,19 @@ export default function Footer() {
                   </Link>
                   <ul className="flex flex-col items-center md:items-start gap-2.5 md:border-l md:border-white/10 md:pl-3">
                     {node.children.map((child) => (
-                      <li key={child.path}>
-                        <Link
-                          to={child.path}
-                          className="text-[15px] text-white/60 hover:text-white transition-colors w-fit"
-                        >
-                          {child.name}
-                        </Link>
+                      <li key={child.path ?? `${node.product.id}-${child.name}`}>
+                        {child.path ? (
+                          <Link
+                            to={child.path}
+                            className="text-[15px] text-white/60 hover:text-white transition-colors w-fit"
+                          >
+                            {child.name}
+                          </Link>
+                        ) : (
+                          <span className="text-[15px] text-white/60 w-fit">
+                            {child.name}
+                          </span>
+                        )}
                       </li>
                     ))}
                   </ul>

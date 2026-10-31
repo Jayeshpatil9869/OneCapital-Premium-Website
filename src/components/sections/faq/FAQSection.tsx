@@ -16,6 +16,7 @@ import {
   getFAQQuestionsForCategory,
   type FAQQuestion,
 } from '@/src/data/home-faq';
+import { HOME_SEO } from '@/src/data/home-seo';
 import { cn } from '@/src/lib/utils';
 
 const FAQ_ALL_INITIAL_COUNT = 4;
@@ -199,7 +200,7 @@ export function FAQSection() {
             id="faq-heading"
             className="mb-3 text-[clamp(1.75rem,1.2rem+2.5vw,3.25rem)] font-semibold tracking-tight"
           >
-            Questions worth asking.
+            {HOME_SEO.h2.faq}
           </SectionHeading>
           <span
             aria-hidden
@@ -294,7 +295,7 @@ export function FAQSection() {
             arrow="up-right"
             className="shadow-lg hover:shadow-white/10 transition-all font-medium tracking-wide"
           >
-            Book Consultation
+            {HOME_SEO.cta}
           </Button>
         </RevealOnScroll>
       </Container>

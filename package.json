@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "prebuild": "npm run sitemap",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
-    "lint": "tsc --noEmit",
-    "audit:responsive": "node scripts/responsive-audit.mjs"
+    "lint": "tsc --noEmit"
   },
   "dependencies": {
     "@fontsource/geist-mono": "^5.3.0",
@@ -36,6 +37,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "autoprefixer": "^10.4.21",
+    "playwright": "^1.49.0",
     "sass": "^1.107.0",
     "tailwindcss": "^4.1.14",
     "typescript": "~5.8.2",

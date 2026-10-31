@@ -7,6 +7,8 @@ export type PageSeoInput = {
   keywords?: string[];
   image?: string;
   type?: 'website' | 'article' | 'product';
+  /** When true, emits robots noindex,nofollow (e.g. /design-system). */
+  noIndex?: boolean;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 };
 
@@ -64,7 +66,7 @@ export function setPageSeo(input: PageSeoInput): void {
     ? input.image.startsWith('http')
       ? input.image
       : absoluteUrl(input.image)
-    : absoluteUrl('/og-default.png');
+    : absoluteUrl('/og-default.jpg');
   const ogType = input.type ?? 'website';
 
   document.title = input.title;
@@ -73,6 +75,11 @@ export function setPageSeo(input: PageSeoInput): void {
   if (input.keywords?.length) {
     upsertMeta('name', 'keywords', input.keywords.join(', '));
   }
+  upsertMeta(
+    'name',
+    'robots',
+    input.noIndex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large',
+  );
 
   upsertMeta('property', 'og:title', input.title);
   upsertMeta('property', 'og:description', input.description);
@@ -163,6 +170,17 @@ export function buildArticleJsonLd(opts: {
   };
 }
 
+function companyPostalAddress(): Record<string, unknown> {
+  return {
+    '@type': 'PostalAddress',
+    streetAddress: COMPANY.hqStreet,
+    addressLocality: COMPANY.hqCity,
+    addressRegion: COMPANY.hqRegion,
+    postalCode: COMPANY.hqPostalCode,
+    addressCountry: 'IN',
+  };
+}
+
 export function buildOrganizationJsonLd(): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
@@ -174,18 +192,88 @@ export function buildOrganizationJsonLd(): Record<string, unknown> {
     description: COMPANY.shortAbout,
     email: COMPANY.email,
     telephone: COMPANY.phone,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: COMPANY.hqStreet,
-      addressLocality: COMPANY.hqCity,
-      addressRegion: COMPANY.hqRegion,
-      postalCode: COMPANY.hqPostalCode,
-      addressCountry: 'IN',
-    },
+    address: companyPostalAddress(),
     sameAs: [COMPANY.linkedinUrl, COMPANY.instagramUrl],
     areaServed: {
       '@type': 'AdministrativeArea',
       name: `${COMPANY.hqRegion}, India`,
     },
+  };
+}
+
+/** LocalBusiness for Pune HQ — matches visible NAP on contact / about. */
+export function buildLocalBusinessJsonLd(): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FinancialService',
+    additionalType: 'https://schema.org/LocalBusiness',
+    name: COMPANY.brandName,
+    legalName: COMPANY.legalName,
+    url: COMPANY.websiteUrl,
+    image: absoluteUrl('/og-default.jpg'),
+    description: COMPANY.shortAbout,
+    email: COMPANY.email,
+    telephone: COMPANY.phone,
+    address: companyPostalAddress(),
+    areaServed: [
+      { '@type': 'City', name: 'Pune' },
+      { '@type': 'City', name: 'Mumbai' },
+      { '@type': 'City', name: 'Nashik' },
+      { '@type': 'City', name: 'Kolhapur' },
+      {
+        '@type': 'AdministrativeArea',
+        name: `${COMPANY.hqRegion}, India`,
+      },
+    ],
+    sameAs: [COMPANY.linkedinUrl, COMPANY.instagramUrl],
+    priceRange: '$$',
+  };
+}
+
+export function buildWebSiteJsonLd(): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: COMPANY.brandName,
+    url: COMPANY.websiteUrl,
+    description: COMPANY.shortAbout,
+    publisher: {
+      '@type': 'Organization',
+      name: COMPANY.legalName,
+      url: COMPANY.websiteUrl,
+    },
+    inLanguage: 'en-IN',
+  };
+}
+
+export function buildBreadcrumbJsonLd(
+  items: { name: string; path: string }[],
+): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(item.path),
+    })),
+  };
+}
+
+export function buildFaqJsonLd(
+  faqs: { question: string; answer: string }[],
+): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
   };
 }

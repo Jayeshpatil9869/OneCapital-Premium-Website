@@ -46,6 +46,8 @@ export function RevealOnScroll({
   const reduce = useReducedMotion();
   const inView = useInView(ref, { once, margin: "0px 0px -10% 0px" });
   const [ready, setReady] = useState(() => !isPreloaderActive());
+  // Latch visible once — never pass animate=undefined after play (ISSUE-03).
+  const [hasPlayed, setHasPlayed] = useState(disabled);
   const offset = directionOffset(direction, distance);
   const MotionComp = motion[tag];
   const childStagger = stagger != null && stagger > 0;
@@ -63,6 +65,10 @@ export function RevealOnScroll({
   }, [childStagger, disabled, offset.x, offset.y, reduce]);
 
   const play = ready && (trigger === "load" || inView);
+
+  useEffect(() => {
+    if (play && !reduce && !disabled) setHasPlayed(true);
+  }, [play, reduce, disabled]);
 
   useEffect(() => {
     const root = ref.current;
@@ -86,13 +92,20 @@ export function RevealOnScroll({
     );
   }
 
+  const skipMotion = Boolean(reduce || disabled);
+  const show = skipMotion || hasPlayed || play;
+
   return (
     <MotionComp
       ref={ref as never}
       className={cn("reveal-on-scroll", className)}
-      initial={reduce || disabled ? false : { opacity: 0, x: offset.x, y: offset.y }}
+      initial={skipMotion ? false : { opacity: 0, x: offset.x, y: offset.y }}
       animate={
-        play && !reduce && !disabled ? { opacity: 1, x: 0, y: 0 } : undefined
+        skipMotion
+          ? undefined
+          : show
+            ? { opacity: 1, x: 0, y: 0 }
+            : { opacity: 0, x: offset.x, y: offset.y }
       }
       transition={{ duration, delay, ease: EASE }}
     >

@@ -15,6 +15,7 @@ import {
   SectionHeading,
 } from "@/src/components/ui";
 
+import { HOME_SEO } from "@/src/data/home-seo";
 import { HOME_TESTIMONIALS } from "@/src/data/home-testimonials";
 
 import { cn } from "@/src/lib/utils";
@@ -271,8 +272,11 @@ export function TestimonialsSection() {
               id="client-perspectives-heading"
               className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.65rem] font-semibold tracking-tight leading-[1.08] text-white group-[.light-section]:text-black"
             >
-              Client Perspectives
+              {HOME_SEO.h2.whyChoose}
             </SectionHeading>
+            <p className="max-w-md text-sm md:text-base leading-relaxed text-white/60 group-[.light-section]:text-black/60">
+              {HOME_SEO.whyChooseIntro}
+            </p>
           </div>
 
           <div

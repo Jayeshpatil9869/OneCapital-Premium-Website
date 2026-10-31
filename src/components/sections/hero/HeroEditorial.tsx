@@ -36,6 +36,9 @@ type HeroEditorialProps = {
   visual?: ReactNode;
   backgroundImage?: string;
   metrics?: HeroMetric[];
+  /** Phone mockup — shown cut mid-frame on mobile only (ET Money–style). */
+  mobileDeviceImage?: string;
+  mobileDeviceAlt?: string;
   className?: string;
 };
 
@@ -189,7 +192,7 @@ function HeroMetrics({ metrics }: { metrics: HeroMetric[] }) {
     <div
       ref={gridRef}
       className={cn(
-        "grid gap-y-8 gap-x-4 justify-items-center text-center sm:gap-8 md:gap-14 max-w-[1050px] mx-auto",
+        "grid gap-y-5 gap-x-3 justify-items-center text-center sm:gap-8 md:gap-14 max-w-[1050px] mx-auto",
         metrics.length === 3 ? "grid-cols-3" : "grid-cols-2 sm:grid-cols-4",
       )}
     >
@@ -198,11 +201,11 @@ function HeroMetrics({ metrics }: { metrics: HeroMetric[] }) {
           key={metric.label}
           className="flex flex-col items-center min-w-0"
         >
-          <span className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-sans font-medium tracking-tight text-white leading-none">
+          <span className="text-xl sm:text-3xl md:text-4xl lg:text-[2.65rem] font-sans font-medium tracking-tight text-white leading-none">
             <span data-count={metric.value}>0</span>
             {metric.suffix != null && metric.suffix}
           </span>
-          <span className="text-[11px] sm:text-xs lg:text-sm font-sans font-normal text-white/70 text-center max-w-[18ch] sm:max-w-[20ch] leading-snug mt-2 sm:mt-2.5">
+          <span className="text-[10px] sm:text-xs lg:text-sm font-sans font-normal text-white/70 text-center max-w-[14ch] sm:max-w-[20ch] leading-snug mt-1.5 sm:mt-2.5">
             {metric.label}
           </span>
         </div>
@@ -269,13 +272,19 @@ export function HeroEditorial({
   visual,
   backgroundImage,
   metrics,
+  mobileDeviceImage,
+  mobileDeviceAlt = "One Capital mobile app",
   className,
 }: HeroEditorialProps) {
   if (variant === "cinematic") {
     return (
       <section
         className={cn(
-          "relative flex min-h-[100svh] w-full flex-col justify-center items-center overflow-hidden bg-black pt-[max(6rem,env(safe-area-inset-top))] pb-10 sm:pb-12 lg:pb-14",
+          "relative flex w-full flex-col items-center overflow-hidden bg-black",
+          // Mobile: full viewport — copy centers in the middle band; phone docks to bottom.
+          "min-h-[100svh] pt-[max(4.75rem,calc(env(safe-area-inset-top)+3.25rem))] pb-0",
+          "sm:pt-[max(5.25rem,calc(env(safe-area-inset-top)+3.5rem))]",
+          "lg:justify-center lg:pt-[max(6rem,env(safe-area-inset-top))] lg:pb-14",
           className,
         )}
       >
@@ -285,94 +294,130 @@ export function HeroEditorial({
           <div className="pointer-events-none absolute inset-0 bg-black" aria-hidden />
         )}
 
-        <Container className="relative z-10 flex flex-col items-center px-6 md:px-8">
-          <div className="flex w-full max-w-5xl flex-col items-center text-center">
-            {eyebrow && (
-              <RevealOnScroll
-                trigger="load"
-                direction="up"
-                distance={24}
-                delay={0.16}
-                duration={1}
-                ease="power3.out"
-                className="w-full flex justify-center"
-              >
-                <Eyebrow
-                  centered
-                  className="mb-6 sm:mb-7 lg:mb-8 text-[11px] sm:text-xs font-mono uppercase tracking-[0.22em] text-white/70 [&>span:first-child]:w-8 sm:[&>span:first-child]:w-10 [&>span:first-child]:bg-white/35 [&>span:last-child]:w-8 sm:[&>span:last-child]:w-10 [&>span:last-child]:bg-white/35"
+        {/* Middle band: eyebrow → metrics vertically centered above the phone */}
+        <div
+          className={cn(
+            "relative z-10 flex w-full flex-col items-center",
+            "flex-1 justify-center gap-7 py-2 sm:gap-9",
+            "lg:flex-none lg:justify-start lg:gap-0 lg:py-0",
+          )}
+        >
+          <Container className="relative flex flex-col items-center px-5 sm:px-6 md:px-8">
+            <div className="flex w-full max-w-5xl flex-col items-center text-center">
+              {eyebrow && (
+                <RevealOnScroll
+                  trigger="load"
+                  direction="up"
+                  distance={24}
+                  delay={0.16}
+                  duration={1}
+                  ease="power3.out"
+                  className="w-full flex justify-center"
                 >
-                  {eyebrow}
-                </Eyebrow>
-              </RevealOnScroll>
-            )}
+                  <Eyebrow
+                    centered
+                    className="mb-3.5 sm:mb-5 lg:mb-8 text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-white/70 [&>span:first-child]:w-6 sm:[&>span:first-child]:w-10 [&>span:first-child]:bg-white/35 [&>span:last-child]:w-6 sm:[&>span:last-child]:w-10 [&>span:last-child]:bg-white/35"
+                  >
+                    {eyebrow}
+                  </Eyebrow>
+                </RevealOnScroll>
+              )}
 
-            <RevealOnScroll
-              trigger="load"
-              direction="up"
-              distance={36}
-              duration={1.15}
-              delay={0.32}
-              ease="power3.out"
-              className="w-full flex justify-center"
-            >
-              <DisplayHeading
-                className={cn(
-                  "mb-4 sm:mb-5 lg:mb-6 text-center text-white font-medium tracking-tight leading-[1.1] text-balance",
-                  "text-2xl sm:text-4xl md:text-5xl lg:text-[2.85rem] xl:text-[3.25rem] max-w-4xl mx-auto",
-                  titleClassName
-                )}
-              >
-                {title}
-              </DisplayHeading>
-            </RevealOnScroll>
-
-            {description && (
               <RevealOnScroll
                 trigger="load"
                 direction="up"
-                distance={24}
-                delay={0.5}
-                duration={1}
+                distance={36}
+                duration={1.15}
+                delay={0.32}
                 ease="power3.out"
                 className="w-full flex justify-center"
               >
-                <BodyText className="mx-auto mb-0 max-w-[38rem] text-center text-sm sm:text-base lg:text-[1.05rem] text-[#B3B3B3] leading-relaxed font-light">
-                  {description}
-                </BodyText>
+                <DisplayHeading
+                  className={cn(
+                    "mb-3 sm:mb-4 lg:mb-6 text-center text-white font-medium tracking-tight leading-[1.15] text-balance",
+                    "text-[1.375rem] sm:text-3xl md:text-5xl lg:text-[2.85rem] xl:text-[3.25rem] max-w-4xl mx-auto",
+                    titleClassName
+                  )}
+                >
+                  {title}
+                </DisplayHeading>
               </RevealOnScroll>
-            )}
 
-            {actions && (
-              <RevealOnScroll
-                trigger="load"
-                direction="up"
-                distance={20}
-                delay={0.6}
-                duration={1.1}
-                ease="power3.out"
-                className="mt-6 sm:mt-7 flex flex-wrap items-center justify-center gap-4"
-              >
-                {actions}
+              {description && (
+                <RevealOnScroll
+                  trigger="load"
+                  direction="up"
+                  distance={24}
+                  delay={0.5}
+                  duration={1}
+                  ease="power3.out"
+                  className="w-full flex justify-center"
+                >
+                  <BodyText className="mx-auto mb-0 max-w-[34rem] text-center text-[0.8125rem] sm:text-base lg:text-[1.05rem] text-[#B3B3B3] leading-relaxed font-light">
+                    {description}
+                  </BodyText>
+                </RevealOnScroll>
+              )}
+
+              {actions && (
+                <RevealOnScroll
+                  trigger="load"
+                  direction="up"
+                  distance={20}
+                  delay={0.6}
+                  duration={1.1}
+                  ease="power3.out"
+                  className="mt-5 sm:mt-6 lg:mt-7 flex flex-wrap items-center justify-center gap-4"
+                >
+                  {actions}
+                </RevealOnScroll>
+              )}
+            </div>
+          </Container>
+
+          {metrics && metrics.length > 0 && (
+            <div className="relative z-10 w-full lg:mt-16">
+              <RevealOnScroll trigger="load" delay={0.65} duration={0.9}>
+                <div
+                  className="mx-auto w-[78%] max-w-4xl border-t border-white/20 mb-5 sm:mb-7 lg:mb-9"
+                  aria-hidden
+                />
               </RevealOnScroll>
-            )}
-          </div>
-        </Container>
+              <RevealOnScroll trigger="load" delay={0.72} duration={1.1}>
+                <Container className="px-5 sm:px-6 md:px-8 max-w-[1000px]">
+                  <HeroMetrics metrics={metrics} />
+                </Container>
+              </RevealOnScroll>
+            </div>
+          )}
+        </div>
 
-        {metrics && metrics.length > 0 && (
-          <div className="relative z-10 w-full mt-10 sm:mt-13 lg:mt-16">
-            <RevealOnScroll trigger="load" delay={0.65} duration={0.9}>
-              <div
-                className="mx-auto w-[70%] max-w-4xl border-t border-white/20 mb-7 sm:mb-8 lg:mb-9"
-                aria-hidden
-              />
-            </RevealOnScroll>
-            <RevealOnScroll trigger="load" delay={0.72} duration={1.1}>
-              <Container className="px-6 md:px-8 max-w-[1000px]">
-                <HeroMetrics metrics={metrics} />
-              </Container>
-            </RevealOnScroll>
-          </div>
-        )}
+        {/* Phone docks to the bottom of the hero — mobile only */}
+        {mobileDeviceImage ? (
+          <RevealOnScroll
+            trigger="load"
+            delay={0.82}
+            duration={1.05}
+            className="relative z-10 mt-auto w-full shrink-0 lg:hidden"
+          >
+            <div className="relative mx-auto w-[min(72%,17.5rem)] overflow-hidden rounded-t-[1.65rem] border border-b-0 border-white/15 bg-black/40 shadow-[0_-12px_40px_rgba(0,0,0,0.45)]">
+              <div className="relative h-[13.5rem] overflow-hidden sm:h-[15.5rem]">
+                <img
+                  src={mobileDeviceImage}
+                  alt={mobileDeviceAlt}
+                  width={390}
+                  height={800}
+                  className="pointer-events-none mx-auto block h-auto w-full max-w-none object-cover object-top select-none"
+                  decoding="async"
+                />
+                <div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black via-black/70 to-transparent"
+                  aria-hidden
+                />
+              </div>
+            </div>
+          </RevealOnScroll>
+        ) : null}
       </section>
     );
   }

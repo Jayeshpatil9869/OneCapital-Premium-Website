@@ -1,0 +1,11 @@
+# One Capital — https://1capital.in
+# Baseline from Basic SEO Audit (Allow public content; list sitemap).
+
+User-agent: *
+Allow: /
+
+# Internal design playground — not for search
+Disallow: /design-system
+Disallow: /design-system/
+
+Sitemap: https://1capital.in/sitemap.xml

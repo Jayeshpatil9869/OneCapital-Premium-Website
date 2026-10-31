@@ -10,7 +10,7 @@ type AllocationDonutProps = {
   theme?: 'dark' | 'light';
 };
 
-/** Invested vs gains donut — silver/white brand palette (no teal/gold accents). */
+/** Invested vs gains donut — black / gray on white card (matches calculator reference). */
 export function AllocationDonut({
   invested,
   returns,
